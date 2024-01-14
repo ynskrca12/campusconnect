@@ -15,16 +15,17 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="floatingInput">İlan Başlığı</label>
-                            <input type="text" name="name" class="form-control" placeholder="İlan Başlığı"  />
+                            <input type="text" name="name" class="form-control"  />
                         </div>
                         <div class="form-group">
                             <label for="floatingInput">Fiyat</label>
-                            <input type="number" name="fiyat" class="form-control" placeholder="Fiyat"  />
+                            <input type="number" name="fiyat" class="form-control"   />
                         </div>
 
                         <div class="form-group">
                             <label for="floatingInput">İlan Kategorisi</label>
                             <select name="category" class="form-control" id="category">
+                                <option selected>Seçiniz</option>
                                 <option value="İş İlanları">iş İlanı</option>
                                 <option value="Ev İlanları">Ev İlanı</option>
                                 <option value="Eşya İlanları">Eşya İlanı</option>
@@ -36,7 +37,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="floatingInput">İlan Açıklaması</label>
-                            <textarea name="description" class="form-control" placeholder="İlan Açıklaması" style="width: 100%; height: 150px;"></textarea>
+                            <textarea name="description" class="form-control" style="width: 100%; height: 150px;"></textarea>
                         </div>
                          <div class="form-group">
                             <label for="image">Fotoğraf Ekle</label>
@@ -62,10 +63,11 @@
     <style>
 
 .content-wrapper{
-     background: -webkit-linear-gradient(left, #0072ff, #00c6ff);
+     /* background: -webkit-linear-gradient(left, #0072ff, #00c6ff); */
+     background: -webkit-linear-gradient(left,#001b48,#0072ff) ;
 }
 .contact-form{
-    background: #fff;
+    background: -webkit-linear-gradient(left, #fff, #F8F4EC);;
     margin-top: 3%;
     margin-bottom: 5%;
     width: 70%;
@@ -92,14 +94,14 @@
     margin-bottom: 8%;
     margin-top: -15%;
     text-align: center;
-    color: #0062cc;
+    color: #001b48;
 }
 .contact-form .btnContact {
     width: 50%;
     border: none;
     border-radius: 1rem;
     padding: 1.5%;
-    background:  -webkit-linear-gradient(left, #0072ff, #00c6ff);
+    background:  -webkit-linear-gradient(left, #001b48, #0072ff);
     font-weight: 600;
     color: #fff;
     cursor: pointer;

@@ -10,14 +10,11 @@ use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
-    public function kullanici_bilgileri()
-    {
+    public function kullanici_bilgileri(){
         if (Auth::check()) {
             $user = Auth::user();
-
-            // print_r($user->name);die;
-
-            return view("user.kullanici_bilgileri", compact('user'));
+            $ilanlar = $user->ilanlar;
+            return view("user.kullanici_bilgileri", compact('user','ilanlar'));
         } else {
             return redirect('/login')->with('message', 'Lütfen giriş yapınız.');
         }

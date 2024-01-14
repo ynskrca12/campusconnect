@@ -44,4 +44,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    // User.php (User modeli)
+    public function ilanlar()
+    {
+        return $this->hasMany(Ilan::class, 'user_id', 'id');
+    }
+
 }
