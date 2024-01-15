@@ -1,11 +1,11 @@
 
 <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row" style="background-color: #001B48;">
-  <div class="logo" style="margin-left: 30px">
-    <a href="/" class="link link-brand">
-        <span class="logo-text">UniVerse</span>
-    </a>
-</div>
-  <div class="navbar-menu-wrapper d-flex align-items-stretch">
+    <div class="navbar-menu-wrapper d-flex align-items-stretch">
+        <div class="logo" style="margin-left: 30px">
+            <a href="/" class="link link-brand">
+                <span class="logo-text">CampusConnect</span>
+            </a>
+        </div>
     <ul class="navbar-nav navbar-nav-right">
       <li class="nav-item" >
         <a class="nav-link" href="/">
@@ -101,16 +101,15 @@
   display: block;
 }
 
-/* Change color on hover */
 .dropdown-content a:hover {
   background-color: #001B48;
   color: white;
 
 }
 
-/* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
   display: block;
+
 }
 
   </style>

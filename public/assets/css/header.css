@@ -1,22 +1,23 @@
 /* Header Container */
 .navbar {
     background-color: #001B48;
+    text-align: right;
   }
-  
+
   /* Menu Items */
   .navbar-nav .nav-item {
-    margin-right: 15px;
+    margin-right: 0px;
   }
 
 
-  
+
   /* Menu Title */
   .menu-title {
     font-size: 16px;
     color: #fff;
     padding: 4px 3px;
 
-    
+
   }
 
   .menu-title:hover {
@@ -26,26 +27,26 @@
     border-radius: 8px;
     padding: 4px 16;
   }
-  
+
   .menu-icon {
     color: #fff;
     font-size: 20px;
     margin-right: 8px;
     margin-left: 8px;
   }
-  
+
   .full-screen-link {
     margin-left: auto;
   }
-  
+
   #fullscreen-button {
     color: #fff;
     font-size: 20px;
   }
-  
+
   :root {
-    --primary-color: ##001b48; 
-    --secondary-color: #ffffff; 
+    --primary-color: ##001b48;
+    --secondary-color: #ffffff;
 }
 
 .logo {
