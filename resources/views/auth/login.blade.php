@@ -141,14 +141,14 @@
     --stratos: #001b48;
   } */
   .container-scroller, .page-body-wrapper, .content-wrapper{
-          background-image: url('{{ asset('login_img/uni_campus.jpg') }}');
+          background-image: url('{{ asset('public/login_img/uni_campus.jpg') }}');
           background-position: center;
           background-size: 100%;
       }
 
       @media (max-width: 900px) {
         .container-scroller, .page-body-wrapper, .content-wrapper{
-          background-image: url('{{ asset('login_img/uni_campus.jpg') }}');
+          background-image: url('{{ asset('public/login_img/uni_campus.jpg') }}');
           background-position: center;
           background-size: cover;
       }

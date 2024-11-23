@@ -27,7 +27,7 @@
                 class="rounded-circle img-fluid" style="width: 150px;">
               <h5 class="my-3">{{ $user->name }}</h5>
               {{-- <p class="text-muted mb-1">{{ $user->name }}</p> --}}
-              <p class="text-muted mb-4">{{ $user->universite }}</p>
+              <p class="text-muted mb-4">{{ $user->university }}</p>
               <div class="d-flex justify-content-center mb-2">
                 <a href="{{route('kullanici_bilgileri_duzenle', ['id' =>$user->id])}}" class="btn btn-primary">Bilgilerimi Güncelle</a>
                 <button type="button" class="btn btn-outline-primary ms-1">Message</button>
@@ -87,7 +87,7 @@
                   <p class="mb-0">Kullanıcı Adı</p>
                 </div>
                 <div class="col-sm-9">
-                  <p class="text-muted mb-0">{{$user->kullanici_adi}}</p>
+                  <p class="text-muted mb-0">{{$user->username}}</p>
                 </div>
               </div>
               {{-- <hr>

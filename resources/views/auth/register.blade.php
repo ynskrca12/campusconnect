@@ -35,11 +35,11 @@
             @csrf
             <div class="mb-2">
               <label for="email" class="form-label">Kullanıcı Adı (*)</label>
-              <input type="text" class="form-control registerInput" id="kullanici_adi" name="kullanici_adi" required>
+              <input type="text" class="form-control registerInput" id="username" name="username" required>
             </div>
           <div class="mb-2">
             <label for="fullName" class="form-label">Ad Soyad</label>
-            <input type="text" class="form-control registerInput" id="ad_soyad" name="ad_soyad">
+            <input type="text" class="form-control registerInput" id="name" name="name">
           </div>
       
           <div class="mb-2">
@@ -84,13 +84,13 @@
 
 @section('css')
 <style>
-  /* Hata mesajlarının sabit alanda görünmesi */
-#errorMessages {
-  margin-top: -15px;
-    color: red;
-    margin-bottom: 20px;
-}
-  .submitBtn{
+  
+  #errorMessages {
+    margin-top: -15px;
+      color: red;
+      margin-bottom: 20px;
+  }
+    .submitBtn{
       width: 100%;
       border-radius:11px !important;
       font-size: 18px;
@@ -208,59 +208,59 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-$(document).ready(function () {
-    // Şifre göster/gizle
-    $(".password-toggle-icon").on("click", function () {
-        const input = $($(this).attr("toggle"));
-        if (input.attr("type") === "password") {
-            input.attr("type", "text");
-            $(this).removeClass("fa-eye-slash").addClass("fa-eye");
-        } else {
-            input.attr("type", "password");
-            $(this).removeClass("fa-eye").addClass("fa-eye-slash");
-        }
-    });
+  $(document).ready(function () {
+      // Şifre göster/gizle
+      $(".password-toggle-icon").on("click", function () {
+          const input = $($(this).attr("toggle"));
+          if (input.attr("type") === "password") {
+              input.attr("type", "text");
+              $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+          } else {
+              input.attr("type", "password");
+              $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+          }
+      });
 
-    // Form doğrulama
-    $("form").on("submit", function (e) {
-        e.preventDefault();
-        let isValid = true;
+      // Form doğrulama
+      $("form").on("submit", function (e) {
+          e.preventDefault();
+          let isValid = true;
 
-        // Hata mesajlarını temizle
-        $("#errorMessages").empty();
+          // Hata mesajlarını temizle
+          $("#errorMessages").empty();
 
-        // Boş alan kontrolü
-        $(this).find("input[required], select[required]").each(function () {
-            const input = $(this);
-            if (input.val().trim() === "") {
-                isValid = false;
-                const fieldName = input.siblings("label").text() || input.attr("placeholder");
+          // Boş alan kontrolü
+          $(this).find("input[required], select[required]").each(function () {
+              const input = $(this);
+              if (input.val().trim() === "") {
+                  isValid = false;
+                  const fieldName = input.siblings("label").text() || input.attr("placeholder");
 
-                // Eğer hata mesajı zaten varsa ekleme
-                if (input.next(".error-message").length === 0) {
-                    input.after(`<span class="error-message" style="color: red;">${fieldName} zorunludur.</span>`);
-                }
-                
-                input.focus();
-                return false; // İlk boş alan bulunduğunda döngü sonlanır
-            }
-        });
+                  // Eğer hata mesajı zaten varsa ekleme
+                  if (input.next(".error-message").length === 0) {
+                      input.after(`<span class="error-message" style="color: red;">${fieldName} zorunludur.</span>`);
+                  }
+                  
+                  input.focus();
+                  return false; // İlk boş alan bulunduğunda döngü sonlanır
+              }
+          });
 
-        // Şifre ve şifre tekrar kontrolü
-        const password = $("#password").val();
-        const passwordConfirmation = $("#password_confirmation").val();
-        if (password !== passwordConfirmation) {
-            isValid = false;
-            $("#errorMessages").append(`<div>Şifreler eşleşmiyor.</div>`);
-            $("#password_confirmation").focus();
-        }
+          // Şifre ve şifre tekrar kontrolü
+          const password = $("#password").val();
+          const passwordConfirmation = $("#password_confirmation").val();
+          if (password !== passwordConfirmation) {
+              isValid = false;
+              $("#errorMessages").append(`<div>Şifreler eşleşmiyor.</div>`);
+              $("#password_confirmation").focus();
+          }
 
-        // Geçerli ise formu gönder
-        if (isValid) {
-            this.submit();
-        }
-    });
-});
+          // Geçerli ise formu gönder
+          if (isValid) {
+              this.submit();
+          }
+      });
+  });
 
 
 </script>

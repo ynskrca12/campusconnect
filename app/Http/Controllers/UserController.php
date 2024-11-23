@@ -28,10 +28,10 @@ class UserController extends Controller
 
     public function kullanici_bilgileri_duzenle_post(Request $request){
         $updatedData = [
-            'kullanici_adi'   => $request->input('kullanici_adi'),
+            'username'   => $request->input('kullanici_adi'),
             'name'       => $request->input('name'),
             'email'      => $request->input('email'),
-            'universite' => $request->input('universite'),
+            'university' => $request->input('universite'),
         ];
 
         $update= User::where('id',$request->id)->update($updatedData);

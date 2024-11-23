@@ -42,7 +42,7 @@
                         <!-- Form Group (username)-->
                         <div class="mb-3">
                             <label class="small mb-1" for="inputUsername">Kullanıcı Adı</label>
-                            <input class="form-control" name="kullanici_adi" type="text" placeholder="Kullanıcı Adınız" value="{{$user->kullanici_adi}}">
+                            <input class="form-control" name="kullanici_adi" type="text" placeholder="Kullanıcı Adınız" value="{{$user->username}}">
                         </div>
                         <!-- Form Row-->
                         <div class="mb-3">
@@ -52,7 +52,7 @@
                         <!-- Form Row-->
                         <div class="mb-3">
                             <label class="small mb-1" for="inputUsername">Üniversite</label>
-                            <input class="form-control" name="universite" type="text" placeholder="Üniversite" value="{{$user->universite}}">
+                            <input class="form-control" name="universite" type="text" placeholder="Üniversite" value="{{$user->university}}">
                         </div>
                         <!-- Form Group (email address)-->
                         <div class="mb-3">

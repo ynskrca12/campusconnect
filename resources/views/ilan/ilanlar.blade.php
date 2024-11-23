@@ -43,7 +43,7 @@
                           </div>
                           <div class="coords">
                               <span class="universite">Üniversite :</span>
-                              <span class="universite2"> @php $user = DB::table('users')->where('id',$ilan->user_id)->value('universite'); echo $user; @endphp</span>
+                              <span class="universite2"> @php $user = DB::table('users')->where('id',$ilan->user_id)->value('university'); echo $user; @endphp</span>
                           </div>
                           <a href="" class="btn btn-info btn-sm mt-5">İletişime Geç</a>
                       </div>
