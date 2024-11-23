@@ -21,7 +21,7 @@
 @section('css')
 <style>  
     .container-scroller, .page-body-wrapper, .content-wrapper {
-        background-image: url('{{ asset('public/home_img/background.jpg') }}');
+        background-image: url('{{ asset('home_img/background.jpg') }}');
         background-position: center;
         background-size: cover;
     }
