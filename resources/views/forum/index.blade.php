@@ -27,9 +27,9 @@
             <div id="general-content" class="content-area">
                 <div class="d-flex justify-content-between mb-5">
                     <span class="content-title">Neyi konuşalım...</span>
-                    @auth
+                   
                      <button class="btn btnCreateGeneral">gündem oluştur</button>
-                    @endauth
+                   
                 </div>
                 
                 {{-- <p class="mb-5">Bu bölümde üniversite eğitimi, rehberlik ve tercihler gibi genel konular hakkında tartışmalar yapabilirsiniz.</p> --}}
@@ -50,9 +50,9 @@
             <div id="universities-content" class="content-area d-none">
                 <div class="d-flex justify-content-between mb-5">
                     <span class="content-title">üniversite halleri</span>
-                    @auth
+                 
                         <button class="btn btnCreateUniversity">gündem oluştur</button>
-                   @endauth
+                 
                 </div>
 
                 @auth
@@ -68,9 +68,9 @@
             <div id="cities-content" class="content-area d-none">
                 <div class="d-flex justify-content-between mb-5">
                     <span class="content-title">şehir hayatı</span>
-                    @auth
+                  
                         <button class="btn btnCreateCity">gündem oluştur</button>
-                   @endauth
+                  
                 </div>
                 @auth
                 <form  method="POST">
@@ -123,7 +123,14 @@
             background-color: #fafafae0; 
         }
 
-       
+       .swal2-title{
+            font-size: 18px !important;
+       }
+
+       .swal-custom-popup {
+            width: 420px !important; 
+        }
+
     </style>
 @endsection
 
@@ -132,6 +139,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 
@@ -167,77 +176,115 @@
     </script>
     
     <script>
-    $(document).ready(function () {
-        // Genel Tartışma Alanı konuları
-        const generalSubcategories = @json($general_topics->pluck('topic_title'));
+        $(document).ready(function () {
+            // Genel Tartışma Alanı konuları
+            const generalSubcategories = @json($general_topics->pluck('topic_title'));
 
-        // Üniversiteler ve slug'ları
-        const universitiesSubcategories = @json($universities);
+            // Üniversiteler ve slug'ları
+            const universitiesSubcategories = @json($universities);
 
-        // Şehirler
-        const citiesSubcategories = @json($cities);
+            // Şehirler
+            const citiesSubcategories = @json($cities);
 
-        // Alt başlıkları yükleyen fonksiyon
-        function loadSubcategories(subcategories, type = 'general') {
-            $("#subcategories-list").empty();
-            subcategories.forEach(function (item) {
-                if (type === 'university') {
-                    // Üniversite linki
-                    $("#subcategories-list").append(
-                        `<li class="list-group-item universityLi">
-                            <a href="/forum/universite/${item.slug}" class="text-decoration-none universityTag">${item.universite_ad}</a>
-                        </li>`
-                    );
-                } else if (type === 'city') {
-                    // Şehir linki
-                    $("#subcategories-list").append(
-                        `<li class="list-group-item cityLi">
-                            <a href="/forum/sehir/${item.slug}" class="text-decoration-none cityTag">${item.title}</a>
-                        </li>`
-                    );
-                } else {
-                    // Genel konular
-                    $("#subcategories-list").append(`<li class="list-group-item">${item}</li>`);
+            // Alt başlıkları yükleyen fonksiyon
+            function loadSubcategories(subcategories, type = 'general') {
+                $("#subcategories-list").empty();
+                subcategories.forEach(function (item) {
+                    if (type === 'university') {
+                        // Üniversite linki
+                        $("#subcategories-list").append(
+                            `<li class="list-group-item universityLi">
+                                <a href="/forum/universite/${item.slug}" class="text-decoration-none universityTag">${item.universite_ad}</a>
+                            </li>`
+                        );
+                    } else if (type === 'city') {
+                        // Şehir linki
+                        $("#subcategories-list").append(
+                            `<li class="list-group-item cityLi">
+                                <a href="/forum/sehir/${item.slug}" class="text-decoration-none cityTag">${item.title}</a>
+                            </li>`
+                        );
+                    } else {
+                        // Genel konular
+                        $("#subcategories-list").append(`<li class="list-group-item">${item}</li>`);
+                    }
+                });
+            }
+
+            // Tab butonları
+            $("#general-tab").on("click", function () {
+                $("#general-tab").addClass("active btn-primary").removeClass("btn-outline-primary");
+                $("#universities-tab, #cities-tab").removeClass("active btn-primary").addClass("btn-outline-primary");
+                
+                $("#general-content").removeClass("d-none");
+                $("#universities-content, #cities-content",).addClass("d-none");
+
+                loadSubcategories(generalSubcategories);
+            });
+
+            $("#universities-tab").on("click", function () {
+                $("#universities-tab").addClass("active btn-primary").removeClass("btn-outline-primary");
+                $("#general-tab, #cities-tab").removeClass("active btn-primary").addClass("btn-outline-primary");
+                
+                $("#universities-content").removeClass("d-none");
+                $("#general-content, #cities-content").addClass("d-none");
+
+                loadSubcategories(universitiesSubcategories, 'university');
+            });
+
+            $("#cities-tab").on("click", function () {
+                $("#cities-tab").addClass("active btn-primary").removeClass("btn-outline-primary");
+                $("#general-tab, #universities-tab").removeClass("active btn-primary").addClass("btn-outline-primary");
+                
+                $("#cities-content").removeClass("d-none");
+                $("#general-content, #universities-content").addClass("d-none");
+
+                loadSubcategories(citiesSubcategories, 'city');
+            });
+
+            // Başlangıç olarak genel tartışma alt başlıklarını yükle
+            loadSubcategories(generalSubcategories);
+            $("#general-tab").addClass("active btn-primary").removeClass("btn-outline-primary");
+        });
+    </script>
+    
+<script>
+    // Laravel'den gelen oturum bilgisi
+    var isAuthenticated = @json(auth()->check());
+
+    $(document).ready(function() {
+    // Gündem oluştur butonlarına tıklama olayını dinle
+    $('.btnCreateGeneral, .btnCreateUniversity, .btnCreateCity').on('click', function(e) {
+        e.preventDefault(); // Butonun varsayılan davranışını engelle
+
+        // Eğer kullanıcı giriş yapmamışsa (isAuthenticated false ise)
+        if (!isAuthenticated) {
+            Swal.fire({
+                title: 'önce bi giriş mi yapsan...',
+                // text: 'Gündem oluşturmak istiyorsan, önce giriş yapmalısın.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'giriş yap',
+                cancelButtonText: 'kapet',
+                reverseButtons: true,
+                customClass: {
+                    popup: 'swal-custom-popup' // Bu sınıfı kullanarak genişliği ayarlayacağız
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Giriş yap butonuna tıklanırsa yönlendirme yapılır
+                    window.location.href = "{{ route('login') }}";  // Giriş sayfasına yönlendir
                 }
             });
+        } else {
+            // Kullanıcı giriş yapmışsa burada başka bir işlem yapabilirsin
+            // Örneğin, formu gönderebilirsiniz.
         }
-
-        // Tab butonları
-        $("#general-tab").on("click", function () {
-            $("#general-tab").addClass("active btn-primary").removeClass("btn-outline-primary");
-            $("#universities-tab, #cities-tab").removeClass("active btn-primary").addClass("btn-outline-primary");
-            
-            $("#general-content").removeClass("d-none");
-            $("#universities-content, #cities-content",).addClass("d-none");
-
-            loadSubcategories(generalSubcategories);
-        });
-
-        $("#universities-tab").on("click", function () {
-            $("#universities-tab").addClass("active btn-primary").removeClass("btn-outline-primary");
-            $("#general-tab, #cities-tab").removeClass("active btn-primary").addClass("btn-outline-primary");
-            
-            $("#universities-content").removeClass("d-none");
-            $("#general-content, #cities-content").addClass("d-none");
-
-            loadSubcategories(universitiesSubcategories, 'university');
-        });
-
-        $("#cities-tab").on("click", function () {
-            $("#cities-tab").addClass("active btn-primary").removeClass("btn-outline-primary");
-            $("#general-tab, #universities-tab").removeClass("active btn-primary").addClass("btn-outline-primary");
-            
-            $("#cities-content").removeClass("d-none");
-            $("#general-content, #universities-content").addClass("d-none");
-
-            loadSubcategories(citiesSubcategories, 'city');
-        });
-
-        // Başlangıç olarak genel tartışma alt başlıklarını yükle
-        loadSubcategories(generalSubcategories);
-        $("#general-tab").addClass("active btn-primary").removeClass("btn-outline-primary");
     });
+});
 
 
-    </script>
+</script>
+
+
 @endsection
