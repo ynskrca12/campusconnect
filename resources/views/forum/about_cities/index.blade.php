@@ -46,8 +46,7 @@
 @endsection 
 
 @section('css')
-    <style>
-
+    <style> 
         #subcategories-list .list-group-item{
             border:none !important;
             padding: 7px 0px;
