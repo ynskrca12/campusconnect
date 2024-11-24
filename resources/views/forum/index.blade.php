@@ -98,7 +98,7 @@
     <style>
         #subcategories-list .list-group-item{
             border:none !important;
-            padding: 6px 0px;
+            padding: 7px 0px;
         }
         .btnCreateGeneral:hover , .btnCreateCity:hover , .btnCreateUniversity:hover{
             border-bottom: 1px groove #000000 !important;
