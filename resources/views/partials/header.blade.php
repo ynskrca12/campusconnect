@@ -8,17 +8,17 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto me-3">
         <li class="nav-item active menu-title">
-          <a class="nav-link" href="/">Anasayfa</a>
+          <a class="nav-link" href="/">anasayfa</a>
         </li>
         <li class="nav-item menu-title">
-          <a class="nav-link" href="/university">Üniversiteler</a>
+          <a class="nav-link" href="/university">üniversiteler</a>
         </li>
         <li class="nav-item menu-title">
-          <a class="nav-link" href="/forum">Forum</a>
+          <a class="nav-link" href="/forum">forum</a>
         </li>
-        <li class="nav-item menu-title">
+        {{-- <li class="nav-item menu-title">
           <a class="nav-link" href="/ilanlar">İlanlar</a>
-        </li>
+        </li> --}}
         {{-- <li class="nav-item menu-title">
           <a class="nav-link" href="#">Haberler</a>
         </li> --}}
@@ -37,10 +37,10 @@
         </li>
         @else
         <li class="nav-item menu-title">
-          <a class="nav-link" href="/login">Giriş Yap</a>
+          <a class="nav-link" href="/login">giriş yap</a>
         </li>
         <li class="nav-item menu-title">
-          <a class="nav-link" href="/register">Kayıt Ol</a>
+          <a class="nav-link" href="/register">kayıt ol</a>
         </li>
         @endauth
         <li class="nav-item d-none d-lg-block">

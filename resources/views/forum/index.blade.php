@@ -8,14 +8,14 @@
             <h4>öne çıkan...</h4>
             <ul id="subcategories-list" class="list-group">
                 <!-- Başlangıçta Genel Tartışma Alanı alt başlıkları yüklenecek -->
-                <li class="list-group-item">Eğitim Sistemi Tartışmaları</li>
+                {{-- <li class="list-group-item">Eğitim Sistemi Tartışmaları</li>
                 <li class="list-group-item">Tercih ve Rehberlik</li>
-                <li class="list-group-item">Üniversite Hayatı</li>
+                <li class="list-group-item">Üniversite Hayatı</li> --}}
             </ul>
         </div>
 
         <!-- Ana İçerik Alanı -->
-        <div class="col-md-7">
+        <div class="col-md-7" style="border-left: 1px solid #e0e0e0;">
             <!-- Forum Başlıkları -->
             <div class="d-flex mb-3">
                 <button id="general-tab" class="btn btn-primary me-2 activeCategory">tartışalım</button>
@@ -168,7 +168,6 @@
         };
     </script>
 
-
     <script>
         var quill = new Quill('#editor-container-city', {
             theme: 'snow'
@@ -179,6 +178,7 @@
         };
     </script>
     
+    {{-- siderbar change --}}
     <script>
         $(document).ready(function () {
             // Genel Tartışma Alanı konuları
@@ -217,8 +217,8 @@
 
             // Tab butonları
             $("#general-tab").on("click", function () {
-                $("#general-tab").addClass("active btn-primary").removeClass("btn-outline-primary");
-                $("#universities-tab, #cities-tab").removeClass("active btn-primary").addClass("btn-outline-primary");
+                $("#general-tab").addClass("activeCategory btn-primary").removeClass("btn-outline-primary");
+                $("#universities-tab, #cities-tab").removeClass("activeCategory btn-primary").addClass("btn-outline-primary");
                 
                 $("#general-content").removeClass("d-none");
                 $("#universities-content, #cities-content",).addClass("d-none");
@@ -227,8 +227,8 @@
             });
 
             $("#universities-tab").on("click", function () {
-                $("#universities-tab").addClass("active btn-primary").removeClass("btn-outline-primary");
-                $("#general-tab, #cities-tab").removeClass("active btn-primary").addClass("btn-outline-primary");
+                $("#universities-tab").addClass("activeCategory btn-primary").removeClass("btn-outline-primary");
+                $("#general-tab, #cities-tab").removeClass("activeCategory btn-primary").addClass("btn-outline-primary");
                 
                 $("#universities-content").removeClass("d-none");
                 $("#general-content, #cities-content").addClass("d-none");
@@ -237,8 +237,8 @@
             });
 
             $("#cities-tab").on("click", function () {
-                $("#cities-tab").addClass("active btn-primary").removeClass("btn-outline-primary");
-                $("#general-tab, #universities-tab").removeClass("active btn-primary").addClass("btn-outline-primary");
+                $("#cities-tab").addClass("activeCategory btn-primary").removeClass("btn-outline-primary");
+                $("#general-tab, #universities-tab").removeClass("activeCategory btn-primary").addClass("btn-outline-primary");
                 
                 $("#cities-content").removeClass("d-none");
                 $("#general-content, #universities-content").addClass("d-none");
@@ -248,7 +248,7 @@
 
             // Başlangıç olarak genel tartışma alt başlıklarını yükle
             loadSubcategories(generalSubcategories);
-            $("#general-tab").addClass("active btn-primary").removeClass("btn-outline-primary");
+            $("#general-tab").addClass("activeCategory btn-primary").removeClass("btn-outline-primary");
         });
     </script>
     

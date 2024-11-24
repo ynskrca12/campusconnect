@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\DeleteCommentController;
 use App\Http\Controllers\UniversiteController;
 use App\Http\Controllers\DuyuruController;
@@ -53,6 +54,24 @@ Route::get('kullanici_bilgileri',[UserController::class, 'kullanici_bilgileri'])
 Route::get('kullanici_bilgileri_duzenle/{id}',[UserController::class, 'kullanici_bilgileri_duzenle'])->name('kullanici_bilgileri_duzenle');
 
 Route::post('kullanici_bilgileri_duzenle_post',[UserController::class,'kullanici_bilgileri_duzenle_post'])->name('kullanici_bilgileri_duzenle_post');
+
+Route::get('/forum/sehir/{slug}', [CityController::class, 'show'])->name('city.show');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Route::fallback(function () {
