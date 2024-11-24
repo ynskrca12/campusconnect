@@ -18,7 +18,7 @@
         <div class="col-md-7">
             <!-- Forum Başlıkları -->
             <div class="d-flex mb-3">
-                <button id="general-tab" class="btn btn-primary me-2 active">tartışalım</button>
+                <button id="general-tab" class="btn btn-primary me-2 activeCategory">tartışalım</button>
                 <button id="universities-tab" class="btn btn-outline-primary me-2">üniversiteler hk.</button>
                 <button id="cities-tab" class="btn btn-outline-primary me-2">şehirler hk.</button>
             </div>
@@ -96,6 +96,10 @@
 
 @section('css')
     <style>
+        #subcategories-list .list-group-item{
+            border:none !important;
+            padding: 6px 0px;
+        }
         .btnCreateGeneral:hover , .btnCreateCity:hover , .btnCreateUniversity:hover{
             border-bottom: 1px groove #000000 !important;
             border-radius: 0px !important;
@@ -110,7 +114,7 @@
             border-radius: 5px;
             
         }
-        .active {
+        .activeCategory {
             background-color: #007bff;
             color: white;
         }
