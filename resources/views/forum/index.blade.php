@@ -5,7 +5,7 @@
     <div class="row">
         <!-- Sol Menü (Alt Başlıklar) -->
         <div class="col-md-3">
-            <h4>öne çıkan...</h4>
+            <h4 class="sidebarTitle">öne çıkan...</h4>
             <ul id="subcategories-list" class="list-group">
                 <!-- Başlangıçta Genel Tartışma Alanı alt başlıkları yüklenecek -->
                 {{-- <li class="list-group-item">Eğitim Sistemi Tartışmaları</li>
@@ -233,6 +233,7 @@
                 $("#universities-content").removeClass("d-none");
                 $("#general-content, #cities-content").addClass("d-none");
 
+                $('.sidebarTitle').text('en çok konuşulanlar');
                 loadSubcategories(universitiesSubcategories, 'university');
             });
 

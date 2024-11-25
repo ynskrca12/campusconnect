@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 
-class Universite extends Model
+class University extends Model
 {
     use HasFactory;
 

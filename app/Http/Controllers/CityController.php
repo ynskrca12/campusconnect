@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class CityController extends Controller
 {
     public function show($slug){
-        
+    
         $city = City::where('slug', $slug)->first();
 
         if (!$city) {

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Universite;
+use App\Models\University;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-class UniversiteController extends Controller
+class UniversityController extends Controller
 {
     public function index(){
-        $universiteler = Universite::all();
+        $universiteler = University::all();
         return view('universite.universite',compact('universiteler'));
     }
 
@@ -27,14 +27,25 @@ class UniversiteController extends Controller
 
     public function devlet_universite_getir(Request $request){
         $universite_turu = $request->input('universite_turu');
-        $devletUniversiteleri = Universite::where('turu', $universite_turu)->get();
+        $devletUniversiteleri = University::where('turu', $universite_turu)->get();
         return json_decode($devletUniversiteleri);
     }
 
 
     public function vakif_universite_getir($universite_turu){
-        $vakifUniversiteleri = Universite::where('turu',$universite_turu)->get();
+        $vakifUniversiteleri = University::where('turu',$universite_turu)->get();
 
         return json_encode($vakifUniversiteleri);
     }
+
+    public function show($slug){
+        
+        $university = University::where('slug', $slug)->first();
+
+        if (!$university) {
+            abort(404, 'Üniversite bulunamadı');
+        }
+
+        return view('forum.about_universities.index', compact('university'));
+    }//End
 }
