@@ -3,10 +3,17 @@
 @section('content')
 
     <div class="row mb-4">
-        <div class="col-md-12 mb-3">
+        <div class="col-md-1 d-flex justify-content-center align-items-center">
+            <i class="fa-solid fa-circle-left" style="font-size: 25px; cursor: pointer;" onclick="goBack()"></i>
+        </div>
+        
+        <div class="col-md-11 mb-3">
             <ul class="nav nav-tabs d-flex justify-content-center" id="mainTabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="general-tab" data-bs-toggle="tab" href="#general-info" role="tab" aria-controls="general-info" aria-selected="true">genel bilgiler</a>
+                    <a class="nav-link active" id="free-zone-tab" data-bs-toggle="tab" href="#free-zone" role="tab" aria-controls="free-zone" aria-selected="true">serbest bölge</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="general-tab" data-bs-toggle="tab" href="#general-info" role="tab" aria-controls="general-info" aria-selected="true">genel bilgiler</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="city-tab" data-bs-toggle="tab" href="#city-life" role="tab" aria-controls="city-life" aria-selected="false">şehir hayatı</a>
@@ -15,7 +22,7 @@
                     <a class="nav-link" id="transport-tab" data-bs-toggle="tab" href="#transport" role="tab" aria-controls="transport" aria-selected="false">ulaşım</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="must-see-tab" data-bs-toggle="tab" href="#must-see-places" role="tab" aria-controls="must-see-places" aria-selected="false">görülmesi gereken yerler</a>
+                    <a class="nav-link" id="must-see-tab" data-bs-toggle="tab" href="#must-see-places" role="tab" aria-controls="must-see-places" aria-selected="false">görülmeye değer</a>
                 </li>
             </ul>
         </div>
@@ -35,8 +42,14 @@
         <!--main content-->
             <div class="col-md-7" >
                 <div class="tab-content">
-
-                    <div class="tab-pane fade show active" id="general-info" role="tabpanel" aria-labelledby="general-tab">
+                    <div class="tab-pane fade show active" id="free-zone" role="tabpanel" aria-labelledby="free-zone-tab">
+                        <div class="d-flex justify-content-between">
+                            <h4 class="categoryTitle">serbest bölge</h4>
+                            <button class="btn btnExplain">anlat da bilinsin</button>
+                        </div>        
+                        <p>Burada serbest bölge İçeriği Yer Alacak.</p>
+                    </div>
+                    <div class="tab-pane fade" id="general-info" role="tabpanel" aria-labelledby="general-tab">
                         <div class="d-flex justify-content-between">
                             <h4 class="categoryTitle">genel bilgiler</h4>
                             <button class="btn btnExplain">anlat da bilinsin</button>
@@ -153,7 +166,7 @@
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
     <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" />
 
 
     <script>
@@ -196,6 +209,11 @@
         });
     </script>
 
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
     {{-- <script>
         $(document).ready(function () {
             $('#subcategories-list .list-group-item').on('click', function () {
