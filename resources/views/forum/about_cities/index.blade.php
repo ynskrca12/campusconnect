@@ -2,8 +2,8 @@
 
 @section('content')
 
-    <div class="row mb-4">
-        <div class="col-md-1 d-flex justify-content-center align-items-center">
+    <div class="row mb-3" style="border-bottom: 1px solid;margin-top:-36px;">
+        <div class="col-md-1 d-flex align-items-center">
             <i class="fa-solid fa-circle-left" style="font-size: 25px; cursor: pointer;" onclick="goBack()"></i>
         </div>
         
@@ -115,7 +115,7 @@
             border: none;
         }
         .nav-tabs .nav-link.active {
-            border-bottom: 1px solid #373737;
+            border-bottom: 1px solid #bdbdbd;
             color: #373737 !important;
         }
 
