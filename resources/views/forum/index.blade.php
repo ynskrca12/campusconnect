@@ -30,22 +30,30 @@
 
             <!-- Genel Tartışma Alanı İçerikleri -->
             <div id="general-content" class="content-area">
-                <div class="d-flex justify-content-between mb-5">
-                    <span class="content-title">Neyi konuşalım...</span>
-                </div>
-                
-                {{-- <p class="mb-5">Bu bölümde üniversite eğitimi, rehberlik ve tercihler gibi genel konular hakkında tartışmalar yapabilirsiniz.</p> --}}
+                @foreach ($randomTopics as $topic)
+                    <div class="topic">
+                        <h3>{{ $topic->topic_title }}</h3> <!-- Konu Başlığı -->
+                        <p>{{ $topic->comment }}</p> <!-- Konu ile ilgili Yorum -->
+                        <div class="meta">
+                            <div class="d-flex align-items-center entry-footer-bottom">
+                                <div class="footer-info">
+                                    <div style="display: block;padding: 2px;float: right;margin: -5px 0px;">
+                                        <p style="display: block;white-space:nowrap;color:#001b48;">{{ $topic->user->username ?? 'Anonim' }}</p>
+                                    </div>
 
-                @auth
-                    <form  method="POST">
-                        @csrf
-                        <div id="editor-container-general" style="height: 200px;"></div>
-                        <input type="hidden" name="comment" id="comment">
-                        <button type="submit" class="btn btn-primary mt-3">Yorum Gönder</button>
-                    </form>
-                @endauth
-
-                
+                                    <div style="display: block;padding: 2px;line-height: 14px;">
+                                        <p style="color: #888;font-size: 12px;">{{ $topic->created_at->format('d.m.Y H:i') }}</p>
+                                    </div>
+                                </div>
+                                <div class="avatar-container">
+                                    <a href="">
+                                        <img class="avatar" src="//ekstat.com/img/default-profile-picture-light.svg" data-default="//ekstat.com/img/default-profile-picture-light.svg" alt="usuyensolucan" title="usuyensolucan">
+                                    </a>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                @endforeach        
             </div>
 
             <!-- Tüm Üniversiteler İçerikleri -->
@@ -57,14 +65,14 @@
                  
                 </div>
 
-                @auth
-                <form  method="POST">
-                    @csrf
-                    <div id="editor-container-university" style="height: 200px;"></div>
-                    <input type="hidden" name="comment" id="comment">
-                    <button type="submit" class="btn btn-primary mt-3">Yorum Gönder</button>
-                </form>
-            @endauth
+                {{-- @auth
+                    <form  method="POST">
+                        @csrf
+                        <div id="editor-container-university" style="height: 200px;"></div>
+                        <input type="hidden" name="comment" id="comment">
+                        <button type="submit" class="btn btn-primary mt-3">Yorum Gönder</button>
+                    </form>
+                @endauth --}}
             </div>
 
             <div id="cities-content" class="content-area d-none">
@@ -74,14 +82,14 @@
                         {{-- <button class="btn btnCreateCity">gündem oluştur</button> --}}
                   
                 </div>
-                @auth
-                <form  method="POST">
-                    @csrf
-                    <div id="editor-container-city" style="height: 200px;"></div>
-                    <input type="hidden" name="comment" id="comment">
-                    <button type="submit" class="btn btn-primary mt-3">Yorum Gönder</button>
-                </form>
-            @endauth
+                {{-- @auth
+                    <form  method="POST">
+                        @csrf
+                        <div id="editor-container-city" style="height: 200px;"></div>
+                        <input type="hidden" name="comment" id="comment">
+                        <button type="submit" class="btn btn-primary mt-3">Yorum Gönder</button>
+                    </form>
+                @endauth --}}
             </div>
 
         </div>
@@ -98,6 +106,51 @@
 
 @section('css')
     <style>
+        .fixed-scroll {
+            height: calc(100vh - 50px); /* Pencerenin tamamına göre bir yükseklik belirleyin */
+            overflow-y: auto; /* Yalnızca dikey kaydırma için */
+            overflow-x: hidden; /* Yatay kaydırmayı gizle */
+            position: sticky; /* Scroll sırasında yerinde kalmasını sağlar */
+            top: 0; /* Sayfanın en üstüne sabitler */
+            padding-right: 5px; /* Sağda scrollbar boşluğu için */
+            scrollbar-width: thin; /* Tarayıcı destekliyorsa ince scrollbar */
+        }
+
+        .avatar{
+            display: block;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-top: 2px;
+            margin-bottom: 2px;
+        }
+        .footer-info{
+            float: left;
+            vertical-align: middle;
+            padding: 4px;
+            padding-right: 10px;
+        }
+         .topic {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .topic:last-child {
+            border-bottom: none;
+        }
+        .topic h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+        .topic p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .topic .meta {
+            display: flex;
+            justify-content: end;
+        }
         #subcategories-list .list-group-item{
             border:none !important;
             padding: 7px 0px;
@@ -141,11 +194,9 @@
 @endsection
 
 @section('js')
-    <!-- jQuery 3.6.0 (en güncel ve yaygın olarak kullanılan versiyon) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-    <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
@@ -183,36 +234,39 @@
     {{-- siderbar change --}}
     <script>
         $(document).ready(function () {
-            // Genel Tartışma Alanı konuları
-            const generalSubcategories = @json($general_topics->pluck('topic_title'));
-
-            // Üniversiteler ve slug'ları
+            // general subcategories
+            const generalSubcategories = @json($general_topics);
+             
+            //universities
             const universitiesSubcategories = @json($universities);
 
-            // Şehirler
+            // cities
             const citiesSubcategories = @json($cities);
 
-            // Alt başlıkları yükleyen fonksiyon
             function loadSubcategories(subcategories, type = 'general') {
                 $("#subcategories-list").empty();
                 subcategories.forEach(function (item) {
                     if (type === 'university') {
-                        // Üniversite linki
+                        // university limk
                         $("#subcategories-list").append(
                             `<li class="list-group-item universityLi">
                                 <a href="/forum/universite/${item.slug}" class="text-decoration-none universityTag">${item.universite_ad}</a>
                             </li>`
                         );
                     } else if (type === 'city') {
-                        // Şehir linki
+                        // city link
                         $("#subcategories-list").append(
                             `<li class="list-group-item cityLi">
                                 <a href="/forum/sehir/${item.slug}" class="text-decoration-none cityTag">${item.title}</a>
                             </li>`
                         );
                     } else {
-                        // Genel konular
-                        $("#subcategories-list").append(`<li class="list-group-item">${item}</li>`);
+                        // general topics
+                        $("#subcategories-list").append(
+                        `<li class="list-group-item">
+                            <a href="/forum/mevzu/${item.topic_title_slug}" class="text-decoration-none cityTag">${item.topic_title}</a>
+                         </li>`
+                        );
                     }
                 });
             }
@@ -259,101 +313,99 @@
         });
     </script>
     
-<script>
-    // Laravel'den gelen oturum bilgisi
-    var isAuthenticated = @json(auth()->check());
+    <script>
+        // Laravel'den gelen oturum bilgisi
+        var isAuthenticated = @json(auth()->check());
 
-    $(document).ready(function() {
-    // Gündem oluştur butonlarına tıklama olayını dinle
-        $('.btnCreateGeneral, .btnCreateUniversity, .btnCreateCity').on('click', function(e) {
-            e.preventDefault(); // Butonun varsayılan davranışını engelle
+        $(document).ready(function() {
+        // Gündem oluştur butonlarına tıklama olayını dinle
+            $('.btnCreateGeneral, .btnCreateUniversity, .btnCreateCity').on('click', function(e) {
+                e.preventDefault(); // Butonun varsayılan davranışını engelle
 
-            // Eğer kullanıcı giriş yapmamışsa (isAuthenticated false ise)
-            if (!isAuthenticated) {
-                Swal.fire({
-                    title: 'önce bi giriş mi yapsan...',
-                    // text: 'Gündem oluşturmak istiyorsan, önce giriş yapmalısın.',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'giriş yap',
-                    cancelButtonText: 'kapet',
-                    reverseButtons: true,
-                    customClass: {
-                        popup: 'swal-custom-popup' // Bu sınıfı kullanarak genişliği ayarlayacağız
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Giriş yap butonuna tıklanırsa yönlendirme yapılır
-                        window.location.href = "{{ route('login') }}";  // Giriş sayfasına yönlendir
-                    }
-                });
-            } else {
-                 // Kullanıcı giriş yapmışsa SweetAlert popup aç
-                Swal.fire({
-                    title: 'mevzu nedir ',
-                    html: `
-                        <form id="createAgendaForm">
-                            <div class="form-group">
-                                <input type="text" id="title" name="title" class="form-control" placeholder="başlık" style="border: none;border-bottom: 1px solid #ced4da;border-radius: 0px;">
-                            </div>
-                            <div class="form-group mt-3">
-                                <textarea id="content" name="content" class="form-control" rows="4" placeholder="açıklamanız"></textarea>
-                            </div>
-                        </form>
-                    `,
-                    showCancelButton: true,
-                    confirmButtonText: 'postala',
-                    cancelButtonText: 'kapet',
-                    reverseButtons: true,
-                    preConfirm: () => {
-                        // Form verilerini al
-                        const title = $('#title').val();
-                        const content = $('#content').val();
-
-                        if (!title || !content) {
-                            Swal.showValidationMessage('sadece 2 tane kutu var , doldurur musun lütfen');
-                            return false;
+                // Eğer kullanıcı giriş yapmamışsa (isAuthenticated false ise)
+                if (!isAuthenticated) {
+                    Swal.fire({
+                        title: 'önce bi giriş mi yapsan...',
+                        // text: 'Gündem oluşturmak istiyorsan, önce giriş yapmalısın.',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'giriş yap',
+                        cancelButtonText: 'kapet',
+                        reverseButtons: true,
+                        customClass: {
+                            popup: 'swal-custom-popup' // Bu sınıfı kullanarak genişliği ayarlayacağız
                         }
-                        return { title, content };
-                    },
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        const data = result.value;
-                        
-                        // send form datas with AJAX
-                        $.ajax({
-                            url: "{{ route('create.topic.general.forum') }}",
-                            type: 'POST',
-                            data: {
-                                _token: "{{ csrf_token() }}", // CSRF token
-                                title: data.title,
-                                content: data.content,
-                            },
-                            success: (response) => {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Gündem oluşturuldu!',
-                                    text: 'Gündem başarıyla oluşturuldu.',
-                                }).then(() => {
-                                    location.reload(); // Sayfayı yenile
-                                });
-                            },
-                            error: (error) => {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Hata!',
-                                    text: 'Bir şeyler ters gitti, lütfen tekrar deneyin.',
-                                });
-                            },
-                        });
-                    }
-                });
-            }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Giriş yap butonuna tıklanırsa yönlendirme yapılır
+                            window.location.href = "{{ route('login') }}";  // Giriş sayfasına yönlendir
+                        }
+                    });
+                } else {
+                    // Kullanıcı giriş yapmışsa SweetAlert popup aç
+                    Swal.fire({
+                        title: 'mevzu nedir ',
+                        html: `
+                            <form id="createAgendaForm">
+                                <div class="form-group">
+                                    <input type="text" id="title" name="title" class="form-control" placeholder="başlık" style="border: none;border-bottom: 1px solid #ced4da;border-radius: 0px;">
+                                </div>
+                                <div class="form-group mt-3">
+                                    <textarea id="content" name="content" class="form-control" rows="4" placeholder="açıklamanız"></textarea>
+                                </div>
+                            </form>
+                        `,
+                        showCancelButton: true,
+                        confirmButtonText: 'postala',
+                        cancelButtonText: 'kapet',
+                        reverseButtons: true,
+                        preConfirm: () => {
+                            // Form verilerini al
+                            const title = $('#title').val();
+                            const content = $('#content').val();
+
+                            if (!title || !content) {
+                                Swal.showValidationMessage('sadece 2 tane kutu var , doldurur musun lütfen');
+                                return false;
+                            }
+                            return { title, content };
+                        },
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const data = result.value;
+                            
+                            // send form datas with AJAX
+                            $.ajax({
+                                url: "{{ route('create.topic.general.forum') }}",
+                                type: 'POST',
+                                data: {
+                                    _token: "{{ csrf_token() }}", // CSRF token
+                                    title: data.title,
+                                    content: data.content,
+                                },
+                                success: (response) => {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Gündem oluşturuldu!',
+                                        text: 'Gündem başarıyla oluşturuldu.',
+                                    }).then(() => {
+                                        location.reload(); // Sayfayı yenile
+                                    });
+                                },
+                                error: (error) => {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Hata!',
+                                        text: 'Bir şeyler ters gitti, lütfen tekrar deneyin.',
+                                    });
+                                },
+                            });
+                        }
+                    });
+                }
+            });
         });
-    });
 
 
-</script>
-
-
+    </script>
 @endsection

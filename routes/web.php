@@ -61,19 +61,7 @@ Route::get('/forum/universite/{slug}', [UniversityController::class, 'show'])->n
 //create new topic in general form page
 Route::post('/crete-new-topic-general-forum',[ForumController::class,'createTopicGeneralForum'])->name('create.topic.general.forum');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+Route::get('/forum/mevzu/{slug}',[ForumController::class,'topicComments'])->name('topic.comments');
 
 Route::fallback(function () {
     return view('errors.404');

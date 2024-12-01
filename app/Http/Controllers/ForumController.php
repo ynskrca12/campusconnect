@@ -10,14 +10,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+
 class ForumController extends Controller
 {
     public function index(){
         $universities = University::all();
         $general_topics =GeneralTopic::all();
         $cities = City::all();
-        
-        return view('forum.index',compact('universities','general_topics','cities'));
+        $randomTopics = GeneralTopic::with('user')->inRandomOrder()->limit(10)->get();
+    
+        return view('forum.index',compact('universities','general_topics','cities','randomTopics'));
     }//End
 
    public function createTopicGeneralForum(Request $request){
@@ -49,7 +52,8 @@ class ForumController extends Controller
             // create new record
             $topic = new GeneralTopic();
             $topic->user_id = $user->id; 
-            $topic->topic_title = $request->input('title'); 
+            $topic->topic_title = $request->input('title');
+            $topic->topic_title_slug = Str::slug($request->input('title')); 
             $topic->comment = $request->input('content'); 
             $topic->created_at = now(); 
             $topic->save();
@@ -74,4 +78,56 @@ class ForumController extends Controller
             ], 500);
         }    
    }//End
+
+   public function topicComments($slug)
+    {
+        try {
+            // if slug is empty
+            if (empty($slug)) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Slug değeri sağlanmadı.',
+                ], 400);
+            }
+
+            $comments = GeneralTopic::where('topic_title_slug', $slug)->get();
+
+            if ($comments->isEmpty()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Bu slug ile ilişkili bir konu veya yorum bulunamadı.',
+                ], 404);
+            }
+
+            $topicTitle = $comments->first()->topic_title;
+
+            return response()->json([
+                'status' => 'success',
+                'data' => [
+                    'topic_title' => $topicTitle,
+                    'comments' => $comments->map(function ($comment) {
+                        return [
+                            'id' => $comment->id,
+                            'comments' => $comment->comments,
+                            'created_at' => $comment->created_at->toDateTimeString(),
+                            'updated_at' => $comment->updated_at->toDateTimeString(),
+                        ];
+                    }),
+                ],
+            ], 200);
+
+        } catch (\Exception $e) {
+            
+            Log::error('topicComments fonksiyonu hata verdi: ', [
+                'error' => $e->getMessage(),
+                'slug' => $slug,
+            ]);
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Bir hata oluştu. Lütfen daha sonra tekrar deneyin.',
+            ], 500);
+        }
+    }//End
+
 }
