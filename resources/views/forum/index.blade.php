@@ -178,6 +178,7 @@
             font-size: 13px;
             font-weight: 400;
         }
+       
         .universityLi:hover , .cityLi:hover{
             background-color: #fafafae0; 
         }
@@ -246,6 +247,9 @@
             function loadSubcategories(subcategories, type = 'general') {
                 $("#subcategories-list").empty();
                 subcategories.forEach(function (item) {
+
+                    const generalSubCategoriesCount = item.count || 0;
+
                     if (type === 'university') {
                         // university limk
                         $("#subcategories-list").append(
@@ -264,8 +268,11 @@
                         // general topics
                         $("#subcategories-list").append(
                         `<li class="list-group-item">
-                            <a href="/forum/mevzu/${item.topic_title_slug}" class="text-decoration-none cityTag">${item.topic_title}</a>
-                         </li>`
+                                <a href="/forum/mevzu/${item.topic_title_slug}" class="text-decoration-none cityTag d-flex justify-content-between">
+                                    <span class="topic-title">${item.topic_title}</span>
+                                    <span class="count">(${generalSubCategoriesCount})</span>
+                                </a>
+                            </li>`
                         );
                     }
                 });

@@ -11,12 +11,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class ForumController extends Controller
 {
     public function index(){
         $universities = University::all();
-        $general_topics =GeneralTopic::all();
+        $general_topics = GeneralTopic::select('topic_title', 'topic_title_slug', DB::raw('COUNT(topic_title_slug) as count'))
+            ->groupBy('topic_title', 'topic_title_slug')
+            ->get();
         $cities = City::all();
         $randomTopics = GeneralTopic::with('user')->inRandomOrder()->limit(10)->get();
     
