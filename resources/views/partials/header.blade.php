@@ -11,7 +11,7 @@
           <a class="nav-link" href="/">anasayfa</a>
         </li>
         <li class="nav-item menu-title">
-          <a class="nav-link" href="/university">üniversiteler</a>
+          <a class="nav-link" href="/universiteler">üniversiteler</a>
         </li>
         <li class="nav-item menu-title">
           <a class="nav-link" href="/forum">forum</a>

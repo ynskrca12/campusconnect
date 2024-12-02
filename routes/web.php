@@ -31,7 +31,7 @@ Route::get('/', function () {
 })->name('home');
 
 
-Route::get('/university',[UniversityController::class, 'index']);
+Route::get('/universiteler',[UniversityController::class, 'index']);
 Route::get('/universite_detay/{id}', [UniversityController::class, 'universite_detay'])->name('universite_detay');
 
 Route::get('/duyurular',[DuyuruController::class,'index']);

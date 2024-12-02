@@ -7,10 +7,7 @@
         <div class="col-md-3">
             <h4 class="sidebarTitle">popüler mevzular</h4>
             <ul id="subcategories-list" class="list-group">
-                <!-- Başlangıçta Genel Tartışma Alanı alt başlıkları yüklenecek -->
-                {{-- <li class="list-group-item">Eğitim Sistemi Tartışmaları</li>
-                <li class="list-group-item">Tercih ve Rehberlik</li>
-                <li class="list-group-item">Üniversite Hayatı</li> --}}
+                
             </ul>
         </div>
 
@@ -19,9 +16,9 @@
             <!-- Forum Başlıkları -->
             <div class="d-flex justify-content-between mb-3">
                 <div>
-                    <button id="general-tab" class="btn btn-primary me-2 activeCategory">tartışalım</button>
-                    <button id="universities-tab" class="btn btn-outline-primary me-2">üniversiteler hk.</button>
-                    <button id="cities-tab" class="btn btn-outline-primary me-2">şehirler hk.</button>
+                    <button id="general-tab" class="btn me-2 activeCategory general-topic-btn">tartışalım</button>
+                    <button id="universities-tab" class="btn me-2 general-topic-btn">üniversiteler hk.</button>
+                    <button id="cities-tab" class="btn me-2 general-topic-btn">şehirler hk.</button>
                 </div>
                 <div>
                     <button class="btn btnCreateGeneral">gündem oluştur</button>
@@ -32,7 +29,7 @@
             <div id="general-content" class="content-area">
                 @foreach ($randomTopics as $topic)
                     <div class="topic">
-                        <h3>{{ $topic->topic_title }}</h3> <!-- Konu Başlığı -->
+                        <h3 class="topic-title mb-3">{{ $topic->topic_title }}</h3> <!-- Konu Başlığı -->
                         <p>{{ $topic->comment }}</p> <!-- Konu ile ilgili Yorum -->
                         <div class="meta">
                             <div class="d-flex align-items-center entry-footer-bottom">
@@ -106,16 +103,19 @@
 
 @section('css')
     <style>
-        .fixed-scroll {
-            height: calc(100vh - 50px); /* Pencerenin tamamına göre bir yükseklik belirleyin */
-            overflow-y: auto; /* Yalnızca dikey kaydırma için */
-            overflow-x: hidden; /* Yatay kaydırmayı gizle */
-            position: sticky; /* Scroll sırasında yerinde kalmasını sağlar */
-            top: 0; /* Sayfanın en üstüne sabitler */
-            padding-right: 5px; /* Sağda scrollbar boşluğu için */
-            scrollbar-width: thin; /* Tarayıcı destekliyorsa ince scrollbar */
+        .general-topic-btn{
+            font-family: 'Segoe UI', Tahoma, Geneva, sans-serif !important;  
+            font-size: 15px !important; 
+            font-weight: 500 !important; 
+            color: #333 !important; 
+            background-color: transparent !important;
+            padding: 8px 12px !important; 
+            text-align: center !important;
+            text-transform: none !important; 
+            letter-spacing: 0.3px !important; 
+            cursor: pointer;
         }
-
+  
         .avatar{
             display: block;
             border-radius: 50%;
@@ -131,12 +131,9 @@
             padding-right: 10px;
         }
          .topic {
-            border-bottom: 1px solid #ddd;
             padding: 10px 0;
         }
-        .topic:last-child {
-            border-bottom: none;
-        }
+       
         .topic h3 {
             margin: 0;
             font-size: 18px;
@@ -155,6 +152,9 @@
             border:none !important;
             padding: 7px 0px;
         }
+        #subcategories-list .list-group-item:hover{
+            border-bottom:1px solid !important;
+        }
         .btnCreateGeneral:hover , .btnCreateCity:hover , .btnCreateUniversity:hover{
             border-bottom: 1px groove #000000 !important;
             border-radius: 0px !important;
@@ -164,16 +164,18 @@
             font-weight: 600;
         }
         .content-area {
-            padding: 15px;
-            border: 1px solid #e0e0e0;
-            border-radius: 5px;
+            padding: 15px 30px;
             
         }
         .activeCategory {
-            background-color: #007bff;
-            color: white;
+            border-bottom: 1px solid gray;
+            color: #333 !important;
+            border-radius: 0px;
         }
-        .universityTag, .cityTag{
+        .activeCategory:hover{
+            border-bottom: 1px solid gray;
+        }
+        .universityTag, .cityTag, .subCategoryTag{
             color: #000000 !important;
             font-size: 13px;
             font-weight: 400;
@@ -190,7 +192,9 @@
        .swal-custom-popup {
             width: 420px !important; 
         }
-
+        .topic-title{
+            font-weight: bold;
+        }
     </style>
 @endsection
 
@@ -268,8 +272,8 @@
                         // general topics
                         $("#subcategories-list").append(
                         `<li class="list-group-item">
-                                <a href="/forum/mevzu/${item.topic_title_slug}" class="text-decoration-none cityTag d-flex justify-content-between">
-                                    <span class="topic-title">${item.topic_title}</span>
+                                <a href="/forum/mevzu/${item.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
+                                    <span class="topic-title-sub-category">${item.topic_title}</span>
                                     <span class="count">(${generalSubCategoriesCount})</span>
                                 </a>
                             </li>`
@@ -280,8 +284,8 @@
 
             // Tab butonları
             $("#general-tab").on("click", function () {
-                $("#general-tab").addClass("activeCategory btn-primary").removeClass("btn-outline-primary");
-                $("#universities-tab, #cities-tab").removeClass("activeCategory btn-primary").addClass("btn-outline-primary");
+                $("#general-tab").addClass("activeCategory");
+                $("#universities-tab, #cities-tab").removeClass("activeCategory");
                 
                 $("#general-content").removeClass("d-none");
                 $("#universities-content, #cities-content",).addClass("d-none");
@@ -292,8 +296,8 @@
             });
 
             $("#universities-tab").on("click", function () {
-                $("#universities-tab").addClass("activeCategory btn-primary").removeClass("btn-outline-primary");
-                $("#general-tab, #cities-tab").removeClass("activeCategory btn-primary").addClass("btn-outline-primary");
+                $("#universities-tab").addClass("activeCategory");
+                $("#general-tab, #cities-tab").removeClass("activeCategory");
                 
                 $("#universities-content").removeClass("d-none");
                 $("#general-content, #cities-content").addClass("d-none");
@@ -304,8 +308,8 @@
             });
 
             $("#cities-tab").on("click", function () {
-                $("#cities-tab").addClass("activeCategory btn-primary").removeClass("btn-outline-primary");
-                $("#general-tab, #universities-tab").removeClass("activeCategory btn-primary").addClass("btn-outline-primary");
+                $("#cities-tab").addClass("activeCategory");
+                $("#general-tab, #universities-tab").removeClass("activeCategory");
                 
                 $("#cities-content").removeClass("d-none");
                 $("#general-content, #universities-content").addClass("d-none");
@@ -316,7 +320,7 @@
 
             // Başlangıç olarak genel tartışma alt başlıklarını yükle
             loadSubcategories(generalSubcategories);
-            $("#general-tab").addClass("activeCategory btn-primary").removeClass("btn-outline-primary");
+            $("#general-tab").addClass("activeCategory");
         });
     </script>
     
