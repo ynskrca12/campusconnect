@@ -27,66 +27,49 @@
 
             <!-- Genel Tartışma Alanı İçerikleri -->
             <div id="general-content" class="content-area">
-                @foreach ($randomTopics as $topic)
-                    <div class="topic">
-                        <h3 class="topic-title mb-3">{{ $topic->topic_title }}</h3> <!-- Konu Başlığı -->
-                        <p>{{ $topic->comment }}</p> <!-- Konu ile ilgili Yorum -->
-                        <div class="meta">
-                            <div class="d-flex align-items-center entry-footer-bottom">
-                                <div class="footer-info">
-                                    <div style="display: block;padding: 2px;float: right;margin: -5px 0px;">
-                                        <p style="display: block;white-space:nowrap;color:#001b48;">{{ $topic->user->username ?? 'Anonim' }}</p>
-                                    </div>
+                <div class="d-flex justify-content-end">
+                    <i class="fa-solid fa-rotate" id="refresh-icon" style="cursor: pointer;" 
+                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Yenile"></i>
+                </div>
+                <div id="topic-list">
+                    @foreach ($randomTopics as $topic)
+                        <div class="topic">
+                            <h3 class="topic-title mb-3">{{ $topic->topic_title }}</h3>
+                            <p>{{ $topic->comment }}</p>
+                            <div class="meta">
+                                <div class="d-flex align-items-center entry-footer-bottom">
+                                    <div class="footer-info">
+                                        <div style="display: block;padding: 2px;float: right;margin: -5px 0px;">
+                                            <p style="display: block;white-space:nowrap;color:#001b48;">{{ $topic->user->username ?? 'Anonim' }}</p>
+                                        </div>
 
-                                    <div style="display: block;padding: 2px;line-height: 14px;">
-                                        <p style="color: #888;font-size: 12px;">{{ $topic->created_at->format('d.m.Y H:i') }}</p>
+                                        <div style="display: block;padding: 2px;line-height: 14px;">
+                                            <p style="color: #888;font-size: 12px;">{{ $topic->created_at->format('d.m.Y H:i') }}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="avatar-container">
-                                    <a href="">
-                                        <img class="avatar" src="//ekstat.com/img/default-profile-picture-light.svg" data-default="//ekstat.com/img/default-profile-picture-light.svg" alt="usuyensolucan" title="usuyensolucan">
-                                    </a>
-                                </div>
-                            </div>                            
+                                    <div class="avatar-container">
+                                        <a href="">
+                                            <img class="avatar" src="//ekstat.com/img/default-profile-picture-light.svg" data-default="//ekstat.com/img/default-profile-picture-light.svg" alt="usuyensolucan" title="usuyensolucan">
+                                        </a>
+                                    </div>
+                                </div>                            
+                            </div>
                         </div>
-                    </div>
-                @endforeach        
+                    @endforeach   
+                </div>     
             </div>
 
             <!-- Tüm Üniversiteler İçerikleri -->
             <div id="universities-content" class="content-area d-none">
                 <div class="d-flex justify-content-between mb-5">
                     <span class="content-title">üniversite halleri</span>
-                 
-                        {{-- <button class="btn btnCreateUniversity">gündem oluştur</button> --}}
-                 
                 </div>
-
-                {{-- @auth
-                    <form  method="POST">
-                        @csrf
-                        <div id="editor-container-university" style="height: 200px;"></div>
-                        <input type="hidden" name="comment" id="comment">
-                        <button type="submit" class="btn btn-primary mt-3">Yorum Gönder</button>
-                    </form>
-                @endauth --}}
             </div>
 
             <div id="cities-content" class="content-area d-none">
                 <div class="d-flex justify-content-between mb-5">
                     <span class="content-title">şehir hayatı</span>
-                  
-                        {{-- <button class="btn btnCreateCity">gündem oluştur</button> --}}
-                  
                 </div>
-                {{-- @auth
-                    <form  method="POST">
-                        @csrf
-                        <div id="editor-container-city" style="height: 200px;"></div>
-                        <input type="hidden" name="comment" id="comment">
-                        <button type="submit" class="btn btn-primary mt-3">Yorum Gönder</button>
-                    </form>
-                @endauth --}}
             </div>
 
         </div>
@@ -203,8 +186,6 @@
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
 
     <script>
         var quill = new Quill('#editor-container-general', {
@@ -419,4 +400,70 @@
 
 
     </script>
+
+    {{-- get random topics with ajax --}}
+    <script>
+        $(document).on('click', '#refresh-icon', function () {
+            // İkon dönerken bir loading efekti göstermek isterseniz
+            $(this).addClass('fa-spin');
+    
+            $.ajax({
+                url: '{{ route("topics.random") }}',
+                method: 'GET',
+                success: function (response) {
+                    let content = '';
+                    response.data.forEach(topic => {
+                        content += `
+                            <div class="topic">
+                                <h3 class="topic-title mb-3">${topic.topic_title}</h3>
+                                <p>${topic.comment}</p>
+                                <div class="meta">
+                                    <div class="d-flex align-items-center entry-footer-bottom">
+                                        <div class="footer-info">
+                                            <div style="display: block;padding: 2px;float: right;margin: -5px 0px;">
+                                                <p style="display: block;white-space:nowrap;color:#001b48;">
+                                                    ${topic.user ? topic.user.username : 'Anonim'}
+                                                </p>
+                                            </div>
+                                            <div style="display: block;padding: 2px;line-height: 14px;">
+                                                <p style="color: #888;font-size: 12px;">
+                                                    ${new Date(topic.created_at).toLocaleString('tr-TR')}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="avatar-container">
+                                            <a href="">
+                                                <img class="avatar" src="//ekstat.com/img/default-profile-picture-light.svg" 
+                                                    alt="${topic.user ? topic.user.username : 'Anonim'}" 
+                                                    title="${topic.user ? topic.user.username : 'Anonim'}">
+                                            </a>
+                                        </div>
+                                    </div>                            
+                                </div>
+                            </div>
+                        `;
+                    });
+    
+                    $('#topic-list').html(content);
+    
+                    $('#refresh-icon').removeClass('fa-spin');
+                },
+                error: function () {
+                    alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+                    $('#refresh-icon').removeClass('fa-spin');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+
+    </script>
+    
 @endsection

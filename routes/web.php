@@ -61,6 +61,9 @@ Route::get('/forum/universite/{slug}', [UniversityController::class, 'show'])->n
 //create new topic in general form page
 Route::post('/crete-new-topic-general-forum',[ForumController::class,'createTopicGeneralForum'])->name('create.topic.general.forum');
 
+//random topics
+Route::get('/topics/random', [ForumController::class, 'getRandomTopics'])->name('topics.random');
+
 Route::get('/forum/mevzu/{slug}',[ForumController::class,'topicComments'])->name('topic.comments');
 
 Route::fallback(function () {

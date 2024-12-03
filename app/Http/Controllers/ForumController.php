@@ -21,7 +21,9 @@ class ForumController extends Controller
             ->groupBy('topic_title', 'topic_title_slug')
             ->get();
         $cities = City::all();
-        $randomTopics = GeneralTopic::with('user')->inRandomOrder()->limit(10)->get();
+        $randomTopics = GeneralTopic::with('user')
+        ->whereNotNull('created_by')
+        ->inRandomOrder()->limit(10)->get();
     
         return view('forum.index',compact('universities','general_topics','cities','randomTopics'));
     }//End
@@ -54,11 +56,12 @@ class ForumController extends Controller
         try {
             // create new record
             $topic = new GeneralTopic();
-            $topic->user_id = $user->id; 
-            $topic->topic_title = $request->input('title');
+            $topic->user_id          = $user->id; 
+            $topic->created_by       = $user->id; 
+            $topic->topic_title      = $request->input('title');
             $topic->topic_title_slug = Str::slug($request->input('title')); 
-            $topic->comment = $request->input('content'); 
-            $topic->created_at = now(); 
+            $topic->comment          = $request->input('content'); 
+            $topic->created_at       = now(); 
             $topic->save();
 
             return response()->json([
@@ -133,4 +136,53 @@ class ForumController extends Controller
         }
     }//End
 
-}
+    public function getRandomTopics()
+    {
+        try {
+            // Kullanıcının yetkisi kontrol edilir
+            if (!auth()->check()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Yetkisiz erişim.'
+                ], 403);
+            }
+    
+            // Veritabanından rastgele konular çekilir
+            $randomTopics = GeneralTopic::with('user')
+                ->whereNotNull('created_by') // Sadece created_by dolu olanlar
+                ->inRandomOrder()
+                ->limit(10)
+                ->get();
+    
+            // Eğer sonuç boşsa, kullanıcıya bilgi verilir
+            if ($randomTopics->isEmpty()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Gösterilecek konu bulunamadı.',
+                    'data' => []
+                ], 200);
+            }
+    
+            // Başarıyla çekilen veriler döndürülür
+            return response()->json([
+                'success' => true,
+                'message' => 'Konular başarıyla alındı.',
+                'data' => $randomTopics
+            ], 200);
+    
+        } catch (\Throwable $e) {
+            // Hata loglama (kullanıcıya detay verilmez)
+            Log::error('Rastgele konular alınırken hata oluştu:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+    
+            // Genel bir hata mesajı ile geri dönüş yapılır
+            return response()->json([
+                'success' => false,
+                'message' => 'Bir hata oluştu. Lütfen daha sonra tekrar deneyin.'
+            ], 500);
+        }
+    }//End
+    
+}   

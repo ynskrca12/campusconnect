@@ -19,6 +19,9 @@ class GeneralTopic extends Model
         return $this->belongsTo(User::class);
     }//End
 
-
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 
 }
