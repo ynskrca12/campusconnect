@@ -385,11 +385,19 @@
                                     });
                                 },
                                 error: (error) => {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Hata!',
-                                        text: 'Bir şeyler ters gitti, lütfen tekrar deneyin.',
-                                    });
+                                    if (error.status === 400 && error.responseJSON.message === 'Bu başlık altında zaten bir konu oluşturmuşsunuz.') {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Hata!',
+                                            text: 'Bu mevzuyu daha önce konuşmuşuz, bence onun altına yaz düşüncelerini.',
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Hata!',
+                                            text: 'Bir şeyler ters gitti, var bi fırıldak. Tekrar dene bakalım',
+                                        });
+                                    }
                                 },
                             });
                         }

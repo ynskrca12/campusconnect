@@ -37,7 +37,6 @@ class ForumController extends Controller
             ], 401);
         }
 
-        // Giriş yapan kullanıcının bilgilerini al
         $user = Auth::user();
 
         // verify incoming data
@@ -54,6 +53,19 @@ class ForumController extends Controller
         }
 
         try {
+
+             // Check if the user has already created a topic with the same title
+                $existingTopic = GeneralTopic::where('created_by', $user->id)
+                ->where('topic_title', $request->input('title'))
+                ->first();
+
+            if ($existingTopic) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Bu başlık altında zaten bir konu oluşturmuşsunuz.',
+                ], 400);
+            }
+            
             // create new record
             $topic = new GeneralTopic();
             $topic->user_id          = $user->id; 
