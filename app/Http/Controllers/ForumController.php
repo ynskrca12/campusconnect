@@ -41,7 +41,7 @@ class ForumController extends Controller
 
         // verify incoming data
         $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:80',
             'content' => 'required|string',
         ]);
 
@@ -150,23 +150,15 @@ class ForumController extends Controller
 
     public function getRandomTopics()
     {
-        try {
-            // Kullanıcının yetkisi kontrol edilir
-            if (!auth()->check()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Yetkisiz erişim.'
-                ], 403);
-            }
-    
-            // Veritabanından rastgele konular çekilir
+        try {    
+            // get random topics from database
             $randomTopics = GeneralTopic::with('user')
-                ->whereNotNull('created_by') // Sadece created_by dolu olanlar
+                ->whereNotNull('created_by') 
                 ->inRandomOrder()
                 ->limit(10)
                 ->get();
     
-            // Eğer sonuç boşsa, kullanıcıya bilgi verilir
+           
             if ($randomTopics->isEmpty()) {
                 return response()->json([
                     'success' => true,
@@ -175,7 +167,6 @@ class ForumController extends Controller
                 ], 200);
             }
     
-            // Başarıyla çekilen veriler döndürülür
             return response()->json([
                 'success' => true,
                 'message' => 'Konular başarıyla alındı.',
@@ -183,13 +174,12 @@ class ForumController extends Controller
             ], 200);
     
         } catch (\Throwable $e) {
-            // Hata loglama (kullanıcıya detay verilmez)
+            
             Log::error('Rastgele konular alınırken hata oluştu:', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
     
-            // Genel bir hata mesajı ile geri dönüş yapılır
             return response()->json([
                 'success' => false,
                 'message' => 'Bir hata oluştu. Lütfen daha sonra tekrar deneyin.'

@@ -39,7 +39,7 @@
                             <div class="meta">
                                 <div class="d-flex align-items-center entry-footer-bottom">
                                     <div class="footer-info">
-                                        <div style="display: block;padding: 2px;float: right;margin: -5px 0px;">
+                                        <div style="display: block;padding: 2px;text-align: end;margin: -5px 0px;">
                                             <p style="display: block;white-space:nowrap;color:#001b48;">{{ $topic->user->username ?? 'Anonim' }}</p>
                                         </div>
 
@@ -119,7 +119,7 @@
        
         .topic h3 {
             margin: 0;
-            font-size: 18px;
+            font-size: 17px;
             color: #333;
         }
         .topic p {
@@ -168,16 +168,33 @@
             background-color: #fafafae0; 
         }
 
-       .swal2-title{
-            font-size: 18px !important;
-       }
+        .swal2-title{
+                font-size: 18px !important;
+        }
 
        .swal-custom-popup {
             width: 420px !important; 
         }
         .topic-title{
             font-weight: bold;
+            word-wrap: break-word;
+            padding-right: 130px;
         }
+
+        .topic-title-sub-category {
+            flex: 1;
+            word-wrap: break-word; 
+            word-break: break-word;
+        }
+
+        .count {
+            margin-left: auto; 
+            display: inline-block;
+            margin-left: 15px;
+            font-weight: 700;
+            color: #001b48;
+        }
+
     </style>
 @endsection
 
@@ -252,10 +269,10 @@
                     } else {
                         // general topics
                         $("#subcategories-list").append(
-                        `<li class="list-group-item">
+                        `<li class="list-group-item mb-1">
                                 <a href="/forum/mevzu/${item.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
                                     <span class="topic-title-sub-category">${item.topic_title}</span>
-                                    <span class="count">(${generalSubCategoriesCount})</span>
+                                    <span class="count">${generalSubCategoriesCount}</span>
                                 </a>
                             </li>`
                         );
@@ -305,6 +322,7 @@
         });
     </script>
     
+    {{-- add new topic --}}
     <script>
         // Laravel'den gelen oturum bilgisi
         var isAuthenticated = @json(auth()->check());
@@ -325,12 +343,11 @@
                         cancelButtonText: 'kapet',
                         reverseButtons: true,
                         customClass: {
-                            popup: 'swal-custom-popup' // Bu sınıfı kullanarak genişliği ayarlayacağız
+                            popup: 'swal-custom-popup' 
                         }
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            // Giriş yap butonuna tıklanırsa yönlendirme yapılır
-                            window.location.href = "{{ route('login') }}";  // Giriş sayfasına yönlendir
+                            window.location.href = "{{ route('login') }}"; 
                         }
                     });
                 } else {
@@ -340,10 +357,16 @@
                         html: `
                             <form id="createAgendaForm">
                                 <div class="form-group">
-                                    <input type="text" id="title" name="title" class="form-control" placeholder="başlık" style="border: none;border-bottom: 1px solid #ced4da;border-radius: 0px;">
+                                    <input type="text" id="title" name="title" class="form-control" 
+                                        placeholder="başlık" maxlength="80" 
+                                        style="border: none;border-bottom: 1px solid #ced4da;border-radius: 0px;">
+                                    <small id="charCount" class="form-text text-muted">
+                                        0/80 karakter
+                                    </small>
                                 </div>
                                 <div class="form-group mt-3">
-                                    <textarea id="content" name="content" class="form-control" rows="4" placeholder="açıklamanız"></textarea>
+                                    <textarea id="content" name="content" class="form-control" 
+                                            rows="4" placeholder="açıklamanız"></textarea>
                                 </div>
                             </form>
                         `,
@@ -358,6 +381,11 @@
 
                             if (!title || !content) {
                                 Swal.showValidationMessage('sadece 2 tane kutu var , doldurur musun lütfen');
+                                return false;
+                            }
+
+                            if (title.length > 80) {
+                                Swal.showValidationMessage('Başlık en fazla 80 karakter olabilir.');
                                 return false;
                             }
                             return { title, content };
@@ -406,7 +434,10 @@
             });
         });
 
-
+        $(document).on('input', '#title', function() {
+            const length = $(this).val().length;
+            $('#charCount').text(`${length}/80 karakter`);
+        });
     </script>
 
     {{-- get random topics with ajax --}}
@@ -428,7 +459,7 @@
                                 <div class="meta">
                                     <div class="d-flex align-items-center entry-footer-bottom">
                                         <div class="footer-info">
-                                            <div style="display: block;padding: 2px;float: right;margin: -5px 0px;">
+                                            <div style="display: block;padding: 2px;text-align: end;margin: -5px 0px;">
                                                 <p style="display: block;white-space:nowrap;color:#001b48;">
                                                     ${topic.user ? topic.user.username : 'Anonim'}
                                                 </p>
