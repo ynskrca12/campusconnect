@@ -36,6 +36,14 @@
                         <div class="topic">
                             <h3 class="topic-title mb-3">{{ $topic->topic_title }}</h3>
                             <p>{{ $topic->comment }}</p>
+                            <div class="like-dislike mt-3">
+                                <div class="like-btn d-inline me-3" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
+                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $topic->likes }}</span>
+                                </div>
+                                <div class="dislike-btn d-inline" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
+                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $topic->dislikes }}</span>
+                                </div>
+                            </div>
                             <div class="meta">
                                 <div class="d-flex align-items-center entry-footer-bottom">
                                     <div class="footer-info">
@@ -203,6 +211,59 @@
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+
+    {{-- like dislike --}}
+    <script>
+        $(document).on('click', '.like-btn', function () {
+            let topicId = $(this).data('id');
+            console.log('topics' + topicId);
+            let userId = '{{ auth()->id() }}'; 
+
+            if (!userId) {
+                toastr.error('giriş yapmamışsın hemşerim');
+                return; 
+            }
+            
+            let likeCount = $(this).find('.like-count');
+
+            $.ajax({
+                url: `/general/topic/${topicId}/like`,
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function (response) {
+                    likeCount.text(response.likes);
+                }
+            });
+        });
+
+        $(document).on('click', '.dislike-btn', function () {
+            let topicId = $(this).data('id');
+            let userId = '{{ auth()->id() }}'; 
+
+            if (!userId) {
+                toastr.error('giriş yapmamışsın hemşerim');
+                return; 
+            }
+
+            let dislikeCount = $(this).find('.dislike-count');
+
+            $.ajax({
+                url: `/general/topic/${topicId}/dislike`,
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function (response) {
+                    dislikeCount.text(response.dislikes);
+                }
+            });
+        });
+
+    </script>
 
     <script>
         var quill = new Quill('#editor-container-general', {
@@ -456,6 +517,14 @@
                             <div class="topic">
                                 <h3 class="topic-title mb-3">${topic.topic_title}</h3>
                                 <p>${topic.comment}</p>
+                                    <div class="like-dislike mt-3">
+                                        <div class="like-btn d-inline me-3" data-id="${topic.id}" style="cursor: pointer; color: #888;">
+                                            <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">${topic.likes}</span>
+                                        </div>
+                                        <div class="dislike-btn d-inline" data-id="${topic.id}" style="cursor: pointer; color: #888;">
+                                            <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">${topic.dislikes}</span>
+                                        </div>
+                                    </div>
                                 <div class="meta">
                                     <div class="d-flex align-items-center entry-footer-bottom">
                                         <div class="footer-info">

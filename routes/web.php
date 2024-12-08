@@ -66,6 +66,11 @@ Route::get('/topics/random', [ForumController::class, 'getRandomTopics'])->name(
 
 Route::get('/forum/mevzu/{slug}',[ForumController::class,'topicComments'])->name('topic.comments');
 
+//like dislikes
+Route::post('/general/topic/{id}/like', [ForumController::class, 'like'])->name('topics.like');
+Route::post('/general/topic/{id}/dislike', [ForumController::class, 'dislike'])->name('topics.dislike');
+
+
 Route::fallback(function () {
     return view('errors.404');
 });

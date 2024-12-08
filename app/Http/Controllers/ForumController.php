@@ -186,5 +186,95 @@ class ForumController extends Controller
             ], 500);
         }
     }//End
+
+    public function like($id)
+    {
+        $userId = auth()->id(); 
+
+        if (!$userId) {
+            return response()->json(['error' => 'Lütfen giriş yapın'], 401);
+        }
+
+        $topic = GeneralTopic::findOrFail($id); 
+
+        $likeEntry = DB::table('general_topics_likes')->where('user_id', $userId)->where('topic_id', $id)->first();
+
+        DB::beginTransaction();
+
+        try {
+            if ($likeEntry) {
+            
+                if ($likeEntry->like === 1) {
+                    DB::table('general_topics_likes')->where('user_id', $userId)->where('topic_id', $id)->delete();
+                    $topic->decrement('likes');
+                } else {
+                    // Like if you haven't liked it before
+                    DB::table('general_topics_likes')->where('user_id', $userId)->where('topic_id', $id)->update(['like' => 1]);
+                    $topic->increment('likes');
+                    $topic->decrement('dislikes');
+                }
+            } else {
+                DB::table('general_topics_likes')->insert([
+                    'user_id' => $userId,
+                    'topic_id' => $id,
+                    'like' => 1
+                ]);
+                $topic->increment('likes');
+            }
+
+            $topic->save();
+            DB::commit();
+            return response()->json(['likes' => $topic->likes]);
+
+        } catch (\Exception $e) {
+            DB::rollBack(); 
+            return response()->json(['error' => 'İşlem sırasında bir hata oluştu'], 500);
+        }
+    }//End
+
+
+    public function dislike($id)
+    {
+        $userId = auth()->id();
+        if (!$userId) {
+            return response()->json(['error' => 'Lütfen giriş yapın'], 401);
+        }
+
+        $topic = GeneralTopic::findOrFail($id); 
+
+        $dislikeEntry = DB::table('general_topics_likes')->where('user_id', $userId)->where('topic_id', $id)->first();
+
+        DB::beginTransaction();
+
+        try {
+            if ($dislikeEntry) {
+                if ($dislikeEntry->like === 0) {
+                    DB::table('general_topics_likes')->where('user_id', $userId)->where('topic_id', $id)->delete();
+                    $topic->decrement('dislikes');
+                } else {
+                  
+                    DB::table('general_topics_likes')->where('user_id', $userId)->where('topic_id', $id)->update(['like' => 0]);
+                    $topic->increment('dislikes');
+                    $topic->decrement('likes');
+                }
+            } else {
+                DB::table('general_topics_likes')->insert([
+                    'user_id' => $userId,
+                    'topic_id' => $id,
+                    'like' => 0
+                ]);
+                $topic->increment('dislikes');
+            }
+
+            $topic->save();
+             DB::commit();
+            return response()->json(['dislikes' => $topic->dislikes]);
+        } catch (\Exception $e) {
+            DB::rollBack(); 
+            return response()->json(['error' => 'İşlem sırasında bir hata oluştu'], 500);
+        }
+    }//End
+
+
     
 }   
