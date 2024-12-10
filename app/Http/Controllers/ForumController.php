@@ -98,55 +98,43 @@ class ForumController extends Controller
    }//End
 
    public function topicComments($slug)
-    {
-        try {
-            // if slug is empty
-            if (empty($slug)) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Slug değeri sağlanmadı.',
-                ], 400);
+   {
+       try {
+       
+           // if slug is empty
+           if (empty($slug)) {
+               return redirect()->back()->withErrors('Slug değeri sağlanmadı.');
+           }
+   
+           $topics = GeneralTopic::where('topic_title_slug', $slug)->get();
+   
+           
+            if ($topics->isEmpty()) {
+                return redirect()->back()->withErrors('Bu slug ile ilişkili bir konu bulunamadı.');
             }
+   
+            $topicTitle = $topics->first()->topic_title;
 
-            $comments = GeneralTopic::where('topic_title_slug', $slug)->get();
-
-            if ($comments->isEmpty()) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Bu slug ile ilişkili bir konu veya yorum bulunamadı.',
-                ], 404);
-            }
-
-            $topicTitle = $comments->first()->topic_title;
-
-            return response()->json([
-                'status' => 'success',
-                'data' => [
-                    'topic_title' => $topicTitle,
-                    'comments' => $comments->map(function ($comment) {
-                        return [
-                            'id' => $comment->id,
-                            'comments' => $comment->comments,
-                            'created_at' => $comment->created_at->toDateTimeString(),
-                            'updated_at' => $comment->updated_at->toDateTimeString(),
-                        ];
-                    }),
-                ],
-            ], 200);
-
-        } catch (\Exception $e) {
-            
-            Log::error('topicComments fonksiyonu hata verdi: ', [
-                'error' => $e->getMessage(),
-                'slug' => $slug,
-            ]);
-
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Bir hata oluştu. Lütfen daha sonra tekrar deneyin.',
-            ], 500);
-        }
-    }//End
+            $comments = $topics->toArray();
+// dd($comments);
+           $general_topics = GeneralTopic::select('topic_title', 'topic_title_slug', DB::raw('COUNT(topic_title_slug) as count'))
+           ->groupBy('topic_title', 'topic_title_slug')
+           ->get();
+   
+           // `forum.topics` Blade dosyasına verileri döndür
+           return view('forum.topic', compact('topicTitle', 'comments','general_topics'));
+   
+       } catch (\Exception $e) {
+   
+           Log::error('topicComments fonksiyonu hata verdi: ', [
+               'error' => $e->getMessage(),
+               'slug' => $slug,
+           ]);
+   
+           return redirect()->back()->withErrors('Bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+       }
+   }//End
+   
 
     public function getRandomTopics()
     {

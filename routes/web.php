@@ -42,7 +42,6 @@ Route::post('ilan_ekle_post',[IlanController::class,'ilan_ekle_post'])->name('il
 
 Route::get('/forum',[ForumController::class,'index'])->name('forum');
 
-
 Route::post('/universite/{id}/yorumlar',[StoreCommentController::class,'universite_yorum_ekle'])->name('universite_yorum_ekle');
 Route::delete('/universite/{id}/yorumlar/{comment}',[DeleteCommentController::class,'universite_yorum_sil'])->name('universite_yorum_sil');
 
