@@ -12,7 +12,7 @@
         </div>
 
         <!-- Ana İçerik Alanı -->
-        <div class="col-md-7" style="border-left: 1px solid #e0e0e0;">
+        <div class="col-md-7 position-relative" style="border-left: 1px solid #e0e0e0;">
 
             <!-- Genel Tartışma Alanı İçerikleri -->
             <div id="general-content" class="content-area">
@@ -50,7 +50,12 @@
                             </div>
                         </div>
                     @endforeach   
-                </div>     
+                </div>
+                
+                <div class="pagination-container" style="position: absolute; bottom: 0; left: 0; width: 100%; text-align: center;">
+                    {{ $comments->links('pagination::bootstrap-4') }}
+                </div>
+
             </div>
 
            
@@ -168,6 +173,40 @@
         }
 
     </style>
+
+    {{-- pagination --}}
+    <style>
+        .pagination {
+            justify-content: center;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+        .pagination .page-link {
+            color: #007bff;
+            text-decoration: none;
+            padding:5px 10px !important;
+            border-radius: 50%;
+        }
+
+        .pagination .page-link:hover {
+            background-color: #f8f9fa;
+        }
+
+        .page-item:first-child .page-link{
+            border-top-left-radius: 50%;
+            border-bottom-left-radius: 50%;
+        }
+
+        .page-item:last-child .page-link {
+            border-top-right-radius: 50%;
+            border-bottom-right-radius: 50%;
+        }
+
+    </style>
+
 @endsection
 
 @section('js')

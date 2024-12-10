@@ -106,17 +106,17 @@ class ForumController extends Controller
                return redirect()->back()->withErrors('Slug değeri sağlanmadı.');
            }
    
-           $topics = GeneralTopic::where('topic_title_slug', $slug)->get();
+           $topicsQuery = GeneralTopic::where('topic_title_slug', $slug);
    
            
-            if ($topics->isEmpty()) {
-                return redirect()->back()->withErrors('Bu slug ile ilişkili bir konu bulunamadı.');
-            }
-   
-            $topicTitle = $topics->first()->topic_title;
+           if ($topicsQuery->count() === 0) {
+            abort(404, 'Bu slug ile ilişkili bir konu bulunamadı.');
+           }
+            
+            $comments = $topicsQuery->paginate(9);
+            $topicTitle = $comments->first()->topic_title ?? 'Başlık Yok';
 
-            $comments = $topics->toArray();
-// dd($comments);
+
            $general_topics = GeneralTopic::select('topic_title', 'topic_title_slug', DB::raw('COUNT(topic_title_slug) as count'))
            ->groupBy('topic_title', 'topic_title_slug')
            ->get();
