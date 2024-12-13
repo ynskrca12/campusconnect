@@ -21,7 +21,7 @@
                 <div id="topic-list">
                     @foreach ($comments as $comment)
                         <div class="topic">
-                            <p>{{ $comment['comment'] }}</p>
+                            <p>{!! $comment['comment'] !!}</p>
                             <div class="like-dislike mt-3">
                                 <div class="like-btn d-inline me-3" data-id="{{ $comment['id'] }}" style="cursor: pointer; color: #888;">
                                     <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $comment['likes'] }}</span>
@@ -51,6 +51,19 @@
                         </div>
                     @endforeach   
                 </div>
+
+                     <!-- Yorum Alanı -->
+                    <div class="col-md-12">
+                        <form id="commentForm" action="{{ route('add.general.topic.comment') }}" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <textarea name="comment" id="editor" placeholder="Yorumunuzu buraya yazın..."></textarea>
+                            </div>
+                            <input type="hidden" name="topic_title_slug" value="{{ $topicTitleSlug }}">
+                            <input type="hidden" name="topic_title" value="{{ $topicTitle }}">
+                            <button type="submit" class="btn btn-primary">Yorum Yap</button>
+                        </form>
+                    </div>
                 
                 <div class="pagination-container" style="position: absolute; bottom: 0; left: 0; width: 100%; text-align: center;">
                     {{ $comments->links('pagination::bootstrap-4') }}
@@ -102,6 +115,9 @@
             margin: 5px 0;
             font-size: 14px;
             color: #666;
+            word-wrap: break-word; /* Eski tarayıcı desteği için */
+            overflow-wrap: break-word; /* Yeni standart */
+            white-space: pre-wrap;
         }
         .topic .meta {
             display: flex;
@@ -207,6 +223,12 @@
 
     </style>
 
+    <style>
+        /* Editörün iç alanı için kenar çizgisi kaldırma */
+        .ck-editor__editable_inline {
+            height: 300px !important; /* Sabit yükseklik */
+        }
+    </style>
 @endsection
 
 @section('js')
@@ -214,6 +236,36 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+    <!-- CKEditor CDN -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                // Ek ayarlar
+                height: '300px', 
+            })
+            .then(editor => {
+                const editorElement = editor.ui.getEditableElement();
+
+                // Yüksekliği ve kenarlığı sabit tutma
+                const fixHeight = () => {
+                    editorElement.style.height = '300px';
+                };
+
+                // İlk yüklemede yüksekliği ayarla
+                fixHeight();
+
+                // Kullanıcı editöre tıkladığında
+                editor.ui.view.editable.element.addEventListener('focus', fixHeight);
+
+                // Kullanıcı içerik düzenlediğinde
+                editor.model.document.on('change:data', fixHeight);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
 
     {{-- like dislike --}}
     <script>
@@ -325,5 +377,30 @@
         });
     </script>
     
-    
+    {{-- add new comment --}}
+    <script>
+        $(document).ready(function () {
+            $("#commentForm").on('submit', function (e) {
+                e.preventDefault();
+
+                let commentData = $(this).serialize();
+
+                $.ajax({
+                    url: '{{ route('add.general.topic.comment') }}',
+                    method: 'POST',
+                    data: commentData,
+                    success: function (response) {
+                        toastr.success(response.message); 
+                        setTimeout(function() {
+                            location.reload(); 
+                        }, 1000); // Wait 1 second
+                    },
+                    error: function (xhr) {
+                        toastr.error(xhr.responseJSON.error);
+                    }
+                });
+            });
+        });
+
+    </script>
 @endsection

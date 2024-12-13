@@ -64,7 +64,7 @@ Route::post('/crete-new-topic-general-forum',[ForumController::class,'createTopi
 Route::get('/topics/random', [ForumController::class, 'getRandomTopics'])->name('topics.random');
 
 Route::get('/forum/mevzu/{slug}',[ForumController::class,'topicComments'])->name('topic.comments');
-
+Route::post('/add/general/topic/comment', [ForumController::class, 'storeComment'])->name('add.general.topic.comment');
 //like dislikes
 Route::post('/general/topic/{id}/like', [ForumController::class, 'like'])->name('topics.like');
 Route::post('/general/topic/{id}/dislike', [ForumController::class, 'dislike'])->name('topics.dislike');
