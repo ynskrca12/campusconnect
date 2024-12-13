@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ForumController extends Controller
 {
@@ -115,6 +116,7 @@ class ForumController extends Controller
             
             $comments = $topicsQuery->paginate(9);
             $topicTitle = $comments->first()->topic_title ?? 'Başlık Yok';
+            $topicTitleSlug = $comments->first()->topic_title_slug ?? 'Slug Yok';
 
 
            $general_topics = GeneralTopic::select('topic_title', 'topic_title_slug', DB::raw('COUNT(topic_title_slug) as count'))
@@ -122,7 +124,7 @@ class ForumController extends Controller
            ->get();
    
            // `forum.topics` Blade dosyasına verileri döndür
-           return view('forum.topic', compact('topicTitle', 'comments','general_topics'));
+           return view('forum.topic', compact('topicTitle', 'comments','general_topics','topicTitleSlug'));
    
        } catch (\Exception $e) {
    
@@ -135,6 +137,50 @@ class ForumController extends Controller
        }
    }//End
    
+   public function storeComment(Request $request)
+    {
+        try {
+            
+            if (!Auth::check()) {
+                return response()->json(['error' => 'Please log in.'], 401);
+            }
+
+            // Validate the comment input
+            $validator = Validator::make($request->all(), [
+                'comment' => 'required|string|min:3|max:2000',
+                'topic_title_slug' => 'required|string|exists:general_topics,topic_title_slug', 
+            ]);
+
+            // If validation fails, return the first validation error
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors()->first()], 422);
+            }
+
+            $topic = GeneralTopic::where('topic_title_slug', $request->input('topic_title_slug'))->first();
+
+            if (!$topic) {
+                return response()->json(['error' => 'Topic not found.'], 404);
+            }
+
+            // Create a new comment instance and populate its fields
+            $comment = new GeneralTopic();
+            $comment->user_id = Auth::id(); 
+            $comment->topic_title = $topic->topic_title; 
+            $comment->topic_title_slug = $request->input('topic_title_slug'); 
+            $comment->comment = $request->input('comment'); 
+            $comment->created_at = Carbon::now(); 
+
+            $comment->save();
+
+            return response()->json(['message' => 'Fikriniz gönderildi.'], 200);
+        } catch (\Exception $e) {
+            // Log the error for debugging purposes
+            Log::error('Error while saving the comment: ' . $e->getMessage());
+
+            return response()->json(['error' => 'Bir hata oluştu.Lütfen tekrar deneyin.'], 500);
+        }
+    }//End
+
 
     public function getRandomTopics()
     {
