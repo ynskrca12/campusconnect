@@ -56,7 +56,7 @@ Route::post('kullanici_bilgileri_duzenle_post',[UserController::class,'kullanici
 
 Route::get('/forum/sehir/{slug}', [CityController::class, 'show'])->name('city.show');
 Route::get('/forum/universite/{slug}', [UniversityController::class, 'show'])->name('university.show');
-
+Route::get('/get-univercity-category-topics',[UniversityController::class,'getUnivercityCategoryTopics']);
 //create new topic in general form page
 Route::post('/crete-new-topic-general-forum',[ForumController::class,'createTopicGeneralForum'])->name('create.topic.general.forum');
 
@@ -65,6 +65,7 @@ Route::get('/topics/random', [ForumController::class, 'getRandomTopics'])->name(
 
 Route::get('/forum/mevzu/{slug}',[ForumController::class,'topicComments'])->name('topic.comments');
 Route::post('/add/general/topic/comment', [ForumController::class, 'storeComment'])->name('add.general.topic.comment');
+
 //like dislikes
 Route::post('/general/topic/{id}/like', [ForumController::class, 'like'])->name('topics.like');
 Route::post('/general/topic/{id}/dislike', [ForumController::class, 'dislike'])->name('topics.dislike');

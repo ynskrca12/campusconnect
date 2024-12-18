@@ -42,10 +42,29 @@ class UniversityController extends Controller
         
         $university = University::where('slug', $slug)->first();
 
+        $univercity_free_zone_topics = DB::table('universities_topics')
+            ->where('university_id',$university->id)
+            ->where('category','serbest_bolge')
+            ->get();
+
         if (!$university) {
             abort(404, 'Üniversite bulunamadı');
         }
 
-        return view('forum.about_universities.index', compact('university'));
+        return view('forum.about_universities.index',
+         compact('university','univercity_free_zone_topics'));
+    }//End
+
+    public function getUnivercityCategoryTopics(Request $request){
+        $category = $request->input('category');
+        $univercityId = $request->input('univercityId');
+
+        $topics = DB::table('universities_topics')
+            ->where('university_id',$univercityId)
+            ->where('category',$category)
+            ->select('topic_title', 'topic_title_slug')
+            ->get();
+
+            return response()->json(['topics' => $topics]);
     }//End
 }
