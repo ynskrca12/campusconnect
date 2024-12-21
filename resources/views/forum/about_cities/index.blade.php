@@ -10,19 +10,19 @@
         <div class="col-md-11 mb-3">
             <ul class="nav nav-tabs d-flex justify-content-center" id="mainTabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="free-zone-tab" data-bs-toggle="tab" href="#free-zone" role="tab" aria-controls="free-zone" aria-selected="true">serbest bölge</a>
+                    <a class="nav-link active" id="free-zone-tab" data-bs-toggle="tab" href="#free-zone" role="tab" aria-controls="free-zone" aria-selected="true" data-category="serbest_bolge">serbest bölge</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="general-tab" data-bs-toggle="tab" href="#general-info" role="tab" aria-controls="general-info" aria-selected="true">genel bilgiler</a>
+                    <a class="nav-link" id="general-tab" data-bs-toggle="tab" href="#general-info" role="tab" aria-controls="general-info" aria-selected="true" data-category="general-info">genel bilgiler</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="city-tab" data-bs-toggle="tab" href="#city-life" role="tab" aria-controls="city-life" aria-selected="false">şehir hayatı</a>
+                    <a class="nav-link" id="departmant-programs-tab" data-bs-toggle="tab" href="#departmant-programs" role="tab" aria-controls="departmant-programs" aria-selected="false" data-category="departmant-programs">bölüm ve prog.</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="transport-tab" data-bs-toggle="tab" href="#transport" role="tab" aria-controls="transport" aria-selected="false">ulaşım</a>
+                    <a class="nav-link" id="campus-life-tab" data-bs-toggle="tab" href="#campus-life" role="tab" aria-controls="campus-life" aria-selected="false" data-category="campus-life">kampüs hayatı</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="must-see-tab" data-bs-toggle="tab" href="#must-see-places" role="tab" aria-controls="must-see-places" aria-selected="false">görülmeye değer</a>
+                    <a class="nav-link" id="question-answer-tab" data-bs-toggle="tab" href="#question-answer" role="tab" aria-controls="question-answer" aria-selected="false" data-category="question-answer">soru cevap</a>
                 </li>
             </ul>
         </div>
@@ -33,9 +33,14 @@
         <div class="col-md-3">
             <h4>öne çıkan</h4>
             <ul id="subcategories-list" class="list-group">
-                <li class="list-group-item ">Alt başlık 1</li>
-                <li class="list-group-item">Alt başlık 2</li>
-                <li class="list-group-item">Alt başlık 3</li>
+                @foreach($city_free_zone_topics as $topic)
+                    <li class="list-group-item">
+                        <a href="#" class="text-decoration-none text-dark">
+                            {{-- <a href="{{ route('topic.detail', ['id' => $topic->id]) }}" class="text-decoration-none text-dark"> --}}
+                            {{ $topic->topic_title }}
+                        </a>
+                    </li>
+                @endforeach
             </ul>
         </div>
 
@@ -213,6 +218,40 @@
         function goBack() {
             window.history.back();
         }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $(".nav-link").on("click", function () {
+                const category = $(this).data("category"); 
+                const subcategoriesList = $("#subcategories-list"); 
+                const cityId = @json($city->id);
+
+                subcategoriesList.empty();
+
+                $.ajax({
+                    url: "/get-city-category-topics",
+                    method: "GET",
+                    data: { category: category ,
+                        cityId:cityId
+                    },
+                    success: function (response) {
+                        // Dönen verilerdeki her bir başlığı listeye ekle
+                        response.topics.forEach(topic => {
+                            const listItem = `
+                                <li class="list-group-item">
+                                    <a href="/topic/${topic.topic_title_slug}" class="text-decoration-none text-dark">${topic.topic_title}</a>
+                                </li>`;
+                            subcategoriesList.append(listItem);
+                        });
+                    },
+                    error: function () {
+                        alert("Konular yüklenirken bir hata oluştu.");
+                    }
+                });
+            });
+        });
+
     </script>
     {{-- <script>
         $(document).ready(function () {
