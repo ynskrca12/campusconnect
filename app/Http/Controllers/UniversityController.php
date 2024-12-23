@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\University;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+
 class UniversityController extends Controller
 {
     public function index(){
@@ -44,7 +48,7 @@ class UniversityController extends Controller
 
         $univercity_free_zone_topics = DB::table('universities_topics')
             ->where('university_id',$university->id)
-            ->where('category','serbest_bolge')
+            ->where('category','free-zone')
             ->get();
 
         if (!$university) {
@@ -66,5 +70,55 @@ class UniversityController extends Controller
             ->get();
 
             return response()->json(['topics' => $topics]);
+    }//End
+
+    public function addUniversityTopic(Request $request)
+    {
+        // Validate incoming request data
+        $validatedData = $request->validate([
+            'topic_title' => 'required|string|max:255',
+            'comment' => 'required|string',
+            'category' => 'required|string',
+            'universityId' => 'required|integer|exists:universiteler,id',
+        ]);
+    
+        try {
+            if (!Auth::check()) {
+                return redirect()->back()->withErrors(['error' => 'Oturum açmanız gerekiyor.']);
+            }
+    
+            DB::table('universities_topics')->insert([
+                'created_by'       => Auth::id(),
+                'user_id'          => Auth::id(),
+                'university_id'    => $validatedData['universityId'],
+                'category'         => $validatedData['category'],
+                'topic_title'      => $validatedData['topic_title'],
+                'topic_title_slug' => Str::slug($validatedData['topic_title']),
+                'comment'          => $validatedData['comment'],
+                'created_at'       => now(),
+                'updated_at'       => now(),
+            ]);
+    
+            Log::info('University topic created successfully', [
+                'user_id' => Auth::id(),
+                'university_id' => $validatedData['universityId'],
+                'topic_title' => $validatedData['topic_title'],
+            ]);
+    
+            return redirect()->back()->with('success', 'Konu başarıyla eklendi!');
+        } catch (\Illuminate\Database\QueryException $e) {
+            Log::error('Database error while adding university topic', [
+                'user_id' => Auth::id(),
+                'error' => $e->getMessage(),
+            ]);
+            return redirect()->back()->withErrors(['error' => 'Veritabanı hatası oluştu. Lütfen daha sonra tekrar deneyiniz.']);
+        } catch (\Exception $e) {
+            // handle unexpected errors
+            Log::error('Unexpected error while adding university topic', [
+                'user_id' => Auth::id(),
+                'error' => $e->getMessage(),
+            ]);
+            return redirect()->back()->withErrors(['error' => 'Beklenmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.']);
+        }
     }//End
 }

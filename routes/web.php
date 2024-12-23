@@ -56,8 +56,12 @@ Route::post('kullanici_bilgileri_duzenle_post',[UserController::class,'kullanici
 
 Route::get('/forum/sehir/{slug}', [CityController::class, 'show'])->name('city.show');
 Route::get('/get-city-category-topics',[CityController::class,'getCityCategoryTopics']);
+
 Route::get('/forum/universite/{slug}', [UniversityController::class, 'show'])->name('university.show');
 Route::get('/get-univercity-category-topics',[UniversityController::class,'getUnivercityCategoryTopics']);
+Route::post('/university-topic/add', [UniversityController::class, 'addUniversityTopic']);
+
+
 //create new topic in general form page
 Route::post('/crete-new-topic-general-forum',[ForumController::class,'createTopicGeneralForum'])->name('create.topic.general.forum');
 
