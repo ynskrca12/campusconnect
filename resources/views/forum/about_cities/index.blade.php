@@ -49,40 +49,90 @@
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="free-zone" role="tabpanel" aria-labelledby="free-zone-tab">
                         <div class="d-flex justify-content-between">
-                            <h4 class="categoryTitle">serbest bölge</h4>
-                            <button class="btn btnExplain" data-category="free-zone">konuşabilirsin</button>
+                            <div class="d-flex align-items-center">
+                                <span class="categoryTitle">{{$city->title}}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="arrow-icon" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                                </svg>
+                                <span class="categoryTitle">serbest bölge</span>
+                            </div>                            
+                           <div> 
+                                <button class="btn btnExplain" data-category="free-zone">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </button>
+                            </div>
                         </div>        
                         <p>Burada serbest bölge İçeriği Yer Alacak.</p>
                     </div>
 
                     <div class="tab-pane fade " id="general-info" role="tabpanel" aria-labelledby="general-tab">
                         <div class="d-flex justify-content-between">
-                            <h4 class="categoryTitle">genel bilgiler</h4>
-                            <button class="btn btnExplain" data-category="general-info">konuşabilirsin</button>
+                            <div class="d-flex align-items-center">
+                                <span class="categoryTitle">{{$city->title}}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="arrow-icon" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                                </svg>
+                                <span class="categoryTitle">genel bilgiler</span>
+                            </div>
+                           <div> 
+                                <button class="btn btnExplain" data-category="general-info">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </button>
+                            </div>
                         </div>        
                         <p>Burada Genel Bilgiler İçeriği Yer Alacak.</p>
                     </div>
 
                     <div class="tab-pane fade" id="departmant-programs" role="tabpanel" aria-labelledby="departmant-programs-tab">
                         <div class="d-flex justify-content-between">
-                            <h4 class="categoryTitle">bölüm ve programlar</h4>
-                            <button class="btn btnExplain" data-category="departmant-programs">konuşabilirsin</button>
+                            <div class="d-flex align-items-center">
+                                <span class="categoryTitle">{{$city->title}}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="arrow-icon" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                                </svg>
+                                <span class="categoryTitle">bölüm ve programlar </span>
+                            </div>
+                           <div> 
+                                <button class="btn btnExplain" data-category="departmant-programs">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </button>
+                            </div>
                         </div>
                         <p>Burada bölüm ve prog. İçeriği Yer Alacak.</p>
                     </div>
 
                     <div class="tab-pane fade" id="campus-life" role="tabpanel" aria-labelledby="campus-life-tab">
                         <div class="d-flex justify-content-between">
-                            <h4 class="categoryTitle">kampüs hayatı</h4>
-                            <button class="btn btnExplain" data-category="campus-life">konuşabilirsin</button>
+                            <div class="d-flex align-items-center">
+                                <span class="categoryTitle">{{$city->title}}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="arrow-icon" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                                </svg>
+                                <span class="categoryTitle">kampüs hayatı</span>
+                            </div>
+                           <div> 
+                                <button class="btn btnExplain" data-category="campus-life">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </button>
+                            </div>
                         </div>
                         <p>Burada kampüs hayatı İçeriği Yer Alacak.</p>
                     </div>
 
                     <div class="tab-pane fade" id="question-answer" role="tabpanel" aria-labelledby="question-answer-tab">
                         <div class="d-flex justify-content-between">
-                            <h4 class="categoryTitle" data-category="question-answer"> soru cevap</h4>
-                            <button class="btn btnExplain">konuşabilirsin</button>
+                            <div class="d-flex align-items-center">
+                                <span class="categoryTitle">{{$city->title}}</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="arrow-icon" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                                </svg>
+                                <span class="categoryTitle">soru cevap</span>
+                            </div>
+                           <div> 
+                                <button class="btn btnExplain">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </button>
+                            </div>
                         </div>        
                         <p>Burada soru cevap Yerler İçeriği Yer Alacak.</p>
                     </div>
@@ -134,9 +184,11 @@
 
 @section('css')
     <style>
-        .btnExplain:hover{
-            border-bottom: 1px groove #000000 !important;
-            border-radius: 0px !important;
+        .categoryTitle{
+            font-weight: 700;
+            font-size: medium;
+            margin-right: 5px;
+            margin-left: 5px;
         }
         .nav-tabs{
             border-bottom: 0px;
@@ -160,9 +212,8 @@
         .nav-tabs .nav-link:hover{
             border-color: #373737;
         }
-        .btnExplain:hover{
-            border-bottom: 1px groove #000000 !important;
-            border-radius: 0px !important;
+        .fa-envelope{
+            font-size: 22px !important;
         }
 
         #subcategories-list .list-group-item{

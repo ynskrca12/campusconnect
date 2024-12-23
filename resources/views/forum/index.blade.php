@@ -307,6 +307,9 @@
             // cities
             const citiesSubcategories = @json($cities);
 
+            const universitiesTopicsCount = @json($universities_topics_count);
+            const citiesTopicsCount = @json($cities_topics_count);
+
             function loadSubcategories(subcategories, type = 'general') {
                 $("#subcategories-list").empty();
                 subcategories.forEach(function (item) {
@@ -314,17 +317,27 @@
                     const generalSubCategoriesCount = item.count || 0;
 
                     if (type === 'university') {
-                        // university limk
+
+                         const topicCount = universitiesTopicsCount[item.id] || 0;
+
                         $("#subcategories-list").append(
                             `<li class="list-group-item universityLi">
-                                <a href="/forum/universite/${item.slug}" class="text-decoration-none universityTag">${item.universite_ad}</a>
+                                <a href="/forum/universite/${item.slug}" class="text-decoration-none universityTag d-flex justify-content-between">
+                                    <span class="topic-title-sub-category">${item.universite_ad}</span>
+                                    <span class="count">${topicCount}</span>
+                                    </a>
                             </li>`
                         );
                     } else if (type === 'city') {
-                        // city link
+                       
+                        const topicCount = citiesTopicsCount[item.id] || 0;
+
                         $("#subcategories-list").append(
                             `<li class="list-group-item cityLi">
-                                <a href="/forum/sehir/${item.slug}" class="text-decoration-none cityTag">${item.title}</a>
+                                <a href="/forum/sehir/${item.slug}" class="text-decoration-none cityTag d-flex justify-content-between">
+                                    <span class="topic-title-sub-category">${item.title}</span>
+                                    <span class="count">${topicCount}</span>
+                                </a>
                             </li>`
                         );
                     } else {
@@ -350,6 +363,7 @@
                 $("#universities-content, #cities-content",).addClass("d-none");
 
                 $('.btnCreateGeneral').removeClass('d-none');
+                $('.sidebarTitle').text('popüler mevzular');
 
                 loadSubcategories(generalSubcategories);
             });
@@ -362,7 +376,7 @@
                 $("#general-content, #cities-content").addClass("d-none");
 
                 $('.btnCreateGeneral').addClass('d-none');
-                //$('.sidebarTitle').text('en çok konuşulanlar');
+                $('.sidebarTitle').text('üniversiteler');
                 loadSubcategories(universitiesSubcategories, 'university');
             });
 
@@ -372,6 +386,7 @@
                 
                 $("#cities-content").removeClass("d-none");
                 $("#general-content, #universities-content").addClass("d-none");
+                $('.sidebarTitle').text('şehirler');
 
                 $('.btnCreateGeneral').addClass('d-none');
                 loadSubcategories(citiesSubcategories, 'city');

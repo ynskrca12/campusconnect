@@ -25,8 +25,20 @@ class ForumController extends Controller
         $randomTopics = GeneralTopic::with('user')
         ->whereNotNull('created_by')
         ->inRandomOrder()->limit(10)->get();
-    
-        return view('forum.index',compact('universities','general_topics','cities','randomTopics'));
+
+        $universities_topics_count = DB::table('universities_topics')
+            ->select('university_id', DB::raw('COUNT(*) as count'))
+            ->groupBy('university_id')
+            ->pluck('count', 'university_id')
+            ->toArray();
+
+        $cities_topics_count = DB::table('cities_topics')
+            ->select('city_id', DB::raw('COUNT(*) as count'))
+            ->groupBy('city_id')
+            ->pluck('count', 'city_id')
+            ->toArray();
+
+        return view('forum.index',compact('universities','general_topics','cities','randomTopics','universities_topics_count','cities_topics_count'));
     }//End
 
    public function createTopicGeneralForum(Request $request){
