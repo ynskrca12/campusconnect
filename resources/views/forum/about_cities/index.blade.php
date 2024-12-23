@@ -10,7 +10,7 @@
         <div class="col-md-11 mb-3">
             <ul class="nav nav-tabs d-flex justify-content-center" id="mainTabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="free-zone-tab" data-bs-toggle="tab" href="#free-zone" role="tab" aria-controls="free-zone" aria-selected="true" data-category="serbest_bolge">serbest bölge</a>
+                    <a class="nav-link active" id="free-zone-tab" data-bs-toggle="tab" href="#free-zone" role="tab" aria-controls="free-zone" aria-selected="true" data-category="free-zone">serbest bölge</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="general-tab" data-bs-toggle="tab" href="#general-info" role="tab" aria-controls="general-info" aria-selected="true" data-category="general-info">genel bilgiler</a>
@@ -50,40 +50,41 @@
                     <div class="tab-pane fade show active" id="free-zone" role="tabpanel" aria-labelledby="free-zone-tab">
                         <div class="d-flex justify-content-between">
                             <h4 class="categoryTitle">serbest bölge</h4>
-                            <button class="btn btnExplain">anlat da bilinsin</button>
+                            <button class="btn btnExplain" data-category="free-zone">konuşabilirsin</button>
                         </div>        
                         <p>Burada serbest bölge İçeriği Yer Alacak.</p>
                     </div>
-                    <div class="tab-pane fade" id="general-info" role="tabpanel" aria-labelledby="general-tab">
+
+                    <div class="tab-pane fade " id="general-info" role="tabpanel" aria-labelledby="general-tab">
                         <div class="d-flex justify-content-between">
                             <h4 class="categoryTitle">genel bilgiler</h4>
-                            <button class="btn btnExplain">anlat da bilinsin</button>
+                            <button class="btn btnExplain" data-category="general-info">konuşabilirsin</button>
                         </div>        
                         <p>Burada Genel Bilgiler İçeriği Yer Alacak.</p>
                     </div>
 
-                    <div class="tab-pane fade" id="city-life" role="tabpanel" aria-labelledby="city-tab">
+                    <div class="tab-pane fade" id="departmant-programs" role="tabpanel" aria-labelledby="departmant-programs-tab">
                         <div class="d-flex justify-content-between">
-                            <h4 class="categoryTitle">şehir hayatı</h4>
-                            <button class="btn btnExplain">anlat da bilinsin</button>
+                            <h4 class="categoryTitle">bölüm ve programlar</h4>
+                            <button class="btn btnExplain" data-category="departmant-programs">konuşabilirsin</button>
                         </div>
-                        <p>Burada Şehir Hayatı İçeriği Yer Alacak.</p>
+                        <p>Burada bölüm ve prog. İçeriği Yer Alacak.</p>
                     </div>
 
-                    <div class="tab-pane fade" id="transport" role="tabpanel" aria-labelledby="transport-tab">
+                    <div class="tab-pane fade" id="campus-life" role="tabpanel" aria-labelledby="campus-life-tab">
                         <div class="d-flex justify-content-between">
-                            <h4 class="categoryTitle">ulaşım</h4>
-                            <button class="btn btnExplain">anlat da bilinsin</button>
+                            <h4 class="categoryTitle">kampüs hayatı</h4>
+                            <button class="btn btnExplain" data-category="campus-life">konuşabilirsin</button>
                         </div>
-                        <p>Burada Ulaşım İçeriği Yer Alacak.</p>
+                        <p>Burada kampüs hayatı İçeriği Yer Alacak.</p>
                     </div>
 
-                    <div class="tab-pane fade" id="must-see-places" role="tabpanel" aria-labelledby="must-see-tab">
+                    <div class="tab-pane fade" id="question-answer" role="tabpanel" aria-labelledby="question-answer-tab">
                         <div class="d-flex justify-content-between">
-                            <h4 class="categoryTitle">görülmesi gereken yerler </h4>
-                            <button class="btn btnExplain">anlat da bilinsin</button>
+                            <h4 class="categoryTitle" data-category="question-answer"> soru cevap</h4>
+                            <button class="btn btnExplain">konuşabilirsin</button>
                         </div>        
-                        <p>Burada Görülmesi Gereken Yerler İçeriği Yer Alacak.</p>
+                        <p>Burada soru cevap Yerler İçeriği Yer Alacak.</p>
                     </div>
 
                 </div>
@@ -93,6 +94,38 @@
         <div class="col-md-2">
             <div class="advertisement">
                 {{-- <p>Reklam Alanı</p> --}}
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="topicModal" tabindex="-1" aria-labelledby="topicModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="topicModalLabel">mevzu nedir </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="topicForm">
+                @csrf
+                <input type="hidden" name="cityId" value="{{$city->id}}">
+                <div class="text-center mb-3">
+                    {{-- <label for="topicTitle" class="form-label">Konu Başlığı</label> --}}
+                    <input type="text" id="title" name="topic_title" class="form-control" 
+                    placeholder="başlık" maxlength="80" 
+                    style="border: none;border-bottom: 1px solid #ced4da;border-radius: 0px;">
+                    <small id="charCount" class="form-text text-muted">
+                        0/80 karakter
+                    </small>
+                </div>
+                <div class="mb-3">
+                    {{-- <label for="topicDescription" class="form-label">Açıklama</label> --}}
+                    <textarea class="form-control" id="topicDescription" placeholder="açıklamanız" name="comment" rows="3" required></textarea>
+                </div>
+                <input type="hidden" id="categoryName" name="category">
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+                </form>
+            </div>
             </div>
         </div>
     </div>
@@ -172,7 +205,11 @@
     <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" />
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <script>
         var quill = new Quill('#editor-container-general', {
@@ -253,6 +290,83 @@
         });
 
     </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.btnExplain').on('click', function () {
+                // Butonun kategorisini al
+                const category = $(this).data('category');
+
+                $('#categoryName').val(category); // Modal'daki gizli inputa kategoriyi ata
+                $('#topicModal').modal('show'); // Modal'ı aç
+            });
+
+            // Form gönderim işlemi
+            $('#topicForm').on('submit', function (e) {
+                e.preventDefault();
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                const formData = $(this).serialize(); 
+
+                $.ajax({
+                    url: '/city-topic/add', 
+                    method: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        
+                        sessionStorage.setItem('toastrMessage', 'Konu başarıyla gönderildi!');
+                        
+                        $('#topicModal').modal('hide');
+                        $('#topicForm')[0].reset(); 
+
+                        setTimeout(function () {
+                            location.reload();
+                        }, 500);
+
+                    },
+                    error: function (xhr) {
+                        console.error('Hata Detayı:', xhr.responseText); 
+                        toastr.error('Konu eklenirken bir hata oluştu. Detayları kontrol edin.');
+                    }
+                });
+            });
+
+            const toastrMessage = sessionStorage.getItem('toastrMessage');
+                if (toastrMessage) {
+                    toastr.success(toastrMessage);
+                    sessionStorage.removeItem('toastrMessage'); // Mesajı gösterdikten sonra temizle
+                }
+        });
+
+        $(document).on('input', '#title', function() {
+            const length = $(this).val().length;
+            $('#charCount').text(`${length}/80 karakter`);
+        });
+
+    </script>
+
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "3000", // Mesajın görünür kalacağı süre (ms)
+        };
+
+        @if (session('success'))
+            toastr.success("{{ session('success') }}");
+        @endif
+
+        @if (session('error'))
+            toastr.error("{{ session('error') }}");
+        @endif
+    </script>
+
     {{-- <script>
         $(document).ready(function () {
             $('#subcategories-list .list-group-item').on('click', function () {
