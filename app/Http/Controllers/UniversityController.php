@@ -13,8 +13,14 @@ use Illuminate\Support\Facades\Log;
 class UniversityController extends Controller
 {
     public function index(){
-        $universiteler = University::all();
-        return view('universite.universite',compact('universiteler'));
+        // $universiteler = University::all();
+        $universities = DB::table('universiteler')->get();
+        $universities_topics_count = DB::table('universities_topics')
+            ->select('university_id', DB::raw('COUNT(*) as count'))
+            ->groupBy('university_id')
+            ->pluck('count', 'university_id')
+            ->toArray();
+        return view('universite.universite',compact('universities','universities_topics_count'));
     }
 
     public function universite_detay($id){
@@ -121,4 +127,22 @@ class UniversityController extends Controller
             return redirect()->back()->withErrors(['error' => 'Beklenmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.']);
         }
     }//End
+
+    public function fetchUniversities(Request $request)
+    {
+        $universities = DB::table('universiteler')->paginate(30);
+
+        $universities_topics_count = DB::table('universities_topics')
+            ->select('university_id', DB::raw('COUNT(*) as count'))
+            ->groupBy('university_id')
+            ->pluck('count', 'university_id')
+            ->toArray();
+
+        return response()->json([
+            'universities' => $universities,
+            'universities_topics_count' => $universities_topics_count,
+            'links' => $universities->links('pagination::bootstrap-4')->render()  
+        ]);
+    }
+
 }

@@ -1,293 +1,438 @@
-@extends('layouts.master')
+@extends('layouts.master') 
 
 @section('content')
-<div class="container">
-  <div class="row justify-content-center mb-4">
-    <div class="search-bar">
-      <input type="text" class="search-input" placeholder="Üniversiteni Bul..." id="searchInput">
-      <button class="search-button"  id="searchButton">
-          <i class="fa fa-search"></i>
-      </button>
-    </div>
-  </div>
 
-    <div class="row">
-      <div class="row mb-4 mt-2">
-        <h3 class="card-title" style="font-size: 26px">Üniversitelerimiz</h3>
-        {{-- <div class="btn-group" role="group" aria-label="Üniversite Türü">
-            <button type="button" class="btn btn-info filter-button" id="btnDevlet" value="Devlet">Devlet Üniversiteleri</button>
-            <button type="button" class="btn btn-success filter-button" id="btnVakif" value="Vakıf">Vakıf Üniversiteleri</button>
-          </div> --}}
-      </div>
-      @foreach($universiteler as $universite)
-          <div class="col-lg-4 col-md-6 col-sm-12 mb-4 justify-content-center university-card" data-name="{{$universite->universite_ad}}">
-              <div class="card">
-                @if($universite->image)
-                <img src="{{$universite->image}}" class="card-img-top" alt="Üniversite Resmi">
-            @else
-                <img src="{{ asset('public/universite/varsayilan_foto.jpg') }}"  class="card-img-top" alt="Üniversite Resmi">
-            @endif
-            <div class="card-header">
-              <h5>{{$universite->universite_ad}}</h5>
+    <div class="row" style="margin-top: -25px;">
+        <!-- Sol Menü (Alt Başlıklar) -->
+        <div class="col-md-3">
+            <h4 class="sidebarTitle">üniversiteler</h4>
+            {{-- <ul id="subcategories-list" class="list-group">
+                @foreach ($universities as $item)
+                  <li class="list-group-item universityLi">
+                      <a href="/forum/universite/{{$item->slug}}" class="text-decoration-none universityTag d-flex justify-content-between">
+                          <span class="topic-title-sub-category">{{ $item->universite_ad }}</span>
+                          <span class="count">{{ $universities_topics_count[$item->id] ?? 0 }}</span>
+                          </a>
+                  </li>
+                @endforeach
+            </ul> --}}
+            <ul id="subcategories-list" class="list-group">
+                <!-- Üniversite listesi buraya dinamik olarak yüklenecek -->
+            </ul>
+            <div id="pagination-container" class="pagination-container mt-3">
+                <!-- Sayfa numaraları buraya yüklenecek -->
             </div>
-                  <div class="card-body">
-                      <h5 class="text-center" style="margin-top: -19px;">Sosyal Medya</h5>
-                      <div class="header2-media-icons-div mb-2">
-                          <div class="header2-media-icon-div ">
-                              <a href="{{ $universite->instagram ? : ''}}" target="_blank" class="header2-ikon-a  instagram-color" title="İnstagram">
-                                  <i class="fab fa-instagram"></i>
-                              </a>
-                          </div>
-                          <div class="header2-media-icon-div">
-                              <a href="{{ $universite->twitter ? : ''}}" target="_blank" class="header2-ikon-a twitter-color" title="Twitter">
-                                  <i class="fab fa-twitter"></i>
-                              </a>
-                          </div>
-                          <div class="header2-media-icon-div">
-                              <a href="{{ $universite->youtube ? : ''}}" target="_blank" class="header2-ikon-a youtube-color" title="Youtube">
-                                  <i class="fab fa-youtube"></i>
-                              </a>
-                          </div>
-                      </div>
-                      {{-- <p class="card-text">Üniversite Şehri : {{$universite->universite_il}}</p>
-                      <p class="card-text">Üniversite Türü : {{$universite->turu}}</p>
-                      <p class="card-text">Kuruluş Tarihi : {{$universite->kurulus}}</p> --}}
-                  </div>
-                  <div class="card-footer">
-                      <a href="{{ route('universite_detay', ['id' =>$universite->id]) }}" class="btn btn-success btnCard">Yorumlar</a>
-                      <a href="http://www.{{$universite->internet_sitesi}}" class="btn btn-primary btnCard">Resmi Siteye Git</a>
-                  </div>
-              </div>
-          </div>
-      @endforeach
-  </div>
-</div>
+        </div>
 
-@endsection
+        <!-- Ana İçerik Alanı -->
+        <div class="col-md-9" style="border-left: 1px solid #e0e0e0;">          
+
+            <div id="universities-content" class="content-area">
+
+                {{-- köklü üniversiteler --}}
+                <div class="d-flex justify-content-between mb-3">
+                    <span class="content-title">Köklü Üniversiteler</span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card-container">
+                            <div class="card-image">
+                                <img src="{{ asset('well-established universities/bogazici-universitesi.jpg') }}" alt="bogazici-universitesi">
+                            </div>
+                            <div class="card-overlay">
+                                <div class="card-content">
+                                    <h3 class="card-title">Boğaziçi Üniversitesi</h3>
+                                    <h4 class="card-location">İstanbul</h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card-container">
+                            <div class="card-image">
+                                <img src="{{ asset('well-established universities/odtu.jpg') }}" alt="bogazici-universitesi">
+                            </div>
+                            <div class="card-overlay">
+                                <div class="card-content">
+                                    <h3 class="card-title">Orta Doğu Teknik Üniversitesi</h3>
+                                    <h4 class="card-location">Ankara</h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card-container">
+                            <div class="card-image">
+                                <img src="{{ asset('well-established universities/itu.jpeg') }}" alt="bogazici-universitesi">
+                            </div>
+                            <div class="card-overlay">
+                                <div class="card-content">
+                                    <h3 class="card-title">İstanbul Teknik Üniversitesi</h3>
+                                    <h4 class="card-location">İstanbul</h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                {{-- En çok Tercih Edilen Üniversiteler --}}
+                <div class="d-flex justify-content-between mb-3 mt-5">
+                    <span class="content-title">En çok Tercih Edilen Üniversiteler</span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card-container">
+                            <div class="card-image">
+                                <img src="{{ asset('well-established universities/odtu.jpg') }}" alt="bogazici-universitesi">
+                            </div>
+                            <div class="card-overlay" style="background: rgba(0, 54, 133, 0.8);">
+                                <div class="card-content">
+                                    <h3 class="card-title">1. Orta Doğu Teknik Üniversitesi</h3>
+                                    <h4 class="card-location">Ankara</h4>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card-container">
+                            <div class="card-image">
+                                <img src="{{ asset('well-established universities/bogazici-universitesi.jpg') }}" alt="bogazici-universitesi">
+                            </div>
+                            <div class="card-overlay" style="background: rgba(0, 54, 133, 0.8);">
+                                <div class="card-content">
+                                    <h3 class="card-title">2. Boğaziçi Üniversitesi</h3>
+                                    <h4 class="card-location">İstanbul</h4>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card-container">
+                            <div class="card-image">
+                                <img src="{{ asset('well-established universities/hacettepe-uni.jpg') }}" alt="bogazici-universitesi">
+                            </div>
+                            <div class="card-overlay" style="background: rgba(0, 54, 133, 0.8);">
+                                <div class="card-content">
+                                    <h3 class="card-title">3. Hacettepe Üniversitesi</h3>
+                                    <h4 class="card-location">Ankara</h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                {{-- En çok bilimsel yayın üreten üniversiteler  --}}
+                <div class="d-flex justify-content-between mb-3 mt-5">
+                    <span class="content-title">En çok bilimsel yayın üreten üniversiteler</span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card-container">
+                            <div class="card-image">
+                                <img src="{{ asset('universite/istanbul-uni.jpeg') }}" alt="istanbul-universitesi">
+                            </div>
+                            <div class="card-overlay" style="background: rgba(0, 54, 133, 0.8);">
+                                <div class="card-content">
+                                    <h3 class="card-title">1. İstanbul Üniversitesi</h3>
+                                    <h4 class="card-location">14.069 bilimsel yayın</h4>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card-container">
+                            <div class="card-image">
+                                <img src="{{ asset('universite/hacettepe-uni.jpg') }}" alt="hacettepe-universitesi">
+                            </div>
+                            <div class="card-overlay" style="background: rgba(0, 54, 133, 0.8);">
+                                <div class="card-content">
+                                    <h3 class="card-title">2. Hacettepe Üniversitesi</h3>
+                                    <h4 class="card-location">13.457 bilimsel yayın</h4>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card-container">
+                            <div class="card-image">
+                                <img src="{{ asset('universite/ankara-uni.jpg') }}" alt="ankara-universitesi">
+                            </div>
+                            <div class="card-overlay" style="background: rgba(0, 54, 133, 0.8);">
+                                <div class="card-content">
+                                    <h3 class="card-title">3. Ankara Üniversitesi</h3>
+                                    <h4 class="card-location">11.485 bilimsel yayın</h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+  
+@endsection 
 
 @section('css')
-  <style>
+    <style>
+        .general-topic-btn{
+            font-family: 'Segoe UI', Tahoma, Geneva, sans-serif !important;  
+            font-size: 15px !important; 
+            font-weight: 500 !important; 
+            color: #333 !important; 
+            background-color: transparent !important;
+            padding: 8px 12px !important; 
+            text-align: center !important;
+            text-transform: none !important; 
+            letter-spacing: 0.3px !important; 
+            cursor: pointer;
+        }
+  
+        .avatar{
+            display: block;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-top: 2px;
+            margin-bottom: 2px;
+        }
+        .footer-info{
+            float: left;
+            vertical-align: middle;
+            padding: 4px;
+            padding-right: 10px;
+        }
+         .topic {
+            padding: 10px 0;
+        }
+       
+        .topic h3 {
+            margin: 0;
+            font-size: 17px;
+            color: #333;
+        }
+        .topic p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .topic .meta {
+            display: flex;
+            justify-content: end;
+        }
+        #subcategories-list .list-group-item{
+            border:none !important;
+            padding: 7px 0px;
+        }
+        #subcategories-list .list-group-item:hover{
+            border-bottom:1px solid !important;
+        }
+        .btnCreateGeneral:hover , .btnCreateCity:hover , .btnCreateUniversity:hover{
+            border-bottom: 1px groove #000000 !important;
+            border-radius: 0px !important;
+        }
+        .content-title{
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .content-area {
+            padding: 15px 30px;
+            
+        }
+        .activeCategory {
+            border-bottom: 1px solid gray;
+            color: #333 !important;
+            border-radius: 0px;
+        }
+        .activeCategory:hover{
+            border-bottom: 1px solid gray;
+        }
+        .universityTag, .cityTag, .subCategoryTag{
+            color: #000000 !important;
+            font-size: 13px;
+            font-weight: 400;
+        }
+       
+        .universityLi:hover , .cityLi:hover{
+            background-color: #fafafae0; 
+        }
 
-    .container-scroller, .page-body-wrapper, .content-wrapper {
-      background: linear-gradient(to right, #217dbe, #92c2fd);
+        .swal2-title{
+                font-size: 18px !important;
+        }
 
-    }
-    
-    .card-header{
-      height: 17%;
-      text-align: center;
-      margin-top: 15px;
-      background-color: #fff;
-    }
+       .swal-custom-popup {
+            width: 420px !important; 
+        }
+        .topic-title{
+            font-weight: bold;
+            word-wrap: break-word;
+            padding-right: 130px;
+        }
 
-    h3 {
-      font-size: 28px;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 15px;
-      border-bottom: 2px solid #4caf50;
-      padding-bottom: 5px;
-    }
+        .topic-title-sub-category {
+            flex: 1;
+            word-wrap: break-word; 
+            word-break: break-word;
+        }
 
-    .search-bar {
-        display: flex;
-        align-items: center;
-        background-color: #f5f5f5;
-        border-radius: 20px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        padding: 6px;
-        width: 500px;
-        margin: -15px auto;
-    }
+        .count {
+            margin-left: auto; 
+            display: inline-block;
+            margin-left: 15px;
+            font-weight: 700;
+            color: #001b48;
+        }
 
-    .search-input {
-        flex: 1;
-        border: none;
-        outline: none;
-        padding: 10px;
-        font-size: 14px;
-        background-color: transparent;
-    }
+    </style>
 
-    .search-button {
-        border: none;
-        background-color: #4caf50;
-        color: #fff;
-        padding: 8px 12px;
-        border-radius: 20px;
-        cursor: pointer;
-        margin-left: 8px;
-        transition: background-color 0.3s;
-    }
+    <style>
+         /* card css */
+         .card-container {
+            position: relative;
+            width: auto; 
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
 
-    .search-button:hover {
-        background-color: #45a049;
-    }
+        .card-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
 
-    .card {
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      overflow: hidden;
-      width: 300px;
-      height: 500px;
-      margin-bottom: 20px;
-    }
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            right: 0;
+            /* bottom: 110px; */
+            left: 0%;
+            background: rgb(255 0 0 / 80%); 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            height: 60px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+        }
 
-    .card:hover {
-      transform: translateY(-15px);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
-    }
+        .card-overlay:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
 
-    .card-img-top {
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-      height: 160px;
-      object-fit: cover;
-    }
+        .card-content {
+            text-align: center;
+        }
 
-    .card-body {
-      padding: 5px;
-      background-color: #fff;
-    }
+        .badge img {
+            width: 60px;
+            height: auto;
+            margin-bottom: 10px;
+        }
 
-    .card-title {
-      font-size: 15px;
-      font-weight: bold;
-    }
+        .card-title {
+            font-size: 16px;
+            margin: 10px 0px;
+        }
 
-    .card-text {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 10px;
-    }
+        .card-location {
+            font-size: 13px;
+        }
+    </style>
 
-    .card-footer {
-      background-color: #f8f9fa;
-      padding: 8px 15px;
-      border-bottom-left-radius: 8px;
-      border-bottom-right-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .btnCard {
-      font-size: 14px;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 6px 15px;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
-
-    .btnCard:hover {
-      background-color: #0056b3;
-    }
-
-    .btn-group {
-        display: flex;
-        gap: 100px;
-        margin-bottom: 20px;
-        margin-top: 20px;
+    <style>
+      #pagination-container a {
+          text-decoration: none; 
+          padding: 5px 7px; 
+          margin: 0 5px; 
+          color: blue; 
+          border:none;
       }
 
-      h2 {
-        color: #333;
-    }
-    .header2-media-icons-div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+      #pagination-container a.active {
+          background-color: white !important;
+          border-color: #007bff !important;
+          /* color: white;  */
+      }
 
-    .header2-media-icon-div {
-        margin: 0 10px;
-        font-size: 24px;
-    }
+      #pagination-container a:hover {
+          background-color: #f1f1f1; 
+      }
 
-    .header2-ikon-a {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-        text-decoration: none;
-    }
-
-    .instagram-color {
-        color: #C13584;
-    }
-    .instagram-color:hover {
-        color: #ffffff;
-        background-color: #C13584;
-    }
-
-    .twitter-color {
-        color: #1DA1F2;
-    }
-    .twitter-color:hover {
-        color: #ffffff;
-        background-color: #1DA1F2;
-    }
-
-    .youtube-color {
-        color: #FF0000;
-    }
-    .youtube-color:hover {
-        color: #ffffff;
-        background-color: #FF0000;
-    }
-
-  </style>
-
-
+    </style>
 @endsection
 
 @section('js')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-  $(document).ready(function() {
-    $("#searchInput").on("input", function() {
-      const searchTerm = $(this).val().trim().toLowerCase();
-      $(".university-card").each(function() {
-        const universityName = $(this).data("name").toLowerCase();
-        if (universityName.includes(searchTerm)) {
-          $(this).show();
-        } else {
-          $(this).hide();
-        }
-      });
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+
+    <script>
+      $(document).ready(function () {
+    function loadUniversities(page = 1) {
+        $.ajax({
+            url: '/universities/fetch',
+            type: 'GET',
+            data: { page: page },
+            success: function (response) {
+                // Üniversite listesini güncelle
+                let universitiesHtml = '';
+                $.each(response.universities.data, function (index, item) {
+                    const topicCount = response.universities_topics_count[item.id] || 0;
+                    universitiesHtml += `
+                        <li class="list-group-item universityLi">
+                            <a href="/forum/universite/${item.slug}" class="text-decoration-none universityTag d-flex justify-content-between">
+                                <span class="topic-title-sub-category">${item.universite_ad}</span>
+                                <span class="count">${topicCount}</span>
+                            </a>
+                        </li>`;
+                });
+                $('#subcategories-list').html(universitiesHtml);
+
+                // Sayfa bağlantılarını güncelle
+                $('#pagination-container').html(response.links);
+            },
+            error: function () {
+                alert('Üniversiteler yüklenirken bir hata oluştu.');
+            }
+        });
+    }
+
+    // İlk yükleme
+    loadUniversities();
+
+    // Sayfa bağlantılarına tıklama olayı
+    $(document).on('click', '#pagination-container a', function (e) {
+        e.preventDefault();
+        const url = $(this).attr('href');
+        const page = new URL(url).searchParams.get('page');
+        loadUniversities(page);
     });
+});
 
-    $("#searchButton").on("click", function() {
-      $("#searchInput").focus();
-    });
-
-    // $("#btnDevlet").on("click", function() {
-    //     var universite_turu = $(this).val();
-    //     console.log(universite_turu)
-    //     $.ajax({
-    //                 type: "GET",
-    //                 url: '{{ route('devlet_universite_getir') }}?universite_turu=' + universite_turu,
-    //                 headers: {
-    //                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //                 },
-    //                 success: function(data) {
-    //                     console.log(data)
-
-
-    //                 },//end success
-    //             });//end ajax
-    // });
-
-  });
-
-
-
-</script>
+    </script>
+    
 @endsection
