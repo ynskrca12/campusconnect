@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="row">
+    <div class="row" style="margin-top: -25px;">
         <!-- Sol Menü (Alt Başlıklar) -->
         <div class="col-md-3">
             <h4 class="sidebarTitle">popüler mevzular</h4>
@@ -12,7 +12,7 @@
         </div>
 
         <!-- Ana İçerik Alanı -->
-        <div class="col-md-7" style="border-left: 1px solid #e0e0e0;">
+        <div class="col-md-9" style="border-left: 1px solid #e0e0e0;">
             <!-- Forum Başlıkları -->
             <div class="d-flex justify-content-between mb-3">
                 <div>
@@ -69,8 +69,104 @@
 
             <!-- Tüm Üniversiteler İçerikleri -->
             <div id="universities-content" class="content-area d-none">
-                <div class="d-flex justify-content-between mb-5">
-                    <span class="content-title">üniversite halleri</span>
+                <div class="d-flex justify-content-between mb-3">
+                    <span class="content-title">Köklü Üniversiteler</span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card-container">
+                            <div class="card-image">
+                                <img src="{{ asset('well-established universities/bogazici-universitesi.jpg') }}" alt="bogazici-universitesi">
+                            </div>
+                            <div class="card-overlay">
+                                <div class="card-content">
+                                    <h3 class="card-title">Boğaziçi Üniversitesi</h3>
+                                    <h4 class="card-location">İstanbul</h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card-container">
+                            <div class="card-image">
+                                <img src="{{ asset('well-established universities/odtu.jpg') }}" alt="bogazici-universitesi">
+                            </div>
+                            <div class="card-overlay">
+                                <div class="card-content">
+                                    <h3 class="card-title">Orta Doğu Teknik Üniversitesi</h3>
+                                    <h4 class="card-location">Ankara</h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card-container">
+                            <div class="card-image">
+                                <img src="{{ asset('well-established universities/itu.jpeg') }}" alt="bogazici-universitesi">
+                            </div>
+                            <div class="card-overlay">
+                                <div class="card-content">
+                                    <h3 class="card-title">İstanbul Teknik Üniversitesi</h3>
+                                    <h4 class="card-location">İstanbul</h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between mb-3 mt-5">
+                    <span class="content-title">En çok Tercih Edilen Üniversiteler</span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card-container">
+                            <div class="card-image">
+                                <img src="{{ asset('well-established universities/odtu.jpg') }}" alt="bogazici-universitesi">
+                            </div>
+                            <div class="card-overlay" style="background: rgba(0, 54, 133, 0.8);">
+                                <div class="card-content">
+                                    <h3 class="card-title">1. Orta Doğu Teknik Üniversitesi</h3>
+                                    <h4 class="card-location">Ankara</h4>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card-container">
+                            <div class="card-image">
+                                <img src="{{ asset('well-established universities/bogazici-universitesi.jpg') }}" alt="bogazici-universitesi">
+                            </div>
+                            <div class="card-overlay" style="background: rgba(0, 54, 133, 0.8);">
+                                <div class="card-content">
+                                    <h3 class="card-title">2. Boğaziçi Üniversitesi</h3>
+                                    <h4 class="card-location">İstanbul</h4>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card-container">
+                            <div class="card-image">
+                                <img src="{{ asset('well-established universities/hacettepe-uni.jpg') }}" alt="bogazici-universitesi">
+                            </div>
+                            <div class="card-overlay" style="background: rgba(0, 54, 133, 0.8);">
+                                <div class="card-content">
+                                    <h3 class="card-title">3. Hacettepe Üniversitesi</h3>
+                                    <h4 class="card-location">Ankara</h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
 
@@ -83,11 +179,11 @@
         </div>
 
         <!-- Sağ Menü (Reklam Alanı) -->
-        <div class="col-md-2">
+        {{-- <div class="col-md-2">
             <div class="advertisement">
-                {{-- <p>Reklam Alanı</p> --}}
+               
             </div>
-        </div>
+        </div> --}}
     </div>
   
 @endsection 
@@ -203,6 +299,64 @@
             color: #001b48;
         }
 
+    </style>
+
+    <style>
+         /* card css */
+         .card-container {
+            position: relative;
+            width: 270px; 
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            right: 0;
+            /* bottom: 110px; */
+            left: 0%;
+            background: rgb(255 0 0 / 80%); 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            height: 60px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+        }
+
+        .card-overlay:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-content {
+            text-align: center;
+        }
+
+        .badge img {
+            width: 60px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            margin: 10px 0px;
+        }
+
+        .card-location {
+            font-size: 13px;
+        }
     </style>
 @endsection
 
