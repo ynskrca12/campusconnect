@@ -6,27 +6,18 @@
         <!-- Sol Menü (Alt Başlıklar) -->
         <div class="col-md-3">
             <h4 class="sidebarTitle">üniversiteler</h4>
-            {{-- <ul id="subcategories-list" class="list-group">
-                @foreach ($universities as $item)
-                  <li class="list-group-item universityLi">
-                      <a href="/forum/universite/{{$item->slug}}" class="text-decoration-none universityTag d-flex justify-content-between">
-                          <span class="topic-title-sub-category">{{ $item->universite_ad }}</span>
-                          <span class="count">{{ $universities_topics_count[$item->id] ?? 0 }}</span>
-                          </a>
-                  </li>
-                @endforeach
-            </ul> --}}
+           
             <ul id="subcategories-list" class="list-group">
-                <!-- Üniversite listesi buraya dinamik olarak yüklenecek -->
+                
             </ul>
             <div id="pagination-container" class="pagination-container mt-3">
-                <!-- Sayfa numaraları buraya yüklenecek -->
+              
             </div>
         </div>
 
         <!-- Ana İçerik Alanı -->
         <div class="col-md-9" style="border-left: 1px solid #e0e0e0;">          
-
+            <h2 class="page-title">Türkiye'nin Lider Üniversiteleri</h2>
             <div id="universities-content" class="content-area">
 
                 {{-- köklü üniversiteler --}}
@@ -180,6 +171,63 @@
                         
                     </div>
                 </div>
+
+                {{-- Sanayi ile iş birliği yapan teknoparklara sahip üniversiteler --}}
+                <div class="d-flex justify-content-between mb-3 mt-5">
+                    <span class="content-title">Sanayi ile iş birliği yapan teknoparklara sahip üniversiteler</span>
+                </div>
+                {{-- ODTÜ Teknokent: 400+ firma
+                İTÜ ARI Teknokent: 300+ firma
+                Bilkent Cyberpark: 250+ firma
+                Yıldız Teknopark: 350+ firma
+                Hacettepe Teknokent: 200+ firma --}}
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card-container">
+                            <div class="card-image">
+                                <img src="{{ asset('universite/odtu-teknokent.jpg') }}" alt="odtu-teknokent">
+                            </div>
+                            <div class="card-overlay"  style="background: rgba(109, 175, 108, 0.8);">
+                                <div class="card-content">
+                                    <h3 class="card-title">1. ODTÜ Teknokent</h3>
+                                    <h4 class="card-location">400+ firma</h4>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card-container">
+                            <div class="card-image">
+                                <img src="{{ asset('universite/itu-ari-teknokent.jpg') }}" alt="itu-ari-teknokent">
+                            </div>
+                            <div class="card-overlay"  style="background: rgba(109, 175, 108, 0.8);">
+                                <div class="card-content">
+                                    <h3 class="card-title">2. İTÜ ARI Teknokent</h3>
+                                    <h4 class="card-location"> 300+ firma</h4>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card-container">
+                            <div class="card-image">
+                                <img src="{{ asset('universite/bilkent-cyberpark.jpg') }}" alt="bilkent-cyberpark">
+                            </div>
+                            <div class="card-overlay"  style="background: rgba(109, 175, 108, 0.8);">
+                                <div class="card-content">
+                                    <h3 class="card-title">3. Bilkent Cyberpark</h3>
+                                    <h4 class="card-location"> 250+ firma</h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+
 
             </div>
 
@@ -378,6 +426,20 @@
       #pagination-container a:hover {
           background-color: #f1f1f1; 
       }
+
+    </style>
+
+    <style>
+        .page-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: white;
+            background: #001B48; 
+            padding: 10px; 
+            border-radius: 5px; 
+        }
 
     </style>
 @endsection

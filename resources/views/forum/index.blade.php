@@ -12,12 +12,11 @@
         </div>
 
         <!-- Ana İçerik Alanı -->
-        <div class="col-md-9" style="border-left: 1px solid #e0e0e0;">
+        <div class="col-md-7" style="border-left: 1px solid #e0e0e0;">
             <!-- Forum Başlıkları -->
             <div class="d-flex justify-content-between mb-3">
                 <div>
                     <button id="general-tab" class="btn me-2 activeCategory general-topic-btn">tartışalım</button>
-                    <button id="universities-tab" class="btn me-2 general-topic-btn">üniversiteler hk.</button>
                     <button id="cities-tab" class="btn me-2 general-topic-btn">şehirler hk.</button>
                 </div>
                 <div>
@@ -67,165 +66,6 @@
                 </div>     
             </div>
 
-            <!-- Tüm Üniversiteler İçerikleri -->
-            <div id="universities-content" class="content-area d-none">
-
-                {{-- köklü üniversiteler --}}
-                <div class="d-flex justify-content-between mb-3">
-                    <span class="content-title">Köklü Üniversiteler</span>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card-container">
-                            <div class="card-image">
-                                <img src="{{ asset('well-established universities/bogazici-universitesi.jpg') }}" alt="bogazici-universitesi">
-                            </div>
-                            <div class="card-overlay">
-                                <div class="card-content">
-                                    <h3 class="card-title">Boğaziçi Üniversitesi</h3>
-                                    <h4 class="card-location">İstanbul</h4>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card-container">
-                            <div class="card-image">
-                                <img src="{{ asset('well-established universities/odtu.jpg') }}" alt="bogazici-universitesi">
-                            </div>
-                            <div class="card-overlay">
-                                <div class="card-content">
-                                    <h3 class="card-title">Orta Doğu Teknik Üniversitesi</h3>
-                                    <h4 class="card-location">Ankara</h4>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card-container">
-                            <div class="card-image">
-                                <img src="{{ asset('well-established universities/itu.jpeg') }}" alt="bogazici-universitesi">
-                            </div>
-                            <div class="card-overlay">
-                                <div class="card-content">
-                                    <h3 class="card-title">İstanbul Teknik Üniversitesi</h3>
-                                    <h4 class="card-location">İstanbul</h4>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-
-                {{-- En çok Tercih Edilen Üniversiteler --}}
-                <div class="d-flex justify-content-between mb-3 mt-5">
-                    <span class="content-title">En çok Tercih Edilen Üniversiteler</span>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card-container">
-                            <div class="card-image">
-                                <img src="{{ asset('well-established universities/odtu.jpg') }}" alt="bogazici-universitesi">
-                            </div>
-                            <div class="card-overlay" style="background: rgba(0, 54, 133, 0.8);">
-                                <div class="card-content">
-                                    <h3 class="card-title">1. Orta Doğu Teknik Üniversitesi</h3>
-                                    <h4 class="card-location">Ankara</h4>
-                                </div>
-                            </div>
-                        </div>                        
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card-container">
-                            <div class="card-image">
-                                <img src="{{ asset('well-established universities/bogazici-universitesi.jpg') }}" alt="bogazici-universitesi">
-                            </div>
-                            <div class="card-overlay" style="background: rgba(0, 54, 133, 0.8);">
-                                <div class="card-content">
-                                    <h3 class="card-title">2. Boğaziçi Üniversitesi</h3>
-                                    <h4 class="card-location">İstanbul</h4>
-                                </div>
-                            </div>
-                        </div>                        
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card-container">
-                            <div class="card-image">
-                                <img src="{{ asset('well-established universities/hacettepe-uni.jpg') }}" alt="bogazici-universitesi">
-                            </div>
-                            <div class="card-overlay" style="background: rgba(0, 54, 133, 0.8);">
-                                <div class="card-content">
-                                    <h3 class="card-title">3. Hacettepe Üniversitesi</h3>
-                                    <h4 class="card-location">Ankara</h4>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-
-                {{-- En çok bilimsel yayın üreten üniversiteler  --}}
-                <div class="d-flex justify-content-between mb-3 mt-5">
-                    <span class="content-title">En çok bilimsel yayın üreten üniversiteler</span>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card-container">
-                            <div class="card-image">
-                                <img src="{{ asset('universite/istanbul-uni.jpeg') }}" alt="istanbul-universitesi">
-                            </div>
-                            <div class="card-overlay" style="background: rgba(0, 54, 133, 0.8);">
-                                <div class="card-content">
-                                    <h3 class="card-title">1. İstanbul Üniversitesi</h3>
-                                    <h4 class="card-location">14.069 bilimsel yayın</h4>
-                                </div>
-                            </div>
-                        </div>                        
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card-container">
-                            <div class="card-image">
-                                <img src="{{ asset('universite/hacettepe-uni.jpg') }}" alt="hacettepe-universitesi">
-                            </div>
-                            <div class="card-overlay" style="background: rgba(0, 54, 133, 0.8);">
-                                <div class="card-content">
-                                    <h3 class="card-title">2. Hacettepe Üniversitesi</h3>
-                                    <h4 class="card-location">13.457 bilimsel yayın</h4>
-                                </div>
-                            </div>
-                        </div>                        
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card-container">
-                            <div class="card-image">
-                                <img src="{{ asset('universite/ankara-uni.jpg') }}" alt="ankara-universitesi">
-                            </div>
-                            <div class="card-overlay" style="background: rgba(0, 54, 133, 0.8);">
-                                <div class="card-content">
-                                    <h3 class="card-title">3. Ankara Üniversitesi</h3>
-                                    <h4 class="card-location">11.485 bilimsel yayın</h4>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-
-
-
-            </div>
-
             <div id="cities-content" class="content-area d-none">
                 <div class="d-flex justify-content-between mb-5">
                     <span class="content-title">şehir hayatı</span>
@@ -235,11 +75,11 @@
         </div>
 
         <!-- Sağ Menü (Reklam Alanı) -->
-        {{-- <div class="col-md-2">
+        <div class="col-md-2">
             <div class="advertisement">
                
             </div>
-        </div> --}}
+        </div>
     </div>
   
 @endsection 
@@ -567,7 +407,7 @@
             // Tab butonları
             $("#general-tab").on("click", function () {
                 $("#general-tab").addClass("activeCategory");
-                $("#universities-tab, #cities-tab").removeClass("activeCategory");
+                $("#cities-tab").removeClass("activeCategory");
                 
                 $("#general-content").removeClass("d-none");
                 $("#universities-content, #cities-content",).addClass("d-none");
@@ -578,21 +418,11 @@
                 loadSubcategories(generalSubcategories);
             });
 
-            $("#universities-tab").on("click", function () {
-                $("#universities-tab").addClass("activeCategory");
-                $("#general-tab, #cities-tab").removeClass("activeCategory");
-                
-                $("#universities-content").removeClass("d-none");
-                $("#general-content, #cities-content").addClass("d-none");
-
-                $('.btnCreateGeneral').addClass('d-none');
-                $('.sidebarTitle').text('üniversiteler');
-                loadSubcategories(universitiesSubcategories, 'university');
-            });
+           
 
             $("#cities-tab").on("click", function () {
                 $("#cities-tab").addClass("activeCategory");
-                $("#general-tab, #universities-tab").removeClass("activeCategory");
+                $("#general-tab").removeClass("activeCategory");
                 
                 $("#cities-content").removeClass("d-none");
                 $("#general-content, #universities-content").addClass("d-none");
