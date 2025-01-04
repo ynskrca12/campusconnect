@@ -630,10 +630,6 @@
             display: none;
         }
 
-        .mobile-hidden{
-            display: none !important;
-        }
-
     </style>
 
     {{-- mobil --}}
@@ -679,6 +675,11 @@
 
             .mobile-show{
                 display: block !important;
+            }
+
+            
+            .mobile-hidden{
+                display: none !important;
             }
             .custom-offcanvas {
                 width: 310px; 
