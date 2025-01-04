@@ -16,11 +16,11 @@
           </div>
       @endif
       <div class="input-divs">
-        <input type="text"  placeholder="Kullanıcı Adı veya E-mail" name="username_email" id="username_email"/>
+        <input type="text"  placeholder="Kullanıcı Adı veya E-mail" name="username_email" id="username_email" required/>
       </div>
 
       <div class="input-divs position-relative">
-        <input type="password" name="password" placeholder="Şifre" id="password"/>
+        <input type="password" name="password" placeholder="Şifre" id="password" required/>
         <!-- Göz ikonu -->
         <span toggle="#password" class="fa fa-fw fa-eye-slash password-toggle-icon"></span>
       </div> 
