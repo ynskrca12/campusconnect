@@ -4,19 +4,32 @@
 
     <div class="row" style="margin-top: -25px;">
         <!-- Sol Menü (Alt Başlıklar) -->
-        <div class="col-md-3">
-            <h4 class="sidebarTitle">üniversiteler</h4>
-           
-            <ul id="subcategories-list" class="list-group">
-                
-            </ul>
-            <div id="pagination-container" class="pagination-container mt-3">
-              
+        <div class="col-md-3 mb-3">
+
+            <div class="d-flex justify-content-between">
+                <h4 class="sidebarTitle">üniversiteler</h4>
+
+                <button id="toggle-subcategories" class="btn btn-sm d-none" >
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+
             </div>
+        
+            <div class="mobile-hidden-pagination">
+
+                <ul id="subcategories-list" class="list-group" >
+                
+                </ul>
+    
+                <div id="pagination-container" class="pagination-container mt-3">
+                  
+                </div>
+            </div>
+           
         </div>
 
         <!-- Ana İçerik Alanı -->
-        <div class="col-md-9" style="border-left: 1px solid #e0e0e0;">          
+        <div class="col-md-9 main-content">          
             <h2 class="page-title">Türkiye'nin Lider Üniversiteleri</h2>
             <div id="universities-content" class="content-area">
 
@@ -441,6 +454,54 @@
             border-radius: 5px; 
         }
 
+        .main-content{
+            border-left: 1px solid #e0e0e0;
+        }
+
+    </style>
+
+    {{-- mobil --}}
+    <style>
+        @media (max-width: 768px) {
+            .main-content{
+                border-top: 1px solid #e0e0e0;
+                border-left: none;
+            }
+
+            .page-title{
+                font-size: 14px;
+                font-weight: 400;
+            }
+
+            .content-title{
+                font-size: 16px;
+            }
+
+            .sidebarTitle{
+                font-size: 20px;
+            }
+
+            .card-container{
+                margin-bottom: 15px;
+            }
+
+            #toggle-subcategories{
+                display:block !important;
+            }
+
+            .mobile-hidden-pagination {
+                display: none;
+            }
+
+            #toggle-subcategories i {
+                transition: transform 0.3s ease;
+            }
+
+            #toggle-subcategories.collapsed i {
+                transform: rotate(180deg);
+            }
+        }
+
     </style>
 @endsection
 
@@ -451,49 +512,62 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <script>
       $(document).ready(function () {
-    function loadUniversities(page = 1) {
-        $.ajax({
-            url: '/universities/fetch',
-            type: 'GET',
-            data: { page: page },
-            success: function (response) {
-                // Üniversite listesini güncelle
-                let universitiesHtml = '';
-                $.each(response.universities.data, function (index, item) {
-                    const topicCount = response.universities_topics_count[item.id] || 0;
-                    universitiesHtml += `
-                        <li class="list-group-item universityLi">
-                            <a href="/forum/universite/${item.slug}" class="text-decoration-none universityTag d-flex justify-content-between">
-                                <span class="topic-title-sub-category">${item.universite_ad}</span>
-                                <span class="count">${topicCount}</span>
-                            </a>
-                        </li>`;
+            function loadUniversities(page = 1) {
+                $.ajax({
+                    url: '/universities/fetch',
+                    type: 'GET',
+                    data: { page: page },
+                    success: function (response) {
+                        // Üniversite listesini güncelle
+                        let universitiesHtml = '';
+                        $.each(response.universities.data, function (index, item) {
+                            const topicCount = response.universities_topics_count[item.id] || 0;
+                            universitiesHtml += `
+                                <li class="list-group-item universityLi">
+                                    <a href="/forum/universite/${item.slug}" class="text-decoration-none universityTag d-flex justify-content-between">
+                                        <span class="topic-title-sub-category">${item.universite_ad}</span>
+                                        <span class="count">${topicCount}</span>
+                                    </a>
+                                </li>`;
+                        });
+                        $('#subcategories-list').html(universitiesHtml);
+
+                        // Sayfa bağlantılarını güncelle
+                        $('#pagination-container').html(response.links);
+                    },
+                    error: function () {
+                        alert('Üniversiteler yüklenirken bir hata oluştu.');
+                    }
                 });
-                $('#subcategories-list').html(universitiesHtml);
-
-                // Sayfa bağlantılarını güncelle
-                $('#pagination-container').html(response.links);
-            },
-            error: function () {
-                alert('Üniversiteler yüklenirken bir hata oluştu.');
             }
+
+            // İlk yükleme
+            loadUniversities();
+
+            // Sayfa bağlantılarına tıklama olayı
+            $(document).on('click', '#pagination-container a', function (e) {
+                e.preventDefault();
+                const url = $(this).attr('href');
+                const page = new URL(url).searchParams.get('page');
+                loadUniversities(page);
+            });
         });
-    }
 
-    // İlk yükleme
-    loadUniversities();
+    </script>
+    
+    <script>
+        $(document).ready(function () {
+                $('#toggle-subcategories').on('click', function () {
+                    // Toggle the visibility of the list
+                    $('.mobile-hidden-pagination').slideToggle();
 
-    // Sayfa bağlantılarına tıklama olayı
-    $(document).on('click', '#pagination-container a', function (e) {
-        e.preventDefault();
-        const url = $(this).attr('href');
-        const page = new URL(url).searchParams.get('page');
-        loadUniversities(page);
-    });
-});
+                    // Rotate the arrow icon
+                    $(this).toggleClass('collapsed');
+                });
+            });
 
     </script>
     
