@@ -245,7 +245,234 @@
 
                     </div>
 
+                    {{-- 2024 Kültürel Etkinlikler: Şehirlerdeki Sosyal Yaşam ve Fırsatlar --}}
+                    <div class="d-flex justify-content-between mt-5 mb-3">
+                        <span class="content-title">2024 Kültürel Etkinlikler: Şehirlerdeki Sosyal Yaşam ve Fırsatlar</span>
+                    </div>
 
+                    <div class="table-responsive mb-5">
+                        <table class="table table-hover table-striped align-middle text-center shadow-sm" style="border-radius: 10px; overflow: hidden;">
+                            <thead class="bg-dark text-light">
+                                <tr style="border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                                    <th style="padding: 15px;">Şehir</th>
+                                    <th>🎵 Konserler ve Müzik</th>
+                                    <th>🎭 Tiyatro</th>
+                                    <th>🎨 Sergiler</th>
+                                    <th>🤝 Sosyal Sorumluluk</th>
+                                    <th>⚽ Spor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>İstanbul</strong></td>
+                                    <td>
+                                        <p>50+ öğrenci konseri</p>
+                                        <p>15 büyük sanatçı etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>30+ tiyatro gösterimi</p>
+                                        <p>10 tiyatro kulübü etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>20+ sanat sergisi</p>
+                                        <p>10 öğrenci sanat etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>8 sosyal sorumluluk projesi</p>
+                                        <p>5 çevre temizliği etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>10+ üniversite içi spor turnuvası</p>
+                                        <p>3 büyük maraton</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Ankara</strong></td>
+                                    <td>
+                                        <p>25+ konser etkinliği</p>
+                                        <p>10 öğrenci konseri</p>
+                                    </td>
+                                    <td>
+                                        <p>15 tiyatro gösterimi</p>
+                                        <p>8 öğrenci tiyatrosu</p>
+                                    </td>
+                                    <td>
+                                        <p>12+ sanat sergisi</p>
+                                        <p>7 özel sergi etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>5 sosyal sorumluluk projesi</p>
+                                        <p>3 çevre etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>5 üniversite içi spor turnuvası</p>
+                                        <p>2 büyük maraton</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>İzmir</strong></td>
+                                    <td>
+                                        <p>20+ konser etkinliği</p>
+                                        <p>8 büyük sanatçı etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>18 tiyatro gösterimi</p>
+                                        <p>6 öğrenci tiyatrosu</p>
+                                    </td>
+                                    <td>
+                                        <p>15+ sanat sergisi</p>
+                                        <p>5 öğrenci sanat etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>10 sosyal sorumluluk projesi</p>
+                                        <p>4 çevre etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>8 üniversite içi spor turnuvası</p>
+                                        <p>2 büyük maraton</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bursa</strong></td>
+                                    <td>
+                                        <p>15+ konser etkinliği</p>
+                                        <p>6 öğrenci konseri</p>
+                                    </td>
+                                    <td>
+                                        <p>12 tiyatro gösterimi</p>
+                                        <p>5 öğrenci tiyatrosu</p>
+                                    </td>
+                                    <td>
+                                        <p>10+ sanat sergisi</p>
+                                        <p>3 özel sergi etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>7 sosyal sorumluluk projesi</p>
+                                        <p>4 çevre etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>6 üniversite içi spor turnuvası</p>
+                                        <p>1 büyük maraton</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Konya</strong></td>
+                                    <td>
+                                        <p>10+ konser etkinliği</p>
+                                        <p>5 öğrenci konseri</p>
+                                    </td>
+                                    <td>
+                                        <p>8 tiyatro gösterimi</p>
+                                        <p>4 öğrenci tiyatrosu</p>
+                                    </td>
+                                    <td>
+                                        <p>6+ sanat sergisi</p>
+                                        <p>2 özel sergi etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>4 sosyal sorumluluk projesi</p>
+                                        <p>2 çevre etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>3 üniversite içi spor turnuvası</p>
+                                        <p>1 büyük maraton</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Antalya</strong></td>
+                                    <td>
+                                        <p>18+ konser etkinliği</p>
+                                        <p>7 öğrenci konseri</p>
+                                    </td>
+                                    <td>
+                                        <p>14 tiyatro gösterimi</p>
+                                        <p>5 öğrenci tiyatrosu</p>
+                                    </td>
+                                    <td>
+                                        <p>12+ sanat sergisi</p>
+                                        <p>4 özel sergi etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>6 sosyal sorumluluk projesi</p>
+                                        <p>3 çevre etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>5 üniversite içi spor turnuvası</p>
+                                        <p>2 büyük maraton</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Eskişehir</strong></td>
+                                    <td>
+                                        <p>10+ konser etkinliği</p>
+                                        <p>4 öğrenci konseri</p>
+                                    </td>
+                                    <td>
+                                        <p>7 tiyatro gösterimi</p>
+                                        <p>3 öğrenci tiyatrosu</p>
+                                    </td>
+                                    <td>
+                                        <p>5+ sanat sergisi</p>
+                                        <p>2 özel sergi etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>3 sosyal sorumluluk projesi</p>
+                                        <p>2 çevre etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>4 üniversite içi spor turnuvası</p>
+                                        <p>1 büyük maraton</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Trabzon</strong></td>
+                                    <td>
+                                        <p>8+ konser etkinliği</p>
+                                        <p>4 öğrenci konseri</p>
+                                    </td>
+                                    <td>
+                                        <p>6 tiyatro gösterimi</p>
+                                        <p>2 öğrenci tiyatrosu</p>
+                                    </td>
+                                    <td>
+                                        <p>5+ sanat sergisi</p>
+                                        <p>1 özel sergi etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>2 sosyal sorumluluk projesi</p>
+                                        <p>1 çevre etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>3 üniversite içi spor turnuvası</p>
+                                        <p>1 büyük maraton</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Kayseri</strong></td>
+                                    <td>
+                                        <p>12+ konser etkinliği</p>
+                                        <p>6 öğrenci konseri</p>
+                                    </td>
+                                    <td>
+                                        <p>9 tiyatro gösterimi</p>
+                                        <p>3 öğrenci tiyatrosu</p>
+                                    </td>
+                                    <td>
+                                        <p>8+ sanat sergisi</p>
+                                        <p>2 özel sergi etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>4 sosyal sorumluluk projesi</p>
+                                        <p>2 çevre etkinliği</p>
+                                    </td>
+                                    <td>
+                                        <p>5 üniversite içi spor turnuvası</p>
+                                        <p>2 büyük maraton</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
                 </div>   
 

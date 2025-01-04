@@ -17,7 +17,6 @@
             <div class="d-flex justify-content-between mb-3">
                 <div>
                     <button id="general-tab" class="btn me-2 activeCategory general-topic-btn">tartışalım</button>
-                    <button id="cities-tab" class="btn me-2 general-topic-btn">şehirler hk.</button>
                 </div>
                 <div>
                     <button class="btn btnCreateGeneral">gündem oluştur</button>
@@ -64,12 +63,6 @@
                         </div>
                     @endforeach   
                 </div>     
-            </div>
-
-            <div id="cities-content" class="content-area d-none">
-                <div class="d-flex justify-content-between mb-5">
-                    <span class="content-title">şehir hayatı</span>
-                </div>
             </div>
 
         </div>
@@ -138,7 +131,7 @@
         #subcategories-list .list-group-item:hover{
             border-bottom:1px solid !important;
         }
-        .btnCreateGeneral:hover , .btnCreateCity:hover , .btnCreateUniversity:hover{
+        .btnCreateGeneral:hover  {
             border-bottom: 1px groove #000000 !important;
             border-radius: 0px !important;
         }
@@ -350,47 +343,13 @@
         $(document).ready(function () {
             // general subcategories
             const generalSubcategories = @json($general_topics);
-             
-            //universities
-            const universitiesSubcategories = @json($universities);
-
-            // cities
-            const citiesSubcategories = @json($cities);
-
-            const universitiesTopicsCount = @json($universities_topics_count);
-            const citiesTopicsCount = @json($cities_topics_count);
-
+          
             function loadSubcategories(subcategories, type = 'general') {
                 $("#subcategories-list").empty();
                 subcategories.forEach(function (item) {
 
                     const generalSubCategoriesCount = item.count || 0;
 
-                    if (type === 'university') {
-
-                         const topicCount = universitiesTopicsCount[item.id] || 0;
-
-                        $("#subcategories-list").append(
-                            `<li class="list-group-item universityLi">
-                                <a href="/forum/universite/${item.slug}" class="text-decoration-none universityTag d-flex justify-content-between">
-                                    <span class="topic-title-sub-category">${item.universite_ad}</span>
-                                    <span class="count">${topicCount}</span>
-                                    </a>
-                            </li>`
-                        );
-                    } else if (type === 'city') {
-                       
-                        const topicCount = citiesTopicsCount[item.id] || 0;
-
-                        $("#subcategories-list").append(
-                            `<li class="list-group-item cityLi">
-                                <a href="/forum/sehir/${item.slug}" class="text-decoration-none cityTag d-flex justify-content-between">
-                                    <span class="topic-title-sub-category">${item.title}</span>
-                                    <span class="count">${topicCount}</span>
-                                </a>
-                            </li>`
-                        );
-                    } else {
                         // general topics
                         $("#subcategories-list").append(
                         `<li class="list-group-item mb-1">
@@ -399,40 +358,10 @@
                                     <span class="count">${generalSubCategoriesCount}</span>
                                 </a>
                             </li>`
-                        );
-                    }
+                        );                    
                 });
             }
-
-            // Tab butonları
-            $("#general-tab").on("click", function () {
-                $("#general-tab").addClass("activeCategory");
-                $("#cities-tab").removeClass("activeCategory");
-                
-                $("#general-content").removeClass("d-none");
-                $("#universities-content, #cities-content",).addClass("d-none");
-
-                $('.btnCreateGeneral').removeClass('d-none');
-                $('.sidebarTitle').text('popüler mevzular');
-
-                loadSubcategories(generalSubcategories);
-            });
-
-           
-
-            $("#cities-tab").on("click", function () {
-                $("#cities-tab").addClass("activeCategory");
-                $("#general-tab").removeClass("activeCategory");
-                
-                $("#cities-content").removeClass("d-none");
-                $("#general-content, #universities-content").addClass("d-none");
-                $('.sidebarTitle').text('şehirler');
-
-                $('.btnCreateGeneral').addClass('d-none');
-                loadSubcategories(citiesSubcategories, 'city');
-            });
-
-            // Başlangıç olarak genel tartışma alt başlıklarını yükle
+            
             loadSubcategories(generalSubcategories);
             $("#general-tab").addClass("activeCategory");
         });
@@ -440,19 +369,15 @@
     
     {{-- add new topic --}}
     <script>
-        // Laravel'den gelen oturum bilgisi
         var isAuthenticated = @json(auth()->check());
 
         $(document).ready(function() {
-        // Gündem oluştur butonlarına tıklama olayını dinle
-            $('.btnCreateGeneral, .btnCreateUniversity, .btnCreateCity').on('click', function(e) {
-                e.preventDefault(); // Butonun varsayılan davranışını engelle
+            $('.btnCreateGeneral').on('click', function(e) {
+                e.preventDefault(); 
 
-                // Eğer kullanıcı giriş yapmamışsa (isAuthenticated false ise)
                 if (!isAuthenticated) {
                     Swal.fire({
                         title: 'önce bi giriş mi yapsan...',
-                        // text: 'Gündem oluşturmak istiyorsan, önce giriş yapmalısın.',
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonText: 'giriş yap',
@@ -467,7 +392,7 @@
                         }
                     });
                 } else {
-                    // Kullanıcı giriş yapmışsa SweetAlert popup aç
+                    
                     Swal.fire({
                         title: 'mevzu nedir ',
                         html: `
@@ -515,7 +440,7 @@
                                 url: "{{ route('create.topic.general.forum') }}",
                                 type: 'POST',
                                 data: {
-                                    _token: "{{ csrf_token() }}", // CSRF token
+                                    _token: "{{ csrf_token() }}",
                                     title: data.title,
                                     content: data.content,
                                 },
@@ -525,7 +450,12 @@
                                         title: 'Gündem oluşturuldu!',
                                         text: 'Gündem başarıyla oluşturuldu.',
                                     }).then(() => {
-                                        location.reload(); // Sayfayı yenile
+                                            sessionStorage.setItem('toastrMessage', 'Konu başarıyla gönderildi!');
+
+                                        
+                                            setTimeout(function () {
+                                                location.reload();
+                                            }, 500);
                                     });
                                 },
                                 error: (error) => {
@@ -550,10 +480,33 @@
             });
         });
 
+        const toastrMessage = sessionStorage.getItem('toastrMessage');
+                if (toastrMessage) {
+                    toastr.success(toastrMessage);
+                    sessionStorage.removeItem('toastrMessage'); 
+                }
+
         $(document).on('input', '#title', function() {
             const length = $(this).val().length;
             $('#charCount').text(`${length}/80 karakter`);
         });
+    </script>
+
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "3000", // Mesajın görünür kalacağı süre (ms)
+        };
+
+        @if (session('success'))
+            toastr.success("{{ session('success') }}");
+        @endif
+
+        @if (session('error'))
+            toastr.error("{{ session('error') }}");
+        @endif
     </script>
 
     {{-- get random topics with ajax --}}
