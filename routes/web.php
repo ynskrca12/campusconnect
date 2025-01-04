@@ -34,6 +34,9 @@ Route::get('/', function () {
 Route::get('/universiteler',[UniversityController::class, 'index']);
 Route::get('/universities/fetch', [UniversityController::class, 'fetchUniversities'])->name('universities.fetch');
 
+Route::get('/sehirler',[CityController::class, 'index']);
+Route::get('/cities/fetch', [CityController::class, 'fetchCities'])->name('universities.fetch');
+
 Route::get('/universite_detay/{id}', [UniversityController::class, 'universite_detay'])->name('universite_detay');
 
 Route::get('/duyurular',[DuyuruController::class,'index']);

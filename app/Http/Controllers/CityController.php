@@ -12,6 +12,26 @@ use Illuminate\Support\Facades\Auth;
 
 class CityController extends Controller
 {
+    public function index(){
+        return view('city.cities');
+    }//End
+
+    public function fetchCities(Request $request)
+    {
+        $cities = DB::table('cities')->paginate(20);
+
+        $cities_topics_count = DB::table('cities_topics')
+            ->select('city_id', DB::raw('COUNT(*) as count'))
+            ->groupBy('city_id')
+            ->pluck('count', 'city_id')
+            ->toArray();
+
+        return response()->json([
+            'cities' => $cities,
+            'cities_topics_count' => $cities_topics_count,
+            'links' => $cities->links('pagination::bootstrap-4')->render()  
+        ]);
+    }
     public function show($slug){
     
         $city = City::where('slug', $slug)->first();
