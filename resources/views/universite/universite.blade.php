@@ -5,27 +5,52 @@
     <div class="row" style="margin-top: -25px;">
         <!-- Sol Menü (Alt Başlıklar) -->
         <div class="col-md-3 mb-3">
+            <div class="mobile-hidden d-block">
 
-            <div class="d-flex justify-content-between">
-                <h4 class="sidebarTitle">üniversiteler</h4>
+                    <div class="d-flex justify-content-between">
+                        <h4 class="sidebarTitle">üniversiteler</h4>
 
-                <button id="toggle-subcategories" class="btn btn-sm d-none" >
-                    <i class="fa-solid fa-chevron-down"></i>
-                </button>
+                        {{-- <button id="toggle-subcategories" class="btn btn-sm d-none" >
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button> --}}
 
+                    </div>
+            
+                {{-- <div class="mobile-hidden-pagination"> --}}
+
+                        <ul id="subcategories-list" class="list-group" >
+                        
+                        </ul>
+            
+                        <div id="pagination-container" class="pagination-container mt-3">
+                        
+                        </div>
+                {{-- </div>  --}}
             </div>
-        
-            <div class="mobile-hidden-pagination">
 
-                <ul id="subcategories-list" class="list-group" >
-                
-                </ul>
-    
-                <div id="pagination-container" class="pagination-container mt-3">
-                  
+            <div class="mobile-show d-none">
+                <a class="btn btn-primary w-100" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                    <i class="bi bi-chat-dots me-2"></i> üniversiteni yorumla
+                </a>
+           
+
+                <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                    <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">üniversiteler</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                        <div class="offcanvas-body">
+                            
+                        <ul id="subcategories-list" class="list-group mobile-universities-list" >
+                        
+                        </ul>
+            
+                        <div id="pagination-container" class="pagination-container mt-3">
+                    
+                    </div>
+                </div>
                 </div>
             </div>
-           
         </div>
 
         <!-- Ana İçerik Alanı -->
@@ -605,6 +630,9 @@
             display: none;
         }
 
+        .mobile-hidden{
+            display: none !important;
+        }
 
     </style>
 
@@ -648,6 +676,13 @@
             #toggle-subcategories.collapsed i {
                 transform: rotate(180deg);
             }
+
+            .mobile-show{
+                display: block !important;
+            }
+            .custom-offcanvas {
+                width: 310px; 
+            }
         }
 
     </style>
@@ -661,6 +696,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
     <script>
         $(document).ready(function () {
             function loadUniversities(page = 1) {
@@ -682,9 +719,11 @@
                                 </li>`;
                         });
                         $('#subcategories-list').html(universitiesHtml);
+                        $('.mobile-universities-list').html(universitiesHtml);
 
                         // Sayfa bağlantılarını güncelle
                         $('#pagination-container').html(response.links);
+                        $('.pagination-container').html(response.links);
                     },
                     error: function () {
                         alert('Üniversiteler yüklenirken bir hata oluştu.');
