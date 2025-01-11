@@ -2,13 +2,22 @@
 
 @section('content')
 
-    <div class="row mb-3" style="border-bottom: 1px solid;margin-top:-36px;">
-        <div class="col-md-1 d-flex align-items-center">
+<div class="row mb-3" style="margin-top: -36px;">
+    <div class="col-12">
+        <!-- Sayfa Başlığı -->
+        <h1 class="page-title text-center mb-0">
+            {{ $city->title }}  
+        </h1>
+    </div>
+</div>
+
+    <div class="row mb-3" style="border-bottom: 1px solid;">
+        <div class="col-md-1 d-flex align-items-center mobile-hidden">
             <i class="fa-solid fa-circle-left" style="font-size: 25px; cursor: pointer;" onclick="goBack()"></i>
         </div>
         
         <div class="col-md-11 mb-3">
-            <ul class="nav nav-tabs d-flex justify-content-center" id="mainTabs" role="tablist">
+            <ul class="nav nav-tabs d-flex justify-content-center mobile-hidden" id="mainTabs" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="free-zone-tab" data-bs-toggle="tab" href="#free-zone" role="tab" aria-controls="free-zone" aria-selected="true" data-category="free-zone">serbest bölge</a>
                 </li>
@@ -25,23 +34,71 @@
                     <a class="nav-link" id="question-answer-tab" data-bs-toggle="tab" href="#question-answer" role="tab" aria-controls="question-answer" aria-selected="false" data-category="question-answer">soru cevap</a>
                 </li>
             </ul>
+
+            <div class="d-none mobile-show">
+                <div class="d-flex justify-content-center">
+                <select class="form-select" id="mobileTabs" aria-label="Default select example" 
+                    style="font-size: 13px;width: 70%;">
+                    <option value="#free-zone" selected>serbest bölge</option>
+                    <option value="#general-info">genel bilgiler</option>
+                    <option value="#departmant-programs">bölüm ve programlar</option>
+                    <option value="#campus-life">kampüs hayatı</option>
+                    <option value="#question-answer">soru cevap</option>
+                </select>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <div class="row">
         <!-- Sol Menü (Alt Başlıklar) -->
         <div class="col-md-3">
-            <h4>öne çıkan</h4>
-            <ul id="subcategories-list" class="list-group">
-                @foreach($city_free_zone_topics as $topic)
-                    <li class="list-group-item">
-                        <a href="#" class="text-decoration-none text-dark">
-                            {{-- <a href="{{ route('topic.detail', ['id' => $topic->id]) }}" class="text-decoration-none text-dark"> --}}
-                            {{ $topic->topic_title }}
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
+
+            <div class="mobile-hidden d-block">
+                <h4>öne çıkan mevzular</h4>
+                <ul id="subcategories-list" class="list-group">
+                    @foreach($city_free_zone_topics as $topic)
+                        <li class="list-group-item">
+                            <a href="#" class="text-decoration-none text-dark">
+                                {{-- <a href="{{ route('topic.detail', ['id' => $topic->id]) }}" class="text-decoration-none text-dark"> --}}
+                                {{ $topic->topic_title }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+
+            <div class="mobile-show d-none">
+                <a class="btn btn-primary w-100" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                    <i class="bi bi-chat-dots me-2"></i> öne çıkan mevzular
+                </a>           
+
+                <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                    <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">öne çıkan mevzular</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                        <div class="offcanvas-body">
+                            
+                        <ul id="subcategories-list" class="list-group mobile-universities-list" >
+                            @foreach($city_free_zone_topics as $topic)
+                                <li class="list-group-item">
+                                    <a href="#" class="text-decoration-none text-dark">
+                                        {{-- <a href="{{ route('topic.detail', ['id' => $topic->id]) }}" class="text-decoration-none text-dark"> --}}
+                                        {{ $topic->topic_title }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+            
+                        <div id="pagination-container" class="pagination-container mt-3">
+                    
+                    </div>
+                </div>
+                </div>
+            </div>
+
         </div>
 
         <!--main content-->
@@ -50,10 +107,6 @@
                     <div class="tab-pane fade show active" id="free-zone" role="tabpanel" aria-labelledby="free-zone-tab">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
-                                <span class="categoryTitle">{{$city->title}}</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="arrow-icon" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                                </svg>
                                 <span class="categoryTitle">serbest bölge</span>
                             </div>                            
                            <div> 
@@ -68,10 +121,6 @@
                     <div class="tab-pane fade " id="general-info" role="tabpanel" aria-labelledby="general-tab">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
-                                <span class="categoryTitle">{{$city->title}}</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="arrow-icon" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                                </svg>
                                 <span class="categoryTitle">genel bilgiler</span>
                             </div>
                            <div> 
@@ -86,10 +135,6 @@
                     <div class="tab-pane fade" id="departmant-programs" role="tabpanel" aria-labelledby="departmant-programs-tab">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
-                                <span class="categoryTitle">{{$city->title}}</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="arrow-icon" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                                </svg>
                                 <span class="categoryTitle">bölüm ve programlar </span>
                             </div>
                            <div> 
@@ -104,10 +149,6 @@
                     <div class="tab-pane fade" id="campus-life" role="tabpanel" aria-labelledby="campus-life-tab">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
-                                <span class="categoryTitle">{{$city->title}}</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="arrow-icon" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                                </svg>
                                 <span class="categoryTitle">kampüs hayatı</span>
                             </div>
                            <div> 
@@ -122,10 +163,6 @@
                     <div class="tab-pane fade" id="question-answer" role="tabpanel" aria-labelledby="question-answer-tab">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
-                                <span class="categoryTitle">{{$city->title}}</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="arrow-icon" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                                </svg>
                                 <span class="categoryTitle">soru cevap</span>
                             </div>
                            <div> 
@@ -184,6 +221,11 @@
 
 @section('css')
     <style>
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #333;
+        }
         .categoryTitle{
             font-weight: 700;
             font-size: medium;
@@ -245,6 +287,19 @@
             background-color: #373737;
             color: white;
         }
+
+        @media (max-width: 768px) {
+            .page-title{
+                font-size: 1rem;
+            }
+
+            .mobile-show {
+                display: block !important;
+            }
+            .mobile-hidden {
+                display: none !important;
+            }
+        }
     </style>
 @endsection
 
@@ -261,7 +316,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
+    <script>
+        // Mobil Select Elementi
+        const mobileTabs = document.getElementById('mobileTabs');
+        
+        // Mobil seçeneği değiştiğinde ilgili tab içeriğini göster
+        mobileTabs.addEventListener('change', function () {
+            const selectedTabId = this.value;
+        
+            // Tüm tab içeriğini gizle
+            document.querySelectorAll('.tab-pane').forEach(tab => {
+                tab.classList.remove('show', 'active');
+            });
+        
+            // Seçilen tab içeriğini göster
+            const selectedTabContent = document.querySelector(selectedTabId);
+            if (selectedTabContent) {
+                selectedTabContent.classList.add('show', 'active');
+            }
+        });
+    
+    </script>
+    
     <script>
         var quill = new Quill('#editor-container-general', {
             theme: 'snow'
@@ -325,6 +404,72 @@
                     },
                     success: function (response) {
                         // Dönen verilerdeki her bir başlığı listeye ekle
+                        response.topics.forEach(topic => {
+                            const listItem = `
+                                <li class="list-group-item">
+                                    <a href="/topic/${topic.topic_title_slug}" class="text-decoration-none text-dark">${topic.topic_title}</a>
+                                </li>`;
+                            subcategoriesList.append(listItem);
+                        });
+                    },
+                    error: function () {
+                        alert("Konular yüklenirken bir hata oluştu.");
+                    }
+                });
+            });
+        });
+
+    </script>
+
+     {{-- change important topics for web and mobile --}}
+     <script>
+        $(document).ready(function () {
+            $(".nav-link").on("click", function () {
+                const category = $(this).data("category"); 
+                const subcategoriesList = $("#subcategories-list"); 
+                const cityId = @json($city->id);
+
+                subcategoriesList.empty();
+
+                $.ajax({
+                    url: "/get-city-category-topics",
+                    method: "GET",
+                    data: { category: category ,
+                        cityId:cityId
+                    },
+                    success: function (response) {
+                        
+                        response.topics.forEach(topic => {
+                            const listItem = `
+                                <li class="list-group-item">
+                                    <a href="/topic/${topic.topic_title_slug}" class="text-decoration-none text-dark">${topic.topic_title}</a>
+                                </li>`;
+                            subcategoriesList.append(listItem);
+                        });
+                    },
+                    error: function () {
+                        alert("Konular yüklenirken bir hata oluştu.");
+                    }
+                });
+            });
+
+            // Mobil kategoriler için değişim
+            $("#mobileTabs").on("change", function () {
+                const category = $(this).val().replace(/^#/, "");
+                const subcategoriesList = $("#subcategories-list");
+                const cityId = @json($city->id);
+
+                subcategoriesList.empty();
+
+                $.ajax({
+                    url: "/get-city-category-topics",
+                    method: "GET",
+                    data: { 
+                        category: category,
+                        cityId: cityId
+                    },
+                    success: function (response) {
+                        
                         response.topics.forEach(topic => {
                             const listItem = `
                                 <li class="list-group-item">
