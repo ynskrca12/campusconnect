@@ -490,14 +490,20 @@
     <script>
         $(document).ready(function () {
             $('.btnExplain').on('click', function () {
-                // Butonun kategorisini al
+                
+                var isAuthenticated = @json(auth()->check());
+
+                if (!isAuthenticated) {
+                    toastr.warning('Önce giriş yapmalısınız.');
+                    return;
+                }
+
                 const category = $(this).data('category');
 
-                $('#categoryName').val(category); // Modal'daki gizli inputa kategoriyi ata
-                $('#topicModal').modal('show'); // Modal'ı aç
+                $('#categoryName').val(category); 
+                $('#topicModal').modal('show'); 
             });
 
-            // Form gönderim işlemi
             $('#topicForm').on('submit', function (e) {
                 e.preventDefault();
 
@@ -535,7 +541,7 @@
             const toastrMessage = sessionStorage.getItem('toastrMessage');
                 if (toastrMessage) {
                     toastr.success(toastrMessage);
-                    sessionStorage.removeItem('toastrMessage'); // Mesajı gösterdikten sonra temizle
+                    sessionStorage.removeItem('toastrMessage'); 
                 }
         });
 
