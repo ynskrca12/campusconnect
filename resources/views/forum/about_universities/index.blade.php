@@ -587,6 +587,13 @@
                 const subcategoriesListMobile = $("#subcategories-list-mobile");
                 const univercityId = @json($university->id);
 
+                const topicListContainer = $("#" + category + "-topic-list");
+
+                if (topicListContainer.length === 0) {
+                    console.error("Hedef container bulunamadı.");
+                    return;
+                }
+
                 subcategoriesListMobile.empty();
 
                 $.ajax({
@@ -609,6 +616,64 @@
                     error: function () {
                         alert("Konular yüklenirken bir hata oluştu.");
                     }
+                });
+
+                $.ajax({
+                    url: "/get-univercity-category-topic-content",
+                    method: "GET",
+                    data: {
+                        category: category,
+                        univercityId: univercityId,
+                    },
+                    beforeSend: function () {
+                        // Yükleniyor animasyonu eklenebilir
+                        topicListContainer.html("<p>İçerik yükleniyor...</p>");
+                    },
+                    success: function (response) {
+                        if (response.topics && response.topics.length > 0) {
+                            let newContent = "";
+
+                            response.topics.forEach(topic => {
+                                newContent += `
+                                    <div class="topic">
+                                        <h3 class="topic-title mb-3">${topic.topic_title}</h3>
+                                        <p>${topic.comment}</p>
+                                        <div class="like-dislike mt-3">
+                                            <div class="like-btn d-inline me-3" data-id="${topic.id}" style="cursor: pointer; color: #888;">
+                                                <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">${topic.likes}</span>
+                                            </div>
+                                            <div class="dislike-btn d-inline" data-id="${topic.id}" style="cursor: pointer; color: #888;">
+                                                <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">${topic.dislikes}</span>
+                                            </div>
+                                        </div>
+                                        <div class="meta">
+                                            <div class="d-flex align-items-center entry-footer-bottom">
+                                                <div class="footer-info">
+                                                    <div style="display: block;padding: 2px;text-align: end;margin: -5px 0px;">
+                                                        <p style="display: block;white-space:nowrap;color:#001b48;">${topic.user?.username || "Anonim"}</p>
+                                                    </div>
+                                                    <div style="display: block;padding: 2px;line-height: 14px;">
+                                                        <p style="color: #888;font-size: 12px;">${moment(topic.created_at).format("DD.MM.YYYY HH:mm")}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="avatar-container">
+                                                    <a href="">
+                                                        <img class="avatar" src="//ekstat.com/img/default-profile-picture-light.svg" alt="User Avatar">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                            });
+
+                            topicListContainer.html(newContent); // Yeni içerikleri ekle
+                        } else {
+                            topicListContainer.html("<p>Bu kategoriye ait içerik bulunmamaktadır.</p>");
+                        }
+                    },
+                    error: function () {
+                        topicListContainer.html("<p>İçerik yüklenirken bir hata oluştu.</p>");
+                    },
                 });
             });
         });
