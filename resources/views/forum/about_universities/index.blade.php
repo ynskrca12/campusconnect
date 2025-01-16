@@ -85,7 +85,7 @@
                     </div>
                         <div class="offcanvas-body">
                             
-                        <ul id="subcategories-list" class="list-group mobile-universities-list" >
+                        <ul id="subcategories-list-mobile" class="list-group mobile-universities-list" >
                             @foreach($univercity_free_zone_topics as $topic)
                                 <li class="list-group-item">
                                     <a href="#" class="text-decoration-none text-dark">
@@ -310,7 +310,7 @@
             border-radius: 0px !important;
         }
 
-        #subcategories-list .list-group-item{
+        #subcategories-list .list-group-item, #subcategories-list-mobile .list-group-item{
             border:none !important;
             padding: 7px 0px;
             border-radius: 6px;
@@ -584,10 +584,10 @@
             // Mobil kategoriler için değişim
             $("#mobileTabs").on("change", function () {
                 const category = $(this).val().replace(/^#/, "");
-                const subcategoriesList = $("#subcategories-list");
+                const subcategoriesListMobile = $("#subcategories-list-mobile");
                 const univercityId = @json($university->id);
 
-                subcategoriesList.empty();
+                subcategoriesListMobile.empty();
 
                 $.ajax({
                     url: "/get-univercity-category-topics",
@@ -603,7 +603,7 @@
                                 <li class="list-group-item">
                                     <a href="/topic/${topic.topic_title_slug}" class="text-decoration-none text-dark">${topic.topic_title}</a>
                                 </li>`;
-                            subcategoriesList.append(listItem);
+                            subcategoriesListMobile.append(listItem);
                         });
                     },
                     error: function () {
