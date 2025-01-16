@@ -60,6 +60,18 @@ class CityController extends Controller
             return response()->json(['topics' => $topics]);
     }//End
 
+    public function getCityCategoryTopicContent(Request $request){
+        $category = $request->input('category');
+        $cityId = $request->input('cityId');
+
+        $topics = DB::table('cities_topics')
+            ->where('city_id',$cityId)
+            ->where('category',$category)
+            ->get();
+
+            return response()->json(['topics' => $topics]);
+    }//End
+
     public function addCityTopic(Request $request)
     {
         // Validate incoming request data

@@ -61,6 +61,7 @@ Route::post('kullanici_bilgileri_duzenle_post',[UserController::class,'kullanici
 
 Route::get('/forum/sehir/{slug}', [CityController::class, 'show'])->name('city.show');
 Route::get('/get-city-category-topics',[CityController::class,'getCityCategoryTopics']);
+Route::get('/get-city-category-topic-content',[CityController::class,'getCityCategoryTopicContent']);
 Route::post('/city-topic/add', [CityController::class, 'addCityTopic']);
 
 

@@ -1,15 +1,15 @@
 @extends('layouts.master') 
 
 @section('content')
-
-<div class="row mb-3" style="margin-top: -36px;">
-    <div class="col-12">
-        <!-- Sayfa Başlığı -->
-        <h1 class="page-title text-center mb-0">
-            {{ $city->title }}  
-        </h1>
+    <div class="row mb-3" style="margin-top: -36px;">
+        <div class="col-12">
+            <!-- Sayfa Başlığı -->
+            <h1 class="page-title text-center mb-0">
+                {{ $city->title }} 
+            </h1>
+        </div>
     </div>
-</div>
+
 
     <div class="row mb-3" style="border-bottom: 1px solid;">
         <div class="col-md-1 d-flex align-items-center mobile-hidden">
@@ -47,8 +47,11 @@
                 </select>
                 </div>
             </div>
-
+            
         </div>
+        
+
+       
     </div>
 
     <div class="row">
@@ -57,6 +60,7 @@
 
             <div class="mobile-hidden d-block">
                 <h4>öne çıkan mevzular</h4>
+
                 <ul id="subcategories-list" class="list-group">
                     @foreach($city_free_zone_topics as $topic)
                         <li class="list-group-item">
@@ -81,7 +85,7 @@
                     </div>
                         <div class="offcanvas-body">
                             
-                        <ul id="subcategories-list" class="list-group mobile-universities-list" >
+                        <ul id="subcategories-list-mobile" class="list-group mobile-universities-list" >
                             @foreach($city_free_zone_topics as $topic)
                                 <li class="list-group-item">
                                     <a href="#" class="text-decoration-none text-dark">
@@ -98,30 +102,62 @@
                 </div>
                 </div>
             </div>
-
         </div>
 
         <!--main content-->
             <div class="col-md-7" >
                 <div class="tab-content">
+
                     <div class="tab-pane fade show active" id="free-zone" role="tabpanel" aria-labelledby="free-zone-tab">
-                        <div class="d-flex justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <span class="categoryTitle">serbest bölge</span>
-                            </div>                            
+                        <div class="d-flex justify-content-end">
+                            
                            <div> 
                                 <button class="btn btnExplain" data-category="free-zone">
-                                    <i class="fa-solid fa-envelope"></i>
+                                    <i class="fa-solid fa-envelope"></i>    
                                 </button>
                             </div>
                         </div>        
-                        <p>Burada serbest bölge İçeriği Yer Alacak.</p>
+                        <div id="free-zone-topic-list">
+                            @foreach ($city_free_zone_topics as $topic)
+                                <div class="topic">
+                                    <h3 class="topic-title mb-3">{{ $topic->topic_title }}</h3>
+                                    <p>{{ $topic->comment }}</p>
+                                    <div class="like-dislike mt-3">
+                                        <div class="like-btn d-inline me-3" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
+                                            <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $topic->likes }}</span>
+                                        </div>
+                                        <div class="dislike-btn d-inline" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
+                                            <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $topic->dislikes }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="meta">
+                                        <div class="d-flex align-items-center entry-footer-bottom">
+                                            <div class="footer-info">
+                                                <div style="display: block;padding: 2px;text-align: end;margin: -5px 0px;">
+                                                    <p style="display: block;white-space:nowrap;color:#001b48;">{{ $topic->user->username ?? 'Anonim' }}</p>
+                                                </div>
+        
+                                                <div style="display: block;padding: 2px;line-height: 14px;">
+                                                    <p style="color: #888;font-size: 12px;">{{ \Carbon\Carbon::parse($topic->created_at)->format('d.m.Y H:i') }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="avatar-container">
+                                                <a href="">
+                                                    <img class="avatar" src="//ekstat.com/img/default-profile-picture-light.svg" data-default="//ekstat.com/img/default-profile-picture-light.svg" alt="usuyensolucan" title="usuyensolucan">
+                                                </a>
+                                            </div>
+                                        </div>                            
+                                    </div>
+                                </div>
+                            @endforeach   
+                        </div>
                     </div>
 
                     <div class="tab-pane fade " id="general-info" role="tabpanel" aria-labelledby="general-tab">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
-                                <span class="categoryTitle">genel bilgiler</span>
+                                {{-- <span class="categoryTitle">genel bilgileri</span> --}}
                             </div>
                            <div> 
                                 <button class="btn btnExplain" data-category="general-info">
@@ -129,13 +165,15 @@
                                 </button>
                             </div>
                         </div>        
-                        <p>Burada Genel Bilgiler İçeriği Yer Alacak.</p>
+                        <div id="general-info-topic-list">
+                            <!-- İçerik buraya gelecek -->
+                        </div>
                     </div>
 
                     <div class="tab-pane fade" id="departmant-programs" role="tabpanel" aria-labelledby="departmant-programs-tab">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
-                                <span class="categoryTitle">bölüm ve programlar </span>
+                                {{-- <span class="categoryTitle">bölüm ve programlar</span> --}}
                             </div>
                            <div> 
                                 <button class="btn btnExplain" data-category="departmant-programs">
@@ -143,13 +181,16 @@
                                 </button>
                             </div>
                         </div>
-                        <p>Burada bölüm ve prog. İçeriği Yer Alacak.</p>
+                        <div id="departmant-programs-topic-list">
+                            <!-- İçerik buraya gelecek -->
+                        </div>
+                    
                     </div>
 
                     <div class="tab-pane fade" id="campus-life" role="tabpanel" aria-labelledby="campus-life-tab">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
-                                <span class="categoryTitle">kampüs hayatı</span>
+                                {{-- <span class="categoryTitle">kampüs hayatı</span> --}}
                             </div>
                            <div> 
                                 <button class="btn btnExplain" data-category="campus-life">
@@ -157,21 +198,27 @@
                                 </button>
                             </div>
                         </div>
-                        <p>Burada kampüs hayatı İçeriği Yer Alacak.</p>
+                        <div id="campus-life-topic-list">
+                            <!-- İçerik buraya gelecek -->
+                        </div>
+                    
                     </div>
 
                     <div class="tab-pane fade" id="question-answer" role="tabpanel" aria-labelledby="question-answer-tab">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
-                                <span class="categoryTitle">soru cevap</span>
+                                {{-- <span class="categoryTitle">soru cevap</span> --}}
                             </div>
-                           <div> 
-                                <button class="btn btnExplain">
+                            <div>
+                                <button class="btn btnExplain" data-category="question-answer">
                                     <i class="fa-solid fa-envelope"></i>
                                 </button>
                             </div>
                         </div>        
-                        <p>Burada soru cevap Yerler İçeriği Yer Alacak.</p>
+                        <div id="question-answer-topic-list">
+                            <!-- İçerik buraya gelecek -->
+                        </div>
+                    
                     </div>
 
                 </div>
@@ -187,18 +234,18 @@
 
     <div class="modal fade" id="topicModal" tabindex="-1" aria-labelledby="topicModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+          <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="topicModalLabel">mevzu nedir </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <h5 class="modal-title" id="topicModalLabel">mevzu nedir </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="topicForm">
+              <form id="topicForm">
                 @csrf
                 <input type="hidden" name="cityId" value="{{$city->id}}">
                 <div class="text-center mb-3">
-                    {{-- <label for="topicTitle" class="form-label">Konu Başlığı</label> --}}
-                    <input type="text" id="title" name="topic_title" class="form-control" 
+                  {{-- <label for="topicTitle" class="form-label">Konu Başlığı</label> --}}
+                  <input type="text" id="title" name="topic_title" class="form-control" 
                     placeholder="başlık" maxlength="80" 
                     style="border: none;border-bottom: 1px solid #ced4da;border-radius: 0px;">
                     <small id="charCount" class="form-text text-muted">
@@ -206,101 +253,148 @@
                     </small>
                 </div>
                 <div class="mb-3">
-                    {{-- <label for="topicDescription" class="form-label">Açıklama</label> --}}
-                    <textarea class="form-control" id="topicDescription" placeholder="açıklamanız" name="comment" rows="3" required></textarea>
+                  {{-- <label for="topicDescription" class="form-label">Açıklama</label> --}}
+                  <textarea class="form-control" id="topicDescription" placeholder="açıklamanız" name="comment" rows="3" required></textarea>
                 </div>
                 <input type="hidden" id="categoryName" name="category">
                 <button type="submit" class="btn btn-primary">Kaydet</button>
-                </form>
+              </form>
             </div>
-            </div>
+          </div>
         </div>
-    </div>
+      </div>
+      
   
 @endsection 
 
 @section('css')
-    <style>
-        .page-title {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #333;
-        }
-        .categoryTitle{
-            font-weight: 700;
-            font-size: medium;
-            margin-right: 5px;
-            margin-left: 5px;
-        }
-        .nav-tabs{
-            border-bottom: 0px;
-        }
-        .nav-tabs .nav-item{
-            width: 16%;
-            text-align: center;
-        }
+<style>
+    .fa-envelope{
+       font-size: 22px !important;
+   }
 
-        .nav-tabs .nav-link {
-            color: #373737 !important;
-            background-color: white; 
-            font-size: 13px;
-            border: none;
-        }
-        .nav-tabs .nav-link.active {
-            border-bottom: 1px solid #bdbdbd;
-            color: #373737 !important;
-        }
+   .categoryTitle{
+       font-weight: 700;
+       font-size: medium;
+       margin-right: 5px;
+       margin-left: 5px;
+   }
+   .btnExplain:hover{
+       border-bottom: 1px groove #000000 !important;
+       border-radius: 0px !important;
+   }
+   .nav-tabs{
+       border-bottom: 0px;
+   }
+   .nav-tabs .nav-item{
+       width: 16%;
+       text-align: center;
+   }
 
-        .nav-tabs .nav-link:hover{
-            border-color: #373737;
-        }
-        .fa-envelope{
-            font-size: 22px !important;
-        }
+   .nav-tabs .nav-link {
+       color: #373737 !important;
+       background-color: white; 
+       font-size: 13px;
+       border: none;
+   }
+   .nav-tabs .nav-link.active {
+       border-bottom: 1px solid #bdbdbd;
+       color: #373737 !important;
+   }
 
-        #subcategories-list .list-group-item{
-            border:none !important;
-            padding: 7px 0px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        
-        .activeCategory {
-            background-color: #373737;
-            color: white;
-            padding: 7px 10px !important;
-        }
+   .nav-tabs .nav-link:hover{
+       border-color: #373737;
+   }
+   .btnExplain:hover{
+       border-bottom: 1px groove #000000 !important;
+       border-radius: 0px !important;
+   }
 
-        .content-section {
-            display: none;
-        }
+   #subcategories-list .list-group-item, #subcategories-list-mobile .list-group-item{
+       border:none !important;
+       padding: 7px 0px;
+       border-radius: 6px;
+       cursor: pointer;
+   }
+   
+   .activeCategory {
+       background-color: #373737;
+       color: white;
+       padding: 7px 10px !important;
+   }
 
-        .content-section:not(.d-none) {
-            display: block;
-        }
+   .content-section {
+       display: none;
+   }
 
-        .list-group-item {
-            cursor: pointer;
-        }
+   .content-section:not(.d-none) {
+       display: block;
+   }
 
-        .list-group-item.activeCategory {
-            background-color: #373737;
-            color: white;
-        }
+   .list-group-item {
+       cursor: pointer;
+   }
 
-        @media (max-width: 768px) {
-            .page-title{
-                font-size: 1rem;
-            }
+   .list-group-item.activeCategory {
+       background-color: #373737;
+       color: white;
+   }
+   .topic {
+       padding: 10px 0;
+   }
+  
+   .topic h3 {
+       margin: 0;
+       font-size: 17px;
+       color: #333;
+   }
+   .topic p {
+       margin: 5px 0;
+       font-size: 14px;
+       color: #666;
+   }
+   .topic .meta {
+       display: flex;
+       justify-content: end;
+   }
+   .avatar{
+       display: block;
+       border-radius: 50%;
+       width: 40px;
+       height: 40px;
+       margin-top: 2px;
+       margin-bottom: 2px;
+   }
+   .footer-info{
+       float: left;
+       vertical-align: middle;
+       padding: 4px;
+       padding-right: 10px;
+   }
+</style>
 
-            .mobile-show {
-                display: block !important;
-            }
-            .mobile-hidden {
-                display: none !important;
-            }
-        }
-    </style>
+<style>
+   .page-title {
+       font-size: 2.5rem;
+       font-weight: bold;
+       color: #333;
+   }
+
+   @media (max-width: 768px) {
+       .page-title{
+           font-size: 1rem;
+       }
+       .mobile-show {
+           display: block !important;
+       }
+       .mobile-hidden {
+           display: none !important;
+       }
+       .tab-content>.active {
+           margin-top: 20px;
+       }
+   }
+</style>
 @endsection
 
 @section('js')
@@ -311,14 +405,15 @@
     <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" />
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
+    
     <script>
         // Mobil Select Elementi
         const mobileTabs = document.getElementById('mobileTabs');
@@ -340,7 +435,7 @@
         });
     
     </script>
-    
+
     <script>
         var quill = new Quill('#editor-container-general', {
             theme: 'snow'
@@ -387,12 +482,20 @@
         }
     </script>
 
+    {{-- change important topics for web and mobile --}}
     <script>
         $(document).ready(function () {
             $(".nav-link").on("click", function () {
                 const category = $(this).data("category"); 
                 const subcategoriesList = $("#subcategories-list"); 
                 const cityId = @json($city->id);
+
+                const topicListContainer = $("#" + category + "-topic-list");
+
+                if (topicListContainer.length === 0) {
+                    console.error("Hedef container bulunamadı.");
+                    return;
+                }
 
                 subcategoriesList.empty();
 
@@ -416,50 +519,82 @@
                         alert("Konular yüklenirken bir hata oluştu.");
                     }
                 });
-            });
-        });
-
-    </script>
-
-     {{-- change important topics for web and mobile --}}
-     <script>
-        $(document).ready(function () {
-            $(".nav-link").on("click", function () {
-                const category = $(this).data("category"); 
-                const subcategoriesList = $("#subcategories-list"); 
-                const cityId = @json($city->id);
-
-                subcategoriesList.empty();
 
                 $.ajax({
-                    url: "/get-city-category-topics",
+                    url: "/get-city-category-topic-content",
                     method: "GET",
-                    data: { category: category ,
-                        cityId:cityId
+                    data: {
+                        category: category,
+                        cityId: cityId,
+                    },
+                    beforeSend: function () {
+                        // Yükleniyor animasyonu eklenebilir
+                        topicListContainer.html("<p>İçerik yükleniyor...</p>");
                     },
                     success: function (response) {
-                        
-                        response.topics.forEach(topic => {
-                            const listItem = `
-                                <li class="list-group-item">
-                                    <a href="/topic/${topic.topic_title_slug}" class="text-decoration-none text-dark">${topic.topic_title}</a>
-                                </li>`;
-                            subcategoriesList.append(listItem);
-                        });
+                        if (response.topics && response.topics.length > 0) {
+                            let newContent = "";
+
+                            response.topics.forEach(topic => {
+                                newContent += `
+                                    <div class="topic">
+                                        <h3 class="topic-title mb-3">${topic.topic_title}</h3>
+                                        <p>${topic.comment}</p>
+                                        <div class="like-dislike mt-3">
+                                            <div class="like-btn d-inline me-3" data-id="${topic.id}" style="cursor: pointer; color: #888;">
+                                                <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">${topic.likes}</span>
+                                            </div>
+                                            <div class="dislike-btn d-inline" data-id="${topic.id}" style="cursor: pointer; color: #888;">
+                                                <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">${topic.dislikes}</span>
+                                            </div>
+                                        </div>
+                                        <div class="meta">
+                                            <div class="d-flex align-items-center entry-footer-bottom">
+                                                <div class="footer-info">
+                                                    <div style="display: block;padding: 2px;text-align: end;margin: -5px 0px;">
+                                                        <p style="display: block;white-space:nowrap;color:#001b48;">${topic.user?.username || "Anonim"}</p>
+                                                    </div>
+                                                    <div style="display: block;padding: 2px;line-height: 14px;">
+                                                        <p style="color: #888;font-size: 12px;">${moment(topic.created_at).format("DD.MM.YYYY HH:mm")}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="avatar-container">
+                                                    <a href="">
+                                                        <img class="avatar" src="//ekstat.com/img/default-profile-picture-light.svg" alt="User Avatar">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                            });
+
+                            topicListContainer.html(newContent); // Yeni içerikleri ekle
+                        } else {
+                            topicListContainer.html("<p>Bu kategoriye ait içerik bulunmamaktadır.</p>");
+                        }
                     },
                     error: function () {
-                        alert("Konular yüklenirken bir hata oluştu.");
-                    }
+                        topicListContainer.html("<p>İçerik yüklenirken bir hata oluştu.</p>");
+                    },
                 });
+
+
             });
 
             // Mobil kategoriler için değişim
             $("#mobileTabs").on("change", function () {
                 const category = $(this).val().replace(/^#/, "");
-                const subcategoriesList = $("#subcategories-list");
+                const subcategoriesListMobile = $("#subcategories-list-mobile");
                 const cityId = @json($city->id);
 
-                subcategoriesList.empty();
+                const topicListContainer = $("#" + category + "-topic-list");
+
+                if (topicListContainer.length === 0) {
+                    console.error("Hedef container bulunamadı.");
+                    return;
+                }
+
+                subcategoriesListMobile.empty();
 
                 $.ajax({
                     url: "/get-city-category-topics",
@@ -469,18 +604,76 @@
                         cityId: cityId
                     },
                     success: function (response) {
-                        
+                        // Dönen verilerdeki her bir başlığı listeye ekle
                         response.topics.forEach(topic => {
                             const listItem = `
                                 <li class="list-group-item">
                                     <a href="/topic/${topic.topic_title_slug}" class="text-decoration-none text-dark">${topic.topic_title}</a>
                                 </li>`;
-                            subcategoriesList.append(listItem);
+                            subcategoriesListMobile.append(listItem);
                         });
                     },
                     error: function () {
                         alert("Konular yüklenirken bir hata oluştu.");
                     }
+                });
+
+                $.ajax({
+                    url: "/get-city-category-topic-content",
+                    method: "GET",
+                    data: {
+                        category: category,
+                        cityId: cityId,
+                    },
+                    beforeSend: function () {
+                        // Yükleniyor animasyonu eklenebilir
+                        topicListContainer.html("<p>İçerik yükleniyor...</p>");
+                    },
+                    success: function (response) {
+                        if (response.topics && response.topics.length > 0) {
+                            let newContent = "";
+
+                            response.topics.forEach(topic => {
+                                newContent += `
+                                    <div class="topic">
+                                        <h3 class="topic-title mb-3">${topic.topic_title}</h3>
+                                        <p>${topic.comment}</p>
+                                        <div class="like-dislike mt-3">
+                                            <div class="like-btn d-inline me-3" data-id="${topic.id}" style="cursor: pointer; color: #888;">
+                                                <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">${topic.likes}</span>
+                                            </div>
+                                            <div class="dislike-btn d-inline" data-id="${topic.id}" style="cursor: pointer; color: #888;">
+                                                <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">${topic.dislikes}</span>
+                                            </div>
+                                        </div>
+                                        <div class="meta">
+                                            <div class="d-flex align-items-center entry-footer-bottom">
+                                                <div class="footer-info">
+                                                    <div style="display: block;padding: 2px;text-align: end;margin: -5px 0px;">
+                                                        <p style="display: block;white-space:nowrap;color:#001b48;">${topic.user?.username || "Anonim"}</p>
+                                                    </div>
+                                                    <div style="display: block;padding: 2px;line-height: 14px;">
+                                                        <p style="color: #888;font-size: 12px;">${moment(topic.created_at).format("DD.MM.YYYY HH:mm")}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="avatar-container">
+                                                    <a href="">
+                                                        <img class="avatar" src="//ekstat.com/img/default-profile-picture-light.svg" alt="User Avatar">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                            });
+
+                            topicListContainer.html(newContent); // Yeni içerikleri ekle
+                        } else {
+                            topicListContainer.html("<p>Bu kategoriye ait içerik bulunmamaktadır.</p>");
+                        }
+                    },
+                    error: function () {
+                        topicListContainer.html("<p>İçerik yüklenirken bir hata oluştu.</p>");
+                    },
                 });
             });
         });
@@ -490,14 +683,14 @@
     <script>
         $(document).ready(function () {
             $('.btnExplain').on('click', function () {
-                
+
                 var isAuthenticated = @json(auth()->check());
 
                 if (!isAuthenticated) {
                     toastr.warning('Önce giriş yapmalısınız.');
                     return;
                 }
-
+                
                 const category = $(this).data('category');
 
                 $('#categoryName').val(category); 
@@ -567,6 +760,57 @@
         @if (session('error'))
             toastr.error("{{ session('error') }}");
         @endif
+    </script>
+
+   {{-- like dislike --}}
+    <script>
+        $(document).on('click', '.like-btn', function () {
+            let topicId = $(this).data('id');
+            console.log('topics' + topicId);
+            let userId = '{{ auth()->id() }}'; 
+
+            if (!userId) {
+                toastr.error('giriş yapmamışsın hemşerim');
+                return; 
+            }
+            
+            let likeCount = $(this).find('.like-count');
+
+            $.ajax({
+                url: `/city/topic/${topicId}/like`,
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function (response) {
+                    likeCount.text(response.likes);
+                }
+            });
+        });
+
+        $(document).on('click', '.dislike-btn', function () {
+            let topicId = $(this).data('id');
+            let userId = '{{ auth()->id() }}'; 
+
+            if (!userId) {
+                toastr.error('giriş yapmamışsın hemşerim');
+                return; 
+            }
+
+            let dislikeCount = $(this).find('.dislike-count');
+
+            $.ajax({
+                url: `/city/topic/${topicId}/dislike`,
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function (response) {
+                    dislikeCount.text(response.dislikes);
+                }
+            });
+        });
+
     </script>
 
     {{-- <script>
