@@ -66,8 +66,12 @@ Route::post('/city-topic/add', [CityController::class, 'addCityTopic']);
 
 Route::get('/forum/universite/{slug}', [UniversityController::class, 'show'])->name('university.show');
 Route::get('/get-univercity-category-topics',[UniversityController::class,'getUnivercityCategoryTopics']);
+Route::get('/get-univercity-category-topic-content',[UniversityController::class,'getUnivercityCategoryTopicContent']);
 Route::post('/university-topic/add', [UniversityController::class, 'addUniversityTopic']);
 
+//like dislikes for university topic
+Route::post('/university/topic/{id}/like', [UniversityController::class, 'like'])->name('topics.like');
+Route::post('/university/topic/{id}/dislike', [UniversityController::class, 'dislike'])->name('topics.dislike');
 
 //create new topic in general form page
 Route::post('/crete-new-topic-general-forum',[ForumController::class,'createTopicGeneralForum'])->name('create.topic.general.forum');

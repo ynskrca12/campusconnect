@@ -1,14 +1,14 @@
 @extends('layouts.master') 
 
 @section('content')
-<div class="row mb-3" style="margin-top: -36px;">
-    <div class="col-12">
-        <!-- Sayfa Başlığı -->
-        <h1 class="page-title text-center mb-0">
-            {{ $university->universite_ad }}  
-        </h1>
+    <div class="row mb-3" style="margin-top: -36px;">
+        <div class="col-12">
+            <!-- Sayfa Başlığı -->
+            <h1 class="page-title text-center mb-0">
+                {{ $university->universite_ad }}  
+            </h1>
+        </div>
     </div>
-</div>
 
 
     <div class="row mb-3" style="border-bottom: 1px solid;">
@@ -109,23 +109,55 @@
                 <div class="tab-content">
 
                     <div class="tab-pane fade show active" id="free-zone" role="tabpanel" aria-labelledby="free-zone-tab">
-                        <div class="d-flex justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <span class="categoryTitle">serbest bölge</span>
-                            </div>
+                        <div class="d-flex justify-content-end">
+                            
                            <div> 
                                 <button class="btn btnExplain" data-category="free-zone">
                                     <i class="fa-solid fa-envelope"></i>    
                                 </button>
                             </div>
                         </div>        
-                        <p>Burada serbest bölge İçeriği Yer Alacak.</p>
+                        <div id="free-zone-topic-list">
+                            @foreach ($univercity_free_zone_topics as $topic)
+                                <div class="topic">
+                                    <h3 class="topic-title mb-3">{{ $topic->topic_title }}</h3>
+                                    <p>{{ $topic->comment }}</p>
+                                    <div class="like-dislike mt-3">
+                                        <div class="like-btn d-inline me-3" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
+                                            <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $topic->likes }}</span>
+                                        </div>
+                                        <div class="dislike-btn d-inline" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
+                                            <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $topic->dislikes }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="meta">
+                                        <div class="d-flex align-items-center entry-footer-bottom">
+                                            <div class="footer-info">
+                                                <div style="display: block;padding: 2px;text-align: end;margin: -5px 0px;">
+                                                    <p style="display: block;white-space:nowrap;color:#001b48;">{{ $topic->user->username ?? 'Anonim' }}</p>
+                                                </div>
+        
+                                                <div style="display: block;padding: 2px;line-height: 14px;">
+                                                    <p style="color: #888;font-size: 12px;">{{ \Carbon\Carbon::parse($topic->created_at)->format('d.m.Y H:i') }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="avatar-container">
+                                                <a href="">
+                                                    <img class="avatar" src="//ekstat.com/img/default-profile-picture-light.svg" data-default="//ekstat.com/img/default-profile-picture-light.svg" alt="usuyensolucan" title="usuyensolucan">
+                                                </a>
+                                            </div>
+                                        </div>                            
+                                    </div>
+                                </div>
+                            @endforeach   
+                        </div>
                     </div>
 
                     <div class="tab-pane fade " id="general-info" role="tabpanel" aria-labelledby="general-tab">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
-                                <span class="categoryTitle">genel bilgileri</span>
+                                {{-- <span class="categoryTitle">genel bilgileri</span> --}}
                             </div>
                            <div> 
                                 <button class="btn btnExplain" data-category="general-info">
@@ -133,13 +165,15 @@
                                 </button>
                             </div>
                         </div>        
-                        <p>Burada Genel Bilgiler İçeriği Yer Alacak.</p>
+                        <div id="general-info-topic-list">
+                            <!-- İçerik buraya gelecek -->
+                        </div>
                     </div>
 
                     <div class="tab-pane fade" id="departmant-programs" role="tabpanel" aria-labelledby="departmant-programs-tab">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
-                                <span class="categoryTitle">bölüm ve programlar</span>
+                                {{-- <span class="categoryTitle">bölüm ve programlar</span> --}}
                             </div>
                            <div> 
                                 <button class="btn btnExplain" data-category="departmant-programs">
@@ -147,13 +181,16 @@
                                 </button>
                             </div>
                         </div>
-                        <p>Burada bölüm ve prog. İçeriği Yer Alacak.</p>
+                        <div id="departmant-programs-topic-list">
+                            <!-- İçerik buraya gelecek -->
+                        </div>
+                    
                     </div>
 
                     <div class="tab-pane fade" id="campus-life" role="tabpanel" aria-labelledby="campus-life-tab">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
-                                <span class="categoryTitle">kampüs hayatı</span>
+                                {{-- <span class="categoryTitle">kampüs hayatı</span> --}}
                             </div>
                            <div> 
                                 <button class="btn btnExplain" data-category="campus-life">
@@ -161,21 +198,27 @@
                                 </button>
                             </div>
                         </div>
-                        <p>Burada kampüs hayatı İçeriği Yer Alacak.</p>
+                        <div id="campus-life-topic-list">
+                            <!-- İçerik buraya gelecek -->
+                        </div>
+                    
                     </div>
 
                     <div class="tab-pane fade" id="question-answer" role="tabpanel" aria-labelledby="question-answer-tab">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
-                                <span class="categoryTitle">soru cevap</span>
+                                {{-- <span class="categoryTitle">soru cevap</span> --}}
                             </div>
                             <div>
-                                <button class="btn btnExplain">
+                                <button class="btn btnExplain" data-category="question-answer">
                                     <i class="fa-solid fa-envelope"></i>
                                 </button>
                             </div>
                         </div>        
-                        <p>Burada soru cevap Yerler İçeriği Yer Alacak.</p>
+                        <div id="question-answer-topic-list">
+                            <!-- İçerik buraya gelecek -->
+                        </div>
+                    
                     </div>
 
                 </div>
@@ -296,6 +339,38 @@
             background-color: #373737;
             color: white;
         }
+        .topic {
+            padding: 10px 0;
+        }
+       
+        .topic h3 {
+            margin: 0;
+            font-size: 17px;
+            color: #333;
+        }
+        .topic p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .topic .meta {
+            display: flex;
+            justify-content: end;
+        }
+        .avatar{
+            display: block;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-top: 2px;
+            margin-bottom: 2px;
+        }
+        .footer-info{
+            float: left;
+            vertical-align: middle;
+            padding: 4px;
+            padding-right: 10px;
+        }
     </style>
 
     <style>
@@ -336,6 +411,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
+    
     <script>
         // Mobil Select Elementi
         const mobileTabs = document.getElementById('mobileTabs');
@@ -412,6 +490,13 @@
                 const subcategoriesList = $("#subcategories-list"); 
                 const univercityId = @json($university->id);
 
+                const topicListContainer = $("#" + category + "-topic-list");
+
+                if (topicListContainer.length === 0) {
+                    console.error("Hedef container bulunamadı.");
+                    return;
+                }
+
                 subcategoriesList.empty();
 
                 $.ajax({
@@ -434,6 +519,66 @@
                         alert("Konular yüklenirken bir hata oluştu.");
                     }
                 });
+
+                $.ajax({
+                    url: "/get-univercity-category-topic-content",
+                    method: "GET",
+                    data: {
+                        category: category,
+                        univercityId: univercityId,
+                    },
+                    beforeSend: function () {
+                        // Yükleniyor animasyonu eklenebilir
+                        topicListContainer.html("<p>İçerik yükleniyor...</p>");
+                    },
+                    success: function (response) {
+                        if (response.topics && response.topics.length > 0) {
+                            let newContent = "";
+
+                            response.topics.forEach(topic => {
+                                newContent += `
+                                    <div class="topic">
+                                        <h3 class="topic-title mb-3">${topic.topic_title}</h3>
+                                        <p>${topic.comment}</p>
+                                        <div class="like-dislike mt-3">
+                                            <div class="like-btn d-inline me-3" data-id="${topic.id}" style="cursor: pointer; color: #888;">
+                                                <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">${topic.likes}</span>
+                                            </div>
+                                            <div class="dislike-btn d-inline" data-id="${topic.id}" style="cursor: pointer; color: #888;">
+                                                <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">${topic.dislikes}</span>
+                                            </div>
+                                        </div>
+                                        <div class="meta">
+                                            <div class="d-flex align-items-center entry-footer-bottom">
+                                                <div class="footer-info">
+                                                    <div style="display: block;padding: 2px;text-align: end;margin: -5px 0px;">
+                                                        <p style="display: block;white-space:nowrap;color:#001b48;">${topic.user?.username || "Anonim"}</p>
+                                                    </div>
+                                                    <div style="display: block;padding: 2px;line-height: 14px;">
+                                                        <p style="color: #888;font-size: 12px;">${moment(topic.created_at).format("DD.MM.YYYY HH:mm")}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="avatar-container">
+                                                    <a href="">
+                                                        <img class="avatar" src="//ekstat.com/img/default-profile-picture-light.svg" alt="User Avatar">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                            });
+
+                            topicListContainer.html(newContent); // Yeni içerikleri ekle
+                        } else {
+                            topicListContainer.html("<p>Bu kategoriye ait içerik bulunmamaktadır.</p>");
+                        }
+                    },
+                    error: function () {
+                        topicListContainer.html("<p>İçerik yüklenirken bir hata oluştu.</p>");
+                    },
+                });
+
+
             });
 
             // Mobil kategoriler için değişim
@@ -552,6 +697,56 @@
         @endif
     </script>
 
+   {{-- like dislike --}}
+    <script>
+        $(document).on('click', '.like-btn', function () {
+            let topicId = $(this).data('id');
+            console.log('topics' + topicId);
+            let userId = '{{ auth()->id() }}'; 
+
+            if (!userId) {
+                toastr.error('giriş yapmamışsın hemşerim');
+                return; 
+            }
+            
+            let likeCount = $(this).find('.like-count');
+
+            $.ajax({
+                url: `/university/topic/${topicId}/like`,
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function (response) {
+                    likeCount.text(response.likes);
+                }
+            });
+        });
+
+        $(document).on('click', '.dislike-btn', function () {
+            let topicId = $(this).data('id');
+            let userId = '{{ auth()->id() }}'; 
+
+            if (!userId) {
+                toastr.error('giriş yapmamışsın hemşerim');
+                return; 
+            }
+
+            let dislikeCount = $(this).find('.dislike-count');
+
+            $.ajax({
+                url: `/university/topic/${topicId}/dislike`,
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function (response) {
+                    dislikeCount.text(response.dislikes);
+                }
+            });
+        });
+
+    </script>
 
     {{-- <script>
         $(document).ready(function () {
