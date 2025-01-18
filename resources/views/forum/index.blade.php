@@ -5,14 +5,35 @@
     <div class="row" style="margin-top: -25px;">
         <!-- Sol Menü (Alt Başlıklar) -->
         <div class="col-md-3">
-            <h4 class="sidebarTitle">popüler mevzular</h4>
-            <ul id="subcategories-list" class="list-group">
-                
-            </ul>
+            <div class="mobile-hidden">
+                <h4 class="sidebarTitle">öne çıkan mevzular</h4>
+                <ul id="subcategories-list" class="list-group"></ul>
+            </div>
+            
+            <div class="mobile-show d-none mb-4">
+                <a class="btn btn-primary w-100" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                    <i class="bi bi-chat-dots me-2"></i> öne çıkan mevzular
+                </a>           
+
+                <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                    <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">öne çıkan mevzular</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                        <div class="offcanvas-body">
+                            
+                        <ul id="subcategories-list-mobile" class="list-group" ></ul>
+            
+                        <div id="pagination-container" class="pagination-container mt-3">
+                    
+                    </div>
+                </div>
+                </div>
+            </div>
         </div>
 
         <!-- Ana İçerik Alanı -->
-        <div class="col-md-7" style="border-left: 1px solid #e0e0e0;">
+        <div class="col-md-7 main-content">
             <!-- Forum Başlıkları -->
             <div class="d-flex justify-content-between mb-3">
                 <div>
@@ -247,6 +268,33 @@
             font-size: 13px;
         }
     </style>
+
+    <style>
+        @media (max-width: 768px) {
+            .mobile-show {
+                display: block !important;
+            }
+            .mobile-hidden {
+                display: none !important;
+            }
+            .topic-title{
+                padding-right: 0px !important;
+            }
+            .main-content{
+                border-left: none !important;
+            }
+        }
+
+        #subcategories-list .list-group-item, #subcategories-list-mobile .list-group-item{
+            border:none !important;
+            padding: 7px 0px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .main-content{
+            border-left: 1px solid #e0e0e0;
+        }
+    </style>
 @endsection
 
 @section('js')
@@ -256,7 +304,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    
     {{-- like dislike --}}
     <script>
         $(document).on('click', '.like-btn', function () {
@@ -352,6 +401,15 @@
 
                         // general topics
                         $("#subcategories-list").append(
+                        `<li class="list-group-item mb-1">
+                                <a href="/forum/mevzu/${item.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
+                                    <span class="topic-title-sub-category">${item.topic_title}</span>
+                                    <span class="count">${generalSubCategoriesCount}</span>
+                                </a>
+                            </li>`
+                        ); 
+
+                        $("#subcategories-list-mobile").append(
                         `<li class="list-group-item mb-1">
                                 <a href="/forum/mevzu/${item.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
                                     <span class="topic-title-sub-category">${item.topic_title}</span>
