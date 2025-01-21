@@ -5,14 +5,14 @@
     <div class="row">
         <!-- Sol Menü (Alt Başlıklar) -->
         <div class="col-md-3">
-            <h4 class="sidebarTitle">popüler mevzular</h4>
-            <ul id="subcategories-list" class="list-group">
-                
-            </ul>
+            <div class="mobile-hidden">
+                <h4 class="sidebarTitle">popüler mevzular</h4>
+                <ul id="subcategories-list" class="list-group"></ul>
+            </div>    
         </div>
 
         <!-- Ana İçerik Alanı -->
-        <div class="col-md-7 position-relative" style="border-left: 1px solid #e0e0e0;">
+        <div class="col-md-7 position-relative main-content">
 
             <!-- Genel Tartışma Alanı İçerikleri -->
             <div id="general-content" class="content-area">
@@ -20,7 +20,7 @@
                 
                 <div id="topic-list">
                     @foreach ($comments as $comment)
-                        <div class="topic">
+                        <div class="topic mb-3">
                             <p>{!! $comment['comment'] !!}</p>
                             <div class="like-dislike mt-3">
                                 <div class="like-btn d-inline me-3" data-id="{{ $comment['id'] }}" style="cursor: pointer; color: #888;">
@@ -170,7 +170,7 @@
         .topic-title{
             font-weight: bold;
             word-wrap: break-word;
-            padding-right: 130px;
+            /* padding-right: 130px; */
             font-size: 20px !important;
         }
 
@@ -227,6 +227,24 @@
         /* Editörün iç alanı için kenar çizgisi kaldırma */
         .ck-editor__editable_inline {
             height: 300px !important; /* Sabit yükseklik */
+        }
+        .main-content{
+            border-left: 1px solid #e0e0e0;
+        }
+       
+        @media (max-width: 768px) {
+            .mobile-show {
+                display: block !important;
+            }
+            .mobile-hidden {
+                display: none !important;
+            }
+            .main-content{
+                border-left: none !important;
+            }        
+            .content-area {
+                padding: 0px 10px;
+            }
         }
     </style>
 @endsection

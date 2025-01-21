@@ -52,8 +52,13 @@
                 </div>
                 <div id="topic-list">
                     @foreach ($randomTopics as $topic)
-                        <div class="topic">
-                            <h3 class="topic-title mb-3">{{ $topic->topic_title }}</h3>
+                        <div class="topic mb-3">
+                            <h3 class="topic-title mb-3">
+                                <a href="{{ route('topic.comments', ['slug' => $topic->topic_title_slug]) }}">
+                                    {{ $topic->topic_title }}
+                                </a>
+                            </h3>
+                            
                             <p>{{ $topic->comment }}</p>
                             <div class="like-dislike mt-3">
                                 <div class="like-btn d-inline me-3" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
@@ -131,11 +136,18 @@
             padding: 10px 0;
         }
        
-        .topic h3 {
+        .topic h3 a{
             margin: 0;
             font-size: 17px;
-            color: #333;
+            color: #333 !important;
+            text-decoration: none;
         }
+
+        .topic h3 a:hover{
+            color: #424242 !important; 
+            text-decoration: underline; 
+        }
+
         .topic p {
             margin: 5px 0;
             font-size: 14px;
@@ -192,7 +204,6 @@
         .topic-title{
             font-weight: bold;
             word-wrap: break-word;
-            padding-right: 130px;
         }
 
         .topic-title-sub-category {
@@ -282,6 +293,9 @@
             }
             .main-content{
                 border-left: none !important;
+            }
+            .content-area {
+                padding: 0px 10px;
             }
         }
 
@@ -579,9 +593,15 @@
                 success: function (response) {
                     let content = '';
                     response.data.forEach(topic => {
+                    console.log(topic.topic_title_slug)
+
                         content += `
-                            <div class="topic">
-                                <h3 class="topic-title mb-3">${topic.topic_title}</h3>
+                            <div class="topic mb-3">
+                                 <h3 class="topic-title mb-3">
+                                    <a href="/forum/mevzu/${topic.topic_title_slug}">
+                                        ${topic.topic_title}
+                                    </a>
+                                </h3>
                                 <p>${topic.comment}</p>
                                     <div class="like-dislike mt-3">
                                         <div class="like-btn d-inline me-3" data-id="${topic.id}" style="cursor: pointer; color: #888;">
