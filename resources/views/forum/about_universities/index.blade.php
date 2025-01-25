@@ -532,7 +532,6 @@
                             const listItem = `
                                 <li class="list-group-item">
                                     <a href="/forum/universite/mevzu/${topic.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
-                                    
                                          <span class="topic-title-sub-category">${topic.topic_title}</span>
                                          <span class="count">${topic.count}</span>
                                     </a>
@@ -636,9 +635,14 @@
                         // Dönen verilerdeki her bir başlığı listeye ekle
                         response.topics.forEach(topic => {
                             const listItem = `
-                                <li class="list-group-item">
-                                    <a href="/topic/${topic.topic_title_slug}" class="text-decoration-none text-dark">${topic.topic_title}</a>
+                               <li class="list-group-item">
+                                    <a href="/forum/universite/mevzu/${topic.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
+                                         <span class="topic-title-sub-category">${topic.topic_title}</span>
+                                         <span class="count">${topic.count}</span>
+                                    </a>
                                 </li>`;
+
+                                
                             subcategoriesListMobile.append(listItem);
                         });
                     },
@@ -665,7 +669,11 @@
                             response.topics.forEach(topic => {
                                 newContent += `
                                     <div class="topic">
-                                        <h3 class="topic-title mb-3">${topic.topic_title}</h3>
+                                        <h3 class="topic-title mb-3">
+                                            <a href="/forum/universite/mevzu/${topic.topic_title_slug}">
+                                                ${topic.topic_title}
+                                            </a>
+                                        </h3>
                                         <p>${topic.comment}</p>
                                         <div class="like-dislike mt-3">
                                             <div class="like-btn d-inline me-3" data-id="${topic.id}" style="cursor: pointer; color: #888;">
