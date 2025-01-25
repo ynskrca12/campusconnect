@@ -62,11 +62,11 @@
                 <h4>öne çıkan mevzular</h4>
 
                 <ul id="subcategories-list" class="list-group">
-                    @foreach($univercity_free_zone_topics as $topic)
+                    @foreach($univercity_free_zone_topics_count as $topic)
                         <li class="list-group-item">
-                            <a href="#" class="text-decoration-none text-dark">
-                                {{-- <a href="{{ route('topic.detail', ['id' => $topic->id]) }}" class="text-decoration-none text-dark"> --}}
-                                {{ $topic->topic_title }}
+                            <a href="{{ route('university.topic.comments', ['slug' => $topic->topic_title_slug]) }}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
+                                <span class="topic-title-sub-category">{{ $topic->topic_title }}</span>
+                                <span class="count">{{ $topic->count }}</span>                                
                             </a>
                         </li>
                     @endforeach
@@ -120,7 +120,11 @@
                         <div id="free-zone-topic-list">
                             @foreach ($univercity_free_zone_topics as $topic)
                                 <div class="topic">
-                                    <h3 class="topic-title mb-3">{{ $topic->topic_title }}</h3>
+                                    <h3 class="topic-title mb-3">
+                                        <a href="{{ route('university.topic.comments', ['slug' => $topic->topic_title_slug]) }}" class="text-decoration-none text-dark"> 
+                                            {{ $topic->topic_title }}
+                                        </a>
+                                    </h3>
                                     <p>{{ $topic->comment }}</p>
                                     <div class="like-dislike mt-3">
                                         <div class="like-btn d-inline me-3" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
@@ -379,6 +383,33 @@
             font-weight: bold;
             color: #333;
         }
+        .topic h3 a{
+            margin: 0;
+            font-size: 17px;
+            color: #333 !important;
+            text-decoration: none;
+        }
+        .topic h3 a:hover{
+            color: #424242 !important; 
+            text-decoration: underline; 
+        }
+        .subCategoryTag{
+            color: #000000 !important;
+            font-size: 13px;
+            font-weight: 400;
+        }
+        .topic-title-sub-category {
+            flex: 1;
+            word-wrap: break-word; 
+            word-break: break-word;
+        }
+        .count {
+            margin-left: auto; 
+            display: inline-block;
+            margin-left: 15px;
+            font-weight: 700;
+            color: #001b48;
+        }
 
         @media (max-width: 768px) {
             .page-title{
@@ -465,16 +496,6 @@
             document.querySelector('#comment').value = quill.root.innerHTML;
         };
     </script>
-    
-    <script>
-        $(document).ready(function () {
-            // Alt başlık geçişleri
-            $('#subcategories-list .list-group-item').on('click', function () {
-                $('#subcategories-list .list-group-item').removeClass('activeCategory');
-                $(this).addClass('activeCategory');
-            });
-        });
-    </script>
 
     <script>
         function goBack() {
@@ -510,7 +531,11 @@
                         response.topics.forEach(topic => {
                             const listItem = `
                                 <li class="list-group-item">
-                                    <a href="/topic/${topic.topic_title_slug}" class="text-decoration-none text-dark">${topic.topic_title}</a>
+                                    <a href="/forum/universite/mevzu/${topic.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
+                                    
+                                         <span class="topic-title-sub-category">${topic.topic_title}</span>
+                                         <span class="count">${topic.count}</span>
+                                    </a>
                                 </li>`;
                             subcategoriesList.append(listItem);
                         });
@@ -538,7 +563,11 @@
                             response.topics.forEach(topic => {
                                 newContent += `
                                     <div class="topic">
-                                        <h3 class="topic-title mb-3">${topic.topic_title}</h3>
+                                        <h3 class="topic-title mb-3">
+                                            <a href="/forum/universite/mevzu/${topic.topic_title_slug}">
+                                                ${topic.topic_title}
+                                            </a>
+                                        </h3>
                                         <p>${topic.comment}</p>
                                         <div class="like-dislike mt-3">
                                             <div class="like-btn d-inline me-3" data-id="${topic.id}" style="cursor: pointer; color: #888;">

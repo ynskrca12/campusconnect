@@ -66,9 +66,11 @@ Route::post('/city-topic/add', [CityController::class, 'addCityTopic']);
 
 
 Route::get('/forum/universite/{slug}', [UniversityController::class, 'show'])->name('university.show');
+Route::get('/forum/universite/mevzu/{slug}',[UniversityController::class,'topicComments'])->name('university.topic.comments');
 Route::get('/get-univercity-category-topics',[UniversityController::class,'getUnivercityCategoryTopics']);
 Route::get('/get-univercity-category-topic-content',[UniversityController::class,'getUnivercityCategoryTopicContent']);
 Route::post('/university-topic/add', [UniversityController::class, 'addUniversityTopic']);
+Route::post('/add/university/topic/comment', [UniversityController::class, 'storeComment'])->name('add.university.topic.comment');
 
 //like dislikes for university topic
 Route::post('/university/topic/{id}/like', [UniversityController::class, 'like'])->name('topics.like');

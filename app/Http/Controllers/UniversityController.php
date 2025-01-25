@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\University;
+use App\Models\UniversityTopic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
+
+
 
 class UniversityController extends Controller
 {
@@ -57,12 +62,19 @@ class UniversityController extends Controller
             ->where('category','free-zone')
             ->get();
 
+        $univercity_free_zone_topics_count = DB::table('universities_topics')
+            ->select('topic_title', 'topic_title_slug', DB::raw('COUNT(*) as count'))
+            ->where('university_id',$university->id)
+            ->where('category','free-zone')
+            ->groupBy('topic_title', 'topic_title_slug')
+            ->get();    
+
         if (!$university) {
             abort(404, 'Üniversite bulunamadı');
         }
 
         return view('forum.about_universities.index',
-         compact('university','univercity_free_zone_topics'));
+         compact('university','univercity_free_zone_topics','univercity_free_zone_topics_count'));
     }//End
 
     public function getUnivercityCategoryTopics(Request $request){
@@ -72,7 +84,8 @@ class UniversityController extends Controller
         $topics = DB::table('universities_topics')
             ->where('university_id',$univercityId)
             ->where('category',$category)
-            ->select('topic_title', 'topic_title_slug')
+            ->select('topic_title', 'topic_title_slug', DB::raw('COUNT(*) as count'))
+            ->groupBy('topic_title', 'topic_title_slug')
             ->get();
 
             return response()->json(['topics' => $topics]);
@@ -221,8 +234,6 @@ class UniversityController extends Controller
         }
     }//End
     
-
-
     public function dislike($id)
     {
         $userId = auth()->id();
@@ -293,5 +304,87 @@ class UniversityController extends Controller
         }
     }//End
 
+    public function topicComments($slug)
+    {
+        try {
+            // if slug is empty
+            if (empty($slug)) {
+                return redirect()->back()->withErrors('Slug değeri sağlanmadı.');
+            }
 
+            $topicsQuery = UniversityTopic::where('topic_title_slug', $slug);
+
+            if ($topicsQuery->count() === 0) {
+                abort(404, 'Bu slug ile ilişkili bir konu bulunamadı.');
+            }
+
+            $comments         = $topicsQuery->paginate(9);
+            $topicTitle       = $comments->first()->topic_title ?? 'Başlık Yok';
+            $topicTitleSlug   = $comments->first()->topic_title_slug ?? 'Slug Yok';
+            $university_id    = $comments->first()->university_id;
+            $comment_category = $comments->first()->category;
+
+            $universities_topics = DB::table('universities_topics')
+                ->select('topic_title', 'topic_title_slug', DB::raw('COUNT(topic_title_slug) as count'))
+                ->groupBy('topic_title', 'topic_title_slug')
+                ->get();
+
+            // `forum.university_topic` Blade dosyasına verileri döndür
+            return view('universite.university_topic', compact('topicTitle', 'comments', 'universities_topics', 'topicTitleSlug','university_id','comment_category'));
+
+        } catch (\Exception $e) {
+            Log::error('UniversityController:topicComments fonksiyonu hata verdi: ', [
+                'error' => $e->getMessage(),
+                'slug' => $slug,
+            ]);
+
+            return redirect()->back()->withErrors('Bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+        }
+    }//End
+
+    public function storeComment(Request $request)
+    {
+        try {
+            
+            if (!Auth::check()) {
+                return response()->json(['error' => 'önce giriş yap hemşerim.'], 401);
+            }
+
+            // Validate the comment input
+            $validator = Validator::make($request->all(), [
+                'comment' => 'required|string|min:3|max:2000',
+                'topic_title_slug' => 'required|string|exists:universities_topics,topic_title_slug', 
+            ]);
+
+            // If validation fails, return the first validation error
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors()->first()], 422);
+            }
+
+            $topic = UniversityTopic::where('topic_title_slug', $request->input('topic_title_slug'))->first();
+
+            if (!$topic) {
+                return response()->json(['error' => 'Topic not found.'], 404);
+            }
+
+            // Create a new comment instance and populate its fields
+            $comment = new UniversityTopic();
+            $comment->user_id          = Auth::id(); 
+            $comment->topic_title      = $topic->topic_title; 
+            $comment->topic_title_slug = $request->input('topic_title_slug'); 
+            $comment->comment          = $request->input('comment'); 
+            $comment->university_id    = $request->input('university_id'); 
+            $comment->category         = $request->input('comment_category'); 
+            $comment->created_at       = Carbon::now(); 
+
+            $comment->save();
+
+            return response()->json(['message' => 'Fikriniz gönderildi.'], 200);
+        } catch (\Exception $e) {
+            // Log the error for debugging purposes
+            Log::error('Error while saving the comment: ' . $e->getMessage());
+
+            return response()->json(['error' => 'Bir hata oluştu.Lütfen tekrar deneyin.'], 500);
+        }
+    }//End
 }
