@@ -5,20 +5,20 @@
             {{ Auth::user()->name }}   {{ Session::get('info') }}
         </div>
     @endif
-
-    <div class="container">
-        <div class="info-section mb-4">
-            <div class="overlay"></div>
-            <div class="info-content">
-                <h2 class="animated-title">Üniversite & Şehir Rehberine Hoş Geldiniz</h2>
-                <p class="animated-text">
-                    Üniversite öğrencileri ve adayları için, şehirler ve üniversiteler hakkında en güncel bilgileri 
-                    bulabileceğiniz, öğrenci yorumlarını okuyabileceğiniz ve forumlarda tartışmalara katılabileceğiniz 
-                    interaktif bir platform sunuyoruz.
-                </p>
-                <a href="{{ route('forum') }}" class="btn btn-primary btn-animated">Keşfetmeye Başla</a>
-            </div>
+    <div class="info-section mb-4">
+        <div class="overlay"></div>
+        <div class="info-content">
+            <h2 class="animated-title">Üniversite & Şehir Rehberine Hoş Geldiniz</h2>
+            <p class="animated-text">
+                Üniversite öğrencileri ve adayları için, şehirler ve üniversiteler hakkında en güncel bilgileri 
+                bulabileceğiniz, öğrenci yorumlarını okuyabileceğiniz ve forumlarda tartışmalara katılabileceğiniz 
+                interaktif bir platform sunuyoruz.
+            </p>
+            <a href="{{ route('forum') }}" class="btn btn-primary btn-animated">Keşfetmeye Başla</a>
         </div>
+    </div>
+    <div class="container">
+      
         
         <div class="row mb-4 mt-4" style="margin-top: 40px !important;">
             <div class="col-12 text-center">
@@ -52,6 +52,13 @@
         background-position: center;
         background-size: cover;
     } */
+
+    .navbar.fixed-top + .page-body-wrapper {
+    padding: 63px 0px 0px 0px !important;
+}
+.content-wrapper {
+    padding: 0px !important;
+}
 
 </style>
 
@@ -88,6 +95,8 @@
         from { transform: translateX(0); }
         to { transform: translateX(-50%); } 
     }
+
+  
 </style>
 
 <style>
@@ -105,7 +114,7 @@
         text-align: center;
         padding: 20px;
         overflow: hidden;
-        border-radius: 17px;
+        /* border-radius: 17px; */
     }
 
     .overlay {
@@ -121,7 +130,7 @@
         position: relative;
         color: #fff;
         z-index: 2;
-        max-width: 600px;
+        max-width: 800px;
         animation: fadeIn 1.5s ease-in-out;
     }
 
@@ -151,6 +160,18 @@
     .btn-animated:hover {
         transform: scale(1.1);
         background: #e68900;
+    }
+    @media (max-width: 768px) {
+        .info-content h2 {
+            font-size: 26px !important; 
+        }
+        .info-content p {
+            font-size: 14px !important;
+        }
+
+        .navbar.fixed-top + .page-body-wrapper {
+            padding: 56px 0px 0px 0px !important;
+        }
     }
 </style>
 @endsection
