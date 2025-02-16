@@ -7,7 +7,20 @@
     @endif
 
     <div class="container">
-        <div class="row">
+        <div class="info-section mb-4">
+            <div class="overlay"></div>
+            <div class="info-content">
+                <h2 class="animated-title">Üniversite & Şehir Rehberine Hoş Geldiniz</h2>
+                <p class="animated-text">
+                    Üniversite öğrencileri ve adayları için, şehirler ve üniversiteler hakkında en güncel bilgileri 
+                    bulabileceğiniz, öğrenci yorumlarını okuyabileceğiniz ve forumlarda tartışmalara katılabileceğiniz 
+                    interaktif bir platform sunuyoruz.
+                </p>
+                <a href="{{ route('forum') }}" class="btn btn-primary btn-animated">Keşfetmeye Başla</a>
+            </div>
+        </div>
+        
+        <div class="row mb-4 mt-4" style="margin-top: 40px !important;">
             <div class="col-12 text-center">
                 <h3>Üniversiteler</h3>
             </div>
@@ -74,6 +87,70 @@
     @keyframes slide {
         from { transform: translateX(0); }
         to { transform: translateX(-50%); } 
+    }
+</style>
+
+<style>
+     .info-section {
+        position: relative;
+        width: 100%;
+        height: 400px;
+        /* background-image: url('https://source.unsplash.com/1600x900/?university,students'); */
+        background: linear-gradient(to right, #1e3c72, #2a5298);
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+        overflow: hidden;
+        border-radius: 17px;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    .info-content {
+        position: relative;
+        color: #fff;
+        z-index: 2;
+        max-width: 600px;
+        animation: fadeIn 1.5s ease-in-out;
+    }
+
+    .info-content h2 {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        animation: slideInDown 1s ease-in-out;
+    }
+
+    .info-content p {
+        font-size: 16px;
+        margin-bottom: 20px;
+        animation: slideInUp 1s ease-in-out;
+    }
+
+    .btn-animated {
+        font-size: 18px;
+        padding: 10px 20px;
+        background: #ff9800;
+        border: none;
+        color: white;
+        text-decoration: none;
+        transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+    }
+
+    .btn-animated:hover {
+        transform: scale(1.1);
+        background: #e68900;
     }
 </style>
 @endsection
