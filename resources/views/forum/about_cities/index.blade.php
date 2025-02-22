@@ -25,10 +25,10 @@
                     <a class="nav-link" id="general-tab" data-bs-toggle="tab" href="#general-info" role="tab" aria-controls="general-info" aria-selected="true" data-category="general-info">genel bilgiler</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="departmant-programs-tab" data-bs-toggle="tab" href="#departmant-programs" role="tab" aria-controls="departmant-programs" aria-selected="false" data-category="departmant-programs">bölüm ve prog.</a>
+                    <a class="nav-link" id="social-life-tab" data-bs-toggle="tab" href="#social-life" role="tab" aria-controls="social-life" aria-selected="false" data-category="social-life">sosyal hayat</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="campus-life-tab" data-bs-toggle="tab" href="#campus-life" role="tab" aria-controls="campus-life" aria-selected="false" data-category="campus-life">kampüs hayatı</a>
+                    <a class="nav-link" id="job-opportunities-tab" data-bs-toggle="tab" href="#job-opportunities" role="tab" aria-controls="job-opportunities" aria-selected="false" data-category="job-opportunities">iş fırsatları</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="question-answer-tab" data-bs-toggle="tab" href="#question-answer" role="tab" aria-controls="question-answer" aria-selected="false" data-category="question-answer">soru cevap</a>
@@ -41,8 +41,8 @@
                     style="font-size: 13px;width: 70%;">
                     <option value="#free-zone" selected>serbest bölge</option>
                     <option value="#general-info">genel bilgiler</option>
-                    <option value="#departmant-programs">bölüm ve programlar</option>
-                    <option value="#campus-life">kampüs hayatı</option>
+                    <option value="#social-life">sosyal yaşam</option>
+                    <option value="#job-opportunities">iş fırsatları</option>
                     <option value="#question-answer">soru cevap</option>
                 </select>
                 </div>
@@ -170,35 +170,35 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane fade" id="departmant-programs" role="tabpanel" aria-labelledby="departmant-programs-tab">
+                    <div class="tab-pane fade" id="social-life" role="tabpanel" aria-labelledby="social-life-tab">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
                                 {{-- <span class="categoryTitle">bölüm ve programlar</span> --}}
                             </div>
                            <div> 
-                                <button class="btn btnExplain" data-category="departmant-programs">
+                                <button class="btn btnExplain" data-category="social-life">
                                     <i class="fa-solid fa-envelope"></i>
                                 </button>
                             </div>
                         </div>
-                        <div id="departmant-programs-topic-list">
+                        <div id="social-life-topic-list">
                             <!-- İçerik buraya gelecek -->
                         </div>
                     
                     </div>
 
-                    <div class="tab-pane fade" id="campus-life" role="tabpanel" aria-labelledby="campus-life-tab">
+                    <div class="tab-pane fade" id="job-opportunities" role="tabpanel" aria-labelledby="job-opportunities-tab">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
                                 {{-- <span class="categoryTitle">kampüs hayatı</span> --}}
                             </div>
                            <div> 
-                                <button class="btn btnExplain" data-category="campus-life">
+                                <button class="btn btnExplain" data-category="job-opportunities">
                                     <i class="fa-solid fa-envelope"></i>
                                 </button>
                             </div>
                         </div>
-                        <div id="campus-life-topic-list">
+                        <div id="job-opportunities-topic-list">
                             <!-- İçerik buraya gelecek -->
                         </div>
                     
