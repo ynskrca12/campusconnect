@@ -346,40 +346,33 @@
     
     {{-- siderbar change --}}
     <script>
-        $(document).ready(function () {
-            // general subcategories
+        $(document).ready(function () {            
             const universitySubcategories = @json($universities_topics);          
-            console.log('aa', JSON.stringify(universitySubcategories, null, 2));
-            function loadSubcategories(subcategories, type = 'university') {
-                $("#subcategories-list").empty();
-                subcategories.forEach(function (item) {
+           
+            $("#subcategories-list").empty();
+            $("#subcategories-list-mobile").empty();
+            universitySubcategories.forEach(function (item) {
+                const universitySubCategoriesCount = item.count || 0;                    
+                
+                $("#subcategories-list").append(
+                `<li class="list-group-item mb-1">
+                        <a href="/forum/universite/mevzu/${item.topic_title_slug}" 
+                            class="text-decoration-none subCategoryTag d-flex justify-content-between">
+                            <span class="topic-title-sub-category">${item.topic_title}</span>
+                            <span class="count">${universitySubCategoriesCount}</span>
+                        </a>
+                    </li>`
+                );
 
-                    const universitySubCategoriesCount = item.count || 0;                    
-                   
-                        // general topics
-                        $("#subcategories-list").append(
-                        `<li class="list-group-item mb-1">
-                                <a href="/forum/mevzu/${item.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
-                                    <span class="topic-title-sub-category">${item.topic_title}</span>
-                                    <span class="count">${universitySubCategoriesCount}</span>
-                                </a>
-                            </li>`
-                        );
-
-                        $("#subcategories-list-mobile").append(
-                        `<li class="list-group-item mb-1">
-                                <a href="/forum/mevzu/${item.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
-                                    <span class="topic-title-sub-category">${item.topic_title}</span>
-                                    <span class="count">${universitySubCategoriesCount}</span>
-                                </a>
-                            </li>`
-                        ); 
-                   
-                });
-            }
-
-            // Başlangıç olarak genel tartışma alt başlıklarını yükle
-            loadSubcategories(universitySubcategories);
+                $("#subcategories-list-mobile").append(
+                `<li class="list-group-item mb-1">
+                        <a href="/forum/universite/mevzu/${item.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
+                            <span class="topic-title-sub-category">${item.topic_title}</span>
+                            <span class="count">${universitySubCategoriesCount}</span>
+                        </a>
+                    </li>`
+                );                 
+            });
         });
     </script>
     

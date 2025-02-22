@@ -350,13 +350,18 @@ class UniversityController extends Controller
                 return response()->json(['error' => 'önce giriş yap hemşerim.'], 401);
             }
 
-            // Validate the comment input
             $validator = Validator::make($request->all(), [
-                'comment' => 'required|string|min:3|max:2000',
-                'topic_title_slug' => 'required|string|exists:universities_topics,topic_title_slug', 
+                'comment' => 'required|string|min:10|max:3000',
+                'topic_title_slug' => 'required|string|exists:universities_topics,topic_title_slug',
+            ], [
+                'comment.required' => 'yorum yazmayı unuttun gardaşım benim.',
+                'comment.min' => 'en az 3 karakter şartım var.',
+                'comment.max' => '3000 karakterlik ne yazdın la',
+                'topic_title_slug.required' => 'Konu başlığı gereklidir.',
+                'topic_title_slug.string' => 'Konu başlığı geçerli bir metin olmalıdır.',
+                'topic_title_slug.exists' => 'Seçilen konu başlığı geçerli değil.',
             ]);
-
-            // If validation fails, return the first validation error
+    
             if ($validator->fails()) {
                 return response()->json(['error' => $validator->errors()->first()], 422);
             }
@@ -367,7 +372,6 @@ class UniversityController extends Controller
                 return response()->json(['error' => 'Topic not found.'], 404);
             }
 
-            // Create a new comment instance and populate its fields
             $comment = new UniversityTopic();
             $comment->user_id          = Auth::id(); 
             $comment->topic_title      = $topic->topic_title; 
