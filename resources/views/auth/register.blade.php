@@ -206,9 +206,14 @@
 <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
 <!-- SweetAlert2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Toastr CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <script>
-  $(document).ready(function () {
+   $(document).ready(function () {
       // Şifre göster/gizle
       $(".password-toggle-icon").on("click", function () {
           const input = $($(this).attr("toggle"));
@@ -259,9 +264,27 @@
           if (isValid) {
               this.submit();
           }
-      });
+    });
   });
 
 
 </script>
+
+<!-- Toastr Notification Scripts -->
+<script>
+  @if(session('success'))
+    toastr.success("{{ session('success') }}");
+  @endif
+
+  @if(session('error'))
+    toastr.error("{{ session('error') }}");
+  @endif
+
+  @if($errors->any())
+    @foreach($errors->all() as $error)
+      toastr.error("{{ $error }}");
+    @endforeach
+  @endif
+</script>
+
 @endsection

@@ -21,8 +21,11 @@ class VerifyEmail extends Mailable
 
     public function build()
     {
-        return $this->view('emails.verify')->with([
-            'user' => $this->user,
-        ]);
+        // return $this->subject('Email Verification')
+        // ->view('emails.verify')
+        // ->with([
+        //     'verificationUrl' => route('verify.email', ['token' => $this->user->verification_token])
+        // ]);
+        return $this->subject('E-posta Doğrulama')->view('emails.verify');
     }
 }

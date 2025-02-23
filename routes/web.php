@@ -19,6 +19,7 @@ use App\Http\Controllers\ForumController;
 
 Route::get('/register',[AuthController::class, 'register'])->name('register');
 Route::post('/registerPost',[AuthController::class, 'registerPost'])->name('registerPost');
+Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('verification.verify');
 
 Route::get('/login',[AuthController::class, 'login'])->name('login');
  Route::post('/login',[AuthController::class, 'loginPost'])->name('loginPost');

@@ -8,11 +8,12 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use App\Mail\VerifyEmail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerifyEmail;
 
 class AuthController extends Controller
 {
@@ -24,15 +25,13 @@ class AuthController extends Controller
     public function registerPost(Request $request)
     {
         try {
-            // validation form datas
             $validatedData = $request->validate([
                 'username'      => 'required|string|max:255|unique:users,username',
                 'name'          => 'nullable|string|max:255',
                 'email'         => 'required|email|max:255|unique:users,email',
                 'university'    => 'nullable|string|max:255',
                 'password'      => 'required|string|min:6|confirmed'
-            ],[
-                 // error messages
+            ], [
                 'username.required'      => 'Kullanıcı adı zorunludur.',
                 'username.unique'        => 'Bu kullanıcı adı zaten alınmış.',
                 'email.required'         => 'Email adresi zorunludur.',
@@ -42,36 +41,55 @@ class AuthController extends Controller
                 'password.min'           => 'Şifre en az 8 karakter olmalıdır.',
                 'password.confirmed'     => 'Şifreler eşleşmiyor.',
             ]);
-
+    
             $user = new User();
-
+    
             $user->username   = $validatedData['username'];
             $user->name       = $validatedData['name'] ?? null;
             $user->email      = $validatedData['email'];
             $user->university = $validatedData['university'];
             $user->password   = Hash::make($validatedData['password']);
-           
+        
             $user->save();
-
-            // Notify and redirect user if registration is successful
+    
+            // Kullanıcı kaydının ardından e-posta doğrulama linki gönder
+            // event(new Registered($user));
+            Mail::to($user->email)->send(new VerifyEmail($user));
+    
             return redirect()
                 ->route('login')
                 ->with('success', 'Kayıt işlemi başarılı! Giriş yapabilirsiniz.');
-
         } catch (\Illuminate\Validation\ValidationException $e) {
-            // validations errors
+           
             return redirect()->back()
                             ->withErrors($e->errors())
-                         ->withInput();
-        }catch (\Exception $e) {
-            
+                            ->withInput();
+        } catch (\Exception $e) {
             Log::error('Kayıt işlemi sırasında hata oluştu: ' . $e->getMessage());
-    
+            // General error
             return redirect()->back()
-                             ->with('error', 'Kayıt işlemi sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.')
-                             ->withInput();
-        }     
+                            ->with('error', 'Kayıt işlemi sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.')
+                            ->withInput();
+        }
     }//End
+
+    public function verifyEmail($id, $hash)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Kullanıcı bulunamadı.');
+        }
+
+        if (sha1($user->email) === $hash) {
+            $user->markEmailAsVerified();  // Laravel'in varsayılan methodu
+            return redirect()->route('login')->with('success', 'E-posta başarıyla doğrulandı!');
+        }
+
+        return redirect()->route('login')->with('error', 'E-posta doğrulama başarısız.');
+    }//End
+
+
 
     public function login(){
         return view("auth.login");
