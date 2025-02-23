@@ -57,7 +57,7 @@
             border-radius: 0 0 8px 8px;
         }
         .email-footer a {
-            color: #007bff;
+            color: #001b48;
             text-decoration: none;
         }
         .email-footer a:hover {
@@ -68,21 +68,21 @@
 <body>
     <div class="email-container">
         <div class="email-header">
-            <img src="https://campusconnect.com.tr/public/assets/images/banner_cover.png" alt="campus connect" class="banner">
+            <img src="https://campusconnect.com.tr/public/assets/images/cc.png" alt="campus connect" class="banner">
         </div>
         <div class="email-body">
             <h2>Hoşgeldin</h2>
-            <p>Merhaba {{ $user->username }},</p>>
+            <p>Merhaba {{ $user->username }},</p>
             <p>Hesabınızı doğrulamak için aşağıdaki bağlantıya tıklayın:</p>
      
             <p style="margin-top: 20px;">
                 <a href="{{ route('verification.verify', ['id' => $user->id, 'hash' => sha1($user->email)]) }}" 
-                    style="background-color: #144579;
+                    style="background-color: #001b48;
                     color: white;
                     padding: 10px 40px;
                     border-radius: 5px;
                     text-decoration: none;
-                    font-size: 14px;">E-posta doğrulama bağlantısı
+                    font-size: 14px;">Doğrulamak için tıkla
                 </a>
             </p>
         </div>
@@ -94,7 +94,7 @@
                     <p><a href="http://campusconnect.com.tr/">Websitemizi Ziyaret Et</a></p>
                 </div>
                 <div>
-                    <img src="https://iceri.net/assets/images/cc.png" alt="campusconnect" class="imgLogo">
+                    <img src="https://campusconnect.com.tr/public/assets/images/cc.png" alt="campusconnect" class="imgLogo">
                 </div>
             </div>
         </div>

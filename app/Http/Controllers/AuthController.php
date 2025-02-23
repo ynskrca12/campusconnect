@@ -52,13 +52,12 @@ class AuthController extends Controller
         
             $user->save();
     
-            // Kullanıcı kaydının ardından e-posta doğrulama linki gönder
-            // event(new Registered($user));
+
             Mail::to($user->email)->send(new VerifyEmail($user));
     
             return redirect()
                 ->route('login')
-                ->with('success', 'Kayıt işlemi başarılı! Giriş yapabilirsiniz.');
+                ->with('success', 'Kayıt işlemi başarılı! Mail adresinizi kontrol ediniz.');
         } catch (\Illuminate\Validation\ValidationException $e) {
            
             return redirect()->back()
@@ -82,7 +81,7 @@ class AuthController extends Controller
         }
 
         if (sha1($user->email) === $hash) {
-            $user->markEmailAsVerified();  // Laravel'in varsayılan methodu
+            $user->markEmailAsVerified(); 
             return redirect()->route('login')->with('success', 'E-posta başarıyla doğrulandı!');
         }
 
@@ -103,7 +102,7 @@ class AuthController extends Controller
                 'password'       => 'required|string|min:6',
             ], [
                 'username_email.required' => 'Kullanıcı adı ya da e-posta adresi gereklidir.',
-                'password.required'       => 'Şifre gereklidir.',
+                'password.required'       => 'şifre girsene dostum.',
                 'password.min'            => 'Şifre en az 6 karakter olmalıdır.',
             ]);
     
@@ -111,11 +110,26 @@ class AuthController extends Controller
             $credentials = ['password' => $request->password];
     
             if (filter_var($request->username_email, FILTER_VALIDATE_EMAIL)) {
-                // if given value is email
                 $credentials['email'] = $request->username_email;
             } else {
-                // if given value is not email , check with username
                 $credentials['username'] = $request->username_email;
+            }
+
+            $user = User::where(function ($query) use ($request) {
+                    $query->where('email', $request->username_email)
+                        ->orWhere('username', $request->username_email);
+                })->first();
+
+            if (!$user) {
+                return back()->withInput()->with('error', 'Geçersiz kullanıcı adı, e-posta adresi ya da şifre.');
+            }
+
+            if (!Hash::check($request->password, $user->password)) {
+                return back()->withInput()->with('error', 'Geçersiz kullanıcı adı, e-posta adresi ya da şifre.');
+            }
+    
+            if (is_null($user->email_verified_at)) {
+                return back()->withInput()->with('error', 'E-posta adresiniz doğrulanmamış. Lütfen e-postanızı kontrol edin.');
             }
     
            
@@ -124,16 +138,11 @@ class AuthController extends Controller
             }
     
             // if login fails
-            return back()->withInput()->withErrors([
-                'username_email' => 'Geçersiz kullanıcı adı, e-posta adresi ya da şifre.',
-            ]);
+            return back()->withInput()->with('error', 'Geçersiz kullanıcı adı, e-posta adresi ya da şifre.');
         } catch (ValidationException $e) {
-            // validation errors
             Log::error('Login validation error: ' . implode(', ', $e->errors()));
     
-            return back()->withInput()->withErrors([
-                'username_email' => 'Lütfen tüm alanları doğru doldurduğunuzdan emin olun.',
-            ]);
+            return back()->withInput()->with('error', 'Lütfen tüm alanları doğru doldurduğunuzdan emin olun.');
         } catch (\Exception $e) {
             // errors
             Log::error('Login error: ' . $e->getMessage());

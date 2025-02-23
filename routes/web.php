@@ -16,7 +16,7 @@ use App\Http\Controllers\ForumController;
 // });
 
 
-
+Route::get('/testmail',[AuthController::class, 'test'])->name('testmail');
 Route::get('/register',[AuthController::class, 'register'])->name('register');
 Route::post('/registerPost',[AuthController::class, 'registerPost'])->name('registerPost');
 Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('verification.verify');

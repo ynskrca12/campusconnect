@@ -5,7 +5,7 @@
     @csrf
     <div class="login-inner-div">
       <h1>Giriş Ekranı</h1>
-      @if (Session::has('success'))
+      {{-- @if (Session::has('success'))
           <div class="alert alert-success" role="alert">
             {{ Session::get('success') }}
           </div>
@@ -14,7 +14,7 @@
           <div class="alert alert-warning" role="alert">
             {{ Session::get('error') }}
           </div>
-      @endif
+      @endif --}}
       <div class="input-divs">
         <input type="text"  placeholder="Kullanıcı Adı veya E-mail" name="username_email" id="username_email" required/>
       </div>
@@ -38,6 +38,7 @@
 @endsection
 
 @section('css')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <style>
   .password-toggle-icon {
     position: absolute;
@@ -157,6 +158,37 @@
 @endsection
 
 @section('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        @if (Session::has('success'))
+            toastr.success("{{ Session::get('success') }}");
+        @endif
+
+        @if (Session::has('error'))
+            toastr.error("{{ Session::get('error') }}");
+        @endif
+
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                toastr.warning("{{ $error }}");
+            @endforeach
+        @endif
+
+        // Göz ikonuna tıklandığında şifreyi görünür yapma
+        $(".password-toggle-icon").click(function () {
+            var passwordField = $("#password");
+            if (passwordField.attr("type") === "password") {
+                passwordField.attr("type", "text");
+                $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+            } else {
+                passwordField.attr("type", "password");
+                $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+            }
+        });
+    });
+</script>
  <script>
   $(document).ready(function() {
     // Göz ikonuna tıklandığında şifreyi görünür yapma
