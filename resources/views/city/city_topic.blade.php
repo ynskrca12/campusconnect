@@ -54,14 +54,14 @@
 
                      <!-- Yorum Alanı -->
                     <div class="col-md-12">
-                        <form id="commentForm" action="{{ route('add.general.topic.comment') }}" method="POST">
+                        <form id="commentForm" action="{{ route('add.city.topic.comment') }}" method="POST">
                             @csrf
                             <div class="mb-3">
                                 <textarea name="comment" id="editor" placeholder="Yorumunuzu buraya yazın..."></textarea>
                             </div>
                             <input type="hidden" name="topic_title_slug" value="{{ $topicTitleSlug }}">
                             <input type="hidden" name="topic_title" value="{{ $topicTitle }}">
-                            <input type="hidden" name="university_id" value="{{ $city_id }}">
+                            <input type="hidden" name="city_id" value="{{ $city_id }}">
                             <input type="hidden" name="comment_category" value="{{ $comment_category }}">
                             <button type="submit" class="btn btn-primary">Yorum Yap</button>
                         </form>
@@ -150,22 +150,11 @@
             padding: 15px 30px;
             
         }
-        .activeCategory {
-            border-bottom: 1px solid gray;
-            color: #333 !important;
-            border-radius: 0px;
-        }
-        .activeCategory:hover{
-            border-bottom: 1px solid gray;
-        }
+
         .subCategoryTag{
             color: #000000 !important;
             font-size: 13px;
             font-weight: 400;
-        }
-       
-        .universityLi:hover , .cityLi:hover{
-            background-color: #fafafae0; 
         }
 
         .swal2-title{
@@ -178,7 +167,6 @@
         .topic-title{
             font-weight: bold;
             word-wrap: break-word;
-            /* padding-right: 130px; */
             font-size: 20px !important;
         }
 
@@ -234,7 +222,7 @@
     <style>
         /* Editörün iç alanı için kenar çizgisi kaldırma */
         .ck-editor__editable_inline {
-            height: 300px !important; /* Sabit yükseklik */
+            height: 300px !important; 
         }
         .main-content{
             border-left: 1px solid #e0e0e0;
@@ -356,7 +344,7 @@
                 
                 $("#subcategories-list").append(
                 `<li class="list-group-item mb-1">
-                        <a href="/forum/universite/mevzu/${item.topic_title_slug}" 
+                        <a href="/forum/sehir/mevzu/${item.topic_title_slug}" 
                             class="text-decoration-none subCategoryTag d-flex justify-content-between">
                             <span class="topic-title-sub-category">${item.topic_title}</span>
                             <span class="count">${citySubCategoriesCount}</span>
@@ -366,7 +354,7 @@
 
                 $("#subcategories-list-mobile").append(
                 `<li class="list-group-item mb-1">
-                        <a href="/forum/universite/mevzu/${item.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
+                        <a href="/forum/sehir/mevzu/${item.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
                             <span class="topic-title-sub-category">${item.topic_title}</span>
                             <span class="count">${citySubCategoriesCount}</span>
                         </a>
@@ -385,7 +373,7 @@
                 let commentData = $(this).serialize();
 
                 $.ajax({
-                    url: '{{ route('add.university.topic.comment') }}',
+                    url: '{{ route('add.city.topic.comment') }}',
                     method: 'POST',
                     data: commentData,
                     success: function (response) {

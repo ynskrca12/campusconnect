@@ -63,6 +63,7 @@
 
                 <ul id="subcategories-list" class="list-group">
                     @foreach($univercity_free_zone_topics_count as $topic)
+                        {{-- {{dd($topic->count)}} --}}
                         <li class="list-group-item">
                             <a href="{{ route('university.topic.comments', ['slug' => $topic->topic_title_slug]) }}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
                                 <span class="topic-title-sub-category">{{ $topic->topic_title }}</span>
@@ -86,7 +87,7 @@
                         <div class="offcanvas-body">
                             
                         <ul id="subcategories-list-mobile" class="list-group mobile-universities-list" >
-                            @foreach($univercity_free_zone_topics as $topic)
+                            @foreach($univercity_free_zone_topics_count as $topic)
                                 <li class="list-group-item">
                                     <a href="{{ route('university.topic.comments', ['slug' => $topic->topic_title_slug]) }}" class="text-decoration-none subCategoryTag text-dark">
                                         <span class="topic-title-sub-category">{{ $topic->topic_title }}</span>
@@ -125,7 +126,7 @@
                                             {{ $topic->topic_title }}
                                         </a>
                                     </h3>
-                                    <p>{{ $topic->comment }}</p>
+                                    <p>{!! $topic->comment !!}</p>
                                     <div class="like-dislike mt-3">
                                         <div class="like-btn d-inline me-3" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
                                             <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $topic->likes }}</span>

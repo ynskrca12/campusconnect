@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 
 class CityController extends Controller
@@ -103,7 +105,8 @@ class CityController extends Controller
         $topics = DB::table('cities_topics')
             ->where('city_id',$cityId)
             ->where('category',$category)
-            ->select('topic_title', 'topic_title_slug')
+            ->select('topic_title', 'topic_title_slug', DB::raw('COUNT(*) as count'))
+            ->groupBy('topic_title', 'topic_title_slug')
             ->get();
 
             return response()->json(['topics' => $topics]);
@@ -168,6 +171,56 @@ class CityController extends Controller
                 'error' => $e->getMessage(),
             ]);
             return redirect()->back()->withErrors(['error' => 'Beklenmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.']);
+        }
+    }//End
+
+    public function storeComment(Request $request)
+    {
+        try {
+            
+            if (!Auth::check()) {
+                return response()->json(['error' => 'önce giriş yap hemşerim.'], 401);
+            }
+
+            $validator = Validator::make($request->all(), [
+                'comment' => 'required|string|min:10|max:3000',
+                'topic_title_slug' => 'required|string|exists:universities_topics,topic_title_slug',
+            ], [
+                'comment.required' => 'yorum yazmayı unuttun gardaşım benim.',
+                'comment.min' => 'en az 3 karakter şartım var.',
+                'comment.max' => '3000 karakterlik ne yazdın la',
+                'topic_title_slug.required' => 'Konu başlığı gereklidir.',
+                'topic_title_slug.string' => 'Konu başlığı geçerli bir metin olmalıdır.',
+                'topic_title_slug.exists' => 'Seçilen konu başlığı geçerli değil.',
+            ]);
+    
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors()->first()], 422);
+            }
+
+            $topic = CityTopic::where('topic_title_slug', $request->input('topic_title_slug'))->first();
+
+            if (!$topic) {
+                return response()->json(['error' => 'Topic not found.'], 404);
+            }
+
+            $comment = new CityTopic();
+            $comment->user_id          = Auth::id(); 
+            $comment->topic_title      = $topic->topic_title; 
+            $comment->topic_title_slug = $request->input('topic_title_slug'); 
+            $comment->comment          = $request->input('comment'); 
+            $comment->city_id          = $request->input('city_id'); 
+            $comment->category         = $request->input('comment_category'); 
+            $comment->created_at       = Carbon::now(); 
+
+            $comment->save();
+
+            return response()->json(['message' => 'Fikriniz gönderildi.'], 200);
+        } catch (\Exception $e) {
+            // Log the error for debugging purposes
+            Log::error('Error while saving the comment: ' . $e->getMessage());
+
+            return response()->json(['error' => 'Bir hata oluştu.Lütfen tekrar deneyin.'], 500);
         }
     }//End
 }

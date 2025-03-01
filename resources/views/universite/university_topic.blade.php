@@ -54,7 +54,7 @@
 
                      <!-- Yorum Alanı -->
                     <div class="col-md-12">
-                        <form id="commentForm" action="{{ route('add.general.topic.comment') }}" method="POST">
+                        <form id="commentForm" action="{{ route('add.university.topic.comment') }}" method="POST">
                             @csrf
                             <div class="mb-3">
                                 <textarea name="comment" id="editor" placeholder="Yorumunuzu buraya yazın..."></textarea>

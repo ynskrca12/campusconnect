@@ -125,7 +125,7 @@
                                             {{ $topic->topic_title }}
                                         </a>
                                     </h3>
-                                    <p>{{ $topic->comment }}</p>
+                                    <p>{!! $topic->comment !!}</p>
                                     <div class="like-dislike mt-3">
                                         <div class="like-btn d-inline me-3" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
                                             <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $topic->likes }}</span>
@@ -498,9 +498,13 @@
                     success: function (response) {
                         // Dönen verilerdeki her bir başlığı listeye ekle
                         response.topics.forEach(topic => {
+                            console.log(response.topics)
                             const listItem = `
                                 <li class="list-group-item">
-                                    <a href="/topic/${topic.topic_title_slug}" class="text-decoration-none text-dark">${topic.topic_title}</a>
+                                    <a href="/forum/sehir/mevzu/${topic.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
+                                         <span class="topic-title-sub-category">${topic.topic_title}</span>
+                                         <span class="count">${topic.count}</span>
+                                    </a>
                                 </li>`;
                             subcategoriesList.append(listItem);
                         });
@@ -598,7 +602,10 @@
                         response.topics.forEach(topic => {
                             const listItem = `
                                 <li class="list-group-item">
-                                    <a href="/topic/${topic.topic_title_slug}" class="text-decoration-none text-dark">${topic.topic_title}</a>
+                                    <a href="/forum/sehir/mevzu/${topic.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
+                                         <span class="topic-title-sub-category">${topic.topic_title}</span>
+                                         <span class="count">${topic.count}</span>
+                                    </a>
                                 </li>`;
                             subcategoriesListMobile.append(listItem);
                         });
