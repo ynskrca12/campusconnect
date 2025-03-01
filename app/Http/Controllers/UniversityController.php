@@ -325,6 +325,7 @@ class UniversityController extends Controller
             $comment_category = $comments->first()->category;
 
             $universities_topics = DB::table('universities_topics')
+                ->where('university_id',$university_id)
                 ->select('topic_title', 'topic_title_slug', DB::raw('COUNT(topic_title_slug) as count'))
                 ->groupBy('topic_title', 'topic_title_slug')
                 ->get();

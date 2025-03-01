@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
+use App\Models\CityTopic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -39,12 +40,60 @@ class CityController extends Controller
             ->where('city_id',$city->id)
             ->where('category','free-zone')
             ->get();
+        
+        $city_free_zone_topics_count = DB::table('cities_topics')
+            ->select('topic_title', 'topic_title_slug', DB::raw('COUNT(*) as count'))
+            ->where('city_id',$city->id)
+            ->where('category','free-zone')
+            ->groupBy('topic_title', 'topic_title_slug')
+            ->get();      
 
+            // dd($city_free_zone_topics_count);
+        
         if (!$city) {
             abort(404, 'Şehir bulunamadı');
         }
 
-        return view('forum.about_cities.index', compact('city','city_free_zone_topics'));
+        return view('forum.about_cities.index', compact('city','city_free_zone_topics','city_free_zone_topics_count'));
+    }//End
+
+    public function topicComments($slug)
+    {
+        try {
+            // if slug is empty
+            if (empty($slug)) {
+                return redirect()->back()->withErrors('Slug değeri sağlanmadı.');
+            }
+
+            $topicsQuery = CityTopic::where('topic_title_slug', $slug);
+
+            if ($topicsQuery->count() === 0) {
+                abort(404, 'Bu slug ile ilişkili bir konu bulunamadı.');
+            }
+
+            $comments         = $topicsQuery->paginate(9);
+            $topicTitle       = $comments->first()->topic_title ?? 'Başlık Yok';
+            $topicTitleSlug   = $comments->first()->topic_title_slug ?? 'Slug Yok';
+            $city_id          = $comments->first()->city_id;
+            $comment_category = $comments->first()->category;
+
+            $cities_topics = DB::table('cities_topics')
+                ->where('city_id',$city_id)
+                ->select('topic_title', 'topic_title_slug', DB::raw('COUNT(topic_title_slug) as count'))
+                ->groupBy('topic_title', 'topic_title_slug')
+                ->get();
+
+            // `forum.university_topic` Blade dosyasına verileri döndür
+            return view('city.city_topic', compact('topicTitle', 'comments', 'cities_topics', 'topicTitleSlug','city_id','comment_category'));
+
+        } catch (\Exception $e) {
+            Log::error('UniversityController:topicComments fonksiyonu hata verdi: ', [
+                'error' => $e->getMessage(),
+                'slug' => $slug,
+            ]);
+
+            return redirect()->back()->withErrors('Bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+        }
     }//End
 
     public function getCityCategoryTopics(Request $request){

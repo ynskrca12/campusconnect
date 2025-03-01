@@ -88,9 +88,9 @@
                         <ul id="subcategories-list-mobile" class="list-group mobile-universities-list" >
                             @foreach($univercity_free_zone_topics as $topic)
                                 <li class="list-group-item">
-                                    <a href="#" class="text-decoration-none text-dark">
-                                        {{-- <a href="{{ route('topic.detail', ['id' => $topic->id]) }}" class="text-decoration-none text-dark"> --}}
-                                        {{ $topic->topic_title }}
+                                    <a href="{{ route('university.topic.comments', ['slug' => $topic->topic_title_slug]) }}" class="text-decoration-none subCategoryTag text-dark">
+                                        <span class="topic-title-sub-category">{{ $topic->topic_title }}</span>
+                                        <span class="count">{{ $topic->count }}</span>      
                                     </a>
                                 </li>
                             @endforeach
@@ -320,12 +320,6 @@
             border-radius: 6px;
             cursor: pointer;
         }
-        
-        .activeCategory {
-            background-color: #373737;
-            color: white;
-            padding: 7px 10px !important;
-        }
 
         .content-section {
             display: none;
@@ -337,11 +331,6 @@
 
         .list-group-item {
             cursor: pointer;
-        }
-
-        .list-group-item.activeCategory {
-            background-color: #373737;
-            color: white;
         }
         .topic {
             padding: 10px 0;
@@ -849,22 +838,5 @@
         });
 
     </script>
-
-    {{-- <script>
-        $(document).ready(function () {
-            $('#subcategories-list .list-group-item').on('click', function () {
-                // remove activeCategory class from all items
-                $('#subcategories-list .list-group-item').removeClass('activeCategory');
-
-                $(this).addClass('activeCategory');
-
-                $('.content-section').addClass('d-none');
-
-                const target = $(this).data('target');
-                $('#' + target).removeClass('d-none');
-            });
-        });
-    </script> --}}
-
 
 @endsection
