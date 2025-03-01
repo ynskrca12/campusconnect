@@ -10,10 +10,7 @@ use App\Http\Controllers\IlanController;
 use App\Http\Controllers\StoreCommentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ForumController;
-
-// Route::get('/', function () {
-//     return view('layouts.master');
-// });
+use App\Http\Controllers\PageController;
 
 
 Route::get('/testmail',[AuthController::class, 'test'])->name('testmail');
@@ -96,12 +93,5 @@ Route::fallback(function () {
 });
 
 
-// Route::get('/filter-ilanlar',[IlanController::class,'filter_ilanlar'])->name('filter_ilanlar');
-
-
-
-
-// Route::get('/migrate', function(){
-//     \Artisan::call('migrate');
-//     dd('migrated!');
-// });
+Route::get('/bize-ulasin',[PageController::class, 'contact_us'])->name('contact.us');
+Route::post('/contact-submit',[PageController::class, 'contact_submit'])->name('contact.submit');
