@@ -39,6 +39,8 @@
 
 @section('css')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 <style>
   .password-toggle-icon {
     position: absolute;
@@ -176,17 +178,6 @@
             @endforeach
         @endif
 
-        // Göz ikonuna tıklandığında şifreyi görünür yapma
-        $(".password-toggle-icon").click(function () {
-            var passwordField = $("#password");
-            if (passwordField.attr("type") === "password") {
-                passwordField.attr("type", "text");
-                $(this).removeClass("fa-eye-slash").addClass("fa-eye");
-            } else {
-                passwordField.attr("type", "password");
-                $(this).removeClass("fa-eye").addClass("fa-eye-slash");
-            }
-        });
     });
 </script>
  <script>
