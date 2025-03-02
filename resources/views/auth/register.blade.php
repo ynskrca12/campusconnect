@@ -10,7 +10,7 @@
     @endif
     <div class="card-body">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-6">
         <h2 class="introductionHeader">İçeride neler var...</h2>
         <p class="mt-5 introductionText">
          <strong>Üniversite yolculuğuna çıkarken yalnız değilsin!</strong> Platformumuzda, 
@@ -28,13 +28,15 @@
           Üniversite hayatını keşfetmek ve doğru tercih yapmak için bize katıl, sen de topluluğumuzun bir parçası ol!
         </p>
       </div>
-      <div class="col-md-4" style="padding: 0px 20px;">
+      <div class="col-md-6" style="padding: 0px 20px;">
         <h2 class="registerh2">Kayıt Ol</h2>
         <div class="mt-3">
         <form  action="{{ route('registerPost') }}" method="POST" novalidate>
             @csrf
             <div class="mb-2">
-              <label for="email" class="form-label">Kullanıcı Adı (*)</label>
+              <label for="email" class="form-label">Kullanıcı Adı (*)
+                <i class="fas fa-question-circle info-icon" onclick="showInfo()"></i>
+              </label>
               <input type="text" class="form-control registerInput" id="username" name="username" required>
             </div>
           <div class="mb-2">
@@ -43,7 +45,9 @@
           </div>
       
           <div class="mb-2">
-            <label for="email" class="form-label">Email (*)</label>
+            <label for="email" class="form-label">Email (*)
+              <i class="fas fa-question-circle info-icon" onclick="showInfoEmail()"></i>
+            </label>
             <input type="email" class="form-control registerInput" id="email" name="email" required>
           </div>
           <div class="mb-2">
@@ -84,39 +88,44 @@
 
 @section('css')
 <style>
-  
-  #errorMessages {
-    margin-top: -15px;
-      color: red;
-      margin-bottom: 20px;
-  }
+    .info-icon {
+          cursor: pointer;
+          color: #001b48;
+          font-size: 16px;
+          margin-left: 5px;
+      }
+    #errorMessages {
+      margin-top: -15px;
+        color: red;
+        margin-bottom: 20px;
+    }
     .submitBtn{
-      width: 100%;
-      border-radius:11px !important;
-      font-size: 18px;
-      font-weight: 500;
-  }
+        width: 100%;
+        border-radius:11px !important;
+        font-size: 18px;
+        font-weight: 500;
+    }
 
-  .submitBtn:hover{
-    background-color: white !important;
-    color: #001b48 !important;
-    border: 1px solid #001b48;
-  }
-  .position-relative {
-      position: relative;
-  }
+    .submitBtn:hover{
+      background-color: white !important;
+      color: #001b48 !important;
+      border: 1px solid #001b48;
+    }
+    .position-relative {
+        position: relative;
+    }
 
-  .password-toggle-icon {
-      position: absolute;
-      top: 70%;
-      right: 10px;
-      transform: translateY(-50%);
-      cursor: pointer;
-      color: #888;
-  }
-  .password-toggle-icon:hover {
-      color: #000;
-  }
+    .password-toggle-icon {
+        position: absolute;
+        top: 70%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #888;
+    }
+    .password-toggle-icon:hover {
+        color: #000;
+    }
 
     .registerInput{
       line-height: 0px !important;
@@ -131,71 +140,68 @@
       border-radius: 20px;
       padding: 10px 0px;
     }
-  .introductionText{
-    font-size: 15px;
-    font-weight: 400;
-  }
-  .col-md-6 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    z-index: 1;
-  }
+    .introductionText{
+      font-size: 15px;
+      font-weight: 400;
+    }
+    .col-md-6 {
+      display: flex;
+      flex-direction: column;
+      z-index: 1;
+    }
 
-  .form-label {
-    font-weight: bold;
-    color: black;
-    letter-spacing: 1px;
-    font-size: 15px;
-    /* font-family: serif; */
-  }
+    .form-label {
+      font-weight: bold;
+      color: black;
+      letter-spacing: 1px;
+      font-size: 15px;
+    }
 
-  .form-control {
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-  }
+    .form-control {
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+    }
 
-  .form-select {
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-  }
+    .form-select {
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+    }
 
-  .btn-primary {
-    background-color: #001b48;
-    /* color: #001b48; */
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-  }
+    .btn-primary {
+      background-color: #001b48;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+    }
 
-  .btn-primary:hover {
-    background-color: #0056b3;
-  }
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
 
-  .registerh2{
-      margin-bottom: 35px;
-      font-size:26px;
-      text-align: center;
-      border-bottom: 7px solid #001b48;
-      border-radius: 20px;
-      padding: 10px 0px;
-  }
-  .col-md-6 h2 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #333;
-  }
+    .registerh2{
+        margin-bottom: 35px;
+        font-size:26px;
+        text-align: center;
+        border-bottom: 7px solid #001b48;
+        border-radius: 20px;
+        padding: 10px 0px;
+    }
+    .col-md-6 h2 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
 
-  .col-md-6 p {
-    font-size: 1rem;
-    color: #666;
-    line-height: 2;
-  }
+    .col-md-6 p {
+      font-size: 1rem;
+      color: #666;
+      line-height: 2;
+    }
 
 </style>
 @endsection
@@ -269,6 +275,27 @@
 
 
 </script>
+
+  <script>
+      function showInfo() {
+          Swal.fire({
+              title: 'Bilgilendirme',
+              text: 'Gireceğiniz kullanıcı adı, uygulama içerisinde yapmış olduğunuz yorum ve diğer işlemlerde kullanılacaktır. Adınız ve soyadınızı sadece siz görebileceksiniz.',
+              icon: 'info',
+              confirmButtonText: 'Tamam'
+          });
+      }
+
+      function showInfoEmail() {
+        
+          Swal.fire({
+              title: 'Bilgilendirme',
+              text: 'Geçerli bir e-posta adresi girmediğiniz takdirde hesabınızı doğrulayamaz ve sisteme giriş yapamazsınız.',
+              icon: 'info',
+              confirmButtonText: 'Tamam'
+          });
+      }
+  </script>
 
 <!-- Toastr Notification Scripts -->
 <script>

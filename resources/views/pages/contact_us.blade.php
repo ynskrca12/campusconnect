@@ -9,7 +9,7 @@
         <section class="feature-section">
                 <div class="row">
                     <div class="col-12 col-md-4">
-                        <a href="https://mail.google.com/mail/?view=cm&to=info@erapan.com.tr" target="_blank" style="text-decoration: none;">
+                        <a href="https://mail.google.com/mail/?view=cm&to=campusconnectiletisim@gmail.com" target="_blank" style="text-decoration: none;">
                             <div class="feature-card">
                                 <img src="{{ asset('assets/images/icons/mail-icon.png') }}" class="font-icon" alt="campusconnect mail">
                                     <p class="feature-desc">campusconnectiletisim@gmail.com</p>                                        
