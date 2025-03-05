@@ -548,7 +548,7 @@
                     success: function (response) {
                         if (response.topics && response.topics.length > 0) {
                             let newContent = "";
-
+                            
                             response.topics.forEach(topic => {
                                 newContent += `
                                     <div class="topic">
@@ -570,7 +570,7 @@
                                             <div class="d-flex align-items-center entry-footer-bottom">
                                                 <div class="footer-info">
                                                     <div style="display: block;padding: 2px;text-align: end;margin: -5px 0px;">
-                                                        <p style="display: block;white-space:nowrap;color:#001b48;">${topic.user?.username || "Anonim"}</p>
+                                                        <p style="display: block;white-space:nowrap;color:#001b48;">${topic.username || "Anonim"}</p>
                                                     </div>
                                                     <div style="display: block;padding: 2px;line-height: 14px;">
                                                         <p style="color: #888;font-size: 12px;">${moment(topic.created_at).format("DD.MM.YYYY HH:mm")}</p>
@@ -677,7 +677,7 @@
                                             <div class="d-flex align-items-center entry-footer-bottom">
                                                 <div class="footer-info">
                                                     <div style="display: block;padding: 2px;text-align: end;margin: -5px 0px;">
-                                                        <p style="display: block;white-space:nowrap;color:#001b48;">${topic.user?.username || "Anonim"}</p>
+                                                        <p style="display: block;white-space:nowrap;color:#001b48;">${topic.username || "Anonim"}</p>
                                                     </div>
                                                     <div style="display: block;padding: 2px;line-height: 14px;">
                                                         <p style="color: #888;font-size: 12px;">${moment(topic.created_at).format("DD.MM.YYYY HH:mm")}</p>

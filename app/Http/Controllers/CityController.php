@@ -38,8 +38,7 @@ class CityController extends Controller
     public function show($slug){
     
         $city = City::where('slug', $slug)->first();
-        $city_free_zone_topics = DB::table('cities_topics')
-            ->where('city_id',$city->id)
+        $city_free_zone_topics = CityTopic::where('city_id',$city->id)
             ->where('category','free-zone')
             ->get();
         
@@ -116,10 +115,41 @@ class CityController extends Controller
         $category = $request->input('category');
         $cityId = $request->input('cityId');
 
-        $topics = DB::table('cities_topics')
-            ->where('city_id',$cityId)
-            ->where('category',$category)
-            ->get();
+        // $topics = DB::table('cities_topics')
+        //     ->where('city_id',$cityId)
+        //     ->where('category',$category)
+        //     ->get();
+
+        $topics = CityTopic::
+            where('city_id', $cityId)
+            ->where('category', $category)
+            ->join('users', 'cities_topics.user_id', '=', 'users.id')
+            ->select(
+            'cities_topics.id',
+                    'cities_topics.topic_title',
+                    'cities_topics.topic_title_slug',
+                    'cities_topics.comment',
+                    'cities_topics.created_at',
+                    'cities_topics.user_id',
+                    'cities_topics.likes',
+                    'cities_topics.dislikes',
+                    'users.username',
+                    DB::raw('COUNT(*) as count')
+        )
+        ->groupBy(
+            'cities_topics.id',
+                    'cities_topics.topic_title',
+                    'cities_topics.topic_title_slug',
+                    'cities_topics.comment',
+                    'cities_topics.created_at',
+                    'cities_topics.user_id',
+                    'cities_topics.likes',
+                    'cities_topics.dislikes',
+                    'users.username',
+        )
+        ->get();
+
+
 
             return response()->json(['topics' => $topics]);
     }//End

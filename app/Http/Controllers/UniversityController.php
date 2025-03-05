@@ -57,8 +57,7 @@ class UniversityController extends Controller
         
         $university = University::where('slug', $slug)->first();
 
-        $univercity_free_zone_topics = DB::table('universities_topics')
-            ->where('university_id',$university->id)
+        $univercity_free_zone_topics = UniversityTopic::where('university_id',$university->id)
             ->where('category','free-zone')
             ->get();
 
@@ -81,12 +80,23 @@ class UniversityController extends Controller
         $category = $request->input('category');
         $univercityId = $request->input('univercityId');
 
-        $topics = DB::table('universities_topics')
-            ->where('university_id',$univercityId)
-            ->where('category',$category)
-            ->select('topic_title', 'topic_title_slug', DB::raw('COUNT(*) as count'))
-            ->groupBy('topic_title', 'topic_title_slug')
-            ->get();
+        // $topics = UniversityTopic::where('university_id',$univercityId)
+        //     ->where('category',$category)
+        //     ->select('topic_title', 'topic_title_slug', DB::raw('COUNT(*) as count'))
+        //     ->groupBy('topic_title', 'topic_title_slug')
+        //     ->get();
+        $topics = UniversityTopic::where('university_id', $univercityId)
+        ->where('category', $category)
+        ->join('users', 'universities_topics.user_id', '=', 'users.id')
+        ->select(
+            'universities_topics.topic_title',
+            'universities_topics.topic_title_slug',
+            'users.username',
+            DB::raw('COUNT(*) as count')
+        )
+        ->groupBy('universities_topics.topic_title', 'universities_topics.topic_title_slug', 'users.username')
+        ->get();
+
 
             return response()->json(['topics' => $topics]);
     }//End
@@ -95,10 +105,39 @@ class UniversityController extends Controller
         $category = $request->input('category');
         $univercityId = $request->input('univercityId');
 
-        $topics = DB::table('universities_topics')
-            ->where('university_id',$univercityId)
-            ->where('category',$category)
-            ->get();
+        // $topics = UniversityTopic::
+        //     where('university_id',$univercityId)
+        //     ->where('category',$category)
+        //     ->get();
+
+        $topics = UniversityTopic::
+            where('university_id', $univercityId)
+            ->where('category', $category)
+            ->join('users', 'universities_topics.user_id', '=', 'users.id')
+            ->select(
+            'universities_topics.id',
+                    'universities_topics.topic_title',
+                    'universities_topics.topic_title_slug',
+                    'universities_topics.comment',
+                    'universities_topics.created_at',
+                    'universities_topics.user_id',
+                    'universities_topics.likes',
+                    'universities_topics.dislikes',
+                    'users.username',
+                    DB::raw('COUNT(*) as count')
+        )
+        ->groupBy(
+            'universities_topics.id',
+                    'universities_topics.topic_title',
+                    'universities_topics.topic_title_slug',
+                    'universities_topics.comment',
+                    'universities_topics.created_at',
+                    'universities_topics.user_id',
+                    'universities_topics.likes',
+                    'universities_topics.dislikes',
+                    'users.username',
+        )
+        ->get();
 
             return response()->json(['topics' => $topics]);
     }//End
