@@ -532,7 +532,11 @@
                             response.topics.forEach(topic => {
                                 newContent += `
                                     <div class="topic">
-                                        <h3 class="topic-title mb-3">${topic.topic_title}</h3>
+                                         <h3 class="topic-title mb-3">
+                                            <a href="/forum/sehir/mevzu/${topic.topic_title_slug}">
+                                                ${topic.topic_title}
+                                            </a>
+                                        </h3>
                                         <p>${topic.comment}</p>
                                         <div class="like-dislike mt-3">
                                             <div class="like-btn d-inline me-3" data-id="${topic.id}" style="cursor: pointer; color: #888;">
@@ -633,7 +637,11 @@
                             response.topics.forEach(topic => {
                                 newContent += `
                                     <div class="topic">
-                                        <h3 class="topic-title mb-3">${topic.topic_title}</h3>
+                                          <h3 class="topic-title mb-3">
+                                            <a href="/forum/sehir/mevzu/${topic.topic_title_slug}">
+                                                ${topic.topic_title}
+                                            </a>
+                                        </h3>
                                         <p>${topic.comment}</p>
                                         <div class="like-dislike mt-3">
                                             <div class="like-btn d-inline me-3" data-id="${topic.id}" style="cursor: pointer; color: #888;">
