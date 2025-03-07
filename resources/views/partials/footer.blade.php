@@ -9,7 +9,7 @@
         <h5>Hızlı Bağlantılar</h5>
         <ul class="list-unstyled">
           <li><a href="{{route('home')}}" style="color: #fff;">Anasayfa</a></li>
-          <li><a href="#" style="color: #fff;">Hakkımızda</a></li>
+          <li><a href="{{route('about.us')}}" style="color: #fff;">Hakkımızda</a></li>
           <li><a href="#" style="color: #fff;">Hizmetler</a></li>
           <li><a href="{{route('contact.us')}}" style="color: #fff;">Bize Ulaşın</a></li>
         </ul>
@@ -18,9 +18,9 @@
         <h5>Kolay Erişim</h5>
         <ul class="list-unstyled">
           <li><a href="#" style="color: #fff;">Destek Merkezi</a></li>
-          <li><a href="#" style="color: #fff;">Forum</a></li>
-          <li><a href="#" style="color: #fff;">Üniversiteler</a></li>
-          <li><a href="#" style="color: #fff;">Şehirler</a></li>
+          <li><a href="{{route('forum')}}" style="color: #fff;">Forum</a></li>
+          <li><a href="{{route('universities')}}" style="color: #fff;">Üniversiteler</a></li>
+          <li><a href="{{route('cities')}}" style="color: #fff;">Şehirler</a></li>
         </ul>
       </div>
       <div class="col-md-3">

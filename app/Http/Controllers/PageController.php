@@ -38,4 +38,8 @@ class PageController extends Controller
 
         return redirect()->back()->with('success', 'Mesajınız başarıyla gönderildi!');
     }//End
+
+    public function about_us(){
+        return view('pages.about_us');
+    }//End
 }

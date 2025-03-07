@@ -29,10 +29,10 @@ Route::get('/', function () {
 })->name('home');
 
 
-Route::get('/universiteler',[UniversityController::class, 'index']);
+Route::get('/universiteler',[UniversityController::class, 'index'])->name('universities');
 Route::get('/universities/fetch', [UniversityController::class, 'fetchUniversities'])->name('universities.fetch');
 
-Route::get('/sehirler',[CityController::class, 'index']);
+Route::get('/sehirler',[CityController::class, 'index'])->name('cities');
 Route::get('/cities/fetch', [CityController::class, 'fetchCities'])->name('universities.fetch');
 
 Route::get('/universite_detay/{id}', [UniversityController::class, 'universite_detay'])->name('universite_detay');
@@ -97,3 +97,5 @@ Route::fallback(function () {
 
 Route::get('/bize-ulasin',[PageController::class, 'contact_us'])->name('contact.us');
 Route::post('/contact-submit',[PageController::class, 'contact_submit'])->name('contact.submit');
+
+Route::get('/hakkimizda',[PageController::class, 'about_us'])->name('about.us');
