@@ -99,3 +99,4 @@ Route::get('/bize-ulasin',[PageController::class, 'contact_us'])->name('contact.
 Route::post('/contact-submit',[PageController::class, 'contact_submit'])->name('contact.submit');
 
 Route::get('/hakkimizda',[PageController::class, 'about_us'])->name('about.us');
+Route::get('/hizmetlerimiz',[PageController::class, 'services'])->name('services');

@@ -42,4 +42,8 @@ class PageController extends Controller
     public function about_us(){
         return view('pages.about_us');
     }//End
+
+    public function services(){
+        return view('pages.services');
+    }//End
 }

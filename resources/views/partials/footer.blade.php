@@ -10,7 +10,7 @@
         <ul class="list-unstyled">
           <li><a href="{{route('home')}}" style="color: #fff;">Anasayfa</a></li>
           <li><a href="{{route('about.us')}}" style="color: #fff;">Hakkımızda</a></li>
-          <li><a href="#" style="color: #fff;">Hizmetler</a></li>
+          <li><a href="{{route('services')}}" style="color: #fff;">Hizmetler</a></li>
           <li><a href="{{route('contact.us')}}" style="color: #fff;">Bize Ulaşın</a></li>
         </ul>
       </div>
