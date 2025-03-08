@@ -1,6 +1,12 @@
+# Ortak hassas dosyalar
+.env
+.env.example
+.env.local
+.env.*.local
+
+# Laravel Klasörleri ve Dosyaları
 /node_modules
 /vendor
-/.env
 /.phpunit.result.cache
 /storage/*.key
 /public/storage
