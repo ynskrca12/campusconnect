@@ -1,10 +1,11 @@
 @extends('layouts.master')
 
 @section('content')
-  <form class="root-login-form" action="{{route('login')}}" method="POST">
+<div class="container" style="display: flex;justify-content: center;">
+  <form class="root-login-form mt-2 mb-3" action="{{route('login')}}" method="POST">
     @csrf
     <div class="login-inner-div">
-      <h1>Giriş Ekranı</h1>
+      <h1>Giriş Yap</h1>
       {{-- @if (Session::has('success'))
           <div class="alert alert-success" role="alert">
             {{ Session::get('success') }}
@@ -35,6 +36,7 @@
       </div>
     </div>
   </form>
+</div>
 @endsection
 
 @section('css')
@@ -42,6 +44,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
+   .navbar.fixed-top + .page-body-wrapper {
+        padding: 60px 0px 0px 0px !important;
+    }
+    .content-wrapper {
+        padding: 0px !important;
+    }
   .password-toggle-icon {
     position: absolute;
     right: 10px;
@@ -51,25 +59,22 @@
   }
 
   .root-login-form {
-    margin: -5em auto;
     width: 100%;
-    max-width: 500px;
+    max-width: 700px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
   }
 
   .login-inner-div {
     background-color: #ffffff;
-    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.6);
-    border-radius: 1em;
     padding: 2em;
     display: flex;
     flex-direction: column;
     gap: 1em;
     text-align: center;
-    width: 450px;
+    /* width: 450px; */
+    width: 80%;
   }
 
   .login-inner-div h1 {
@@ -79,7 +84,7 @@
   }
 
   .login-inner-div input {
-    padding: 1em;
+    padding: 12px 20px;
     border: 1px solid #ccc;
     border-radius: 0.4em;
     margin: 0.5em 0;
@@ -144,14 +149,14 @@
     --stratos: #001b48;
   } */
   .container-scroller, .page-body-wrapper, .content-wrapper{
-          background-image: url('{{ asset('public/login_img/uni_campus.jpg') }}');
-          background-position: center;
-          background-size: 100%;
+          /* background-image: url('{{ asset('public/login_img/uni_campus.jpg') }}'); */
+          /* background-position: center;
+          background-size: 100%; */
       }
 
       @media (max-width: 900px) {
         .container-scroller, .page-body-wrapper, .content-wrapper{
-          background-image: url('{{ asset('public/login_img/uni_campus.jpg') }}');
+          /* background-image: url('{{ asset('public/login_img/uni_campus.jpg') }}'); */
           background-position: center;
           background-size: cover;
       }

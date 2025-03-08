@@ -27,12 +27,12 @@
 
         }
         .imgLogo{
-            max-width: 120px;
+            max-width: 80px;
             height: auto;
         }
         .email-header img.banner {
             width: 100%;
-            max-height: 200px;
+            max-height: 130px;
             object-fit: cover;
             object-position: center;
             display: block;
@@ -68,11 +68,12 @@
 <body>
     <div class="email-container">
         <div class="email-header">
-            <img src="https://campusconnect.com.tr/public/assets/images/cc.png" alt="campus connect" class="banner">
+            <img src="https://campusconnect.com.tr/public/assets/images/logos/dark_logo2.png" alt="campus connect" class="banner">
         </div>
         <div class="email-body">
             <h2>Hoşgeldin</h2>
             <p>Merhaba {{ $user->username }},</p>
+            <p>Hesabınız başarıyla oluşturuldu. Seni aramızda gördüğümüz için çok memnunuz. Düşüncelerini paylaşmak ve tecrübeleri görmek için hesabını şimdi doğrula.</p>
             <p>Hesabınızı doğrulamak için aşağıdaki bağlantıya tıklayın:</p>
      
             <p style="margin-top: 20px;">
@@ -87,14 +88,14 @@
             </p>
         </div>
         <div class="email-footer">
-            <p>Bu e-posta yalnızca hesabınızı oluşturduğunuzda gönderildi. Bu işlemi siz başlatmadıysanız lütfen bizimle iletişime geçin.</p>
+            <p>Bu e-posta yalnızca hesabınız oluşturduğunda gönderilir. Bu işlemi siz başlatmadıysanız lütfen bizimle iletişime geçin.</p>
             <p>© 2025 campusconnect | Tüm hakları saklıdır</p>
             <div>
                 <div>
                     <p><a href="http://campusconnect.com.tr/">Websitemizi Ziyaret Et</a></p>
                 </div>
                 <div>
-                    <img src="https://campusconnect.com.tr/public/assets/images/cc.png" alt="campusconnect" class="imgLogo">
+                    <img src="https://campusconnect.com.tr/public/assets/images/logos/dark_logo2.png" alt="campusconnect" class="imgLogo">
                 </div>
             </div>
         </div>

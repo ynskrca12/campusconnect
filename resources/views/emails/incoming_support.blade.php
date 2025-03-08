@@ -68,7 +68,7 @@
 <body>
     <div class="email-container">
         <div class="email-header">
-            <img src="https://campusconnect.com.tr/public/assets/images/cc.png" alt="campus connect" class="banner">
+            <img src="https://campusconnect.com.tr/public/assets/images/logos/dark_logo2.png" alt="campus connect" class="banner">
         </div>
         <div class="email-body">
             <h2>Merhaba</h2>
@@ -85,7 +85,7 @@
                     <p><a href="http://campusconnect.com.tr/">Websitemizi Ziyaret Et</a></p>
                 </div>
                 <div>
-                    <img src="https://campusconnect.com.tr/public/assets/images/cc.png" alt="campusconnect" class="imgLogo">
+                    <img src="https://campusconnect.com.tr/public/assets/images/logos/dark_logo2.png" alt="campusconnect" class="imgLogo">
                 </div>
             </div>
         </div>
