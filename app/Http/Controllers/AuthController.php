@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\resetPasswordMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
@@ -11,9 +12,10 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerifyEmail;
+use Exception;
 
 class AuthController extends Controller
 {
@@ -87,8 +89,6 @@ class AuthController extends Controller
 
         return redirect()->route('login')->with('error', 'E-posta doğrulama başarısız.');
     }//End
-
-
 
     public function login(){
         return view("auth.login");
@@ -171,6 +171,74 @@ class AuthController extends Controller
             return redirect()->route('home')->with('error', 'Çıkış yaparken bir hata oluştu. Lütfen tekrar deneyin.');
         }
     }//End
-        
+
+    public function sendResetMail(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lütfen geçerli bir e-posta adresi girin.',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        try {
+            
+            $user = User::where('email', $request->email)->firstOrFail();
+            $token = Password::createToken($user);
+
+            Mail::to($user->email)->send(new resetPasswordMail($user, $token));
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.'
+            ], 200);
+        } catch (Exception $e) {
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Şifre sıfırlama e-postası gönderilirken bir hata oluştu. Lütfen tekrar deneyin.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }//End
+    public function showResetForm(Request $request)
+    {
+        $token = $request->query('token');
+        $email = $request->query('email');
+    
+        return view('auth.reset_password_form', compact('token', 'email'));
+    }//End
+    
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        try {
+            $status = Password::reset(
+                $request->only('email', 'password', 'password_confirmation', 'token'),
+                function (User $user, string $password) {
+                    $user->password = Hash::make($password);
+                    $user->save();
+                }
+            );
+
+            if ($status == Password::PASSWORD_RESET) {
+                return redirect()->route('login')->with('success', 'Şifreniz başarıyla sıfırlandı. Lütfen giriş yapınız.');
+            }
+
+            return back()->withErrors(['email' => 'Geçersiz token veya e-posta adresi.']);
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Bir hata oluştu. Lütfen tekrar deneyin.']);
+        }
+    }//End
 
 }

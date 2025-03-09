@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mt-5">
-    <h2 class="fw-bold text-custom mb-3">Eğitim ve Yaşam Platformumuz</h2>
+    <h2 class="fw-bold primary-color mb-3">Eğitim ve Yaşam Platformumuz</h2>
     <p class="text-muted custom-description  mb-5">Öğrenciler ve adaylar için sunduğumuz geniş kapsamlı hizmetlerle, eğitim hayatınızda ve şehirdeki yaşamınızı daha kolay ve verimli hale getirin. Üniversite bilgileri, şehir yaşamı, sosyal etkinlikler ve daha fazlası ile aradığınız tüm bilgilere tek bir platformda ulaşın.</p>
     
     <!-- Üniversite Hizmetleri -->
@@ -11,7 +11,7 @@
         <div class="col-md-4 animate-fade-in">
             <div class="card shadow-sm border-0">
                 <div class="card-body text-center">
-                    <i class="fas fa-info-circle fa-2x text-primary"></i>
+                    <i class="fas fa-info-circle fa-2x secondary-color"></i>
                     <h5 class="mt-2">Genel Bilgiler</h5>
                     <p>Üniversiteler hakkında kapsamlı bilgi ve kaynak edinin.</p>
                 </div>
@@ -20,7 +20,7 @@
         <div class="col-md-4 animate-fade-in">
             <div class="card shadow-sm border-0">
                 <div class="card-body text-center">
-                    <i class="fas fa-comments fa-2x text-primary"></i>
+                    <i class="fas fa-comments fa-2x secondary-color"></i>
                     <h5 class="mt-2">Soru-Cevap</h5>
                     <p>Öğrencilerle ve akademisyenlerle bilgi paylaşımı yapın.</p>
                 </div>
@@ -29,7 +29,7 @@
         <div class="col-md-4 animate-fade-in">
             <div class="card shadow-sm border-0">
                 <div class="card-body text-center">
-                    <i class="fas fa-tree fa-2x text-primary"></i>
+                    <i class="fas fa-tree fa-2x secondary-color"></i>
                     <h5 class="mt-2">Kampüs Hayatı</h5>
                     <p>Sosyal alanlar ve kampüs içi yaşam hakkında bilgi edinin.</p>
                 </div>
@@ -38,7 +38,7 @@
         <div class="col-md-4 animate-fade-in">
             <div class="card shadow-sm border-0">
                 <div class="card-body text-center">
-                    <i class="fas fa-book fa-2x text-primary"></i>
+                    <i class="fas fa-book fa-2x secondary-color"></i>
                     <h5 class="mt-2">Eğitim Kalitesi</h5>
                     <p>Akademik olanaklar, ders içerikleri ve eğitim fırsatlarını detaylı inceleyin.</p>
                 </div>
@@ -47,7 +47,7 @@
         <div class="col-md-4 animate-fade-in">
             <div class="card shadow-sm border-0">
                 <div class="card-body text-center">
-                    <i class="fas fa-bus fa-2x text-primary"></i>
+                    <i class="fas fa-bus fa-2x secondary-color"></i>
                     <h5 class="mt-2">Ulaşım</h5>
                     <p>Üniversite içi ve şehir içi ulaşım imkanlarını keşfedin.</p>
                 </div>
@@ -56,7 +56,7 @@
         <div class="col-md-4 animate-fade-in">
             <div class="card shadow-sm border-0">
                 <div class="card-body text-center">
-                    <i class="fas fa-calendar-alt fa-2x text-primary"></i>
+                    <i class="fas fa-calendar-alt fa-2x secondary-color"></i>
                     <h5 class="mt-2">Etkinlikler</h5>
                     <p>Üniversitedeki sosyal ve akademik etkinliklere göz atın.</p>
                 </div>
@@ -70,7 +70,7 @@
         <div class="col-md-4 animate-fade-in">
             <div class="card shadow-sm border-0">
                 <div class="card-body text-center">
-                    <i class="fas fa-subway fa-2x text-primary"></i>
+                    <i class="fas fa-subway fa-2x secondary-color"></i>
                     <h5 class="mt-2">Ulaşım</h5>
                     <p>Toplu taşıma ve şehir içi ulaşım bilgilerini öğrenin.</p>
                 </div>
@@ -79,7 +79,7 @@
         <div class="col-md-4 animate-fade-in">
             <div class="card shadow-sm border-0">
                 <div class="card-body text-center">
-                    <i class="fas fa-glass-cheers fa-2x text-primary"></i>
+                    <i class="fas fa-glass-cheers fa-2x secondary-color"></i>
                     <h5 class="mt-2">Eğlence</h5>
                     <p>Şehirdeki sosyal ve eğlence mekanlarını keşfedin.</p>
                 </div>
@@ -88,7 +88,7 @@
         <div class="col-md-4 animate-fade-in">
             <div class="card shadow-sm border-0">
                 <div class="card-body text-center">
-                    <i class="fas fa-money-bill-wave fa-2x text-primary"></i>
+                    <i class="fas fa-money-bill-wave fa-2x secondary-color"></i>
                     <h5 class="mt-2">Yaşam Maliyeti</h5>
                     <p>Şehirdeki konaklama ve yaşam maliyetlerini inceleyin.</p>
                 </div>
@@ -97,7 +97,7 @@
         <div class="col-md-4 animate-fade-in">
             <div class="card shadow-sm border-0">
                 <div class="card-body text-center">
-                    <i class="fas fa-hospital fa-2x text-primary"></i>
+                    <i class="fas fa-hospital fa-2x secondary-color"></i>
                     <h5 class="mt-2">Sağlık Hizmetleri</h5>
                     <p>Şehirdeki hastaneler, poliklinikler ve sağlık hizmetleri hakkında bilgi edinin.</p>
                 </div>
@@ -106,7 +106,7 @@
         <div class="col-md-4 animate-fade-in">
             <div class="card shadow-sm border-0">
                 <div class="card-body text-center">
-                    <i class="fas fa-shopping-bag fa-2x text-primary"></i>
+                    <i class="fas fa-shopping-bag fa-2x secondary-color"></i>
                     <h5 class="mt-2">Alışveriş</h5>
                     <p>Şehirdeki alışveriş merkezleri, çarşılar ve marketler hakkında bilgi alın.</p>
                 </div>
@@ -115,7 +115,7 @@
         <div class="col-md-4 animate-fade-in">
             <div class="card shadow-sm border-0">
                 <div class="card-body text-center">
-                    <i class="fas fa-landmark fa-2x text-primary"></i>
+                    <i class="fas fa-landmark fa-2x secondary-color"></i>
                     <h5 class="mt-2">Tarihi ve Kültürel Yerler</h5>
                     <p>Şehirdeki tarihi mekanları ve kültürel etkinlikleri keşfedin.</p>
                 </div>
@@ -128,8 +128,11 @@
 
 @section('css')
 <style>
-    .text-custom {
-        color: #001b48; 
+    .primary-color {
+        color: #001b48;
+    }
+    .secondary-color {
+        color: #87ceeb;
     }
    .animate-fade-in {
         opacity: 0;

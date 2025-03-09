@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row align-items-center">
         <div class="col-md-6">
-            <h2 class="fw-bold text-primary mb-4 mt-5">Biz Kimiz?</h2>
+            <h2 class="fw-bold primary-color mb-4 mt-5">Biz Kimiz?</h2>
             <p class="text-muted">
                 Üniversite adayları ve öğrencileri için bilgi paylaşımını kolaylaştıran, kampüs hayatı, bölümler,
                 şehirler ve sosyal imkanlar hakkında fikir alışverişi yapabileceğiniz bir platformuz.
@@ -24,20 +24,20 @@
 </div>
 
 <div class="container mt-5 text-center mb100">
-    <h2 class="fw-bold text-primary mb-5">Neden Biz?</h2>
+    <h2 class="fw-bold primary-color mb-5">Neden Biz?</h2>
     <div class="row mt-4">
         <div class="col-md-4 animate-fade-in mb-4">
-            <i class="fas fa-users fa-3x text-primary"></i>
+            <i class="fas fa-users fa-3x secondary-color"></i>
             <h5 class="mt-3">Öğrenci Topluluğu</h5>
             <p class="text-muted">Gerçek öğrencilerden gerçek deneyimler.</p>
         </div>
         <div class="col-md-4 animate-fade-in mb-4" style="animation-delay: 0.2s;">
-            <i class="fas fa-graduation-cap fa-3x text-primary"></i>
+            <i class="fas fa-graduation-cap fa-3x secondary-color"></i>
             <h5 class="mt-3">Eğitim ve Bölümler</h5>
             <p class="text-muted">Üniversiteler ve bölümler hakkında doğru bilgiler.</p>
         </div>
         <div class="col-md-4 animate-fade-in mb-4" style="animation-delay: 0.4s;">
-            <i class="fas fa-city fa-3x text-primary"></i>
+            <i class="fas fa-city fa-3x secondary-color"></i>
             <h5 class="mt-3">Şehir Rehberi</h5>
             <p class="text-muted">Yaşayacağınız şehir hakkında her şey burada.</p>
         </div>
@@ -47,6 +47,12 @@
 
 @section('css')
 <style>
+    .primary-color {
+        color: #001b48;
+    }
+    .secondary-color {
+        color: #87ceeb;
+    }
     .mb100{
         margin-bottom: 100px;
     }

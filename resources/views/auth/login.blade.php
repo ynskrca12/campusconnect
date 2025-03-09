@@ -5,7 +5,7 @@
   <form class="root-login-form mt-2 mb-3" action="{{route('login')}}" method="POST">
     @csrf
     <div class="login-inner-div">
-      <h1>Giriş Yap</h1>
+      <h1 class="mt-4">Giriş Yap</h1>
       {{-- @if (Session::has('success'))
           <div class="alert alert-success" role="alert">
             {{ Session::get('success') }}
@@ -26,7 +26,7 @@
         <span toggle="#password" class="fa fa-fw fa-eye-slash password-toggle-icon"></span>
       </div> 
 
-      <a class="lost-password">Şifremi unuttum</a>
+      <a class="lost-password" href="#" data-bs-toggle="modal" data-bs-target="#resetPasswordModal">Şifremi Unuttum</a>
 
       <button type="submit" class="login-btn">GİRİŞ YAP</button>
       <div class="is-member-div">
@@ -37,6 +37,31 @@
     </div>
   </form>
 </div>
+
+
+<div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="max-width: 350px;">
+      <div class="modal-content text-center">
+          <div class="modal-header text-white justify-content-center" style="background-color: #87ceeb;">
+              <h5 class="modal-title" style="color: #001b48;" id="resetPasswordModalLabel">Şifre Sıfırlama</h5>
+              <button type="button" class="btn-close text-white"  data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body px-4">
+              <p class="py-2">
+                E-posta adresinizi girin, size şifrenizi sıfırlama talimatlarını içeren bir e-posta gönderelim.
+              </p>
+              <div class="mb-3">
+                  <input type="email" id="typeEmail" class="form-control" placeholder="E-posta adresiniz">
+              </div>
+              <button type="button" id="resetPasswordBtn" class="btn  w-100" style="background-color: #87ceeb;color:#001b48;">Şifreyi sıfırla</button>
+              <div class="d-flex justify-content-between mt-3">
+                  <a class="primary-color" href="{{route('login')}}">Giriş Yap</a>
+                  <a class="primary-color" href="{{route('register')}}">Kayıt Ol</a>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
 @endsection
 
 @section('css')
@@ -44,6 +69,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
+   .primary-color {
+        color: #001b48;
+    }
+    .secondary-color {
+        color: #87ceeb;
+    }
    .navbar.fixed-top + .page-body-wrapper {
         padding: 60px 0px 0px 0px !important;
     }
@@ -166,6 +197,43 @@
 
 @section('js')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+      $("#resetPasswordBtn").click(function () {
+          var email = $("#typeEmail").val(); 
+
+          if (email === '') {
+            toastr.error("Lütfen e-posta adresinizi girin!", "Hata");
+              return;
+          }
+
+          $.ajax({
+              url: "/reset-password-mail", 
+              type: "POST",
+              data: {
+                  email: email,
+                  _token: "{{ csrf_token() }}" 
+              },
+              success: function (response) {
+                if (response.success) {
+                    toastr.success(response.message, "Başarılı");
+                    $("#resetPasswordModal").modal("hide");
+                } else {
+                    toastr.error(response.message, "Hata");
+                }
+              },
+              error: function (xhr) {
+                if (xhr.status === 422) {
+                    toastr.warning("Geçersiz e-posta adresi.", "Uyarı");
+                } else {
+                    toastr.error("Bir hata oluştu! Lütfen tekrar deneyin.", "Hata");
+                }
+              }
+          });
+      });
+  });
+</script>
 
 <script>
     $(document).ready(function () {

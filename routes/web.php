@@ -17,6 +17,11 @@ Route::get('/testmail',[AuthController::class, 'test'])->name('testmail');
 Route::get('/register',[AuthController::class, 'register'])->name('register');
 Route::post('/registerPost',[AuthController::class, 'registerPost'])->name('registerPost');
 Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('verification.verify');
+Route::post('/reset-password-mail', [AuthController::class, 'sendResetMail']);
+
+Route::get('/reset-password', [AuthController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+
 
 Route::get('/login',[AuthController::class, 'login'])->name('login');
  Route::post('/login',[AuthController::class, 'loginPost'])->name('loginPost');

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kayıt Başarılı</title>
+    <title>Şifre Sıfırlama</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -71,24 +71,23 @@
             <img src="https://campusconnect.com.tr/public/assets/images/logos/dark_logo2.png" alt="campus connect" class="banner">
         </div>
         <div class="email-body">
-            <h2>Hoşgeldin</h2>
             <p>Merhaba {{ $user->name }},</p>
-            <p>Hesabınız başarıyla oluşturuldu. Seni aramızda gördüğümüz için çok memnunuz. Düşüncelerini paylaşmak ve tecrübeleri görmek için hesabını şimdi doğrula.</p>
-            <p>Hesabınızı doğrulamak için aşağıdaki bağlantıya tıklayın:</p>
+            <p>Şifre sıfırlama isteğiniz alındı.</p>
+            <p>Şifrenizi yenilemek için aşağıdaki bağlantıya tıklayın:</p>
      
             <p style="margin-top: 20px;">
-                <a href="{{ route('verification.verify', ['id' => $user->id, 'hash' => sha1($user->email)]) }}" 
+                <a href="{{ $resetUrl }}"
                     style="background-color: #001b48;
                     color: white;
                     padding: 10px 40px;
                     border-radius: 5px;
                     text-decoration: none;
-                    font-size: 14px;">Doğrulamak için tıkla
+                    font-size: 14px;">Şifreni sıfırlamak için tıkla
                 </a>
             </p>
         </div>
         <div class="email-footer">
-            <p>Bu e-posta yalnızca hesabınız oluşturduğunda gönderilir. Bu işlemi siz başlatmadıysanız lütfen bizimle iletişime geçin.</p>
+            <p>Bu e-posta yalnızca şifrenizi sıfırlamak istediğiniz zaman gönderilir. Bu işlemi siz başlatmadıysanız lütfen bizimle iletişime geçin.</p>
             <p>© 2025 campusconnect | Tüm hakları saklıdır</p>
             <div>
                 <div>

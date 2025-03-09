@@ -14,16 +14,14 @@
                 bulabileceğiniz, öğrenci yorumlarını okuyabileceğiniz ve forumlarda tartışmalara katılabileceğiniz 
                 interaktif bir platform sunuyoruz.
             </p>
-            <a href="{{ route('forum') }}" class="btn btn-primary btn-animated">Keşfetmeye Başla</a>
+            <a href="{{ route('forum') }}" class="btn  btn-animated">Keşfetmeye Başla</a>
         </div>
     </div>
-    <div class="container">
+    <div class="">
       
         
         <div class="row mb-4 mt-4" style="margin-top: 40px !important;">
-            <div class="col-12 text-center">
-                <h3>Üniversiteler</h3>
-            </div>
+          
             <div class="col-12">
                 <div class="university-slider">
                     <div class="logos">
@@ -150,16 +148,17 @@
     .btn-animated {
         font-size: 18px;
         padding: 10px 20px;
-        background: #ff9800;
+        background: #87ceeb;
         border: none;
-        color: white;
+        color: #001b48;
         text-decoration: none;
         transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
     }
 
     .btn-animated:hover {
         transform: scale(1.1);
-        background: #e68900;
+        background: #4682b4;
+        color: #fff;
     }
     @media (max-width: 768px) {
         .info-content h2 {
