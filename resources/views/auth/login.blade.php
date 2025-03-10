@@ -39,7 +39,7 @@
 </div>
 
 
-<div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
+<div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel" aria-hidden="true" style="padding-left:25px;margin-top:55px;">
   <div class="modal-dialog" style="max-width: 350px;">
       <div class="modal-content text-center">
           <div class="modal-header text-white justify-content-center" style="background-color: #87ceeb;">
@@ -104,7 +104,6 @@
     flex-direction: column;
     gap: 1em;
     text-align: center;
-    /* width: 450px; */
     width: 80%;
   }
 
@@ -175,21 +174,13 @@
     color: #002d6e;
   }
 
-  /* :root {
-    --primary-color: #001b48;
-    --stratos: #001b48;
-  } */
-  .container-scroller, .page-body-wrapper, .content-wrapper{
-          /* background-image: url('{{ asset('public/login_img/uni_campus.jpg') }}'); */
-          /* background-position: center;
-          background-size: 100%; */
-      }
-
       @media (max-width: 900px) {
         .container-scroller, .page-body-wrapper, .content-wrapper{
-          /* background-image: url('{{ asset('public/login_img/uni_campus.jpg') }}'); */
           background-position: center;
           background-size: cover;
+      }
+      .login-inner-div {
+        padding: 2em 0em;
       }
   }  
 </style>

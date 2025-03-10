@@ -8,26 +8,26 @@
         
         <section class="feature-section">
                 <div class="row">
-                    <div class="col-12 col-md-4">
-                        <a href="https://mail.google.com/mail/?view=cm&to=campusconnectiletisim@gmail.com" target="_blank" style="text-decoration: none;">
+                    <div class="col-12 col-md-4 mb-4">
+                        <a href="https://mail.google.com/mail/?view=cm&to=info@erapan.com.tr" target="_blank" style="text-decoration: none;">
                             <div class="feature-card">
-                                <img src="{{ asset('assets/images/icons/mail-icon.png') }}" class="font-icon" alt="campusconnect mail">
+                                <img src="{{ asset('/assets/images/icons/mail-icon.png') }}" class="font-icon" alt="campusconnect mail">
                                     <p class="feature-desc">campusconnectiletisim@gmail.com</p>                                        
                             </div>
                          </a>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-4 mb-4">
                         <a href="https://x.com/campusconline?t=DCZqePG9GVkGI0o6ukRSog&s=08" target="_blank" style="text-decoration: none;">
                             <div class="feature-card">
-                                <img src="{{ asset('assets/images/icons/twitter.png') }}" class="font-icon" alt="campusconnect twitter">
+                                <img src="{{ asset('/assets/images/icons/twitter.png') }}" class="font-icon" alt="campusconnect twitter">
                                 <p class="feature-desc">@campusconline</p>
                             </div>
                         </a>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-4 mb-4">
                         <a href="https://www.instagram.com/campusconnectonline?utm_source=qr&igsh=M2poMDM1bHJuNmVo" target="_blank" style="text-decoration: none;">
                             <div class="feature-card">
-                                <img src="{{ asset('assets/images/icons/instagram.png') }}" class="font-icon" alt="campusconnect instagram">
+                                <img src="{{ asset('/assets/images/icons/instagram.png') }}" class="font-icon" alt="campusconnect instagram">
                                 <p class="feature-desc">@campusconnectonline</p>
                             </div>
                         </a>
@@ -40,7 +40,6 @@
                 <h2 class="text-center fw-bold mb-5">Destek, Şikayet ve Öneri</h2>
                 
                 <div class="row ">
-                    <!-- Açıklama Alanı -->
                     <div class="col-md-6">
                         <p class="fs-6 mb-5">
                             Görüşleriniz bizim için çok kıymetli. CampusConnect olarak, en iyi deneyimi sunmak için sürekli gelişmeyi hedefliyoruz. Bize ilettiğiniz şikayetler, öneriler ve talepler hızlı bir şekilde değerlendirilecektir.
@@ -51,12 +50,8 @@
                         <p class="fs-6 mb-5">
                             Geri bildirimlerinizi dikkate alarak kendimizi sürekli geliştiriyoruz. CampusConnect olarak, kullanıcı memnuniyetini ön planda tutuyor ve daha iyi bir deneyim sunmayı amaçlıyoruz.
                         </p>
-                        
-                        
-                        
                     </div>
                     
-                    <!-- Form Alanı -->
                     <div class="col-md-6">
                         <div class="card rounded-4 p-4" style="border: 1px solid #e3e3e3 !important;box-shadow: 0 1rem 2rem rgba(0, 0, 0, .06) !important;">
                             <form action="{{ route('contact.submit') }}" method="POST">
@@ -93,8 +88,15 @@
 @section('css')
 
 <style>
+    .navbar.fixed-top + .page-body-wrapper {
+        padding: 63px 0px 0px 0px !important;
+    }
+    .content-wrapper {
+        padding: 0px !important;
+    }
     .feature-title{
         text-align: center;
+        margin-top: 50px;
         margin-bottom: 30px;
         color: #000;
         letter-spacing: 1px;
@@ -116,21 +118,14 @@
          flex-direction: column;
          height: 100%;
          align-items: center;
-         border:1px solid #969696;
+         border-bottom:1px solid #969696;
          border-radius: 17px;
      }
  
     .feature-card:hover {
          transform: translateY(-10px);
          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-    }
- 
-    feature-icon {
-         width: 60px;
-         height: 60px;
-         margin-bottom: 15px;
-     } 
- 
+    } 
      .feature-desc {
          font-size: 16px;
          color: #333;
@@ -151,7 +146,6 @@
      
      @media (max-width: 768px) {
          .row{
-             display: block;
              margin-bottom: 0px;
          }
  
@@ -160,7 +154,9 @@
              font-size: 11px;
          }
  
-         
+         .feature-title {
+            margin-top: 30px;
+         }
      }
 
      @media (min-width: 768px) and (max-width: 820px) {

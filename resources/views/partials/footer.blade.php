@@ -17,7 +17,7 @@
       <div class="col-6 col-md-3">
         <h5>Kolay Erişim</h5>
         <ul class="list-unstyled">
-          <li><a href="#" style="color: #fff;">Destek Merkezi</a></li>
+          <li><a href="{{route('login')}}" style="color: #fff;">Giriş Yap</a></li>
           <li><a href="{{route('forum')}}" style="color: #fff;">Forum</a></li>
           <li><a href="{{route('universities')}}" style="color: #fff;">Üniversiteler</a></li>
           <li><a href="{{route('cities')}}" style="color: #fff;">Şehirler</a></li>
