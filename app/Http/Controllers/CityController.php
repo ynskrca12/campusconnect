@@ -21,7 +21,13 @@ class CityController extends Controller
 
     public function fetchCities(Request $request)
     {
-        $cities = DB::table('cities')->paginate(20);
+        $query = DB::table('cities')->orderBy('title', 'asc');
+
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        $cities = $query->paginate(28);
 
         $cities_topics_count = DB::table('cities_topics')
             ->select('city_id', DB::raw('COUNT(*) as count'))
@@ -32,9 +38,9 @@ class CityController extends Controller
         return response()->json([
             'cities' => $cities,
             'cities_topics_count' => $cities_topics_count,
-            'links' => $cities->links('pagination::bootstrap-4')->render()  
+            'links' => $cities->appends(['search' => $request->search])->links('pagination::bootstrap-4')->render() 
         ]);
-    }
+    }//End
     public function show($slug){
     
         $city = City::where('slug', $slug)->first();

@@ -6,17 +6,9 @@
         <!-- Sol Menü (Alt Başlıklar) -->
         <div class="col-md-3 mb-3">
             <div class="mobile-hidden d-block">
-
-                    <div class="d-flex justify-content-between">
-                        <h4 class="sidebarTitle">şehirler</h4>  
-                    </div>
-
-                    <ul id="subcategories-list" class="list-group" >
-                    
-                    </ul>
-        
-                    <div id="pagination-container" class="pagination-container mt-3"></div>
-       
+                <input type="text" id="city-search" class="form-control mb-2 mt-2 searchInput" placeholder="Şehir Ara...">
+                <ul id="subcategories-list" class="list-group" ></ul>
+                <div id="pagination-container" class="pagination-container mt-3"></div>
             </div>
 
             <div class="mobile-show d-none">
@@ -27,18 +19,13 @@
 
                 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                     <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">şehirler</h5>
+                        <input type="text" id="city-search" class="form-control mb-2 mt-2 searchInput" placeholder="Şehir Ara...">
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                         <div class="offcanvas-body">
-                            
-                        <ul id="subcategories-list" class="list-group mobile-cities-list" >
-                        
-                        </ul>
-            
-                        <div id="pagination-container" class="pagination-container mt-3">
-                    
-                    </div>
+                            <ul id="subcategories-list" class="list-group mobile-cities-list" > </ul>
+                            <div id="pagination-container" class="pagination-container mt-3">
+                        </div>
                 </div>
                 </div>
             </div>
@@ -599,7 +586,16 @@
     </style>
 
     <style>
-         /* card css */
+        .searchInput{
+            border: none;
+            border-bottom: 1px solid #e0e0e0;
+            border-radius: 0;
+            padding: 0;
+        }
+
+        .searchInput:focus{
+            box-shadow: none;
+        }
          .card-container {
             position: relative;
             width: auto; 
@@ -768,11 +764,11 @@
 
     <script>
         $(document).ready(function () {
-            function loadCities(page = 1) {
+            function loadCities(page = 1, query = '') {
                 $.ajax({
                     url: '/cities/fetch',
                     type: 'GET',
-                    data: { page: page },
+                    data: { page: page, search: query },
                     success: function (response) {
                         
                         let citiesHtml = '';
@@ -807,7 +803,14 @@
                 e.preventDefault();
                 const url = $(this).attr('href');
                 const page = new URL(url).searchParams.get('page');
-                loadCities(page);
+                const query = $('.searchInput').val();
+                loadCities(page, query);
+            });
+
+            $(document).on('input', '.searchInput', function () {
+                const query = $(this).val();
+                console.log(query)
+                loadCities(1, query);
             });
         });
 
