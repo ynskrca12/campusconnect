@@ -194,7 +194,13 @@ class UniversityController extends Controller
 
     public function fetchUniversities(Request $request)
     {
-        $universities = DB::table('universiteler')->paginate(30);
+        $query = DB::table('universiteler')->orderBy('universite_ad', 'asc');
+
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where('universite_ad', 'like', '%' . $request->search . '%');
+        }
+
+        $universities = $query->paginate(40);
 
         $universities_topics_count = DB::table('universities_topics')
             ->select('university_id', DB::raw('COUNT(*) as count'))
@@ -205,9 +211,10 @@ class UniversityController extends Controller
         return response()->json([
             'universities' => $universities,
             'universities_topics_count' => $universities_topics_count,
-            'links' => $universities->links('pagination::bootstrap-4')->render()  
+            'links' => $universities->appends(['search' => $request->search])->links('pagination::bootstrap-4')->render()
         ]);
-    }//End
+    }
+
 
     public function like($id)
     {

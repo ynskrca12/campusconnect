@@ -7,24 +7,20 @@
         <div class="col-md-3 mb-3">
             <div class="mobile-hidden d-block">
 
-                    <div class="d-flex justify-content-between">
+                    {{-- <div class="d-flex justify-content-between">
                         <h4 class="sidebarTitle">üniversiteler</h4>
 
-                        {{-- <button id="toggle-subcategories" class="btn btn-sm d-none" >
+                        <button id="toggle-subcategories" class="btn btn-sm d-none" >
                             <i class="fa-solid fa-chevron-down"></i>
-                        </button> --}}
+                        </button>
 
-                    </div>
+                    </div> --}}
             
                 {{-- <div class="mobile-hidden-pagination"> --}}
-
-                        <ul id="subcategories-list" class="list-group" >
-                        
-                        </ul>
+                    <input type="text" id="university-search" class="form-control mb-2 mt-2 searchInput" placeholder="Üniversite Ara...">
+                        <ul id="subcategories-list" class="list-group" > </ul>
             
-                        <div id="pagination-container" class="pagination-container mt-3">
-                        
-                        </div>
+                        <div id="pagination-container" class="pagination-container mt-3"></div>
                 {{-- </div>  --}}
             </div>
 
@@ -36,19 +32,14 @@
 
                 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                     <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">üniversiteler</h5>
+                    {{-- <h5 class="offcanvas-title" id="offcanvasExampleLabel">üniversiteler</h5> --}}
+                    <input type="text" id="university-search" class="form-control mb-2 mt-2 searchInput" placeholder="Üniversite Ara...">
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
-                        <div class="offcanvas-body">
-                            
-                        <ul id="subcategories-list" class="list-group mobile-universities-list" >
-                        
-                        </ul>
-            
-                        <div id="pagination-container" class="pagination-container mt-3">
-                    
-                    </div>
-                </div>
+                        <div class="offcanvas-body">  
+                            <ul id="subcategories-list" class="list-group mobile-universities-list"></ul>
+                            <div id="pagination-container" class="pagination-container mt-3"></div>
+                        </div>
                 </div>
             </div>
         </div>
@@ -590,6 +581,16 @@
     </style>
 
     <style>
+        .searchInput{
+            border: none;
+            border-bottom: 1px solid #e0e0e0;
+            border-radius: 0;
+            padding: 0;
+        }
+
+        .searchInput:focus{
+            box-shadow: none;
+        }
       #pagination-container a {
           text-decoration: none; 
           padding: 5px 7px; 
@@ -701,13 +702,12 @@
 
     <script>
         $(document).ready(function () {
-            function loadUniversities(page = 1) {
+            function loadUniversities(page = 1, query = '') {
                 $.ajax({
                     url: '/universities/fetch',
                     type: 'GET',
-                    data: { page: page },
+                    data: { page: page, search: query },
                     success: function (response) {
-                        // Üniversite listesini güncelle
                         let universitiesHtml = '';
                         $.each(response.universities.data, function (index, item) {
                             const topicCount = response.universities_topics_count[item.id] || 0;
@@ -721,7 +721,7 @@
                         });
                         $('#subcategories-list').html(universitiesHtml);
                         $('.mobile-universities-list').html(universitiesHtml);
-
+                        
                         // Sayfa bağlantılarını güncelle
                         $('#pagination-container').html(response.links);
                         $('.pagination-container').html(response.links);
@@ -731,19 +731,24 @@
                     }
                 });
             }
-
+    
             // İlk yükleme
             loadUniversities();
-
-            // Sayfa bağlantılarına tıklama olayı
+    
             $(document).on('click', '#pagination-container a', function (e) {
                 e.preventDefault();
                 const url = $(this).attr('href');
                 const page = new URL(url).searchParams.get('page');
-                loadUniversities(page);
+                const query = $('.searchInput').val();
+                loadUniversities(page, query);
+            });
+    
+            $(document).on('input', '.searchInput', function () {
+                const query = $(this).val();
+                console.log(query)
+                loadUniversities(1, query);
             });
         });
-
     </script>
     
     <script>
