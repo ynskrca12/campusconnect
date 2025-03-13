@@ -1,28 +1,28 @@
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #001b48;">
   <div class="container">
-    <a href="/"><img src="{{ asset('assets/images/logos/dark_logo_cropped.png') }}" alt="" style="width: 161px;margin-right: 10px"></a>
+    <a href="/"><img src="{{ asset('assets/images/logos/dark_logo_cropped.png') }}" alt="" style="width: 156px;margin-right: 10px"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto me-3">
-        <li class="nav-item active menu-title">
-          <a class="nav-link" href="/">anasayfa</a>
+        <li class="nav-item active">
+          <a class="nav-link headerLink" href="/">Anasayfa</a>
         </li>
-        <li class="nav-item menu-title">
-          <a class="nav-link" href="/universiteler">üniversiteler</a>
+        <li class="nav-item">
+          <a class="nav-link" href="/universiteler">Üniversiteler</a>
         </li>
-        <li class="nav-item menu-title">
-          <a class="nav-link" href="/sehirler">şehirler</a>
+        <li class="nav-item">
+          <a class="nav-link" href="/sehirler">Şehirler</a>
         </li>
-        <li class="nav-item menu-title">
-          <a class="nav-link" href="/forum">forum</a>
+        <li class="nav-item">
+          <a class="nav-link" href="/forum">Forum</a>
         </li>
-        {{-- <li class="nav-item menu-title">
+        {{-- <li class="nav-item">
           <a class="nav-link" href="/ilanlar">İlanlar</a>
         </li> --}}
-        {{-- <li class="nav-item menu-title">
+        {{-- <li class="nav-item">
           <a class="nav-link" href="#">Haberler</a>
         </li> --}}
         @auth
@@ -39,18 +39,18 @@
           </div>
         </li>
         @else
-        <li class="nav-item menu-title">
-          <a class="nav-link" href="/login">giriş yap</a>
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Giriş Yap</a>
         </li>
-        <li class="nav-item menu-title">
-          <a class="nav-link" href="/register">kayıt ol</a>
+        <li class="nav-item">
+          <a class="nav-link" href="/register">Kayıt Ol</a>
         </li>
         @endauth
-        <li class="nav-item d-none d-lg-block">
+        {{-- <li class="nav-item d-none d-lg-block">
           <a class="nav-link" href="#" id="fullscreen-button">
             <i class="mdi mdi-fullscreen"></i>
           </a>
-        </li>
+        </li> --}}
       </ul>
     </div>
   </div>
@@ -59,22 +59,20 @@
 
 <style>
 .nav-link {
-  /* text-decoration: none;
-  color: var(--secondary-color);
-  font-weight: 300;
-  border-radius: 8px;
-  padding: 4px 22px;
-  transition: background-color 0.3s, border-color 0.3s, color 0.3s; */
-
-  font-size: 17px;
+  font-size: 14px;
   color:#fff !important;
   margin: 0px 10px;
+  width: 100%;
+  text-align: center;
+  border-radius: 10px;
+  
 }
 
 .nav-link:hover {
-  /* color: #001b48;
-  background-color: var(--secondary-color);
-  border-color: var(--primary-color); */
+  color: #001b48 !important;
+  background-color: #fff !important;
+  border-color: #001b48 !important;
+  border-radius: 10px;
 }
 
 </style>

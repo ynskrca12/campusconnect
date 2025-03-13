@@ -343,6 +343,18 @@
        font-size: 17px;
        color: #333;
    }
+
+    .topic h3 a{
+        margin: 0;
+        font-size: 17px;
+        color: #333 !important;
+        text-decoration: none;
+    }
+    .topic h3 a:hover{
+        color: #424242 !important; 
+        text-decoration: underline; 
+    }
+
    .topic p {
        margin: 5px 0;
        font-size: 14px;
