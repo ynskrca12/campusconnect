@@ -32,8 +32,8 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="userDropdown">
             <a class="dropdown-item" href="/kullanici_bilgileri">Kullanıcı Bilgileri</a>
-            <a class="dropdown-item" href="#">Hesap Ayarları</a>
-            <a class="dropdown-item" href="#">Genel Ayarlar</a>
+            {{-- <a class="dropdown-item" href="#">Hesap Ayarları</a> --}}
+            {{-- <a class="dropdown-item" href="#">Genel Ayarlar</a> --}}
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="/logout">Çıkış Yap</a>
           </div>
@@ -73,6 +73,10 @@
   background-color: #fff !important;
   border-color: #001b48 !important;
   border-radius: 10px;
+}
+
+.dropdown-item{
+  color: #001b48 !important;
 }
 
 </style>

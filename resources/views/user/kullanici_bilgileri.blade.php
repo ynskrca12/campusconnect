@@ -1,141 +1,135 @@
 @extends('layouts.master')
 
 @section('content')
-@if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
-<section style="background-color: #eee;">
-    <div class="container py-5">
-      <div class="row">
-        <div class="col">
-          <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
-            <ol class="breadcrumb mb-0">
-              <li class="breadcrumb-item"><a href="{{ url('/') }}">Ana Sayfa</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Kullanıcı Bilgileri</li>
-            </ol>
-          </nav>
-        </div>
+  @if(session('success'))
+      <div class="alert alert-success">
+          {{ session('success') }}
       </div>
+  @endif
 
-      <div class="row">
-        <div class="col-lg-4">
-          <div class="card mb-4">
-            <div class="card-body text-center">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-                class="rounded-circle img-fluid" style="width: 150px;">
-              <h5 class="my-3">{{ $user->name }}</h5>
-              {{-- <p class="text-muted mb-1">{{ $user->name }}</p> --}}
-              <p class="text-muted mb-4">{{ $user->university }}</p>
-              <div class="d-flex justify-content-center mb-2">
-                <a href="{{route('kullanici_bilgileri_duzenle', ['id' =>$user->id])}}" class="btn btn-primary">Bilgilerimi Güncelle</a>
-                <button type="button" class="btn btn-outline-primary ms-1">Message</button>
-              </div>
-            </div>
-          </div>
-          <div class="card mb-4 mb-lg-0">
-            <div class="card-body p-0">
-              <ul class="list-group list-group-flush rounded-3">
-                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                  <i class="fas fa-globe fa-lg text-warning"></i>
-                  <p class="mb-0">https://mdbootstrap.com</p>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                  <i class="fab fa-github fa-lg" style="color: #333333;"></i>
-                  <p class="mb-0">mdbootstrap</p>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                  <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
-                  <p class="mb-0">@mdbootstrap</p>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                  <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
-                  <p class="mb-0">mdbootstrap</p>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                  <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
-                  <p class="mb-0">mdbootstrap</p>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-8">
-          <div class="card mb-4">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Ad Soyad</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">{{ $user->name }}</p>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Email</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">{{ $user->email }}</p>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Kullanıcı Adı</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">{{$user->username}}</p>
-                </div>
-              </div>
-              {{-- <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Mobile</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">(098) 765-4321</p>
-                </div>
-              </div> --}}
-              <hr>
-              {{-- <div class="row">
-                <div class="col-sm-3">
-                  <p class="mb-0">Address</p>
-                </div>
-                <div class="col-sm-9">
-                  <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
-                </div>
-              </div> --}}
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="card mb-4 mb-md-0">
-                <div class="card-body">
-                  <p class="mb-4">İlanlarım</p>
+  <div class="row">
+      <!-- Profile Header -->
+      {{-- <div class="col-12 mb-4 text-center">
+         
+      </div> --}}
 
-                    @foreach ($ilanlar as $ilan)
-                    <div class="row mb-3">
-                       <a href="" class="btn btn-info">ilan Kategorisi : {{ $ilan->name }}</a>
-                    </div>
-                    @endforeach
+      <!-- Main Content -->
+      <div class="col-12">
+          <div class="card border-0 shadow-sm">
+              <div class="card-body p-0">
+                  <div class="row g-0">
+                      <!-- Sidebar -->
+                      <div class="col-lg-3 border-end text-center">
+                        <div class="position-relative d-inline-block">
+                          <img src="{{ asset('assets/images/user.png') }}" class="rounded-circle profile-pic" alt="Profile Picture" style="width: 70px;">
+                          <button class="btn btn-primary btn-sm position-absolute bottom-0 end-0 rounded-circle">
+                              <i class="fas fa-camera"></i>
+                          </button>
+                      </div>
+                      <h5 class="mt-3 mb-1">{{ Auth::user()->name }}</h5>
+                          <div class="p-4">
+                              <div class="nav flex-column nav-pills">
+                                  <a class="nav-link nav-link-profile active" id="bilgilerim-tab" href="#" data-target="#bilgilerim"><i class="fas fa-user me-2"></i>Bilgilerim</a>
+                                  <a class="nav-link nav-link-profile" id="istatistiklerim-tab" href="#" data-target="#istatistiklerim"><i class="fas fa-chart-line me-2"></i>İstatistiklerim</a>
+                              </div>
+                          </div>
+                      </div>
 
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="card mb-4 mb-md-0">
-                <div class="card-body">
+                      <!-- Content Area -->
+                      <div class="col-lg-9">
+                          <div class="p-4">
+                              <div id="bilgilerim" class="content-section">
+                                  <h5 class="mb-4">Bilgilerim</h5>
+                                  <div class="row g-3">
+                                      <div class="col-md-6">
+                                          <label class="form-label">Kullanıcı Adı</label>
+                                          <input type="text" class="form-control" value="{{$user->username}}">
+                                      </div>
+                                      <div class="col-md-6">
+                                          <label class="form-label">Ad Soyad</label>
+                                          <input type="text" class="form-control" value="{{$user->name}}">
+                                      </div>
+                                      <div class="col-md-6">
+                                          <label class="form-label">E-Posta</label>
+                                          <input type="email" class="form-control" value="{{$user->email}}">
+                                      </div>
+                                      <div class="col-md-6">
+                                          <label class="form-label">Üniversite</label>
+                                          <input type="text" class="form-control" value="{{$user->university}}">
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                              <div id="istatistiklerim" class="content-section d-none">
+                                  <h5 class="mb-4">İstatistiklerim</h5>
+                                  {{-- <ul class="list-group">
+                                      <li class="list-group-item">Beğendiğim yorumlar: <span id="liked-comments-count">15</span></li>
+                                      <li class="list-group-item">Toplam yaptığım yorumlar: <span id="total-comments-count">30</span></li>
+                                      <li class="list-group-item">Yorumlarımın aldığı beğeni sayısı: <span id="my-comments-likes">45</span></li>
+                                      <li class="list-group-item">Yorumlarıma yapılan yanıt sayısı: <span id="my-comments-replies">10</span></li>
+                                  </ul> --}}
 
-                </div>
+                                  <div class="d-flex flex-column align-items-center justify-content-center" style="height: 200px;">
+                                    <i class="fas fa-spinner fa-spin fa-3x text-primary mb-3"></i>
+                                    <p class="text-muted">Yakında tüm istatistikler burada olacak...</p>
+                                </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
               </div>
-            </div>
           </div>
-        </div>
       </div>
-    </div>
-  </section>
+  </div>
 @endsection
 
+@section('css')
+<style>
+  
+    .nav-pills .nav-link {
+        color: #6c757d !important;
+        border-radius: 10px;
+        padding: 12px 20px;
+        margin: 4px 0;
+        text-align: left;
+        transition: all 0.3s ease;
+    }
+
+    .nav-pills .nav-link:hover {
+        background-color: #f8f9fa;
+    }
+
+    .nav-pills .nav-link.active {
+        background-color: #fff;
+        color: #001B48 !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label{
+      font-weight: 600;
+      font-family: monospace;
+      font-size: 16px;
+    }
+
+    .dropdown-menu[data-bs-popper]{
+      left: -55px;
+      top: 55px;
+    }
+</style>
+@endsection
+
+@section('js')
+<script>
+    $(document).ready(function () {
+        $(".nav-link-profile").click(function (e) {
+            e.preventDefault();
+            $(".nav-link-profile").removeClass("active");
+            $(this).addClass("active");
+            
+            $(".content-section").addClass("d-none");
+            let target = $(this).data("target");
+            $(target).removeClass("d-none");
+        });
+    });
+</script>
+@endsection

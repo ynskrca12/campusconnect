@@ -13,8 +13,7 @@ class UserController extends Controller
     public function kullanici_bilgileri(){
         if (Auth::check()) {
             $user = Auth::user();
-            $ilanlar = $user->ilanlar;
-            return view("user.kullanici_bilgileri", compact('user','ilanlar'));
+            return view("user.kullanici_bilgileri", compact('user'));
         } else {
             return redirect('/login')->with('message', 'Lütfen giriş yapınız.');
         }
