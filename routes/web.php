@@ -59,8 +59,13 @@ Route::get('vakif_universite_getir',[UniversityController::class,'vakif_universi
 
 Route::get('kullanici_bilgileri',[UserController::class, 'kullanici_bilgileri'])->name('kullanici_bilgileri');
 Route::get('kullanici_bilgileri_duzenle/{id}',[UserController::class, 'kullanici_bilgileri_duzenle'])->name('kullanici_bilgileri_duzenle');
-
 Route::post('kullanici_bilgileri_duzenle_post',[UserController::class,'kullanici_bilgileri_duzenle_post'])->name('kullanici_bilgileri_duzenle_post');
+
+Route::post('/update-profile', [UserController::class, 'updateProfile'])->name('user.updateProfile');
+Route::get('/check-username', [UserController::class, 'checkUsername'])->name('user.checkUsername');
+Route::get('/profile/check-email', [UserController::class, 'checkEmail'])->name('profile.check.email');
+Route::post('/user/profile/update-email', [UserController::class, 'updateEmail'])->name('user.profile.update.email');
+Route::get('/verify-email/{token}', [UserController::class, 'verifyEmail'])->name('user.verify.email');
 
 Route::get('/forum/sehir/{slug}', [CityController::class, 'show'])->name('city.show');
 Route::get('/forum/sehir/mevzu/{slug}',[CityController::class,'topicComments'])->name('city.topic.comments');
