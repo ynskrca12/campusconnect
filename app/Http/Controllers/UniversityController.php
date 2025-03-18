@@ -80,23 +80,11 @@ class UniversityController extends Controller
         $category = $request->input('category');
         $univercityId = $request->input('univercityId');
 
-        // $topics = UniversityTopic::where('university_id',$univercityId)
-        //     ->where('category',$category)
-        //     ->select('topic_title', 'topic_title_slug', DB::raw('COUNT(*) as count'))
-        //     ->groupBy('topic_title', 'topic_title_slug')
-        //     ->get();
         $topics = UniversityTopic::where('university_id', $univercityId)
         ->where('category', $category)
-        ->join('users', 'universities_topics.user_id', '=', 'users.id')
-        ->select(
-            'universities_topics.topic_title',
-            'universities_topics.topic_title_slug',
-            'users.username',
-            DB::raw('COUNT(*) as count')
-        )
-        ->groupBy('universities_topics.topic_title', 'universities_topics.topic_title_slug', 'users.username')
+        ->select('topic_title','topic_title_slug',DB::raw('COUNT(*) as count'))
+        ->groupBy('topic_title', 'topic_title_slug')
         ->get();
-
 
             return response()->json(['topics' => $topics]);
     }//End

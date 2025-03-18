@@ -496,7 +496,12 @@
     {{-- change important topics for web and mobile --}}
     <script>
         $(document).ready(function () {
+            let isLoading = false;
+
             $(".nav-link").on("click", function () {
+                if(isLoading) return;
+                isLoading = true;
+
                 const category = $(this).data("category"); 
                 const subcategoriesList = $("#subcategories-list"); 
                 const univercityId = @json($university->id);
@@ -505,6 +510,7 @@
 
                 if (topicListContainer.length === 0) {
                     console.error("Hedef container bulunamadı.");
+                    isLoading = false;
                     return;
                 }
 
@@ -528,9 +534,11 @@
                                 </li>`;
                             subcategoriesList.append(listItem);
                         });
+                        isLoading = false;
                     },
                     error: function () {
                         alert("Konular yüklenirken bir hata oluştu.");
+                        isLoading = false;
                     }
                 });
 
