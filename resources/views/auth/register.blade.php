@@ -31,7 +31,7 @@
       <div class="col-md-6" style="padding: 0px 20px;">
         <h2 class="registerh2">Kayıt Ol</h2>
         <div class="mt-3">
-        <form  action="{{ route('registerPost') }}" method="POST" novalidate>
+        <form  action="{{ route('registerPost') }}" method="POST" novalidate id="registerForm">
             @csrf
             <div class="mb-2">
               <label for="email" class="form-label">Kullanıcı Adı (*)
@@ -73,7 +73,10 @@
           </div>
           <div id="errorMessages"></div>
 
-            <button type="submit" class="btn btn-primary submitBtn">Kayıt Ol</button>
+            <button type="submit" class="btn btn-primary submitBtn">
+              <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+              <span class="btn-text">Kayıt Ol</span>
+            </button>
         </form>
         <!-- Hata mesajları burada sabit bir alanda görünecek -->
       </div>
@@ -207,6 +210,7 @@
 @endsection
 
 @section('js')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <!-- SweetAlert2 CSS -->
 <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
@@ -312,6 +316,17 @@
       toastr.error("{{ $error }}");
     @endforeach
   @endif
+</script>
+
+<script>
+  $(document).ready(function() {
+      $('#registerForm').on("submit", function() {
+          let submitBtn = $(".submitBtn");
+          submitBtn.prop("disabled", true);
+          submitBtn.find(".spinner-border").removeClass("d-none");
+          submitBtn.find(".btn-text").text("Kayıt Olunuyor...");
+      });
+  });
 </script>
 
 @endsection

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container" style="display: flex;justify-content: center;">
-  <form class="root-login-form mt-2 mb-3" action="{{route('login')}}" method="POST">
+  <form class="root-login-form mt-2 mb-3" action="{{route('login')}}" method="POST" id="loginForm">
     @csrf
     <div class="login-inner-div">
       <h1 class="mt-4">Giriş Yap</h1>
@@ -28,7 +28,10 @@
 
       <a class="lost-password" href="#" data-bs-toggle="modal" data-bs-target="#resetPasswordModal">Şifremi Unuttum</a>
 
-      <button type="submit" class="login-btn">GİRİŞ YAP</button>
+      <button type="submit" class="login-btn">
+        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+        <span class="btn-text">GİRİŞ YAP</span>
+      </button>
       <div class="is-member-div">
         <label class="is-member">Üye değil misiniz?
           <a href="/register" class="to-join">Katılmak için tıklayınız</a>
@@ -262,5 +265,16 @@
     });
   });
 
+</script>
+
+<script>
+  $(document).ready(function() {
+    $('#loginForm').submit(function() {
+      let loginBtn = $('.login-btn');
+      loginBtn.prop('disabled', true);
+      loginBtn.find('.spinner-border').removeClass('d-none');
+      loginBtn.find('.btn-text').text('Giriş Yapılıyor...');
+    })
+  })
 </script>
 @endsection
