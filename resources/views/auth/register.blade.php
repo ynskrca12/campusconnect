@@ -237,12 +237,13 @@
       });
 
       // Form doğrulama
-      $("form").on("submit", function (e) {
+      $("#registerForm").on("submit", function (e) {
           e.preventDefault();
           let isValid = true;
 
           // Hata mesajlarını temizle
           $("#errorMessages").empty();
+          $(".error-message").remove();
 
           // Boş alan kontrolü
           $(this).find("input[required], select[required]").each(function () {
@@ -270,9 +271,18 @@
               $("#password_confirmation").focus();
           }
 
-          // Geçerli ise formu gönder
+          let submitBtn = $(".submitBtn");
           if (isValid) {
+              // Form geçerli, butonu güncelle ve formu gönder
+              submitBtn.prop("disabled", true);
+              submitBtn.find(".spinner-border").removeClass("d-none");
+              submitBtn.find(".btn-text").text("Kayıt Olunuyor...");
               this.submit();
+          } else {
+              // Form geçersizse butonu eski haline getir
+              submitBtn.prop("disabled", false);
+              submitBtn.find(".spinner-border").addClass("d-none");
+              submitBtn.find(".btn-text").text("Kayıt Ol");
           }
     });
   });
@@ -316,17 +326,6 @@
       toastr.error("{{ $error }}");
     @endforeach
   @endif
-</script>
-
-<script>
-  $(document).ready(function() {
-      $('#registerForm').on("submit", function() {
-          let submitBtn = $(".submitBtn");
-          submitBtn.prop("disabled", true);
-          submitBtn.find(".spinner-border").removeClass("d-none");
-          submitBtn.find(".btn-text").text("Kayıt Olunuyor...");
-      });
-  });
 </script>
 
 @endsection

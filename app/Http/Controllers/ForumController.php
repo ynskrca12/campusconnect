@@ -235,59 +235,66 @@ class ForumController extends Controller
 
     public function like($id)
     {
-        $userId = auth()->id(); 
+        $userId = auth()->id();
 
         if (!$userId) {
             return response()->json(['error' => 'Lütfen giriş yapın'], 401);
         }
 
-        $topic = GeneralTopic::findOrFail($id); 
-
+        $topic = GeneralTopic::findOrFail($id);
         $likeEntry = DB::table('general_topics_likes')->where('user_id', $userId)->where('topic_id', $id)->first();
 
         DB::beginTransaction();
 
         try {
             if ($likeEntry) {
-            
                 if ($likeEntry->like === 1) {
+                    // Eğer zaten beğenmişse geri al
                     DB::table('general_topics_likes')->where('user_id', $userId)->where('topic_id', $id)->delete();
                     $topic->decrement('likes');
+                    $liked = false;
                 } else {
-                    // Like if you haven't liked it before
+                    // Beğeniyi güncelle (Dislike'ı kaldır, Like ekle)
                     DB::table('general_topics_likes')->where('user_id', $userId)->where('topic_id', $id)->update(['like' => 1]);
                     $topic->increment('likes');
                     $topic->decrement('dislikes');
+                    $liked = true;
                 }
             } else {
+                // Yeni bir beğeni ekle
                 DB::table('general_topics_likes')->insert([
                     'user_id' => $userId,
                     'topic_id' => $id,
                     'like' => 1
                 ]);
                 $topic->increment('likes');
+                $liked = true;
             }
 
             $topic->save();
             DB::commit();
-            return response()->json(['likes' => $topic->likes]);
+
+            return response()->json([
+                'likes' => $topic->likes,
+                'dislikes' => $topic->dislikes,
+                'liked' => $liked
+            ]);
 
         } catch (\Exception $e) {
-            DB::rollBack(); 
+            DB::rollBack();
             return response()->json(['error' => 'İşlem sırasında bir hata oluştu'], 500);
         }
     }//End
 
-
     public function dislike($id)
     {
         $userId = auth()->id();
+
         if (!$userId) {
             return response()->json(['error' => 'Lütfen giriş yapın'], 401);
         }
 
-        $topic = GeneralTopic::findOrFail($id); 
-
+        $topic = GeneralTopic::findOrFail($id);
         $dislikeEntry = DB::table('general_topics_likes')->where('user_id', $userId)->where('topic_id', $id)->first();
 
         DB::beginTransaction();
@@ -295,32 +302,43 @@ class ForumController extends Controller
         try {
             if ($dislikeEntry) {
                 if ($dislikeEntry->like === 0) {
+                    // Eğer zaten beğenmemişse geri al
                     DB::table('general_topics_likes')->where('user_id', $userId)->where('topic_id', $id)->delete();
                     $topic->decrement('dislikes');
+                    $disliked = false;
                 } else {
-                  
+                    // Dislike'ı güncelle (Like'ı kaldır, Dislike ekle)
                     DB::table('general_topics_likes')->where('user_id', $userId)->where('topic_id', $id)->update(['like' => 0]);
                     $topic->increment('dislikes');
                     $topic->decrement('likes');
+                    $disliked = true;
                 }
             } else {
+                // Yeni bir dislike ekle
                 DB::table('general_topics_likes')->insert([
                     'user_id' => $userId,
                     'topic_id' => $id,
                     'like' => 0
                 ]);
                 $topic->increment('dislikes');
+                $disliked = true;
             }
 
             $topic->save();
-             DB::commit();
-            return response()->json(['dislikes' => $topic->dislikes]);
+            DB::commit();
+
+            return response()->json([
+                'likes' => $topic->likes,
+                'dislikes' => $topic->dislikes,
+                'disliked' => $disliked
+            ]);
+
         } catch (\Exception $e) {
-            DB::rollBack(); 
+            DB::rollBack();
             return response()->json(['error' => 'İşlem sırasında bir hata oluştu'], 500);
         }
     }//End
 
-
+    
     
 }   

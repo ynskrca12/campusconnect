@@ -94,11 +94,11 @@
         </div>
 
         <!-- Sağ Menü (Reklam Alanı) -->
-        <div class="col-md-2">
+        {{-- <div class="col-md-2">
             <div class="advertisement">
                
             </div>
-        </div>
+        </div> --}}
     </div>
   
 @endsection 
@@ -324,7 +324,6 @@
     <script>
         $(document).on('click', '.like-btn', function () {
             let topicId = $(this).data('id');
-            console.log('topics' + topicId);
             let userId = '{{ auth()->id() }}'; 
 
             if (!userId) {
@@ -332,7 +331,10 @@
                 return; 
             }
             
-            let likeCount = $(this).find('.like-count');
+            let likeBtn = $(this);
+            let dislikeBtn = likeBtn.siblings('.dislike-btn');
+            let likeCount = likeBtn.find('.like-count');
+            let dislikeCount = dislikeBtn.find('.dislike-count');
 
             $.ajax({
                 url: `/general/topic/${topicId}/like`,
@@ -342,6 +344,14 @@
                 },
                 success: function (response) {
                     likeCount.text(response.likes);
+                    dislikeCount.text(response.dislikes);
+
+                    if (response.liked) {
+                        likeBtn.css('color', '#007bff');
+                        dislikeBtn.css('color', '#888'); 
+                    } else {
+                        likeBtn.css('color', '#888');
+                    }
                 }
             });
         });
@@ -355,7 +365,10 @@
                 return; 
             }
 
-            let dislikeCount = $(this).find('.dislike-count');
+            let dislikeBtn = $(this);
+            let likeBtn = dislikeBtn.siblings('.like-btn');
+            let dislikeCount = dislikeBtn.find('.dislike-count');
+            let likeCount = likeBtn.find('.like-count');
 
             $.ajax({
                 url: `/general/topic/${topicId}/dislike`,
@@ -365,6 +378,14 @@
                 },
                 success: function (response) {
                     dislikeCount.text(response.dislikes);
+                    likeCount.text(response.likes);
+
+                    if (response.disliked) {
+                        dislikeBtn.css('color', '#ff0000');
+                        likeBtn.css('color', '#888');
+                    } else {
+                        dislikeBtn.css('color', '#888'); 
+                    }
                 }
             });
         });
