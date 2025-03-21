@@ -259,4 +259,138 @@ class CityController extends Controller
             return response()->json(['error' => 'Bir hata oluştu.Lütfen tekrar deneyin.'], 500);
         }
     }//End
+
+    public function like($id)
+    {
+        $userId = auth()->id();
+        
+        if (!$userId) {
+            return response()->json(['error' => 'Lütfen giriş yapın'], 401);
+        }
+
+        $topic = DB::table('cities_topics')->where('id', $id)->first();
+
+        if (!$topic) {
+            return response()->json(['error' => 'Konu bulunamadı'], 404);
+        }
+
+        $likeEntry = DB::table('city_topics_likes')
+            ->where('user_id', $userId)
+            ->where('topic_id', $id)
+            ->first();
+
+        DB::beginTransaction();
+
+        try {
+            if ($likeEntry) {
+                if ($likeEntry->like === 1) {
+                    // Like kaldırma işlemi
+                    DB::table('city_topics_likes')
+                        ->where('user_id', $userId)
+                        ->where('topic_id', $id)
+                        ->delete();
+
+                    DB::table('cities_topics')->where('id', $id)->decrement('likes');
+                } else {
+                    // Daha önce dislike yapılmışsa, dislike'ı kaldır ve like ekle
+                    DB::table('city_topics_likes')
+                        ->where('user_id', $userId)
+                        ->where('topic_id', $id)
+                        ->update(['like' => 1]);
+
+                    DB::table('cities_topics')->where('id', $id)->increment('likes');
+                    DB::table('cities_topics')->where('id', $id)->decrement('dislikes');
+                }
+            } else {
+                // İlk kez like yapılıyorsa
+                DB::table('city_topics_likes')->insert([
+                    'user_id' => $userId,
+                    'topic_id' => $id,
+                    'like' => 1
+                ]);
+
+                DB::table('cities_topics')->where('id', $id)->increment('likes');
+            }
+
+            DB::commit();
+
+            $updatedTopic = DB::table('cities_topics')->where('id', $id)->first();
+
+            return response()->json([
+                'likes' => $updatedTopic->likes,
+                'dislikes' => $updatedTopic->dislikes
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'İşlem sırasında bir hata oluştu'], 500);
+        }
+    }//End
+
+    public function dislike($id)
+    {
+        $userId = auth()->id();
+        
+        if (!$userId) {
+            return response()->json(['error' => 'Lütfen giriş yapın'], 401);
+        }
+    
+        $topic = DB::table('cities_topics')->where('id', $id)->first();
+    
+        if (!$topic) {
+            return response()->json(['error' => 'Konu bulunamadı'], 404);
+        }
+    
+        $dislikeEntry = DB::table('city_topics_likes')
+            ->where('user_id', $userId)
+            ->where('topic_id', $id)
+            ->first();
+    
+        DB::beginTransaction();
+    
+        try {
+            if ($dislikeEntry) {
+                if ($dislikeEntry->like === 0) {
+                    // Dislike kaldırma işlemi
+                    DB::table('city_topics_likes')
+                        ->where('user_id', $userId)
+                        ->where('topic_id', $id)
+                        ->delete();
+    
+                    DB::table('cities_topics')->where('id', $id)->decrement('dislikes');
+                } else {
+                    // Daha önce like yapılmışsa, like'ı kaldır ve dislike ekle
+                    DB::table('city_topics_likes')
+                        ->where('user_id', $userId)
+                        ->where('topic_id', $id)
+                        ->update(['like' => 0]);
+    
+                    DB::table('cities_topics')->where('id', $id)->increment('dislikes');
+                    DB::table('cities_topics')->where('id', $id)->decrement('likes');
+                }
+            } else {
+                // İlk kez dislike yapılıyorsa
+                DB::table('city_topics_likes')->insert([
+                    'user_id' => $userId,
+                    'topic_id' => $id,
+                    'like' => 0
+                ]);
+    
+                DB::table('cities_topics')->where('id', $id)->increment('dislikes');
+            }
+    
+            DB::commit();
+    
+            $updatedTopic = DB::table('cities_topics')->where('id', $id)->first();
+    
+            return response()->json([
+                'likes' => $updatedTopic->likes,
+                'dislikes' => $updatedTopic->dislikes
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'İşlem sırasında bir hata oluştu'], 500);
+        }
+    }//End
+
+    
 }

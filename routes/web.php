@@ -74,6 +74,10 @@ Route::get('/get-city-category-topic-content',[CityController::class,'getCityCat
 Route::post('/city-topic/add', [CityController::class, 'addCityTopic']);
 Route::post('/add/city/topic/comment', [CityController::class, 'storeComment'])->name('add.city.topic.comment');
 
+//like disllike for city topic
+Route::post('/city/topic/{id}/like', [CityController::class, 'like'])->name('topics.like');
+Route::post('/city/topic/{id}/dislike', [CityController::class, 'dislike'])->name('topics.dislike');
+
 
 Route::get('/forum/universite/{slug}', [UniversityController::class, 'show'])->name('university.show');
 Route::get('/forum/universite/mevzu/{slug}',[UniversityController::class,'topicComments'])->name('university.topic.comments');

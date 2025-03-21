@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('university_topics_likes', function (Blueprint $table) {
+        Schema::create('city_topics_likes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('topic_id')->constrained('universities_topics')->onDelete('cascade');
+            $table->foreignId('topic_id')->constrained('cities_topics')->onDelete('cascade');
             $table->boolean('like')->nullable(); // true = like, false = dislike
             $table->timestamps();
-            
+
             $table->unique(['user_id', 'topic_id']); // Her kullanıcı yalnızca bir kez beğeni/dislike yapabilir
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('university_topics_likes');
+        Schema::dropIfExists('city_topics_likes');
     }
 };

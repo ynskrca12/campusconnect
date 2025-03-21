@@ -206,71 +206,8 @@ class UniversityController extends Controller
 
     public function like($id)
     {
-        $userId = auth()->id(); 
-    
-        if (!$userId) {
-            return response()->json(['error' => 'Lütfen giriş yapın'], 401);
-        }
-    
-        $topic = DB::table('universities_topics')->where('id', $id)->first(); 
-    
-        if (!$topic) {
-            return response()->json(['error' => 'Konu bulunamadı'], 404);
-        }
-    
-        $likeEntry = DB::table('university_topics_likes')
-            ->where('user_id', $userId)
-            ->where('topic_id', $id)
-            ->first();
-    
-        DB::beginTransaction();
-    
-        try {
-            if ($likeEntry) {
-                if ($likeEntry->like === 1) {
-                    // Like kaldırma işlemi
-                    DB::table('university_topics_likes')
-                        ->where('user_id', $userId)
-                        ->where('topic_id', $id)
-                        ->delete();
-    
-                    DB::table('universities_topics')->where('id', $id)->decrement('likes');
-                } else {
-                    // Daha önce dislike edilmişse, like olarak güncelle
-                    DB::table('university_topics_likes')
-                        ->where('user_id', $userId)
-                        ->where('topic_id', $id)
-                        ->update(['like' => 1]);
-    
-                    DB::table('universities_topics')->where('id', $id)->increment('likes');
-                    DB::table('universities_topics')->where('id', $id)->decrement('dislikes');
-                }
-            } else {
-                // İlk kez like yapılıyorsa
-                DB::table('university_topics_likes')->insert([
-                    'user_id' => $userId,
-                    'topic_id' => $id,
-                    'like' => 1
-                ]);
-    
-                DB::table('universities_topics')->where('id', $id)->increment('likes');
-            }
-    
-            DB::commit();
-    
-            // Güncellenmiş topic verisini al
-            $updatedTopic = DB::table('universities_topics')->where('id', $id)->first();
-    
-            return response()->json(['likes' => $updatedTopic->likes]);
-        } catch (\Exception $e) {
-            DB::rollBack(); 
-            return response()->json(['error' => 'İşlem sırasında bir hata oluştu'], 500);
-        }
-    }//End
-    
-    public function dislike($id)
-    {
         $userId = auth()->id();
+        
         if (!$userId) {
             return response()->json(['error' => 'Lütfen giriş yapın'], 401);
         }
@@ -281,7 +218,7 @@ class UniversityController extends Controller
             return response()->json(['error' => 'Konu bulunamadı'], 404);
         }
 
-        $dislikeEntry = DB::table('university_topics_likes')
+        $likeEntry = DB::table('university_topics_likes')
             ->where('user_id', $userId)
             ->where('topic_id', $id)
             ->first();
@@ -289,49 +226,110 @@ class UniversityController extends Controller
         DB::beginTransaction();
 
         try {
-            if ($dislikeEntry) {
-                if ($dislikeEntry->like === 0) {
-                    
+            if ($likeEntry) {
+                if ($likeEntry->like === 1) {
+                    // Like kaldırma işlemi
                     DB::table('university_topics_likes')
                         ->where('user_id', $userId)
                         ->where('topic_id', $id)
                         ->delete();
 
-                    DB::table('universities_topics')
-                        ->where('id', $id)
-                        ->decrement('dislikes');
+                    DB::table('universities_topics')->where('id', $id)->decrement('likes');
                 } else {
-                   
+                    // Daha önce dislike yapılmışsa, dislike'ı kaldır ve like ekle
                     DB::table('university_topics_likes')
                         ->where('user_id', $userId)
                         ->where('topic_id', $id)
-                        ->update(['like' => 0]);
+                        ->update(['like' => 1]);
 
-                    DB::table('universities_topics')
-                        ->where('id', $id)
-                        ->increment('dislikes');
-
-                    DB::table('universities_topics')
-                        ->where('id', $id)
-                        ->decrement('likes');
+                    DB::table('universities_topics')->where('id', $id)->increment('likes');
+                    DB::table('universities_topics')->where('id', $id)->decrement('dislikes');
                 }
             } else {
+                // İlk kez like yapılıyorsa
                 DB::table('university_topics_likes')->insert([
                     'user_id' => $userId,
                     'topic_id' => $id,
-                    'like' => 0
+                    'like' => 1
                 ]);
 
-                DB::table('universities_topics')
-                    ->where('id', $id)
-                    ->increment('dislikes');
+                DB::table('universities_topics')->where('id', $id)->increment('likes');
             }
 
             DB::commit();
 
             $updatedTopic = DB::table('universities_topics')->where('id', $id)->first();
 
-            return response()->json(['dislikes' => $updatedTopic->dislikes]);
+            return response()->json([
+                'likes' => $updatedTopic->likes,
+                'dislikes' => $updatedTopic->dislikes
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'İşlem sırasında bir hata oluştu'], 500);
+        }
+    }//End
+    
+    public function dislike($id)
+    {
+        $userId = auth()->id();
+        
+        if (!$userId) {
+            return response()->json(['error' => 'Lütfen giriş yapın'], 401);
+        }
+    
+        $topic = DB::table('universities_topics')->where('id', $id)->first();
+    
+        if (!$topic) {
+            return response()->json(['error' => 'Konu bulunamadı'], 404);
+        }
+    
+        $dislikeEntry = DB::table('university_topics_likes')
+            ->where('user_id', $userId)
+            ->where('topic_id', $id)
+            ->first();
+    
+        DB::beginTransaction();
+    
+        try {
+            if ($dislikeEntry) {
+                if ($dislikeEntry->like === 0) {
+                    // Dislike kaldırma işlemi
+                    DB::table('university_topics_likes')
+                        ->where('user_id', $userId)
+                        ->where('topic_id', $id)
+                        ->delete();
+    
+                    DB::table('universities_topics')->where('id', $id)->decrement('dislikes');
+                } else {
+                    // Daha önce like yapılmışsa, like'ı kaldır ve dislike ekle
+                    DB::table('university_topics_likes')
+                        ->where('user_id', $userId)
+                        ->where('topic_id', $id)
+                        ->update(['like' => 0]);
+    
+                    DB::table('universities_topics')->where('id', $id)->increment('dislikes');
+                    DB::table('universities_topics')->where('id', $id)->decrement('likes');
+                }
+            } else {
+                // İlk kez dislike yapılıyorsa
+                DB::table('university_topics_likes')->insert([
+                    'user_id' => $userId,
+                    'topic_id' => $id,
+                    'like' => 0
+                ]);
+    
+                DB::table('universities_topics')->where('id', $id)->increment('dislikes');
+            }
+    
+            DB::commit();
+    
+            $updatedTopic = DB::table('universities_topics')->where('id', $id)->first();
+    
+            return response()->json([
+                'likes' => $updatedTopic->likes,
+                'dislikes' => $updatedTopic->dislikes
+            ]);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => 'İşlem sırasında bir hata oluştu'], 500);
