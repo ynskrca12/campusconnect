@@ -140,6 +140,7 @@ class CityController extends Controller
                     'cities_topics.likes',
                     'cities_topics.dislikes',
                     'users.username',
+                    'users.user_image',
                     DB::raw('COUNT(*) as count')
         )
         ->groupBy(
@@ -152,6 +153,7 @@ class CityController extends Controller
                     'cities_topics.likes',
                     'cities_topics.dislikes',
                     'users.username',
+                    'users.user_image'
         )
         ->get();
 

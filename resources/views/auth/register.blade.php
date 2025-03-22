@@ -2,14 +2,14 @@
 
 @section('content')
 
-<div class="card" style="border:none !important;box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+<div class="card" style="border:none !important;">
     @if (Session::has('success'))
     <div class="alert alert-success" role="alert">
         {{ Session::get('success') }}
     </div>
     @endif
     <div class="card-body">
-    <div class="row">
+    <div class="row d-flex flex-md-row flex-column-reverse">
       <div class="col-md-6">
         <h2 class="introductionHeader">İçeride neler var...</h2>
         <p class="mt-5 introductionText">
@@ -28,7 +28,7 @@
           Üniversite hayatını keşfetmek ve doğru tercih yapmak için bize katıl, sen de topluluğumuzun bir parçası ol!
         </p>
       </div>
-      <div class="col-md-6" style="padding: 0px 20px;">
+      <div class="col-md-6 mb-5" style="padding: 0px 20px;">
         <h2 class="registerh2">Kayıt Ol</h2>
         <div class="mt-3">
         <form  action="{{ route('registerPost') }}" method="POST" novalidate id="registerForm">
@@ -49,6 +49,24 @@
               <i class="fas fa-question-circle info-icon" onclick="showInfoEmail()"></i>
             </label>
             <input type="email" class="form-control registerInput" id="email" name="email" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="gender" class="form-label mb-0">Cinsiyet (*)</label>
+            <div class="d-block">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="male" value="male" required>
+                <label class="form-check-label" for="male">Erkek</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="female" value="female" required>
+                <label class="form-check-label" for="female">Kadın</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="pass" value="pass" required>
+                <label class="form-check-label" for="pass">Pas</label>
+              </div>
+            </div>
           </div>
           <div class="mb-2">
             <label for="university" class="form-label">Üniversite</label>
@@ -91,6 +109,13 @@
 
 @section('css')
 <style>
+    #registerForm .form-check-label{
+        margin-left: 2px;
+        margin-right: 10px;
+    }
+    #registerForm .form-check-input{
+      border: 3px solid #001b48;
+    }
     .info-icon {
           cursor: pointer;
           color: #001b48;
@@ -206,6 +231,17 @@
       line-height: 2;
     }
 
+    @media (max-width: 768px) {
+      .navbar.fixed-top + .page-body-wrapper {
+            padding: 60px 0px 0px 0px !important;
+        }
+        .content-wrapper {
+            padding: 0px !important;
+        }
+        .submitBtn{
+          margin-top: 15px;
+        }
+    }
 </style>
 @endsection
 

@@ -30,6 +30,7 @@ class AuthController extends Controller
             $validatedData = $request->validate([
                 'username'      => 'required|string|max:255|unique:users,username',
                 'name'          => 'nullable|string|max:255',
+                'gender'        => 'required|string|max:255',
                 'email'         => 'required|email|max:255|unique:users,email',
                 'university'    => 'nullable|string|max:255',
                 'password'      => 'required|string|min:6|confirmed'
@@ -44,16 +45,23 @@ class AuthController extends Controller
                 'password.confirmed'     => 'Şifreler eşleşmiyor.',
             ]);
     
+            $defaultImages = [
+                'male'   => 'man.png',
+                'female' => 'woman.png',
+                'pass'   => 'pass_gender.png'
+            ];
+
             $user = new User();
     
             $user->username   = $validatedData['username'];
             $user->name       = $validatedData['name'] ?? null;
             $user->email      = $validatedData['email'];
+            $user->gender     = $validatedData['gender'];
             $user->university = $validatedData['university'];
             $user->password   = Hash::make($validatedData['password']);
-        
+            $user->user_image = $defaultImages[$validatedData['gender']];
+
             $user->save();
-    
 
             Mail::to($user->email)->send(new VerifyEmail($user));
     

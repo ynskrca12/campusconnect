@@ -137,18 +137,21 @@
                                     <div class="meta">
                                         <div class="d-flex align-items-center entry-footer-bottom">
                                             <div class="footer-info">
-                                                <div style="display: block;padding: 2px;text-align: end;margin: -5px 0px;">
+                                                <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
                                                     <p style="display: block;white-space:nowrap;color:#001b48;">{{ $topic->user->username ?? 'Anonim' }}</p>
                                                 </div>
         
-                                                <div style="display: block;padding: 2px;line-height: 14px;">
+                                                <div style="display: block;padding:1px 2px;line-height: 14px;">
                                                     <p style="color: #888;font-size: 12px;">{{ \Carbon\Carbon::parse($topic->created_at)->format('d.m.Y H:i') }}
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="avatar-container">
                                                 <a href="">
-                                                    <img class="avatar" src="//ekstat.com/img/default-profile-picture-light.svg" data-default="//ekstat.com/img/default-profile-picture-light.svg" alt="usuyensolucan" title="usuyensolucan">
+                                                    <img class="avatar" 
+                                                        style="background-color: {{$topic->user->user_image == 'man.png' ? '#95bdff' : ($topic->user->user_image == 'woman.png' ? '#ffbdd3' : 'transparent')}};"
+                                                        src="{{ asset('assets/images/icons/' . ($topic->user->user_image ?? '//ekstat.com/img/default-profile-picture-light.svg')) }}"
+                                                        alt="usuyensolucan" title="usuyensolucan">
                                                 </a>
                                             </div>
                                         </div>                            
@@ -369,7 +372,7 @@
        border-radius: 50%;
        width: 40px;
        height: 40px;
-       margin-top: 2px;
+       margin-top: -2px;
        margin-bottom: 2px;
    }
    .footer-info{
@@ -550,6 +553,14 @@
                             let newContent = "";
 
                             response.topics.forEach(topic => {
+                                // User Image Path
+                                const userImage = topic.user_image ? 
+                                    `/assets/images/icons/${topic.user_image}` : 
+                                    `/assets/images/icons/profile.png`; // Default image
+
+                                // Background color based on user_image
+                                const backgroundColor = topic.user_image === 'man.png' ? '#95bdff' :
+                                                        topic.user_image === 'woman.png' ? '#ffbdd3' : 'transparent';
                                 newContent += `
                                     <div class="topic">
                                          <h3 class="topic-title mb-3">
@@ -569,16 +580,19 @@
                                         <div class="meta">
                                             <div class="d-flex align-items-center entry-footer-bottom">
                                                 <div class="footer-info">
-                                                    <div style="display: block;padding: 2px;text-align: end;margin: -5px 0px;">
+                                                    <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
                                                         <p style="display: block;white-space:nowrap;color:#001b48;">${topic.username || "Anonim"}</p>
                                                     </div>
-                                                    <div style="display: block;padding: 2px;line-height: 14px;">
+                                                    <div style="display: block;padding:1px 2px;line-height: 14px;">
                                                         <p style="color: #888;font-size: 12px;">${moment(topic.created_at).format("DD.MM.YYYY HH:mm")}</p>
                                                     </div>
                                                 </div>
                                                 <div class="avatar-container">
                                                     <a href="">
-                                                        <img class="avatar" src="//ekstat.com/img/default-profile-picture-light.svg" alt="User Avatar">
+                                                        <img class="avatar" 
+                                                            src="${userImage}"
+                                                            style="background-color: ${backgroundColor};"
+                                                            alt="User Avatar">
                                                     </a>
                                                 </div>
                                             </div>
@@ -655,6 +669,14 @@
                             let newContent = "";
 
                             response.topics.forEach(topic => {
+                                // User Image Path
+                                const userImage = topic.user_image ? 
+                                    `/assets/images/icons/${topic.user_image}` : 
+                                    `/assets/images/icons/profile.png`; // Default image
+
+                                // Background color based on user_image
+                                const backgroundColor = topic.user_image === 'man.png' ? '#95bdff' :
+                                                        topic.user_image === 'woman.png' ? '#ffbdd3' : 'transparent';
                                 newContent += `
                                     <div class="topic">
                                           <h3 class="topic-title mb-3">
@@ -674,16 +696,19 @@
                                         <div class="meta">
                                             <div class="d-flex align-items-center entry-footer-bottom">
                                                 <div class="footer-info">
-                                                    <div style="display: block;padding: 2px;text-align: end;margin: -5px 0px;">
+                                                    <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
                                                         <p style="display: block;white-space:nowrap;color:#001b48;">${topic.username || "Anonim"}</p>
                                                     </div>
-                                                    <div style="display: block;padding: 2px;line-height: 14px;">
+                                                    <div style="display: block;padding:1px 2px;line-height: 14px;">
                                                         <p style="color: #888;font-size: 12px;">${moment(topic.created_at).format("DD.MM.YYYY HH:mm")}</p>
                                                     </div>
                                                 </div>
                                                 <div class="avatar-container">
                                                     <a href="">
-                                                        <img class="avatar" src="//ekstat.com/img/default-profile-picture-light.svg" alt="User Avatar">
+                                                        <img class="avatar" 
+                                                            src="${userImage}" 
+                                                            style="background-color: ${backgroundColor};"    
+                                                            alt="User Avatar">
                                                     </a>
                                                 </div>
                                             </div>

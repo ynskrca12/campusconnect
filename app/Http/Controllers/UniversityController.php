@@ -112,6 +112,7 @@ class UniversityController extends Controller
                     'universities_topics.likes',
                     'universities_topics.dislikes',
                     'users.username',
+                    'users.user_image',
                     DB::raw('COUNT(*) as count')
         )
         ->groupBy(
@@ -124,6 +125,7 @@ class UniversityController extends Controller
                     'universities_topics.likes',
                     'universities_topics.dislikes',
                     'users.username',
+                    'users.user_image'
         )
         ->get();
 

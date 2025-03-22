@@ -52,6 +52,7 @@
                 </div>
                 <div id="topic-list">
                     @foreach ($randomTopics as $topic)
+                    {{-- {{dd($topic->user)}} --}}
                         <div class="topic mb-3">
                             <h3 class="topic-title mb-3">
                                 <a href="{{ route('topic.comments', ['slug' => $topic->topic_title_slug]) }}">
@@ -71,17 +72,21 @@
                             <div class="meta">
                                 <div class="d-flex align-items-center entry-footer-bottom">
                                     <div class="footer-info">
-                                        <div style="display: block;padding: 2px;text-align: end;margin: -5px 0px;">
+                                        <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
                                             <p style="display: block;white-space:nowrap;color:#001b48;">{{ $topic->user->username ?? 'Anonim' }}</p>
                                         </div>
 
-                                        <div style="display: block;padding: 2px;line-height: 14px;">
+                                        <div style="display: block;padding:1px 2px;line-height: 14px;">
                                             <p style="color: #888;font-size: 12px;">{{ $topic->created_at->format('d.m.Y H:i') }}</p>
                                         </div>
                                     </div>
                                     <div class="avatar-container">
                                         <a href="">
-                                            <img class="avatar" src="//ekstat.com/img/default-profile-picture-light.svg" data-default="//ekstat.com/img/default-profile-picture-light.svg" alt="usuyensolucan" title="usuyensolucan">
+                                            <img class="avatar" 
+                                            style="background-color: {{$topic->user->user_image == 'man.png' ? '#95bdff' : ($topic->user->user_image == 'woman.png' ? '#ffbdd3' : 'transparent')}};"
+                                            src="{{ asset('assets/images/icons/' . ($topic->user->user_image ?? '//ekstat.com/img/default-profile-picture-light.svg')) }}"
+                                            data-default="{{ asset('img/default-profile-picture-light.svg') }}" 
+                                            alt="usuyensolucan" title="usuyensolucan">
                                         </a>
                                     </div>
                                 </div>                            
@@ -123,7 +128,7 @@
             border-radius: 50%;
             width: 40px;
             height: 40px;
-            margin-top: 2px;
+            margin-top: -2px;
             margin-bottom: 2px;
         }
         .footer-info{
@@ -635,12 +640,12 @@
                                 <div class="meta">
                                     <div class="d-flex align-items-center entry-footer-bottom">
                                         <div class="footer-info">
-                                            <div style="display: block;padding: 2px;text-align: end;margin: -5px 0px;">
+                                            <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
                                                 <p style="display: block;white-space:nowrap;color:#001b48;">
                                                     ${topic.user ? topic.user.username : 'Anonim'}
                                                 </p>
                                             </div>
-                                            <div style="display: block;padding: 2px;line-height: 14px;">
+                                            <div style="display: block;padding:1px 2px;line-height: 14px;">
                                                 <p style="color: #888;font-size: 12px;">
                                                     ${new Date(topic.created_at).toLocaleString('tr-TR')}
                                                 </p>
@@ -648,7 +653,9 @@
                                         </div>
                                         <div class="avatar-container">
                                             <a href="">
-                                                <img class="avatar" src="//ekstat.com/img/default-profile-picture-light.svg" 
+                                                <img class="avatar" 
+                                                    src="${topic.user && topic.user.user_image ? `{{ asset('assets/images/icons/') }}/${topic.user.user_image}` : `{{ asset('assets/images/icons/default-profile-picture-light.svg') }}`}"
+                                                    style="background-color: ${topic.user && topic.user.user_image === 'man.png' ? '#95bdff' : topic.user.user_image === 'woman.png' ? '#ffbdd3' : 'transparent'};"
                                                     alt="${topic.user ? topic.user.username : 'Anonim'}" 
                                                     title="${topic.user ? topic.user.username : 'Anonim'}">
                                             </a>
