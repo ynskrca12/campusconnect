@@ -148,9 +148,8 @@ class AuthController extends Controller
             // if login fails
             return back()->withInput()->with('error', 'Geçersiz kullanıcı adı, e-posta adresi ya da şifre.');
         } catch (ValidationException $e) {
-            Log::error('Login validation error: ' . implode(', ', $e->errors()));
-    
-            return back()->withInput()->with('error', 'Lütfen tüm alanları doğru doldurduğunuzdan emin olun.');
+            Log::error('Login validation error: ' . json_encode($e->errors())); 
+            return back()->withInput()->withErrors($e->validator->errors());
         } catch (\Exception $e) {
             // errors
             Log::error('Login error: ' . $e->getMessage());

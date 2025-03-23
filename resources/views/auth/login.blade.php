@@ -21,7 +21,7 @@
       </div>
 
       <div class="input-divs position-relative">
-        <input type="password" name="password" placeholder="Şifre" id="password" required/>
+        <input type="password" name="password" placeholder="Şifre" id="password"/>
         <!-- Göz ikonu -->
         <span toggle="#password" class="fa fa-fw fa-eye-slash password-toggle-icon"></span>
       </div> 
