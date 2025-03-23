@@ -20,6 +20,18 @@
           <a class="nav-link" href="/forum">Forum</a>
         </li>
         {{-- <li class="nav-item">
+          <a class="nav-link" href="#">Bölüm / Meslek</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Staj / İş</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Blog / Makale</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Not Paylaşım</a>
+        </li> --}}
+        {{-- <li class="nav-item">
           <a class="nav-link" href="/ilanlar">İlanlar</a>
         </li> --}}
         {{-- <li class="nav-item">
