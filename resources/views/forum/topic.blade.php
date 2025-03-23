@@ -20,6 +20,7 @@
                 
                 <div id="topic-list">
                     @foreach ($comments as $comment)
+                    {{-- {{dd($comment->user)}} --}}
                         <div class="topic mb-3">
                             <p>{!! $comment['comment'] !!}</p>
                             <div class="like-dislike mt-3">
@@ -33,17 +34,20 @@
                             <div class="meta">
                                 <div class="d-flex align-items-center entry-footer-bottom">
                                     <div class="footer-info">
-                                        <div style="display: block;padding: 2px;text-align: end;margin: -5px 0px;">
+                                        <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
                                             <p style="display: block;white-space:nowrap;color:#001b48;">{{ \App\Models\User::where('id',$comment['user_id'])->value('username') ?? 'Anonim'}}</p>
                                         </div>
 
-                                        <div style="display: block;padding: 2px;line-height: 14px;">
+                                        <div style="display: block;padding:1px 2px;line-height: 14px;">
                                             <p style="color: #888;font-size: 12px;">{{ \Carbon\Carbon::parse($comment['created_at'])->format('d.m.Y H:i') }}</p>
                                         </div>
                                     </div>
                                     <div class="avatar-container">
                                         <a href="">
-                                            <img class="avatar" src="//ekstat.com/img/default-profile-picture-light.svg" data-default="//ekstat.com/img/default-profile-picture-light.svg" alt="usuyensolucan" title="usuyensolucan">
+                                            <img class="avatar" 
+                                            style="background-color: {{$comment->user->user_image == 'man.png' ? '#95bdff' : ($comment->user->user_image == 'woman.png' ? '#ffbdd3' : 'transparent')}};"
+                                            src="{{ asset('assets/images/icons/' . ($comment->user->user_image ?? '//ekstat.com/img/default-profile-picture-light.svg')) }}"
+                                            alt="usuyensolucan" title="usuyensolucan">
                                         </a>
                                     </div>
                                 </div>                            

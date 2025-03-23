@@ -43,7 +43,10 @@
                                     </div>
                                     <div class="avatar-container">
                                         <a href="">
-                                            <img class="avatar" src="//ekstat.com/img/default-profile-picture-light.svg" data-default="//ekstat.com/img/default-profile-picture-light.svg" alt="usuyensolucan" title="usuyensolucan">
+                                            <img class="avatar" 
+                                                style="background-color: {{$comment->user->user_image == 'man.png' ? '#95bdff' : ($comment->user->user_image == 'woman.png' ? '#ffbdd3' : 'transparent')}};"
+                                            src="{{ asset('assets/images/icons/' . ($comment->user->user_image ?? '//ekstat.com/img/default-profile-picture-light.svg')) }}"
+                                            alt="usuyensolucan" title="usuyensolucan">
                                         </a>
                                     </div>
                                 </div>                            

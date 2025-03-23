@@ -356,7 +356,8 @@ class UniversityController extends Controller
                 return redirect()->back()->withErrors('Slug değeri sağlanmadı.');
             }
 
-            $topicsQuery = UniversityTopic::where('topic_title_slug', $slug);
+            $topicsQuery = UniversityTopic::with('user')->
+            where('topic_title_slug', $slug);
 
             if ($topicsQuery->count() === 0) {
                 abort(404, 'Bu slug ile ilişkili bir konu bulunamadı.');

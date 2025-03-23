@@ -119,7 +119,8 @@ class ForumController extends Controller
                return redirect()->back()->withErrors('Slug değeri sağlanmadı.');
            }
    
-           $topicsQuery = GeneralTopic::where('topic_title_slug', $slug);
+           $topicsQuery = GeneralTopic::with('user')->
+           where('topic_title_slug', $slug);
    
            
            if ($topicsQuery->count() === 0) {
