@@ -298,7 +298,10 @@ class CityController extends Controller
                     DB::table('city_topics_likes')
                         ->where('user_id', $userId)
                         ->where('topic_id', $id)
-                        ->update(['like' => 1]);
+                        ->update([
+                            'like' => 1,
+                            'updated_at' => Carbon::now()
+                        ]);
 
                     DB::table('cities_topics')->where('id', $id)->increment('likes');
                     DB::table('cities_topics')->where('id', $id)->decrement('dislikes');
@@ -308,7 +311,9 @@ class CityController extends Controller
                 DB::table('city_topics_likes')->insert([
                     'user_id' => $userId,
                     'topic_id' => $id,
-                    'like' => 1
+                    'like' => 1,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ]);
 
                 DB::table('cities_topics')->where('id', $id)->increment('likes');
@@ -364,7 +369,10 @@ class CityController extends Controller
                     DB::table('city_topics_likes')
                         ->where('user_id', $userId)
                         ->where('topic_id', $id)
-                        ->update(['like' => 0]);
+                        ->update([
+                            'like' => 0,
+                            'updated_at' => Carbon::now()
+                        ]);
     
                     DB::table('cities_topics')->where('id', $id)->increment('dislikes');
                     DB::table('cities_topics')->where('id', $id)->decrement('likes');
@@ -374,7 +382,9 @@ class CityController extends Controller
                 DB::table('city_topics_likes')->insert([
                     'user_id' => $userId,
                     'topic_id' => $id,
-                    'like' => 0
+                    'like' => 0,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ]);
     
                 DB::table('cities_topics')->where('id', $id)->increment('dislikes');

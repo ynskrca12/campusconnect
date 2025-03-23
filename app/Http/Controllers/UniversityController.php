@@ -242,7 +242,10 @@ class UniversityController extends Controller
                     DB::table('university_topics_likes')
                         ->where('user_id', $userId)
                         ->where('topic_id', $id)
-                        ->update(['like' => 1]);
+                        ->update([
+                            'like' => 1,
+                            'updated_at' => Carbon::now()
+                        ]);
 
                     DB::table('universities_topics')->where('id', $id)->increment('likes');
                     DB::table('universities_topics')->where('id', $id)->decrement('dislikes');
@@ -252,7 +255,9 @@ class UniversityController extends Controller
                 DB::table('university_topics_likes')->insert([
                     'user_id' => $userId,
                     'topic_id' => $id,
-                    'like' => 1
+                    'like' => 1,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ]);
 
                 DB::table('universities_topics')->where('id', $id)->increment('likes');
@@ -308,7 +313,10 @@ class UniversityController extends Controller
                     DB::table('university_topics_likes')
                         ->where('user_id', $userId)
                         ->where('topic_id', $id)
-                        ->update(['like' => 0]);
+                        ->update([
+                            'like' => 0,
+                            'updated_at' => Carbon::now()
+                        ]);
     
                     DB::table('universities_topics')->where('id', $id)->increment('dislikes');
                     DB::table('universities_topics')->where('id', $id)->decrement('likes');
@@ -318,7 +326,9 @@ class UniversityController extends Controller
                 DB::table('university_topics_likes')->insert([
                     'user_id' => $userId,
                     'topic_id' => $id,
-                    'like' => 0
+                    'like' => 0,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ]);
     
                 DB::table('universities_topics')->where('id', $id)->increment('dislikes');

@@ -255,7 +255,7 @@ class ForumController extends Controller
                     $liked = false;
                 } else {
                     // Beğeniyi güncelle (Dislike'ı kaldır, Like ekle)
-                    DB::table('general_topics_likes')->where('user_id', $userId)->where('topic_id', $id)->update(['like' => 1]);
+                    DB::table('general_topics_likes')->where('user_id', $userId)->where('topic_id', $id)->update(['like' => 1,'updated_at' => Carbon::now()]);
                     $topic->increment('likes');
                     $topic->decrement('dislikes');
                     $liked = true;
@@ -265,7 +265,9 @@ class ForumController extends Controller
                 DB::table('general_topics_likes')->insert([
                     'user_id' => $userId,
                     'topic_id' => $id,
-                    'like' => 1
+                    'like' => 1,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ]);
                 $topic->increment('likes');
                 $liked = true;
@@ -308,7 +310,7 @@ class ForumController extends Controller
                     $disliked = false;
                 } else {
                     // Dislike'ı güncelle (Like'ı kaldır, Dislike ekle)
-                    DB::table('general_topics_likes')->where('user_id', $userId)->where('topic_id', $id)->update(['like' => 0]);
+                    DB::table('general_topics_likes')->where('user_id', $userId)->where('topic_id', $id)->update(['like' => 0,'updated_at' => Carbon::now()]);
                     $topic->increment('dislikes');
                     $topic->decrement('likes');
                     $disliked = true;
@@ -318,7 +320,9 @@ class ForumController extends Controller
                 DB::table('general_topics_likes')->insert([
                     'user_id' => $userId,
                     'topic_id' => $id,
-                    'like' => 0
+                    'like' => 0,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
                 ]);
                 $topic->increment('dislikes');
                 $disliked = true;
