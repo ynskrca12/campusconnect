@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\GeneralTopicsLike;
 use App\Models\University;
+use App\Models\UniversityTopicsLike;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\EmailUpdatedNotification;
+use App\Models\CityTopicsLike;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -20,7 +23,29 @@ class UserController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $universities = University::all();
-            return view("user.kullanici_bilgileri", compact('user','universities'));
+
+            $cities_topics_likes = CityTopicsLike::where('user_id', $user->id)
+                ->with('topic')
+                ->where('like','1')    
+                ->get();
+
+            $universities_topics_likes = UniversityTopicsLike::where('user_id', $user->id)
+                ->with('topic')    
+                ->where('like','1')    
+                ->get(); 
+
+            $general_topics_likes = GeneralTopicsLike::where('user_id', $user->id)
+                ->with('topic')
+                ->where('like','1')    
+                ->get();    
+                
+            $liked_topics = $cities_topics_likes->merge($universities_topics_likes)
+            ->merge($general_topics_likes)
+            ->sortByDesc(fn($topic) => $topic->topic->created_at);
+
+            // dd($liked_topics->count());
+            
+            return view("user.kullanici_bilgileri", compact('user','universities','liked_topics'));
         } else {
             return redirect('/login')->with('message', 'Lütfen giriş yapınız.');
         }
