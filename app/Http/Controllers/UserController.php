@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\CityTopic;
+use App\Models\GeneralTopic;
 use App\Models\GeneralTopicsLike;
 use App\Models\University;
 use App\Models\UniversityTopicsLike;
@@ -13,6 +15,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\EmailUpdatedNotification;
 use App\Models\CityTopicsLike;
+use App\Models\UniversityTopic;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -23,29 +26,8 @@ class UserController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $universities = University::all();
-
-            $cities_topics_likes = CityTopicsLike::where('user_id', $user->id)
-                ->with('topic')
-                ->where('like','1')    
-                ->get();
-
-            $universities_topics_likes = UniversityTopicsLike::where('user_id', $user->id)
-                ->with('topic')    
-                ->where('like','1')    
-                ->get(); 
-
-            $general_topics_likes = GeneralTopicsLike::where('user_id', $user->id)
-                ->with('topic')
-                ->where('like','1')    
-                ->get();    
-                
-            $liked_topics = $cities_topics_likes->merge($universities_topics_likes)
-            ->merge($general_topics_likes)
-            ->sortByDesc(fn($topic) => $topic->topic->created_at);
-
-            // dd($liked_topics->count());
             
-            return view("user.kullanici_bilgileri", compact('user','universities','liked_topics'));
+            return view("user.kullanici_bilgileri", compact('user','universities'));
         } else {
             return redirect('/login')->with('message', 'Lütfen giriş yapınız.');
         }
@@ -165,4 +147,50 @@ class UserController extends Controller
         return redirect()->route('kullanici_bilgileri')->with('success', 'E-posta adresiniz başarıyla güncellenmiştir.');
     }//End
     
+    public function my_statistics(){
+        $user = Auth::user();
+
+        return view('user.my_statistics',compact('user'));
+    }//End
+
+    public function my_likes(){
+            $user = Auth::user();
+
+            $cities_topics_likes = CityTopicsLike::where('user_id', $user->id)
+                ->with('topic')
+                ->where('like','1')    
+                ->get();
+
+            $universities_topics_likes = UniversityTopicsLike::where('user_id', $user->id)
+                ->with('topic')    
+                ->where('like','1')    
+                ->get(); 
+
+            $general_topics_likes = GeneralTopicsLike::where('user_id', $user->id)
+                ->with('topic')
+                ->where('like','1')    
+                ->get();    
+                
+            $liked_topics = $cities_topics_likes->merge($universities_topics_likes)
+            ->merge($general_topics_likes)
+            ->sortByDesc(fn($topic) => $topic->topic->created_at);
+
+        return view('user.my_likes',compact('liked_topics','user'));
+    }//End
+
+    public function my_comments(){
+        $user = Auth::user();
+
+        $my_cities_comments = CityTopic::where('user_id', $user->id)->get();
+
+        $my_universities_comments = UniversityTopic::where('user_id', $user->id)->get();
+
+        $my_general_comments = GeneralTopic::where('user_id', $user->id)->get();
+    
+        $my_comments = $my_cities_comments->merge($my_universities_comments)
+        ->merge($my_general_comments)
+        ->sortByDesc(fn($topic) => $topic->created_at);
+
+        return view('user.my_comments',compact('user','my_comments'));
+    }//End
 }

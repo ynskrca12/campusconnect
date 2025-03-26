@@ -43,11 +43,14 @@
             <i class="fas fa-user"></i>
           </a>
           <div class="dropdown-menu" aria-labelledby="userDropdown">
-            <a class="dropdown-item" href="/kullanici_bilgileri">Kullanıcı Bilgileri</a>
+            <a class="dropdown-item" href="/kullanici_bilgileri"><i class="fa-solid fa-circle-info me-2"></i>Bilgilerim</a>
+            <a class="dropdown-item" href="{{ route('my.statistics') }}"><i class="fa-solid fa-chart-simple me-2"></i>İstatistiklerim</a>
+            <a class="dropdown-item" href="{{ route('my.likes') }}"><i class="fa-solid fa-thumbs-up me-2"></i>Beğendiklerim</a>
+            <a class="dropdown-item" href="{{ route('my.comments') }}"><i class="fa-solid fa-comments me-2"></i>Yorumlarım</a>
             {{-- <a class="dropdown-item" href="#">Hesap Ayarları</a> --}}
             {{-- <a class="dropdown-item" href="#">Genel Ayarlar</a> --}}
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/logout">Çıkış Yap</a>
+            <a class="dropdown-item" href="/logout"><i class="fa-solid fa-power-off me-2"></i>Çıkış Yap</a>
           </div>
         </li>
         @else

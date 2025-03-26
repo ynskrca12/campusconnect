@@ -21,7 +21,8 @@
                       <!-- Sidebar -->
                       <div class="col-lg-3 border-end text-center">
                         <div class="position-relative d-inline-block">
-                          <img src="{{ asset('assets/images/user.png') }}" class="rounded-circle profile-pic" alt="Profile Picture" style="width: 70px;">
+                          <img src="{{ asset('assets/images/icons/'.$user->user_image ?? 'user.png') }}" class="rounded-circle profile-pic" alt="Profile Picture"
+                          style="background-color: {{$user->user_image == 'man.png' ? '#95bdff' : ($user->user_image == 'woman.png' ? '#ffbdd3' : 'transparent')}};width: 70px;" >
                           <button class="btn btn-primary btn-sm position-absolute bottom-0 end-0 rounded-circle">
                               <i class="fas fa-camera"></i>
                           </button>
@@ -30,8 +31,6 @@
                           <div class="p-4">
                               <div class="nav flex-column nav-pills">
                                   <a class="nav-link nav-link-profile active" id="bilgilerim-tab" href="#" data-target="#bilgilerim"><i class="fas fa-user me-2"></i>Bilgilerim</a>
-                                  <a class="nav-link nav-link-profile" id="istatistiklerim-tab" href="#" data-target="#istatistiklerim"><i class="fas fa-chart-line me-2"></i>İstatistiklerim</a>
-                                  <a class="nav-link nav-link-profile" id="my-likes-tab" href="#" data-target="#myLikes"><i class="fa-solid fa-thumbs-up me-2"></i>Beğendiklerim</a>
                               </div>
                           </div>
                       </div>
@@ -71,72 +70,6 @@
                                           </div>
                                       </div>
                                   </div>
-                              </div>
-                              
-                              <div id="istatistiklerim" class="content-section d-none">
-                                  <h5 class="mb-4">İstatistiklerim</h5>
-                                  {{-- <ul class="list-group">
-                                      <li class="list-group-item">Beğendiğim yorumlar: <span id="liked-comments-count">15</span></li>
-                                      <li class="list-group-item">Toplam yaptığım yorumlar: <span id="total-comments-count">30</span></li>
-                                      <li class="list-group-item">Yorumlarımın aldığı beğeni sayısı: <span id="my-comments-likes">45</span></li>
-                                      <li class="list-group-item">Yorumlarıma yapılan yanıt sayısı: <span id="my-comments-replies">10</span></li>
-                                  </ul> --}}
-
-                                  <div class="d-flex flex-column align-items-center justify-content-center" style="height: 200px;">
-                                    <i class="fas fa-spinner fa-spin fa-3x text-primary mb-3"></i>
-                                    <p class="text-muted">Yakında tüm istatistikler burada olacak...</p>
-                                </div>
-                              </div>
-
-                              <div id="myLikes" class="content-section d-none">
-                                <div class="col-md-10">
-                                    @if (count($liked_topics) == 0)
-                                        <h5 class="mb-4">Henüz hiçbir yorum beğenmediniz.</h5>
-                                    @else    
-                                        <h5 class="mb-4">Toplam {{ count($liked_topics) }} favori yorumunuz var.</h5>
-                                        @foreach ($liked_topics as $item)   
-                                            <div class="topic mb-3">
-                                                <h3 class="topic-title mb-3">
-                                                    <a href="{{ route('topic.comments', ['slug' => $item->topic->topic_title_slug]) }}">
-                                                        {{ $item->topic->topic_title }}
-                                                    </a>
-                                                </h3>
-                                                
-                                                <p>{{ $item->topic->comment }}</p>
-                                                <div class="like-dislike mt-3">
-                                                    <div class="like-btn d-inline me-3" data-id="{{ $item->topic->id }}" style="cursor: pointer; color: #888;">
-                                                        <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $item->topic->likes }}</span>
-                                                    </div>
-                                                    <div class="dislike-btn d-inline" data-id="{{ $item->topic->id }}" style="cursor: pointer; color: #888;">
-                                                        <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $item->topic->dislikes }}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="meta">
-                                                    <div class="d-flex align-items-center entry-footer-bottom">
-                                                        <div class="footer-info">
-                                                            <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
-                                                                <p style="display: block;white-space:nowrap;color:#001b48;">{{ $item->user->username ?? 'Anonim' }}</p>
-                                                            </div>
-                    
-                                                            <div style="display: block;padding:1px 2px;line-height: 14px;">
-                                                                <p style="color: #888;font-size: 12px;">{{ $item->topic->created_at->format('d.m.Y H:i') }}</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="avatar-container">
-                                                            <a href="">
-                                                                <img class="avatar" 
-                                                                style="background-color: {{$item->user->user_image == 'man.png' ? '#95bdff' : ($item->user->user_image == 'woman.png' ? '#ffbdd3' : 'transparent')}};"
-                                                                src="{{ asset('assets/images/icons/' . ($item->user->user_image ?? '//ekstat.com/img/default-profile-picture-light.svg')) }}"
-                                                                data-default="{{ asset('img/default-profile-picture-light.svg') }}" 
-                                                                alt="usuyensolucan" title="usuyensolucan">
-                                                            </a>
-                                                        </div>
-                                                    </div>                            
-                                                </div>
-                                            </div>
-                                        @endforeach  
-                                    @endif
-                                </div>
                               </div>
                           </div>
                       </div>

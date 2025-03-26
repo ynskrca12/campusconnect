@@ -44,6 +44,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('kullanici_bilgileri_duzenle/{id}',[UserController::class, 'kullanici_bilgileri_duzenle'])->name('kullanici_bilgileri_duzenle');
     Route::post('kullanici_bilgileri_duzenle_post',[UserController::class,'kullanici_bilgileri_duzenle_post'])->name('kullanici_bilgileri_duzenle_post');
 
+    Route::get('istatistiklerim',[UserController::class, 'my_statistics'])->name('my.statistics');
+    Route::get('begendiklerim',[UserController::class, 'my_likes'])->name('my.likes');
+    Route::get('yorumlarim',[UserController::class, 'my_comments'])->name('my.comments');
+
     Route::post('/update-profile', [UserController::class, 'updateProfile'])->name('user.updateProfile');
     Route::get('/check-username', [UserController::class, 'checkUsername'])->name('user.checkUsername');
     Route::get('/profile/check-email', [UserController::class, 'checkEmail'])->name('profile.check.email');
