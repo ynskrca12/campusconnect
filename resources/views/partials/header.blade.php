@@ -1,97 +1,204 @@
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #001b48;">
   <div class="container">
     <a href="/"><img src="{{ asset('assets/images/logos/dark_logo_cropped.png') }}" alt="" style="width: 156px;margin-right: 10px"></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    
+    <!-- Mobil Menü Butonu (Sadece Mobilde Göster) -->
+    <button class="navbar-toggler custom-toggler d-lg-none" type="button">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <!-- Masaüstü Menü (Sadece Büyük Ekranlarda Göster) -->
+    <div class="collapse navbar-collapse d-none d-lg-flex" id="navbarNav">
       <ul class="navbar-nav ms-auto me-3">
-        <li class="nav-item active">
-          <a class="nav-link headerLink" href="/">Anasayfa</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/universiteler">Üniversiteler</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/sehirler">Şehirler</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/forum">Forum</a>
-        </li>
-        {{-- <li class="nav-item">
-          <a class="nav-link" href="#">Bölüm / Meslek</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Staj / İş</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Blog / Makale</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Not Paylaşım</a>
-        </li> --}}
-        {{-- <li class="nav-item">
-          <a class="nav-link" href="/ilanlar">İlanlar</a>
-        </li> --}}
-        {{-- <li class="nav-item">
-          <a class="nav-link" href="#">Haberler</a>
-        </li> --}}
+        <li class="nav-item"><a class="nav-link" href="/">Anasayfa</a></li>
+        <li class="nav-item"><a class="nav-link" href="/universiteler">Üniversiteler</a></li>
+        <li class="nav-item"><a class="nav-link" href="/sehirler">Şehirler</a></li>
+        <li class="nav-item"><a class="nav-link" href="/forum">Forum</a></li>
+
         @auth
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-user"></i>
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdownDesktop" role="button" data-bs-toggle="dropdown">
+            <i class="fas fa-user me-2"></i>Hesabım
           </a>
-          <div class="dropdown-menu" aria-labelledby="userDropdown">
-            <a class="dropdown-item" href="/kullanici_bilgileri"><i class="fa-solid fa-circle-info me-2"></i>Bilgilerim</a>
-            <a class="dropdown-item" href="{{ route('my.statistics') }}"><i class="fa-solid fa-chart-simple me-2"></i>İstatistiklerim</a>
-            <a class="dropdown-item" href="{{ route('my.likes') }}"><i class="fa-solid fa-thumbs-up me-2"></i>Beğendiklerim</a>
-            <a class="dropdown-item" href="{{ route('my.comments') }}"><i class="fa-solid fa-comments me-2"></i>Yorumlarım</a>
-            {{-- <a class="dropdown-item" href="#">Hesap Ayarları</a> --}}
-            {{-- <a class="dropdown-item" href="#">Genel Ayarlar</a> --}}
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/logout"><i class="fa-solid fa-power-off me-2"></i>Çıkış Yap</a>
-          </div>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/kullanici_bilgileri"><i class="fa-solid fa-circle-info me-2"></i>Bilgilerim</a></li>
+            <li><a class="dropdown-item" href="{{ route('my.statistics') }}"><i class="fa-solid fa-chart-simple me-2"></i>İstatistiklerim</a></li>
+            <li><a class="dropdown-item" href="{{ route('my.likes') }}"><i class="fa-solid fa-thumbs-up me-2"></i>Beğendiklerim</a></li>
+            <li><a class="dropdown-item" href="{{ route('my.comments') }}"><i class="fa-solid fa-comments me-2"></i>Yorumlarım</a></li>
+          </ul>
         </li>
+        <li class="nav-item"><a class="nav-link" href="/logout"><i class="fa-solid fa-power-off me-2"></i>Çıkış Yap</a></li>
         @else
-        <li class="nav-item">
-          <a class="nav-link" href="/login">Giriş Yap</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/register">Kayıt Ol</a>
-        </li>
+        <li class="nav-item"><a class="nav-link" href="/login">Giriş Yap</a></li>
+        <li class="nav-item"><a class="nav-link" href="/register">Kayıt Ol</a></li>
         @endauth
-        {{-- <li class="nav-item d-none d-lg-block">
-          <a class="nav-link" href="#" id="fullscreen-button">
-            <i class="mdi mdi-fullscreen"></i>
-          </a>
-        </li> --}}
+      </ul>
+    </div>
+
+    <!-- Mobil Menü -->
+    <div class="custom-mobile-menu d-lg-none">
+      <button class="close-menu">&times;</button>
+      <ul class="mobile-nav-links">
+        <li><a href="/">Anasayfa</a></li>
+        <li><a href="/universiteler">Üniversiteler</a></li>
+        <li><a href="/sehirler">Şehirler</a></li>
+        <li><a href="/forum">Forum</a></li>
+
+        @auth
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" id="userDropdownMobile"><i class="fas fa-user me-2"></i>Hesabım</a>
+          <ul class="dropdown-menu-mobile">
+            <li class="sub-menu"><a href="/kullanici_bilgileri"><i class="fa-solid fa-circle-info me-2"></i>Bilgilerim</a></li>
+            <li class="sub-menu"><a href="{{ route('my.statistics') }}"><i class="fa-solid fa-chart-simple me-2"></i>İstatistiklerim</a></li>
+            <li class="sub-menu"><a href="{{ route('my.likes') }}"><i class="fa-solid fa-thumbs-up me-2"></i>Beğendiklerim</a></li>
+            <li class="sub-menu"><a href="{{ route('my.comments') }}"><i class="fa-solid fa-comments me-2"></i>Yorumlarım</a></li>
+          </ul>
+        </li>
+        <li><a href="/logout"><i class="fa-solid fa-power-off me-2"></i>Çıkış Yap</a></li>
+        @else
+        <li><a href="/login">Giriş Yap</a></li>
+        <li><a href="/register">Kayıt Ol</a></li>
+        @endauth
       </ul>
     </div>
   </div>
 </nav>
 
-
 <style>
-.nav-link {
-  font-size: 14px;
-  color:#fff !important;
-  margin: 0px 10px;
+
+  .navbar-nav .nav-link{
+    font-size: 14px;
+    color: #fff !important;
+    margin: 0px 10px;
+    width: 100%;
+    text-align: center;
+    border-radius: 10px;
+  }
+  .navbar-nav .nav-link:hover {
+    color: #001b48 !important;
+    background-color: #fff !important;
+    border-color: #001b48 !important;
+    border-radius: 10px;
+  }
+/* Mobil Menü */
+.custom-mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  text-align: center;
+  height: 100vh;
+  background-color: #001b48;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1050;
+}
+
+.custom-mobile-menu.active {
+  transform: translateY(0);
+}
+
+.mobile-nav-links {
+  list-style: none;
+  padding: 0;
+}
+
+.mobile-nav-links li {
+  margin: 15px 0;
+  font-size: 20px;
+  color: #fff !important;
+  padding: 10px 20px;
+  transition: 0.3s ease-in-out;
+}
+
+.mobile-nav-links a {
+  color: #fff;
+  font-size: 20px;
+  text-decoration: none;
+  display: block;
+}
+
+.mobile-nav-links a:hover {
+  color: #001b48;
+  background-color: #fff;
+  padding: 10px 15px;
   border-radius: 10px;
-  
 }
 
-.nav-link:hover {
-  color: #001b48 !important;
-  background-color: #fff !important;
-  border-color: #001b48 !important;
-  border-radius: 10px;
+/* Hesabım Menüsü */
+.dropdown-menu-mobile {
+  display: none;
+  list-style: none;
+  padding-left: 0;
 }
 
-.dropdown-item{
-  color: #001b48 !important;
+.dropdown-menu-mobile li {
+  margin: 10px 0;
 }
 
+.dropdown-toggle {
+  cursor: pointer;
+}
+
+.close-menu {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+}
+
+.navbar-toggler.custom-toggler {
+  border: none;
+  background: none;
+  font-size: 24px;
+  color: white;
+}
+
+.sub-menu {
+  padding: 10px 0px !important;
+}
+
+/* Animasyon */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.custom-mobile-menu.active > .mobile-nav-links > li {
+  animation: fadeIn 1.2s ease-in-out forwards;
+}
 </style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const menuButton = document.querySelector(".navbar-toggler.custom-toggler");
+  const mobileMenu = document.querySelector(".custom-mobile-menu");
+  const closeButton = document.querySelector(".close-menu");
+  const userDropdown = document.querySelector("#userDropdownMobile");
+  const userMenu = document.querySelector(".dropdown-menu-mobile");
+
+  // Mobil Menü Aç/Kapat
+  menuButton.addEventListener("click", function () {
+    mobileMenu.classList.add("active");
+  });
+
+  closeButton.addEventListener("click", function () {
+    mobileMenu.classList.remove("active");
+  });
+
+  // Hesap Menüsünü Aç/Kapat (Mobil)
+  if (userDropdown) {
+    userDropdown.addEventListener("click", function (e) {
+      e.preventDefault();
+      userMenu.style.display = userMenu.style.display === "block" ? "none" : "block";
+    });
+  }
+});
+</script>
