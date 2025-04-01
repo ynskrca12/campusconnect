@@ -54,7 +54,7 @@
                                                     </a>
                                                 </h3>
                                                 
-                                                <p>{{ $item->topic->comment }}</p>
+                                                <p>{!! $item->topic->comment !!}</p>
                                                 <div class="like-dislike mt-3">
                                                     <div class="like-btn d-inline me-3" data-id="{{ $item->topic->id }}" style="cursor: pointer; color: #888;">
                                                         <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $item->topic->likes }}</span>

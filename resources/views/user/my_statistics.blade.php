@@ -15,7 +15,7 @@
 
       <!-- Main Content -->
       <div class="col-12">
-          <div class="card border-0 shadow-sm">
+          <div class="card border-0">
               <div class="card-body p-0">
                   <div class="row g-0">
                       <!-- Sidebar -->
@@ -36,25 +36,210 @@
                           </div>
                       </div>
 
-                      <!-- Content Area -->
-                      <div class="col-lg-9">
-                          <div class="p-4">
+                        <!-- Content Area -->
+                        <div class="col-lg-9">
+                            <div class="p-4">
                               <div id="istatistiklerim" class="content-section">
-                                  <h5 class="mb-4">İstatistiklerim</h5>
-                                  {{-- <ul class="list-group">
-                                      <li class="list-group-item">Beğendiğim yorumlar: <span id="liked-comments-count">15</span></li>
-                                      <li class="list-group-item">Toplam yaptığım yorumlar: <span id="total-comments-count">30</span></li>
-                                      <li class="list-group-item">Yorumlarımın aldığı beğeni sayısı: <span id="my-comments-likes">45</span></li>
-                                      <li class="list-group-item">Yorumlarıma yapılan yanıt sayısı: <span id="my-comments-replies">10</span></li>
-                                  </ul> --}}
 
-                                  <div class="d-flex flex-column align-items-center justify-content-center" style="height: 200px;">
-                                    <i class="fas fa-spinner fa-spin fa-3x text-primary mb-3"></i>
-                                    <p class="text-muted">Yakında tüm istatistikler burada olacak...</p>
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <h5 class="comment-title">Etkileşim İstatistiklerim</h5>
+                                    </div>
                                 </div>
+
+                                <div class="row mt-2">
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card border-0">
+                                            <div class="card-body px-1 py-2">
+                                                <div class="d-flex  align-items-center ps-4">
+                                                    <h5 class="m-0 fs-6">
+                                                        <i class="fa-solid fa-thumbs-up me-2"></i>
+                                                        Beğeni Sayısı: <span class="counter" data-target="{{ $statistics['myLikesCount'] }}">0</span>
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card border-0 ">
+                                            <div class="card-body px-1 py-2">
+                                                <div class="d-flex align-items-center ps-4">
+                                                    <h5 class="m-0 fs-6">
+                                                        <i class="fa-solid fa-comments me-2"></i>
+                                                        Yorum Sayısı: <span class="counter" data-target="{{ $statistics['myCommentsCount'] }}">0</span>
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card border-0">
+                                            <div class="card-body px-1 py-2">
+                                                <div class="d-flex  align-items-center ps-4">
+                                                    <h5 class="m-0 fs-6">
+                                                        <i class="fa-solid fa-thumbs-up me-2"></i>
+                                                        Yorumlarımın Beğeni Sayısı: <span class="counter" data-target="{{ $statistics['myCommentsLikesCount'] }}">0</span>
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- Most Liked Topics --}}
+                                @if ($statistics['mostLikedTopicCity'] != null || $statistics['mostLikedTopicUniversity'] != null || $statistics['mostLikedTopicGeneral'] != null)
+                                <div class="row mt-5 mb-3">
+                                    <div class="col-md-12">
+                                        <h5 class="comment-title">En Beğenilen Yorumlarım</h5>
+                                    </div>
+                                </div>
+                                @endif
+                                {{-- mostLikedTopicCity --}}
+                                @if ($statistics['mostLikedTopicCity'] != null)
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="topic mb-3 comment-section">
+                                                <h3 class="topic-title mb-3">
+                                                    <a href="{{ route('topic.comments', ['slug' => $statistics['mostLikedTopicCity']->topic_title_slug]) }}">
+                                                        {{ $statistics['mostLikedTopicCity']->topic_title }}
+                                                    </a>
+                                                </h3>
+                                                
+                                                <p>{{ $statistics['mostLikedTopicCity']->comment }}</p>
+                                                <div class="like-dislike mt-3">
+                                                    <div class="like-btn d-inline me-3" data-id="{{ $statistics['mostLikedTopicCity']->id }}" style="cursor: pointer; color: #888;">
+                                                        <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $statistics['mostLikedTopicCity']->likes }}</span>
+                                                    </div>
+                                                    <div class="dislike-btn d-inline" data-id="{{ $statistics['mostLikedTopicCity']->id }}" style="cursor: pointer; color: #888;">
+                                                        <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $statistics['mostLikedTopicCity']->dislikes }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="meta">
+                                                    <div class="d-flex align-items-center entry-footer-bottom">
+                                                        <div class="footer-info">
+                                                            <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
+                                                                <p style="display: block;white-space:nowrap;color:#001b48;">{{ $statistics['mostLikedTopicCity']->user->username ?? 'Anonim' }}</p>
+                                                            </div>
+                    
+                                                            <div style="display: block;padding:1px 2px;line-height: 14px;">
+                                                                <p style="color: #888;font-size: 12px;">{{ $statistics['mostLikedTopicCity']->created_at->format('d.m.Y H:i') }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="avatar-container">
+                                                            <a href="">
+                                                                <img class="avatar" 
+                                                                style="background-color: {{$statistics['mostLikedTopicCity']->user->user_image == 'man.png' ? '#95bdff' : ($statistics['mostLikedTopicCity']->user->user_image == 'woman.png' ? '#ffbdd3' : 'transparent')}};"
+                                                                src="{{ asset('assets/images/icons/' . ($statistics['mostLikedTopicCity']->user->user_image ?? '//ekstat.com/img/default-profile-picture-light.svg')) }}"
+                                                                data-default="{{ asset('img/default-profile-picture-light.svg') }}" 
+                                                                alt="usuyensolucan" title="usuyensolucan">
+                                                            </a>
+                                                        </div>
+                                                    </div>                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                               
+                                {{-- mostLikedTopicUniversity --}}
+                                @if ($statistics['mostLikedTopicUniversity'] != null)
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="topic mb-3 comment-section">
+                                                <h3 class="topic-title mb-3">
+                                                    <a href="{{ route('topic.comments', ['slug' => $statistics['mostLikedTopicUniversity']->topic_title_slug]) }}">
+                                                        {{ $statistics['mostLikedTopicUniversity']->topic_title }}
+                                                    </a>
+                                                </h3>
+                                                
+                                                <p>{{ $statistics['mostLikedTopicUniversity']->comment }}</p>
+                                                <div class="like-dislike mt-3">
+                                                    <div class="like-btn d-inline me-3" data-id="{{ $statistics['mostLikedTopicUniversity']->id }}" style="cursor: pointer; color: #888;">
+                                                        <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $statistics['mostLikedTopicUniversity']->likes }}</span>
+                                                    </div>
+                                                    <div class="dislike-btn d-inline" data-id="{{ $statistics['mostLikedTopicUniversity']->id }}" style="cursor: pointer; color: #888;">
+                                                        <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $statistics['mostLikedTopicUniversity']->dislikes }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="meta">
+                                                    <div class="d-flex align-items-center entry-footer-bottom">
+                                                        <div class="footer-info">
+                                                            <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
+                                                                <p style="display: block;white-space:nowrap;color:#001b48;">{{ $statistics['mostLikedTopicUniversity']->user->username ?? 'Anonim' }}</p>
+                                                            </div>
+                    
+                                                            <div style="display: block;padding:1px 2px;line-height: 14px;">
+                                                                <p style="color: #888;font-size: 12px;">{{ $statistics['mostLikedTopicUniversity']->created_at->format('d.m.Y H:i') }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="avatar-container">
+                                                            <a href="">
+                                                                <img class="avatar" 
+                                                                style="background-color: {{$statistics['mostLikedTopicUniversity']->user->user_image == 'man.png' ? '#95bdff' : ($statistics['mostLikedTopicUniversity']->user->user_image == 'woman.png' ? '#ffbdd3' : 'transparent')}};"
+                                                                src="{{ asset('assets/images/icons/' . ($statistics['mostLikedTopicUniversity']->user->user_image ?? '//ekstat.com/img/default-profile-picture-light.svg')) }}"
+                                                                data-default="{{ asset('img/default-profile-picture-light.svg') }}" 
+                                                                alt="usuyensolucan" title="usuyensolucan">
+                                                            </a>
+                                                        </div>
+                                                    </div>                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+
+                                {{-- mostLikedTopicGeneral --}}
+                                @if ($statistics['mostLikedTopicGeneral'] != null)
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="topic mb-3 comment-section">
+                                                <h3 class="topic-title mb-3">
+                                                    <a href="{{ route('topic.comments', ['slug' => $statistics['mostLikedTopicGeneral']->topic_title_slug]) }}">
+                                                        {{ $statistics['mostLikedTopicGeneral']->topic_title }}
+                                                    </a>
+                                                </h3>
+                                                
+                                                <p>{{ $statistics['mostLikedTopicGeneral']->comment }}</p>
+                                                <div class="like-dislike mt-3">
+                                                    <div class="like-btn d-inline me-3" data-id="{{ $statistics['mostLikedTopicGeneral']->id }}" style="cursor: pointer; color: #888;">
+                                                        <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $statistics['mostLikedTopicGeneral']->likes }}</span>
+                                                    </div>
+                                                    <div class="dislike-btn d-inline" data-id="{{ $statistics['mostLikedTopicGeneral']->id }}" style="cursor: pointer; color: #888;">
+                                                        <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $statistics['mostLikedTopicGeneral']->dislikes }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="meta">
+                                                    <div class="d-flex align-items-center entry-footer-bottom">
+                                                        <div class="footer-info">
+                                                            <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
+                                                                <p style="display: block;white-space:nowrap;color:#001b48;">{{ $statistics['mostLikedTopicGeneral']->user->username ?? 'Anonim' }}</p>
+                                                            </div>
+                    
+                                                            <div style="display: block;padding:1px 2px;line-height: 14px;">
+                                                                <p style="color: #888;font-size: 12px;">{{ $statistics['mostLikedTopicGeneral']->created_at->format('d.m.Y H:i') }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="avatar-container">
+                                                            <a href="">
+                                                                <img class="avatar" 
+                                                                style="background-color: {{$statistics['mostLikedTopicGeneral']->user->user_image == 'man.png' ? '#95bdff' : ($statistics['mostLikedTopicGeneral']->user->user_image == 'woman.png' ? '#ffbdd3' : 'transparent')}};"
+                                                                src="{{ asset('assets/images/icons/' . ($statistics['mostLikedTopicGeneral']->user->user_image ?? '//ekstat.com/img/default-profile-picture-light.svg')) }}"
+                                                                data-default="{{ asset('img/default-profile-picture-light.svg') }}" 
+                                                                alt="usuyensolucan" title="usuyensolucan">
+                                                            </a>
+                                                        </div>
+                                                    </div>                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+
                               </div>
-                          </div>
-                      </div>
+                            </div>
+                        </div>
                   </div>
               </div>
           </div>
@@ -112,46 +297,58 @@
 </style>
 
 <style>
-     .topic {
-            padding: 10px 0;
-        }
-       
-        .topic h3 a{
-            margin: 0;
-            font-size: 17px;
-            color: #333 !important;
-            text-decoration: none;
-        }
+     .comment-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #001B48;
+        margin-bottom: 0px;
+        margin-left: 4px;
+    }
+    .comment-section {
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+        padding: 10px 20px !important;
+        border-radius: 7px;
+    }
+    .topic {
+        padding: 10px 0;
+    }
+    
+    .topic h3 a{
+        margin: 0;
+        font-size: 17px;
+        color: #333 !important;
+        text-decoration: none;
+    }
 
-        .topic h3 a:hover{
-            color: #424242 !important; 
-            text-decoration: underline; 
-        }
+    .topic h3 a:hover{
+        color: #424242 !important; 
+        text-decoration: underline; 
+    }
 
-        .topic p {
-            margin: 5px 0;
-            font-size: 14px;
-            color: #666;
-        }
-        .topic .meta {
-            display: flex;
-            justify-content: end;
-        }
+    .topic p {
+        margin: 5px 0;
+        font-size: 14px;
+        color: #666;
+    }
+    .topic .meta {
+        display: flex;
+        justify-content: end;
+    }
 
-        .avatar{
-            display: block;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            margin-top: -2px;
-            margin-bottom: 2px;
-        }
-        .footer-info{
-            float: left;
-            vertical-align: middle;
-            padding: 4px;
-            padding-right: 10px;
-        }
+    .avatar{
+        display: block;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        margin-top: -2px;
+        margin-bottom: 2px;
+    }
+    .footer-info{
+        float: left;
+        vertical-align: middle;
+        padding: 4px;
+        padding-right: 10px;
+    }
 </style>
 @endsection
 
@@ -171,5 +368,28 @@
             });
         });
     </script>
+
+<script>
+    $(document).ready(function() {
+        $('.counter').each(function() {
+            var $this = $(this),
+                target = parseInt($this.attr('data-target')),
+                count = 0,
+                speed = 50, // Sayma hızını ayarlar
+                step = Math.ceil(target / 50); // Adım büyüklüğü (50 adımda tamamlanır)
+
+            function updateCount() {
+                count += step;
+                if (count >= target) {
+                    count = target;
+                    clearInterval(timer);
+                }
+                $this.text(count);
+            }
+
+            var timer = setInterval(updateCount, speed);
+        });
+    });
+</script>
 
 @endsection

@@ -149,8 +149,106 @@ class UserController extends Controller
     
     public function my_statistics(){
         $user = Auth::user();
+        $created_at = $user->created_at->format('d.m.Y');
+        
+        $statistics = [
+            'myCommentsCount'          => $this->myCommentsCount(),
+            'myLikesCount'             => $this->myLikesCount(),
+            'myCommentsLikesCount'     => $this->myCommentsLikesCount(),
+            'mostLikedTopicCity'       => $this->mostLikedTopicCity(),
+            'mostLikedTopicUniversity' => $this->mostLikedTopicUniversity(),
+            'mostLikedTopicGeneral'    => $this->mostLikedTopicGeneral(),
+            'created_at'               => $created_at
+        ];
 
-        return view('user.my_statistics',compact('user'));
+
+        return view('user.my_statistics',
+        compact('user','statistics'));
+    }//End
+
+    private function mostLikedTopicCity(){
+        $user = Auth::user();
+
+        $mostLikedTopicCity = CityTopic::where('user_id',$user->id)
+        ->where('likes','>',0)
+        ->orderByDesc('likes')->first();
+
+        return $mostLikedTopicCity;
+    }//End
+
+    private function mostLikedTopicUniversity(){
+        $user = Auth::user();
+
+        $mostLikedTopicUniversity = UniversityTopic::where('user_id',$user->id)
+        ->where('likes','>',0)
+        ->orderByDesc('likes')->first();
+
+        return $mostLikedTopicUniversity;
+    }//End
+
+    private function mostLikedTopicGeneral(){
+        $user = Auth::user();
+
+        $mostLikedTopicGeneral = GeneralTopic::where('user_id',$user->id)
+        ->where('likes','>',0)
+        ->orderByDesc('likes')->first();
+
+        return $mostLikedTopicGeneral;
+    }//End
+
+    private function myCommentsCount(){
+        $user = Auth::user();
+
+        $my_cities_comments = CityTopic::where('user_id', $user->id)->get();
+
+        $my_universities_comments = UniversityTopic::where('user_id', $user->id)->get();
+
+        $my_general_comments = GeneralTopic::where('user_id', $user->id)->get();
+    
+        $my_comments = $my_cities_comments->merge($my_universities_comments)
+        ->merge($my_general_comments)
+        ->count();
+        
+        return $my_comments;
+    }//End
+
+    private function myLikesCount(){
+        $user = Auth::user();
+
+        $cities_topics_likes = CityTopicsLike::where('user_id', $user->id)
+            ->with('topic')
+            ->where('like','1')    
+            ->get();
+
+        $universities_topics_likes = UniversityTopicsLike::where('user_id', $user->id)
+            ->with('topic')    
+            ->where('like','1')    
+            ->get(); 
+
+        $general_topics_likes = GeneralTopicsLike::where('user_id', $user->id)
+            ->with('topic')
+            ->where('like','1')    
+            ->get();    
+            
+        $liked_topics_count = $cities_topics_likes->merge($universities_topics_likes)
+        ->merge($general_topics_likes)
+        ->count();
+
+        return $liked_topics_count;
+    }//End
+
+    private function myCommentsLikesCount(){
+        $user = Auth::user();
+
+        $my_cities_comments = CityTopic::where('user_id', $user->id)->sum('likes');
+
+        $my_universities_comments = UniversityTopic::where('user_id', $user->id)->sum('likes');
+
+        $my_general_comments = GeneralTopic::where('user_id', $user->id)->sum('likes');
+    
+        $sum_likes = $my_cities_comments + $my_universities_comments + $my_general_comments;
+        
+        return $sum_likes;
     }//End
 
     public function my_likes(){
