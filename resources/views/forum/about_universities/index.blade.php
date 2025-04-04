@@ -19,19 +19,19 @@
         <div class="col-md-11 mb-3">
             <ul class="nav nav-tabs d-flex justify-content-center mobile-hidden" id="mainTabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="free-zone-tab" data-bs-toggle="tab" href="#free-zone" role="tab" aria-controls="free-zone" aria-selected="true" data-category="free-zone">serbest bölge</a>
+                    <a class="nav-link active" id="free-zone-tab" data-bs-toggle="tab" href="#free-zone" role="tab" aria-controls="free-zone" aria-selected="true" data-category="free-zone">Serbest Bölge ({{$topicCount['free-zone']}})</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="general-tab" data-bs-toggle="tab" href="#general-info" role="tab" aria-controls="general-info" aria-selected="true" data-category="general-info">genel bilgiler</a>
+                    <a class="nav-link" id="general-tab" data-bs-toggle="tab" href="#general-info" role="tab" aria-controls="general-info" aria-selected="true" data-category="general-info">Genel Bilgiler ({{$topicCount['general-info']}})</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="departmant-programs-tab" data-bs-toggle="tab" href="#departmant-programs" role="tab" aria-controls="departmant-programs" aria-selected="false" data-category="departmant-programs">bölüm ve prog.</a>
+                    <a class="nav-link" id="departmant-programs-tab" data-bs-toggle="tab" href="#departmant-programs" role="tab" aria-controls="departmant-programs" aria-selected="false" data-category="departmant-programs">Bölüm ve Prog. ({{$topicCount['departmant-programs']}})</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="campus-life-tab" data-bs-toggle="tab" href="#campus-life" role="tab" aria-controls="campus-life" aria-selected="false" data-category="campus-life">kampüs hayatı</a>
+                    <a class="nav-link" id="campus-life-tab" data-bs-toggle="tab" href="#campus-life" role="tab" aria-controls="campus-life" aria-selected="false" data-category="campus-life">Kampüs Hayatı ({{$topicCount['campus-life']}})</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="question-answer-tab" data-bs-toggle="tab" href="#question-answer" role="tab" aria-controls="question-answer" aria-selected="false" data-category="question-answer">soru cevap</a>
+                    <a class="nav-link" id="question-answer-tab" data-bs-toggle="tab" href="#question-answer" role="tab" aria-controls="question-answer" aria-selected="false" data-category="question-answer">Soru Cevap ({{$topicCount['question-answer']}})</a>
                 </li>
             </ul>
 
@@ -39,11 +39,11 @@
                 <div class="d-flex justify-content-center">
                 <select class="form-select" id="mobileTabs" aria-label="Default select example" 
                     style="font-size: 13px;width: 70%;">
-                    <option value="#free-zone" selected>serbest bölge</option>
-                    <option value="#general-info">genel bilgiler</option>
-                    <option value="#departmant-programs">bölüm ve programlar</option>
-                    <option value="#campus-life">kampüs hayatı</option>
-                    <option value="#question-answer">soru cevap</option>
+                    <option value="#free-zone" selected>Serbest Bölge ({{$topicCount['free-zone']}})</option>
+                    <option value="#general-info">Genel Bilgiler ({{$topicCount['general-info']}})</option>
+                    <option value="#departmant-programs">Bölüm ve Prog. ({{$topicCount['departmant-programs']}})</option>
+                    <option value="#campus-life">Kampüs Hayatı ({{$topicCount['campus-life']}})</option>
+                    <option value="#question-answer">Soru Cevap ({{$topicCount['question-answer']}})</option>
                 </select>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                 <h4>öne çıkan mevzular</h4>
 
                 <ul id="subcategories-list" class="list-group">
-                    @foreach($univercity_free_zone_topics_count as $topic)
+                    @foreach($getUnivercityFreeZoneTopics as $topic)
                         {{-- {{dd($topic->count)}} --}}
                         <li class="list-group-item">
                             <a href="{{ route('university.topic.comments', ['slug' => $topic->topic_title_slug]) }}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
@@ -87,7 +87,7 @@
                         <div class="offcanvas-body">
                             
                         <ul id="subcategories-list-mobile" class="list-group mobile-universities-list" >
-                            @foreach($univercity_free_zone_topics_count as $topic)
+                            @foreach($getUnivercityFreeZoneTopics as $topic)
                                 <li class="list-group-item">
                                     <a href="{{ route('university.topic.comments', ['slug' => $topic->topic_title_slug]) }}" class="text-decoration-none subCategoryTag text-dark">
                                         <span class="topic-title-sub-category">{{ $topic->topic_title }}</span>

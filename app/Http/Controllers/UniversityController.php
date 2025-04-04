@@ -61,19 +61,34 @@ class UniversityController extends Controller
             ->where('category','free-zone')
             ->get();
 
-        $univercity_free_zone_topics_count = DB::table('universities_topics')
+        $getUnivercityFreeZoneTopics = DB::table('universities_topics')
             ->select('topic_title', 'topic_title_slug', DB::raw('COUNT(*) as count'))
             ->where('university_id',$university->id)
             ->where('category','free-zone')
             ->groupBy('topic_title', 'topic_title_slug')
-            ->get();    
+            ->get();
+  
+        $topicCount = $this->getUniversityCategoryCount($university->id);
 
         if (!$university) {
             abort(404, 'Üniversite bulunamadı');
         }
 
         return view('forum.about_universities.index',
-         compact('university','univercity_free_zone_topics','univercity_free_zone_topics_count'));
+         compact('university','univercity_free_zone_topics','getUnivercityFreeZoneTopics','topicCount'));
+    }//End
+
+    private function getUniversityCategoryCount($universityId){
+        $categories = ['free-zone', 'general-info', 'departmant-programs', 'campus-life', 'question-answer'];
+        $topicCouns = [];
+
+        foreach ($categories as $category) {
+            $topicCouns[$category] = UniversityTopic::where('university_id', $universityId)
+                ->where('category', $category)
+                ->count();
+        }
+
+        return $topicCouns;
     }//End
 
     public function getUnivercityCategoryTopics(Request $request){

@@ -48,20 +48,34 @@ class CityController extends Controller
             ->where('category','free-zone')
             ->get();
         
-        $city_free_zone_topics_count = DB::table('cities_topics')
+        $getCityFreeZoneTopics = DB::table('cities_topics')
             ->select('topic_title', 'topic_title_slug', DB::raw('COUNT(*) as count'))
             ->where('city_id',$city->id)
             ->where('category','free-zone')
             ->groupBy('topic_title', 'topic_title_slug')
             ->get();      
 
-            // dd($city_free_zone_topics_count);
+        $topicCount = $this->getCityCategoryCount($city->id);
+        
         
         if (!$city) {
             abort(404, 'Şehir bulunamadı');
         }
 
-        return view('forum.about_cities.index', compact('city','city_free_zone_topics','city_free_zone_topics_count'));
+        return view('forum.about_cities.index', compact('city','city_free_zone_topics','getCityFreeZoneTopics','topicCount'));
+    }//End
+
+    private function getCityCategoryCount($cityId){
+        $categories = ['free-zone', 'general-info', 'social-life', 'job-opportunities', 'question-answer'];
+        $topicCouns = [];
+
+        foreach ($categories as $category) {
+            $topicCouns[$category] = CityTopic::where('city_id', $cityId)
+                ->where('category', $category)
+                ->count();
+        }
+
+        return $topicCouns;
     }//End
 
     public function topicComments($slug)

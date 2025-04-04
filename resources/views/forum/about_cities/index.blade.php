@@ -19,19 +19,19 @@
         <div class="col-md-11 mb-3">
             <ul class="nav nav-tabs d-flex justify-content-center mobile-hidden" id="mainTabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="free-zone-tab" data-bs-toggle="tab" href="#free-zone" role="tab" aria-controls="free-zone" aria-selected="true" data-category="free-zone">serbest bölge</a>
+                    <a class="nav-link active" id="free-zone-tab" data-bs-toggle="tab" href="#free-zone" role="tab" aria-controls="free-zone" aria-selected="true" data-category="free-zone">Serbest Bölge ({{$topicCount['free-zone']}})</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="general-tab" data-bs-toggle="tab" href="#general-info" role="tab" aria-controls="general-info" aria-selected="true" data-category="general-info">genel bilgiler</a>
+                    <a class="nav-link" id="general-tab" data-bs-toggle="tab" href="#general-info" role="tab" aria-controls="general-info" aria-selected="true" data-category="general-info">Genel Bilgiler ({{$topicCount['general-info']}})</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="social-life-tab" data-bs-toggle="tab" href="#social-life" role="tab" aria-controls="social-life" aria-selected="false" data-category="social-life">sosyal hayat</a>
+                    <a class="nav-link" id="social-life-tab" data-bs-toggle="tab" href="#social-life" role="tab" aria-controls="social-life" aria-selected="false" data-category="social-life">Sosyal Hayat ({{$topicCount['social-life']}})</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="job-opportunities-tab" data-bs-toggle="tab" href="#job-opportunities" role="tab" aria-controls="job-opportunities" aria-selected="false" data-category="job-opportunities">iş fırsatları</a>
+                    <a class="nav-link" id="job-opportunities-tab" data-bs-toggle="tab" href="#job-opportunities" role="tab" aria-controls="job-opportunities" aria-selected="false" data-category="job-opportunities">İş Fırsatları ({{$topicCount['job-opportunities']}})</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="question-answer-tab" data-bs-toggle="tab" href="#question-answer" role="tab" aria-controls="question-answer" aria-selected="false" data-category="question-answer">soru cevap</a>
+                    <a class="nav-link" id="question-answer-tab" data-bs-toggle="tab" href="#question-answer" role="tab" aria-controls="question-answer" aria-selected="false" data-category="question-answer">Soru Cevap ({{$topicCount['question-answer']}})</a>
                 </li>
             </ul>
 
@@ -39,11 +39,11 @@
                 <div class="d-flex justify-content-center">
                 <select class="form-select" id="mobileTabs" aria-label="Default select example" 
                     style="font-size: 13px;width: 70%;">
-                    <option value="#free-zone" selected>serbest bölge</option>
-                    <option value="#general-info">genel bilgiler</option>
-                    <option value="#social-life">sosyal yaşam</option>
-                    <option value="#job-opportunities">iş fırsatları</option>
-                    <option value="#question-answer">soru cevap</option>
+                    <option value="#free-zone" selected>Serbest Bölge ({{$topicCount['free-zone']}})</option>
+                    <option value="#general-info">Genel Bilgiler ({{$topicCount['general-info']}})</option>
+                    <option value="#social-life">Sosyal Yaşam ({{$topicCount['social-life']}})</option>
+                    <option value="#job-opportunities">İş Fırsatları ({{$topicCount['job-opportunities']}})</option>
+                    <option value="#question-answer">Soru Cevap ({{$topicCount['question-answer']}})</option>
                 </select>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                 <h4>öne çıkan mevzular</h4>
 
                 <ul id="subcategories-list" class="list-group">
-                    @foreach($city_free_zone_topics_count as $topic)
+                    @foreach($getCityFreeZoneTopics as $topic)
                         <li class="list-group-item">
                             <a href="{{ route('city.topic.comments', ['slug' => $topic->topic_title_slug]) }}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
                                 <span class="topic-title-sub-category">{{ $topic->topic_title }}</span>
@@ -86,7 +86,7 @@
                         <div class="offcanvas-body">
                             
                         <ul id="subcategories-list-mobile" class="list-group mobile-universities-list" >
-                            @foreach($city_free_zone_topics_count as $topic)
+                            @foreach($getCityFreeZoneTopics as $topic)
                                 <li class="list-group-item">
                                     <a href="{{ route('city.topic.comments', ['slug' => $topic->topic_title_slug]) }}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
                                         <span class="topic-title-sub-category">{{ $topic->topic_title }}</span>
