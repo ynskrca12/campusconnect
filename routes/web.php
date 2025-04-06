@@ -18,9 +18,11 @@ Route::get('/testmail',[AuthController::class, 'test'])->name('testmail');
 Route::get('/logout',[AuthController::class, 'logout'])->name('logout');
 
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+// Route::get('/', function () {
+//     return view('home');
+// })->name('home');
+
+Route::get('/',[PageController::class, 'home'])->name('home');
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/login',[AuthController::class, 'login'])->name('login');

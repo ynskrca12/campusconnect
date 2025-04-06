@@ -3,13 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Mail\IncomingSupportMail;
+use App\Models\GeneralTopic;
 use App\Models\Support;
+use App\Models\UniversityTopic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 
 class PageController extends Controller
 {
+    public function home(){
+        $mostLikedTopicUniversity = UniversityTopic::where('likes','>',0)
+        ->orderByDesc('likes')->first();
+
+        $mostLikedTopicGeneral = GeneralTopic::where('likes','>',0)
+        ->orderByDesc('likes')->first();
+
+        return view('home',compact('mostLikedTopicUniversity','mostLikedTopicGeneral'));
+    }//End
     public function contact_us(){
         return view('pages.contact_us');
     }//End
