@@ -142,7 +142,7 @@ class AuthController extends Controller
     
            
             if (Auth::attempt($credentials, $request->remember)) {
-                return redirect()->route('home')->with('info', 'Başarıyla giriş yaptınız.');
+                return redirect()->route('home')->with('success', 'Başarıyla giriş yaptınız.');
             }
     
             // if login fails

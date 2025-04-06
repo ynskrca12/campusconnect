@@ -305,9 +305,9 @@
         margin-left: 4px;
     }
     .comment-section {
-        box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+        box-shadow: rgba(0, 0, 0, 0.6) 0px 4px 7px, rgba(0, 0, 0, 0.22) 0px 11px 12px !important;
         padding: 10px 20px !important;
-        border-radius: 7px;
+        border-radius: 17px;
     }
     .topic {
         padding: 10px 0;

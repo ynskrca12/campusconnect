@@ -150,7 +150,9 @@
 
 <style>
      .topic {
-            padding: 10px 0;
+        box-shadow: rgba(0, 0, 0, 0.6) 0px 4px 7px, rgba(0, 0, 0, 0.22) 0px 11px 12px !important;
+        border-radius: 17px;
+        padding: 10px 20px;
         }
        
         .topic h3 a{

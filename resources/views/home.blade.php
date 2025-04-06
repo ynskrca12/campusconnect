@@ -1,10 +1,5 @@
 @extends('layouts.master')
 @section('content')
-    @if (Session::has('info'))
-        <div class="alert alert-info" role="alert">
-            {{ Auth::user()->name }}   {{ Session::get('info') }}
-        </div>
-    @endif
     <div class="info-section mb-4">
         <div class="overlay"></div>
         <div class="info-content">
