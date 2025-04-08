@@ -52,7 +52,6 @@
                 </div>
                 <div id="topic-list">
                     @foreach ($randomTopics as $topic)
-                    {{-- {{dd($topic->user)}} --}}
                         <div class="topic mb-3">
                             <h3 class="topic-title mb-3">
                                 <a href="{{ route('topic.comments', ['slug' => $topic->topic_title_slug]) }}">
@@ -67,6 +66,13 @@
                                 </div>
                                 <div class="dislike-btn d-inline" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
                                     <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $topic->dislikes }}</span>
+                                </div>
+                                <div class="d-inline ms-3">
+                                    <a href="{{ route('topic.comments', ['slug' => $topic->topic_title_slug]) }}"
+                                        title="Yanıtla"
+                                        style="color: #555;">
+                                        <i class="fa-solid fa-reply"></i>
+                                    </a>
                                 </div>
                             </div>
                             <div class="meta">
@@ -635,6 +641,13 @@
                                         </div>
                                         <div class="dislike-btn d-inline" data-id="${topic.id}" style="cursor: pointer; color: #888;">
                                             <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">${topic.dislikes}</span>
+                                        </div>
+                                         <div class="d-inline ms-3">
+                                            <a href="/forum/mevzu/${topic.topic_title_slug}"
+                                                title="Yanıtla"
+                                                style="color: #555;">
+                                                <i class="fa-solid fa-reply"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 <div class="meta">

@@ -133,6 +133,14 @@
                                         <div class="dislike-btn d-inline" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
                                             <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $topic->dislikes }}</span>
                                         </div>
+
+                                        <div class="d-inline ms-3">
+                                            <a href="{{ route('city.topic.comments', ['slug' => $topic->topic_title_slug]) }}"
+                                                title="Yanıtla"
+                                                style="color: #555;">
+                                                <i class="fa-solid fa-reply"></i>
+                                            </a>
+                                        </div>
                                     </div>
                                     <div class="meta">
                                         <div class="d-flex align-items-center entry-footer-bottom">
@@ -576,6 +584,13 @@
                                             <div class="dislike-btn d-inline" data-id="${topic.id}" style="cursor: pointer; color: #888;">
                                                 <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">${topic.dislikes}</span>
                                             </div>
+                                             <div class="d-inline ms-3">
+                                                <a href="/forum/sehir/mevzu/${topic.topic_title_slug}"
+                                                    title="Yanıtla"
+                                                    style="color: #555;">
+                                                    <i class="fa-solid fa-reply"></i>
+                                                </a>
+                                            </div>
                                         </div>
                                         <div class="meta">
                                             <div class="d-flex align-items-center entry-footer-bottom">
@@ -691,6 +706,13 @@
                                             </div>
                                             <div class="dislike-btn d-inline" data-id="${topic.id}" style="cursor: pointer; color: #888;">
                                                 <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">${topic.dislikes}</span>
+                                            </div>
+                                             <div class="d-inline ms-3">
+                                                <a href="/forum/sehir/mevzu/${topic.topic_title_slug}"
+                                                    title="Yanıtla"
+                                                    style="color: #555;">
+                                                    <i class="fa-solid fa-reply"></i>
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="meta">

@@ -15,7 +15,7 @@
             <div class="card custom-card h-100 d-flex flex-column justify-content-between">
                     <div class="topic">
                         <h3 class="topic-title mb-3">
-                            <a href="{{ route('topic.comments', ['slug' => $mostLikedTopicUniversity->topic_title_slug]) }}">
+                            <a href="{{ route('university.topic.comments', ['slug' => $mostLikedTopicUniversity->topic_title_slug]) }}">
                                 {{ $mostLikedTopicUniversity->topic_title }}
                             </a>
                         </h3>
@@ -28,6 +28,13 @@
                             </div>
                             <div class="university-dislike-btn d-inline" data-id="{{ $mostLikedTopicUniversity->id }}" style="cursor: pointer; color: #888;">
                                 <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="university-dislike-count">{{ $mostLikedTopicUniversity->dislikes }}</span>
+                            </div>
+                            <div class="d-inline ms-3">
+                                <a href="{{ route('university.topic.comments', ['slug' => $mostLikedTopicUniversity->topic_title_slug]) }}"
+                                    title="Yanıtla"
+                                    style="color: #555;">
+                                    <i class="fa-solid fa-reply"></i>
+                                </a>
                             </div>
                         </div>
                         <div class="meta">
@@ -73,6 +80,13 @@
                             </div>
                             <div class="dislike-btn d-inline" data-id="{{ $mostLikedTopicGeneral->id }}" style="cursor: pointer; color: #888;">
                                 <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $mostLikedTopicGeneral->dislikes }}</span>
+                            </div>
+                            <div class="d-inline ms-3">
+                                <a href="{{ route('topic.comments', ['slug' => $mostLikedTopicGeneral->topic_title_slug]) }}"
+                                    title="Yanıtla"
+                                    style="color: #555;">
+                                    <i class="fa-solid fa-reply"></i>
+                                </a>
                             </div>
                         </div>
                         <div class="meta">
