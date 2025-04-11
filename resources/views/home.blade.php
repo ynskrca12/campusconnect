@@ -7,6 +7,13 @@
             <p class="animated-text">Üniversite ve şehir hayatını keşfet, yorumları oku, deneyimlerini paylaş.
             </p>
             {{-- <a href="{{ route('forum') }}" class="btn  btn-animated">Keşfetmeye Başla</a> --}}
+            <div class="row mt-4">
+                <div class="col-12 d-flex justify-content-between gap-3">
+                    <a href="{{ route('forum') }}" class="custom-btn btn-forum">Herkese Açık</a>
+                    <a href="{{ route('universities') }}" class="custom-btn btn-universities">Üniversiteleri Keşfet</a>
+                    <a href="{{ route('cities') }}" class="custom-btn btn-cities">Şehirleri Keşfet</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -173,6 +180,36 @@
 @endsection
 
 @section('css')
+<style>
+    .custom-btn {
+        flex: 1;
+        padding: 10px 15px;
+        font-weight: bold;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: 0.3s ease;
+    }
+    .custom-btn:hover {
+        color: white !important;
+    }
+
+    .btn-forum {
+        background: linear-gradient(45deg, #23ade4, #0068ff); /* Mavi gradient */
+    }
+    .btn-universities {
+        background: linear-gradient(45deg, #005dff, #3d8cff); /* Mavi gradient */
+    }
+    .btn-cities {
+        background: linear-gradient(45deg, #009688, #00796b); /* Yeşil gradient */
+    }
+
+    .custom-btn:hover {
+        transform: scale(1.02);
+    }
+</style>
 <style>
     .custom-card{
         padding: 10px 40px 0px 40px !important;
@@ -380,11 +417,11 @@
         transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
     }
 
-    .btn-animated:hover {
+    /* .btn-animated:hover {
         transform: scale(1.1);
         background: #4682b4;
         color: #fff;
-    }
+    } */
     @media (max-width: 768px) {
         .info-content h2 {
             font-size: 18px !important; 
@@ -395,6 +432,10 @@
 
         .navbar.fixed-top + .page-body-wrapper {
             padding: 56px 0px 0px 0px !important;
+        }
+        .btn-animated {
+            font-size: 13px;
+            padding: 10px 10px;
         }
     }
 </style>
