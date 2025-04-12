@@ -78,13 +78,20 @@ class ForumController extends Controller
                     'message' => 'Bu başlık altında zaten bir konu oluşturmuşsunuz.',
                 ], 400);
             }
+
+            $slug = Str::slug($request->input('title'));
+
+            $currentDate = strtolower(now()->format('dMY')); 
+            $randomCode = strtolower(Str::random(5)); 
+
+            $slug = Str::slug($request->input('title')) . '-' . $currentDate . '-' . $randomCode;
             
             // create new record
             $topic = new GeneralTopic();
             $topic->user_id          = $user->id; 
             $topic->created_by       = $user->id; 
             $topic->topic_title      = $request->input('title');
-            $topic->topic_title_slug = Str::slug($request->input('title')); 
+            $topic->topic_title_slug = $slug;
             $topic->comment          = $request->input('content'); 
             $topic->created_at       = now(); 
             $topic->save();

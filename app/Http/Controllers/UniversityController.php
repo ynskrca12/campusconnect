@@ -156,6 +156,11 @@ class UniversityController extends Controller
             'category' => 'required|string',
             'universityId' => 'required|integer|exists:universiteler,id',
         ]);
+
+        $currentDate = strtolower(now()->format('dMY')); 
+        $randomCode = strtolower(Str::random(5)); 
+
+        $slug = Str::slug($request->input('topic_title')) . '-' . $currentDate . '-' . $randomCode;
     
         try {
             if (!Auth::check()) {
@@ -168,7 +173,7 @@ class UniversityController extends Controller
                 'university_id'    => $validatedData['universityId'],
                 'category'         => $validatedData['category'],
                 'topic_title'      => $validatedData['topic_title'],
-                'topic_title_slug' => Str::slug($validatedData['topic_title']),
+                'topic_title_slug' => $slug,
                 'comment'          => $validatedData['comment'],
                 'created_at'       => now(),
                 'updated_at'       => now(),

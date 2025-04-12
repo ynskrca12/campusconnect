@@ -186,6 +186,11 @@ class CityController extends Controller
             'category' => 'required|string',
             'cityId' => 'required|integer|exists:cities,id',
         ]);
+
+        $currentDate = strtolower(now()->format('dMY')); 
+        $randomCode = strtolower(Str::random(5)); 
+
+        $slug = Str::slug($request->input('topic_title')) . '-' . $currentDate . '-' . $randomCode;
     
         try {
             if (!Auth::check()) {
@@ -198,7 +203,7 @@ class CityController extends Controller
                 'city_id'          => $validatedData['cityId'],
                 'category'         => $validatedData['category'],
                 'topic_title'      => $validatedData['topic_title'],
-                'topic_title_slug' => Str::slug($validatedData['topic_title']),
+                'topic_title_slug' => $slug,
                 'comment'          => $validatedData['comment'],
                 'created_at'       => now(),
                 'updated_at'       => now(),
