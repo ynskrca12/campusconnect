@@ -440,7 +440,14 @@
                         }, 1000); // Wait 1 second
                     },
                     error: function (xhr) {
-                        toastr.error(xhr.responseJSON.error);
+                        // Check if the error status is 401 (Unauthorized)
+                        if (xhr.status === 401) {
+                            toastr.error('Lütfen giriş yapınız.');
+                        } else if (xhr.status === 422 && xhr.responseJSON?.error) {
+                            toastr.error('En az 2 karakter yaz bence');
+                        } else {
+                            toastr.error('Bir hata oluştu. Lütfen tekrar deneyin.');
+                        }
                     }
                 });
             });

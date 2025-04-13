@@ -167,7 +167,7 @@ class ForumController extends Controller
 
             // Validate the comment input
             $validator = Validator::make($request->all(), [
-                'comment' => 'required|string|min:3|max:2000',
+                'comment' => 'required|string|min:9|max:2000',
                 'topic_title_slug' => 'required|string|exists:general_topics,topic_title_slug', 
             ]);
 
