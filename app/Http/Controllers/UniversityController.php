@@ -417,7 +417,7 @@ class UniversityController extends Controller
             }
 
             $validator = Validator::make($request->all(), [
-                'comment' => 'required|string|min:10|max:3000',
+                'comment' => 'required|string|min:9|max:3000',
                 'topic_title_slug' => 'required|string|exists:universities_topics,topic_title_slug',
             ], [
                 'comment.required' => 'yorum yazmayı unuttun gardaşım benim.',
