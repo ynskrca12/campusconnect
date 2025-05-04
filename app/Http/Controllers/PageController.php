@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\IncomingSupportMail;
 use App\Models\GeneralTopic;
 use App\Models\Support;
+use App\Models\Blog;
 use App\Models\UniversityTopic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -56,5 +57,16 @@ class PageController extends Controller
 
     public function services(){
         return view('pages.services');
+    }//End
+
+    public function blogs(){
+        $blogs = Blog::latest()->get();
+        return view('blog.blogs',compact('blogs'));
+    }//End
+
+    public function blog($slug){
+        $blogs = Blog::latest()->get();
+        $blog = Blog::where('slug',$slug)->first();
+        return view('blog.blog',compact('blogs','blog'));
     }//End
 }
