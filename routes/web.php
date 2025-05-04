@@ -1,12 +1,11 @@
 <?php
-use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AdminController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\DeleteCommentController;
 use App\Http\Controllers\UniversityController;
-use App\Http\Controllers\DuyuruController;
-use App\Http\Controllers\IlanController;
 use App\Http\Controllers\StoreCommentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ForumController;
@@ -24,7 +23,31 @@ Route::get('/logout',[AuthController::class, 'logout'])->name('logout');
 
 Route::get('/',[PageController::class, 'home'])->name('home');
 
+Route::prefix('admin')->middleware(['auth','admin'])->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+
+    Route::get('/blogs', [AdminController::class, 'blogs'])->name('admin.blogs');
+    Route::get('/blog-olustur', [AdminController::class, 'blogCreate'])->name('admin.blog.create');
+    Route::post('/blog-olustur', [AdminController::class, 'blogStore'])->name('admin.blog.store');
+    Route::get('/blog/{id}/duzenle', [AdminController::class, 'blogEdit'])->name('admin.blog.edit');
+    Route::post('/blog/{id}/duzenle', [AdminController::class, 'blogUpdate'])->name('admin.blog.update');
+    Route::get('/blog/{id}/sil', [AdminController::class, 'blogDelete'])->name('admin.blog.delete');
+
+    Route::get('/blog-categories', [AdminController::class, 'blogCategories'])->name('admin.blog.categories');
+    Route::get('blog-kategori-olustur', [AdminController::class, 'blogCategoryCreate'])->name('admin.blog.category.create');
+    Route::post('blog-kategori-olustur', [AdminController::class, 'blogCategoryStore'])->name('admin.blog.category.store');
+    Route::get('blog-kategori/{id}/duzenle', [AdminController::class, 'blogCategoryEdit'])->name('admin.blog.category.edit');
+    Route::post('blog-kategori/{id}/duzenle', [AdminController::class, 'blogCategoryUpdate'])->name('admin.blog.category.update');
+    Route::get('blog-kategori/{id}/sil', [AdminController::class, 'blogCategoryDelete'])->name('admin.blog.category.delete');
+
+    Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
+
+});
+
 Route::middleware(['guest'])->group(function () {
+    Route::get('/admin/login',[AdminController::class, 'adminLogin'])->name('admin.login');
+    Route::post('/admin/login',[AdminController::class, 'adminLoginPost'])->name('admin.login.post');
+
     Route::get('/login',[AuthController::class, 'login'])->name('login');
     Route::post('/login',[AuthController::class, 'loginPost'])->name('loginPost');
 
@@ -106,6 +129,9 @@ Route::get('/forum/universite/{slug}', [UniversityController::class, 'show'])->n
 Route::get('/forum/universite/mevzu/{slug}',[UniversityController::class,'topicComments'])->name('university.topic.comments');
 Route::get('/get-univercity-category-topics',[UniversityController::class,'getUnivercityCategoryTopics']);
 Route::get('/get-univercity-category-topic-content',[UniversityController::class,'getUnivercityCategoryTopicContent']);
+
+Route::get('blog-makale',[PageController::class,'blogs'])->name('blogs');
+Route::get('blog-makale/{slug}',[PageController::class,'blog'])->name('blog.single');
 
 //random topics
 Route::get('/topics/random', [ForumController::class, 'getRandomTopics'])->name('topics.random');

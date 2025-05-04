@@ -14,6 +14,7 @@
         <li class="nav-item"><a class="nav-link" href="/universiteler">Üniversiteler</a></li>
         <li class="nav-item"><a class="nav-link" href="/sehirler">Şehirler</a></li>
         <li class="nav-item"><a class="nav-link" href="/forum">Forum</a></li>
+        <li class="nav-item"><a class="nav-link" href="/blog-makale">Blog / Makale</a></li>
 
         @auth
         <li class="nav-item dropdown">
