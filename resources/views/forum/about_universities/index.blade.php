@@ -273,7 +273,7 @@
                   <textarea class="form-control" id="topicDescription" placeholder="açıklamanız" name="comment" rows="3" required></textarea>
                 </div>
                 <input type="hidden" id="categoryName" name="category">
-                <button type="submit" class="btn btn-primary">Kaydet</button>
+                <button type="submit" class="btn btn-primary" id="submitTopic">Kaydet</button>
               </form>
             </div>
           </div>
@@ -782,6 +782,12 @@
             $('#topicForm').on('submit', function (e) {
                 e.preventDefault();
 
+                
+                let $submitTopic = $('#submitTopic');
+
+                $submitTopic.prop('disabled', true);
+                $submitTopic.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Gönderiliyor...');
+                
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
