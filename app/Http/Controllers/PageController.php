@@ -20,7 +20,9 @@ class PageController extends Controller
         $mostLikedTopicGeneral = GeneralTopic::where('likes','>',0)
         ->orderByDesc('likes')->first();
 
-        return view('home',compact('mostLikedTopicUniversity','mostLikedTopicGeneral'));
+        $blogs = Blog::latest()->get();
+
+        return view('home',compact('mostLikedTopicUniversity','mostLikedTopicGeneral','blogs'));
     }//End
     public function contact_us(){
         return view('pages.contact_us');
