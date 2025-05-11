@@ -46,7 +46,6 @@
 
         <!-- Ana İçerik Alanı -->
         <div class="col-md-9 main-content">          
-            <h2 class="page-title">Türkiye'nin Lider Üniversiteleri</h2>
             <div id="universities-content" class="content-area">
 
                   <!-- Placeholder Başlangıç -->
@@ -191,7 +190,77 @@
                 </div>
                 <!-- Placeholder Bitiş -->
 
-                <div class="real-content" style="display: none;">
+                <div class="real-content"style="display: none;"> 
+                      <h3 class="text-center mb-4">Türkiye’nin En Öğrenci Dostu 10 Üniversitesi (2025)</h3>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-12">
+                            <div class="d-flex overflow-auto gap-3 pb-3">
+                                @php
+                                    $universiteler = [
+                                        ['logo' => 'bilkent-universitesi.png','isim' => 'Bilkent Üniversitesi', 'sehir' => 'Ankara', 'yurt' => 8, 'ulasim' => 8, 'sosyal' => 9,'aciklama' => 'Yurt kapasitesi 4.000’ün üzeri blok sayısı ile yüksektir. Modern ve yemyeşil kampüsü bünyesinde yurtlar, spor tesisleri, kütüphane, yemekhane ve diğer tüm olanakları barındırır. Öğrenci kulübü etkinlikleri, konserler ve festivallerle zengin bir sosyal hayat sunar. Ankara şehir merkezine ulaşım da Bilkent-Beytepe metro hattı ve özel servislerle rahat sağlanmaktadır (32 güzergâhta servis mevcut).'],
+                                        ['logo' => 'akdeniz-universitesi-seeklogo.png','isim' => 'Akdeniz Üniversitesi', 'sehir' => 'Antalya', 'yurt' => 7, 'ulasim' => 9, 'sosyal' => 9,'aciklama' =>'Konyaaltı’ndaki geniş kampüs şehir merkezine çok yakındır (şehirlerarası otobüs terminaline 1,5 km). Bu sayede toplu taşımayla ulaşım kolaydır. Kampüsünde 2.000 kişilik yemekhane, kafeteryalar, “Yakut Yaşam Alanı” ve “Olbia Kültür Merkezi” gibi sosyal tesisler bulunur. Akdeniz Üniversitesi, yerleşke ve yaşam doyuruculuğu bakımından ikinci sırada yer almıştır.'],
+                                        ['logo' => 'anadolu-universitesi-eskisehir.png','isim' => 'Anadolu Üniversitesi', 'sehir' => 'Eskişehir', 'yurt' => 7, 'ulasim' => 9, 'sosyal' => 9,'aciklama' =>'Öğrenci sayısına göre Eskişehir genelinde KYK yurtlarında bol kapasite mevcuttur. Üniversitenin Yunus Emre Kampüsü’nde yurt ve konukevi imkânları bulunur. Eskişehir, “öğrenci şehri” olarak bilinir ve tramvay gibi toplu taşıma ağı sayesinde ulaşım uygundur. Üniversite Memnuniyet Araştırması’nda Anadolu Üniversitesi kampüs hayatı puanında 1. sırada (91 puan) yer almıştır.'],
+                                        ['logo' => 'ege-universitesi.png','isim' => 'Ege Üniversitesi', 'sehir' => 'İzmir', 'yurt' => 8, 'ulasim' => 8, 'sosyal' => 8,'aciklama' =>' Bornova’da büyük bir kampüse sahiptir. Kampüs içinde Ege Üniversitesi Öğrenci Köyü adlı yurt bölgesi bulunur; ayrıca KYK’ya bağlı 13 bloklu kız yurdu ile binlerce öğrenci barınabilmektedir (3.804 kişilik tek bir kız yurdu). Kampüs, Bornova merkeze 2 km ve hastaneye 500 m uzaklıkta olduğu için ulaşımı kolaydır. Sosyal olanaklar da geniştir: spor tesisleri, amfi tiyatro ve öğrenciler tarafından düzenlenen kültürel etkinlikler mevcuttur. ÜYE-2024 raporuna göre Ege Üniversitesi yerleşke doyuruculuğunda üst sıralardadır.'],
+                                        ['logo' => 'abdullah-gul-universitesi.png', 'isim' => 'Abdullah Gül Üniversitesi', 'sehir' => 'Kayseri', 'yurt' => 7, 'ulasim' => 9, 'sosyal' => 8,'aciklama' =>'Yeni kurulan üniversite kampüsü (Sümer Kampüsü) Kayseri şehir merkezindedir ve çevresi 200 dönümlük yeşil bahçelerle kaplıdır. Kampüs içindeki yurtlar “Öğrenci Köyü” adıyla anılır; 70 yıllık tarihi taş yapılardan oluşan, geniş bahçeli, konforlu apart dairelerdir. Yurdun içinde spor sahaları, çalışma salonları ve sosyal alanlar bulunur. AGÜ öğrencileri, kampüsteki restoranlar, kafeler ve kültürel merkezlerle renkli bir sosyal hayat yaşar. ÜYE-2024’e göre AGÜ genel memnuniyette 3. sıradadır.'],
+                                        ['logo' => 'hacettepe-universitesi.png','isim' => 'Hacettepe Üniversitesi', 'sehir' => 'Ankara', 'yurt' => 9, 'ulasim' => 7, 'sosyal' => 8,'aciklama' =>' İki yerleşkesindeki yurt kapasitesi oldukça yüksektir (Beytepe’de 4.159, Sıhhiye’de 1.565 kişilik toplam barınma imkânı). Beytepe kampüsü şehre uzak olmakla birlikte üniversitenin kendi servisleriyle Kızılay’a ulaşım sağlanır. Hacettepe’nin öğrencileri için çok sayıda kulüp ve etkinlik merkezi bulunur; geniş kampüslerde sergiler, spor etkinlikleri, kulüp faaliyetleri gibi zengin bir sosyal ortam mevcuttur.'],
+                                        ['logo' => 'izmir-yuksek-teknoloji-enstitusu.png','isim' => 'İzmir Yüksek Teknoloji Enstitüsü', 'sehir' => 'İzmir', 'yurt' => 8, 'ulasim' => 8, 'sosyal' => 7,'aciklama' =>' Türkiye Üniversite Memnuniyet Araştırması 2024’te genel memnuniyet sıralamasında 2. olmuş ve “yerleşke doyumu”nde 3. sıraya girmiştir. Urla’daki kampüsüne İzmir metrosu ve toplu taşıma araçlarıyla erişim mümkün olup, kampüs içi servisler de düzenlidir. İYTE’de çeşitli öğrenci kulüpleri ve uluslararası iş birlikleri bulunur. Bu bilgiler ışığında İYTE’de akademik ve sosyal yaşam dengeli kabul edilmiştir.'],
+                                        ['logo' => 'sabanci-universitesi.png','isim' => 'Sabancı Üniversitesi', 'sehir' => 'İstanbul', 'yurt' => 10, 'ulasim' => 6, 'sosyal' => 7,'aciklama' =>' Tuzla’daki kampüste Türkiye’nin nüfusa oranla en yüksek yurt kapasitesi Sabancı’da bulunur. Kampüs içinde tek ve stüdyo odalar, spor tesisleri, yemekhane ve kültürel merkezler mevcuttur. Öğrenciler için Altunizade-Göztepe hattında kampüs servisleri ve İETT ulaşımı sağlanır. Sabancı, öğrenci toplulukları aracılığıyla konserler, söyleşiler ve organizasyonlar düzenleyerek aktif bir sosyal hayat sunar.'],
+                                        ['logo' => 'mef-universitesi.png','isim' => 'MEF Üniversitesi', 'sehir' => 'İstanbul', 'yurt' => 6, 'ulasim' => 8, 'sosyal' => 7,'aciklama' =>' Maslak yerleşkesindeki “Republika Yurdu” öğrencilerine 5 yıldızlı otel konforu sunar. Karma barınma için Kağıthane’de lüks konseptli “Academia Yurdu” da vardır; bu yurtlara metro ile ulaşım sağlanır ve kampüs servisi (günde 5 kez) hizmeti verilir. MEF’in merkezi konumu ve modern yurt imkânları, İstanbul’da öğrenciler için konforlu bir ortam yaratır.'],
+                                        ['logo' => 'ytu-yildiz-teknik-universitesi-istanbul-seeklogo.png','isim' => 'Yıldız Teknik Üniversitesi', 'sehir' => 'İstanbul', 'yurt' => 2, 'ulasim' => 7, 'sosyal' => 10,'aciklama' =>' YTÜ’nün Davutpaşa ve Yıldız kampüsleri, İstanbul’un göbeğinde olup ulaşım ağlarına (metro ve metrobüs) yakındır. Üniversitede 68 öğrenci kulübü aktif şekilde faaliyet gösterir; bu da YTÜ’nün çok renkli bir sosyal hayata sahip olduğunu gösterir. Öte yandan kamusal yurt kapasitesi sınırlıdır (Davutpaşa Kampüsü’nde toplam 138 yatak).'],
+                                    ];
+                                @endphp
+
+                                @foreach($universiteler as $uni)
+                                    @php
+                                        $toplam = $uni['yurt'] + $uni['ulasim'] + $uni['sosyal'];
+                                    @endphp
+
+                                    <div class="card shadow-sm flex-shrink-0 custom-card">
+                                        <div class="card-body px-4 py-5">
+                                            <div class="d-flex justify-content-between">
+                                            <img src="{{ asset('university logos/'.$uni['logo']) }}" alt="üniversite Logosu"
+                                            class="mb-2" style="height: 50px; object-fit: contain;">
+                                           <button class="btn btn-sm btnDetail fs-6 fw-semibold" data-bs-toggle="modal" data-bs-target="#uniModal{{ $loop->index }}">Detay</button>
+                                                </div>
+                                            <h5 class="card-title">{{ $uni['isim'] }}</h5>
+                                            <h6 class="card-subtitle mb-2 text-muted">{{ $uni['sehir'] }}</h6>
+                                            <ul class="list-group list-group-flush small mb-3">
+                                                <li class="list-group-item ps-0">Yurt: {{ $uni['yurt'] }}/10</li>
+                                                <li class="list-group-item ps-0">Ulaşım: {{ $uni['ulasim'] }}/10</li>
+                                                <li class="list-group-item ps-0">Sosyal Hayat: {{ $uni['sosyal'] }}/10</li>
+                                            </ul>
+                                            <div class="text-end fw-bold">
+                                                Toplam Puan: <span style="color: #23ade4">{{ $toplam }}/30</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="uniModal{{ $loop->index }}" tabindex="-1" aria-labelledby="uniModalLabel{{ $loop->index }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <img src="{{ asset('university logos/'.$uni['logo']) }}" alt="üniversite Logosu"
+                                            class="mb-2 me-3" style="height: 50px; object-fit: contain;">
+                                            <h5 class="modal-title" id="uniModalLabel{{ $loop->index }}">{{ $uni['isim'] }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                                        </div>
+                                        <div class="modal-body p-5">
+                                            {!! nl2br(e($uni['aciklama'])) !!}
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <p class="mt-3 text-muted small">
+                                Veriler YÖK, ÜniAr, öğrenci forumları ve sosyal medya platformlarındaki yorumlara dayalı olarak hazırlanmıştır.
+                            </p>
+                        </div>
+                    </div>
+
+
                 {{-- köklü üniversiteler --}}
                     <div class="d-flex justify-content-between mb-3">
                         <span class="content-title">Köklü Üniversiteler</span>
@@ -398,18 +467,30 @@
                             
                         </div>
                     </div>
-                </div>   
-
-
+                </div>
             </div>
-
         </div>
-
     </div>
   
 @endsection 
 
 @section('css')
+    <style> 
+
+        .content-wrapper {
+            padding:2.75rem 15px !important;
+        } 
+        .custom-card{
+            min-width: 350px;
+            border-radius: 17px !important;
+        }
+        .btnDetail{
+            background-color: transparent;
+            color: #001b48 !important;
+            border: none !important;
+        }
+
+    </style>
     <style>
         .general-topic-btn{
             font-family: 'Segoe UI', Tahoma, Geneva, sans-serif !important;  
@@ -542,7 +623,6 @@
             position: absolute;
             top: 0;
             right: 0;
-            /* bottom: 110px; */
             left: 0%;
             background: rgb(255 0 0 / 80%); 
             display: flex;
@@ -602,7 +682,6 @@
       #pagination-container a.active {
           background-color: white !important;
           border-color: #007bff !important;
-          /* color: white;  */
       }
 
       #pagination-container a:hover {
@@ -639,6 +718,7 @@
             .main-content{
                 border-top: 1px solid #e0e0e0;
                 border-left: none;
+                padding: 0;
             }
 
             .page-title{
@@ -685,6 +765,14 @@
             .custom-offcanvas {
                 width: 310px; 
             }
+
+            .content-area {
+                padding: 15px 0px;
+            }
+
+            .custom-card{
+                width: 100%;
+            }
         }
 
     </style>
@@ -699,6 +787,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 
     <script>
         $(document).ready(function () {
