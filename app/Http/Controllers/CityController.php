@@ -285,7 +285,7 @@ class CityController extends Controller
     public function like($id)
     {
         $userId = auth()->id();
-        
+
         if (!$userId) {
             return response()->json(['error' => 'Lütfen giriş yapın'], 401);
         }
@@ -296,31 +296,31 @@ class CityController extends Controller
             return response()->json(['error' => 'Konu bulunamadı'], 404);
         }
 
-        $likeEntry = DB::table('city_topics_likes')
-            ->where('user_id', $userId)
-            ->where('topic_id', $id)
-            ->first();
-
         DB::beginTransaction();
 
         try {
-            if ($likeEntry) {
-                if ($likeEntry->like === 1) {
-                    // Like kaldırma işlemi
+            $entry = DB::table('city_topics_likes')
+                ->where('user_id', $userId)
+                ->where('topic_id', $id)
+                ->first();
+
+            if ($entry) {
+                if ($entry->like == 1) {
+                    // Aynı like tekrar yapılmışsa, kaldır
                     DB::table('city_topics_likes')
                         ->where('user_id', $userId)
                         ->where('topic_id', $id)
                         ->delete();
 
                     DB::table('cities_topics')->where('id', $id)->decrement('likes');
-                } else {
+                } elseif ($entry->like == 0) {
                     // Daha önce dislike yapılmışsa, dislike'ı kaldır ve like ekle
                     DB::table('city_topics_likes')
                         ->where('user_id', $userId)
                         ->where('topic_id', $id)
                         ->update([
                             'like' => 1,
-                            'updated_at' => Carbon::now()
+                            'updated_at' => now()
                         ]);
 
                     DB::table('cities_topics')->where('id', $id)->increment('likes');
@@ -332,8 +332,8 @@ class CityController extends Controller
                     'user_id' => $userId,
                     'topic_id' => $id,
                     'like' => 1,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now()
+                    'created_at' => now(),
+                    'updated_at' => now()
                 ]);
 
                 DB::table('cities_topics')->where('id', $id)->increment('likes');
@@ -341,59 +341,60 @@ class CityController extends Controller
 
             DB::commit();
 
-            $updatedTopic = DB::table('cities_topics')->where('id', $id)->first();
+            $updated = DB::table('cities_topics')->where('id', $id)->first();
 
             return response()->json([
-                'likes' => $updatedTopic->likes,
-                'dislikes' => $updatedTopic->dislikes
+                'likes' => $updated->likes,
+                'dislikes' => $updated->dislikes
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => 'İşlem sırasında bir hata oluştu'], 500);
         }
-    }//End
+    }
+
 
     public function dislike($id)
     {
         $userId = auth()->id();
-        
+
         if (!$userId) {
             return response()->json(['error' => 'Lütfen giriş yapın'], 401);
         }
-    
+
         $topic = DB::table('cities_topics')->where('id', $id)->first();
-    
+
         if (!$topic) {
             return response()->json(['error' => 'Konu bulunamadı'], 404);
         }
-    
-        $dislikeEntry = DB::table('city_topics_likes')
-            ->where('user_id', $userId)
-            ->where('topic_id', $id)
-            ->first();
-    
+
         DB::beginTransaction();
-    
+
         try {
-            if ($dislikeEntry) {
-                if ($dislikeEntry->like === 0) {
-                    // Dislike kaldırma işlemi
+            $entry = DB::table('city_topics_likes')
+                ->where('user_id', $userId)
+                ->where('topic_id', $id)
+                ->first();
+
+            if ($entry) {
+                if ($entry->like == 0) {
+                    // Aynı dislike tekrar yapılmışsa, kaldır
                     DB::table('city_topics_likes')
                         ->where('user_id', $userId)
                         ->where('topic_id', $id)
                         ->delete();
-    
+
                     DB::table('cities_topics')->where('id', $id)->decrement('dislikes');
-                } else {
+                } elseif ($entry->like == 1) {
                     // Daha önce like yapılmışsa, like'ı kaldır ve dislike ekle
                     DB::table('city_topics_likes')
                         ->where('user_id', $userId)
                         ->where('topic_id', $id)
                         ->update([
                             'like' => 0,
-                            'updated_at' => Carbon::now()
+                            'updated_at' => now()
                         ]);
-    
+
                     DB::table('cities_topics')->where('id', $id)->increment('dislikes');
                     DB::table('cities_topics')->where('id', $id)->decrement('likes');
                 }
@@ -403,26 +404,27 @@ class CityController extends Controller
                     'user_id' => $userId,
                     'topic_id' => $id,
                     'like' => 0,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now()
+                    'created_at' => now(),
+                    'updated_at' => now()
                 ]);
-    
+
                 DB::table('cities_topics')->where('id', $id)->increment('dislikes');
             }
-    
+
             DB::commit();
-    
-            $updatedTopic = DB::table('cities_topics')->where('id', $id)->first();
-    
+
+            $updated = DB::table('cities_topics')->where('id', $id)->first();
+
             return response()->json([
-                'likes' => $updatedTopic->likes,
-                'dislikes' => $updatedTopic->dislikes
+                'likes' => $updated->likes,
+                'dislikes' => $updated->dislikes
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => 'İşlem sırasında bir hata oluştu'], 500);
         }
-    }//End
+    }
+
 
     
 }

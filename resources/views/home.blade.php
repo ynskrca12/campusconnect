@@ -161,7 +161,7 @@
         <h4 class="text-center mb-4" style="color:#001b48;margin-top: 80px;">Bizi Sosyal Medyadan Takip Edin</h4>
         <div class="row justify-content-center text-center">
             <div class="col-md-4 mb-4">
-                <a href="https://mail.google.com/mail/?view=cm&to=info@erapan.com.tr" target="_blank" style="text-decoration: none;">
+                <a href="https://mail.google.com/mail/?view=cm&to=campusconnectiletisim@gmail.com.tr" target="_blank" style="text-decoration: none;">
                     <div class="feature-card p-3 h-100 shadow-sm rounded">
                         <img src="{{ asset('/assets/images/icons/mail-icon.png') }}" class="font-icon mb-2" alt="campusconnect mail" style="width: 40px;">
                         <p class="feature-desc mb-0" style="color:#001b48;">campusconnectiletisim@gmail.com</p>

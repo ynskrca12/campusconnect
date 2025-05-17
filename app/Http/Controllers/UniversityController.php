@@ -229,9 +229,9 @@ class UniversityController extends Controller
     public function like($id)
     {
         $userId = auth()->id();
-        
+
         if (!$userId) {
-            return response()->json(['error' => 'Lütfen giriş yapın'], 401);
+            return response()->json(['error' => 'Giriş yapmalısınız'], 401);
         }
 
         $topic = DB::table('universities_topics')->where('id', $id)->first();
@@ -240,7 +240,7 @@ class UniversityController extends Controller
             return response()->json(['error' => 'Konu bulunamadı'], 404);
         }
 
-        $likeEntry = DB::table('university_topics_likes')
+        $existing = DB::table('university_topics_likes')
             ->where('user_id', $userId)
             ->where('topic_id', $id)
             ->first();
@@ -248,36 +248,34 @@ class UniversityController extends Controller
         DB::beginTransaction();
 
         try {
-            if ($likeEntry) {
-                if ($likeEntry->like === 1) {
-                    // Like kaldırma işlemi
+            if ($existing) {
+                if ($existing->like == 1) {
+                    // Zaten beğenmişse, beğeniyi geri al
                     DB::table('university_topics_likes')
-                        ->where('user_id', $userId)
-                        ->where('topic_id', $id)
+                        ->where('id', $existing->id)
                         ->delete();
 
                     DB::table('universities_topics')->where('id', $id)->decrement('likes');
                 } else {
-                    // Daha önce dislike yapılmışsa, dislike'ı kaldır ve like ekle
+                    // Dislike'ı like olarak değiştir
                     DB::table('university_topics_likes')
-                        ->where('user_id', $userId)
-                        ->where('topic_id', $id)
+                        ->where('id', $existing->id)
                         ->update([
                             'like' => 1,
-                            'updated_at' => Carbon::now()
+                            'updated_at' => now()
                         ]);
 
                     DB::table('universities_topics')->where('id', $id)->increment('likes');
                     DB::table('universities_topics')->where('id', $id)->decrement('dislikes');
                 }
             } else {
-                // İlk kez like yapılıyorsa
+                // İlk kez beğeniyorsa
                 DB::table('university_topics_likes')->insert([
                     'user_id' => $userId,
                     'topic_id' => $id,
                     'like' => 1,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now()
+                    'created_at' => now(),
+                    'updated_at' => now()
                 ]);
 
                 DB::table('universities_topics')->where('id', $id)->increment('likes');
@@ -285,88 +283,89 @@ class UniversityController extends Controller
 
             DB::commit();
 
-            $updatedTopic = DB::table('universities_topics')->where('id', $id)->first();
+            $updated = DB::table('universities_topics')->where('id', $id)->first();
 
             return response()->json([
-                'likes' => $updatedTopic->likes,
-                'dislikes' => $updatedTopic->dislikes
+                'likes' => $updated->likes,
+                'dislikes' => $updated->dislikes
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'İşlem sırasında bir hata oluştu'], 500);
+            return response()->json(['error' => 'İşlem hatası'], 500);
         }
-    }//End
-    
+    }
+
+
+
+        
     public function dislike($id)
     {
         $userId = auth()->id();
-        
+
         if (!$userId) {
-            return response()->json(['error' => 'Lütfen giriş yapın'], 401);
+            return response()->json(['error' => 'Giriş yapmalısınız'], 401);
         }
-    
+
         $topic = DB::table('universities_topics')->where('id', $id)->first();
-    
+
         if (!$topic) {
             return response()->json(['error' => 'Konu bulunamadı'], 404);
         }
-    
-        $dislikeEntry = DB::table('university_topics_likes')
+
+        $existing = DB::table('university_topics_likes')
             ->where('user_id', $userId)
             ->where('topic_id', $id)
             ->first();
-    
+
         DB::beginTransaction();
-    
+
         try {
-            if ($dislikeEntry) {
-                if ($dislikeEntry->like === 0) {
-                    // Dislike kaldırma işlemi
+            if ($existing) {
+                if ($existing->like == 0) {
+                    // Zaten dislike ise, geri al
                     DB::table('university_topics_likes')
-                        ->where('user_id', $userId)
-                        ->where('topic_id', $id)
+                        ->where('id', $existing->id)
                         ->delete();
-    
+
                     DB::table('universities_topics')->where('id', $id)->decrement('dislikes');
                 } else {
-                    // Daha önce like yapılmışsa, like'ı kaldır ve dislike ekle
+                    // Like'dan dislike'a çevir
                     DB::table('university_topics_likes')
-                        ->where('user_id', $userId)
-                        ->where('topic_id', $id)
+                        ->where('id', $existing->id)
                         ->update([
                             'like' => 0,
-                            'updated_at' => Carbon::now()
+                            'updated_at' => now()
                         ]);
-    
+
                     DB::table('universities_topics')->where('id', $id)->increment('dislikes');
                     DB::table('universities_topics')->where('id', $id)->decrement('likes');
                 }
             } else {
-                // İlk kez dislike yapılıyorsa
+                // İlk kez dislike yapıyorsa
                 DB::table('university_topics_likes')->insert([
                     'user_id' => $userId,
                     'topic_id' => $id,
                     'like' => 0,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now()
+                    'created_at' => now(),
+                    'updated_at' => now()
                 ]);
-    
+
                 DB::table('universities_topics')->where('id', $id)->increment('dislikes');
             }
-    
+
             DB::commit();
-    
-            $updatedTopic = DB::table('universities_topics')->where('id', $id)->first();
-    
+
+            $updated = DB::table('universities_topics')->where('id', $id)->first();
+
             return response()->json([
-                'likes' => $updatedTopic->likes,
-                'dislikes' => $updatedTopic->dislikes
+                'likes' => $updated->likes,
+                'dislikes' => $updated->dislikes
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'İşlem sırasında bir hata oluştu'], 500);
+            return response()->json(['error' => 'İşlem hatası'], 500);
         }
-    }//End
+    }
 
     public function topicComments($slug)
     {
