@@ -102,8 +102,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/general/topic/{id}/like', [ForumController::class, 'like'])->name('topics.like');
     Route::post('/general/topic/{id}/dislike', [ForumController::class, 'dislike'])->name('topics.dislike');
 
+    //blog comments 
+    Route::post('/add/blog/comment/{id}', [PageController::class, 'storeComment'])->name('add.blog.comment');
+    Route::post('/blog/comment/reply', [PageController::class, 'replyComment'])->name('add.blog.comment.reply');
 
-
+    
 });
 
 
@@ -137,6 +140,9 @@ Route::get('blog-makale/{slug}',[PageController::class,'blog'])->name('blog.sing
 Route::get('/topics/random', [ForumController::class, 'getRandomTopics'])->name('topics.random');
 
 Route::get('/forum/mevzu/{slug}',[ForumController::class,'topicComments'])->name('topic.comments');
+
+//get blog comments
+Route::get('/blog/{id}/comments', [PageController::class, 'getComments'])->name('get.blog.comments');
 
 Route::fallback(function () {
     return view('errors.404');
