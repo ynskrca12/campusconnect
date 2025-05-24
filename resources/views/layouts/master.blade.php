@@ -5,8 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- SEO Metadata -->
-  <title>@yield('title', 'CampusConnect')</title>
-  <meta name="description" content="@yield('meta_description', 'CampusConnect - Kampüs hayatına dair bloglar, yorumlar ve güncel öneriler burada.')">
+  <title>@yield('title', 'Üniversite İletişim Ağı: Campus Connect')</title>
+  <meta name="description" content="@yield('meta_description', 'Campus Connect - Kampüs hayatına dair bloglar, yorumlar ve güncel öneriler burada.')">
   <meta name="keywords" content="@yield('meta_keywords', 'campus, connect, blog')">
   
   <!-- plugins:css -->

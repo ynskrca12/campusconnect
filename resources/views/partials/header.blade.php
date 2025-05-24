@@ -10,28 +10,54 @@
     <!-- Masaüstü Menü (Sadece Büyük Ekranlarda Göster) -->
     <div class="collapse navbar-collapse d-none d-lg-flex" id="navbarNav">
       <ul class="navbar-nav ms-auto me-3">
-        <li class="nav-item"><a class="nav-link" href="/">Anasayfa</a></li>
-        <li class="nav-item"><a class="nav-link" href="/universiteler">Üniversiteler</a></li>
-        <li class="nav-item"><a class="nav-link" href="/sehirler">Şehirler</a></li>
-        <li class="nav-item"><a class="nav-link" href="/forum">Forum</a></li>
-        <li class="nav-item"><a class="nav-link" href="/blog-makale">Blog / Makale</a></li>
-
+        <li class="nav-item">
+            <a class="nav-link {{ Request::is('/') ? 'active-link' : '' }}" href="/">Anasayfa</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ Request::is('universiteler') ? 'active-link' : '' }}" href="/universiteler">Üniversiteler</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ Request::is('sehirler') ? 'active-link' : '' }}" href="/sehirler">Şehirler</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ Request::is('forum') ? 'active-link' : '' }}" href="/forum">Forum</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ Request::is('blog-makale') ? 'active-link' : '' }}" href="/blog-makale">Blog / Makale</a>
+        </li>
         @auth
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="userDropdownDesktop" role="button" data-bs-toggle="dropdown">
-            <i class="fas fa-user me-2"></i>Hesabım
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/kullanici_bilgileri"><i class="fa-solid fa-circle-info me-2"></i>Bilgilerim</a></li>
-            <li><a class="dropdown-item" href="{{ route('my.statistics') }}"><i class="fa-solid fa-chart-simple me-2"></i>İstatistiklerim</a></li>
-            <li><a class="dropdown-item" href="{{ route('my.likes') }}"><i class="fa-solid fa-thumbs-up me-2"></i>Beğendiklerim</a></li>
-            <li><a class="dropdown-item" href="{{ route('my.comments') }}"><i class="fa-solid fa-comments me-2"></i>Yorumlarım</a></li>
-          </ul>
+            <a class="nav-link dropdown-toggle {{ Request::is('kullanici_bilgileri') || Request::is('istatistiklerim') || Request::is('begendiklerim') || Request::is('yorumlarim') ? 'active-link' : '' }}" href="#" id="userDropdownDesktop" role="button" data-bs-toggle="dropdown">
+                <i class="fas fa-user me-2"></i>Hesabım
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item {{ Request::is('kullanici_bilgileri') ? 'active-link' : '' }}" href="/kullanici_bilgileri">
+                        <i class="fa-solid fa-circle-info me-2"></i>Bilgilerim
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item {{ Request::is('istatistiklerim') ? 'active-link' : '' }}" href="{{ route('my.statistics') }}">
+                        <i class="fa-solid fa-chart-simple me-2"></i>İstatistiklerim
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item {{ Request::is('begendiklerim') ? 'active-link' : '' }}" href="{{ route('my.likes') }}">
+                        <i class="fa-solid fa-thumbs-up me-2"></i>Beğendiklerim
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item {{ Request::is('yorumlarim') ? 'active-link' : '' }}" href="{{ route('my.comments') }}">
+                        <i class="fa-solid fa-comments me-2"></i>Yorumlarım
+                    </a>
+                </li>
+            </ul>
         </li>
+
         <li class="nav-item"><a class="nav-link" href="/logout"><i class="fa-solid fa-power-off me-2"></i>Çıkış Yap</a></li>
         @else
-        <li class="nav-item"><a class="nav-link" href="/login">Giriş Yap</a></li>
-        <li class="nav-item"><a class="nav-link" href="/register">Kayıt Ol</a></li>
+        <li class="nav-item"><a class="nav-link {{ Request::is('login') ? 'active-link' : '' }}" href="/login">Giriş Yap</a></li>
+        <li class="nav-item"><a class="nav-link {{ Request::is('register') ? 'active-link' : '' }}" href="/register">Kayıt Ol</a></li>
         @endauth
       </ul>
     </div>
@@ -66,6 +92,12 @@
 </nav>
 
 <style>
+  .navbar-nav .nav-link.active-link {
+      color: #001b48 !important;
+      background-color: #fff !important;
+      border-color: #001b48 !important;
+      border-radius: 10px;
+  }
 
   .navbar-nav .nav-link{
     font-size: 14px;
