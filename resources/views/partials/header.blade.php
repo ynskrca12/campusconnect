@@ -10,20 +10,23 @@
     <!-- Masaüstü Menü (Sadece Büyük Ekranlarda Göster) -->
     <div class="collapse navbar-collapse d-none d-lg-flex" id="navbarNav">
       <ul class="navbar-nav ms-auto me-3">
-        <li class="nav-item">
+        <li class="nav-item mx-1">
             <a class="nav-link {{ Request::is('/') ? 'active-link' : '' }}" href="/">Anasayfa</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item mx-1">
             <a class="nav-link {{ Request::is('universiteler') ? 'active-link' : '' }}" href="/universiteler">Üniversiteler</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item mx-1">
             <a class="nav-link {{ Request::is('sehirler') ? 'active-link' : '' }}" href="/sehirler">Şehirler</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item mx-1">
             <a class="nav-link {{ Request::is('forum') ? 'active-link' : '' }}" href="/forum">Forum</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item mx-1">
             <a class="nav-link {{ Request::is('blog-makale') ? 'active-link' : '' }}" href="/blog-makale">Blog / Makale</a>
+        </li>
+        <li class="nav-item mx-1">
+            <a class="nav-link {{ Request::is('calisma-alanim') ? 'active-link' : '' }}" href="/calisma-alanim">Çalışma Alanım</a>
         </li>
         @auth
         <li class="nav-item dropdown">
@@ -54,10 +57,10 @@
             </ul>
         </li>
 
-        <li class="nav-item"><a class="nav-link" href="/logout"><i class="fa-solid fa-power-off me-2"></i>Çıkış Yap</a></li>
+        <li class="nav-item mx-1"><a class="nav-link" href="/logout"><i class="fa-solid fa-power-off me-2"></i>Çıkış Yap</a></li>
         @else
-        <li class="nav-item"><a class="nav-link {{ Request::is('login') ? 'active-link' : '' }}" href="/login">Giriş Yap</a></li>
-        <li class="nav-item"><a class="nav-link {{ Request::is('register') ? 'active-link' : '' }}" href="/register">Kayıt Ol</a></li>
+        <li class="nav-item mx-1"><a class="nav-link {{ Request::is('login') ? 'active-link' : '' }}" href="/login">Giriş Yap</a></li>
+        <li class="nav-item mx-1"><a class="nav-link {{ Request::is('register') ? 'active-link' : '' }}" href="/register">Kayıt Ol</a></li>
         @endauth
       </ul>
     </div>

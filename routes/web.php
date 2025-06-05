@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\WorkspaceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CityController;
@@ -154,3 +155,36 @@ Route::post('/contact-submit',[PageController::class, 'contact_submit'])->name('
 
 Route::get('/hakkimizda',[PageController::class, 'about_us'])->name('about.us');
 Route::get('/hizmetlerimiz',[PageController::class, 'services'])->name('services');
+
+Route::get('/calisma-alanim', function () {
+    if (auth()->check()) {
+        return app(WorkspaceController::class)->my_workspace();
+    }
+    return view('workspace.workspace-promo');
+})->name('my_workspace');
+
+
+Route::post('/workspace/task', [WorkspaceController::class, 'storeTask'])->name('workspace.task.store');
+Route::patch('/workspace/task/{task}/status', [WorkspaceController::class, 'updateTaskStatus'])->name('workspace.task.update.status');
+
+// web.php
+Route::patch('/workspace/task/{task}/rename', [WorkspaceController::class, 'renameTask']);
+Route::delete('/workspace/task/{task}', [WorkspaceController::class, 'destroyTask']);
+Route::get('/tasks/{task}', [WorkspaceController::class, 'show'])->name('tasks.show');
+
+// (Eğer düzenleme/silme işlemleri varsa)
+Route::get('/tasks/{task}/edit', [WorkspaceController::class, 'edit'])->name('tasks.edit');
+Route::delete('/tasks/{task}', [WorkspaceController::class, 'destroy'])->name('tasks.destroy');
+
+Route::post('/tasks/live-update', [WorkspaceController::class, 'liveUpdate'])->name('tasks.live.update');
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/workspace', [WorkspaceController::class, 'task_board'])->name('workspace.index');
+    Route::post('/workspace/create-board', [WorkspaceController::class, 'createBoard'])->name('workspace.createBoard');
+});
+
+
+
+
+
