@@ -10,9 +10,9 @@
 
                     <!-- Başlık -->
                     <div class="mb-4 d-flex align-items-center">
-                        <i class="fa-solid fa-pen-to-square text-primary me-3 fs-5"></i>
+                        <i class="fa-solid fa-pen-to-square text-primary me-3 fs-5" style="color: #001b48 !important"></i>
                         <input type="text"
-                            class="form-control live-update task-title border-0 fs-4 fw-bold p-0"
+                            class="form-control live-update task-title rounded-0 fs-4 fw-bold p-0"
                             data-field="title"
                             data-id="{{ $task->id }}"
                             value="{{ $task->title }}">
@@ -26,7 +26,7 @@
                             </label>
                             <select class="form-select live-update" data-field="status" data-id="{{ $task->id }}">
                                 <option value="to_do" {{ $task->status == 'to_do' ? 'selected' : '' }}>📝 Yapılacak</option>
-                                <option value="in_progress" {{ $task->status == 'in_progress' ? 'selected' : '' }}>🚧 Devam Ediyor</option>
+                                <option value="in_progress" {{ $task->status == 'in_progress' ? 'selected' : '' }}>🚧 Yapılıyor</option>
                                 <option value="review" {{ $task->status == 'review' ? 'selected' : '' }}>🔍 Kontrol</option>
                                 <option value="done" {{ $task->status == 'done' ? 'selected' : '' }}>✅ Tamamlandı</option>
                             </select>
@@ -76,9 +76,13 @@
 
 @section('css')
 <style>
-      .content-wrapper {
-            padding:2.75rem 15px !important;
-        } 
+    .content-wrapper {
+        padding:2.75rem 15px !important;
+    } 
+    .task-title{
+        border: none;
+        border-bottom: 2px solid #e0e0e0; ;
+    }
     .task-title:focus {
         outline: none;
         box-shadow: none;

@@ -54,7 +54,7 @@ class WorkspaceController extends Controller
 
     public function updateTaskStatus(Request $request, Task $task)
     {
-        if (auth()->id() !== $task->user_id) {
+        if (auth()->id() != $task->user_id) {
             return response()->json(['message' => 'Yetkiniz yok.'], 403);
         }
 

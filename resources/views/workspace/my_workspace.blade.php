@@ -71,38 +71,40 @@
                                                 {{ $statusData['label'] }}
                                             </label>
 
-                                            <div class="task-column p-2 rounded" data-status="{{ $statusKey }}">
-                                                
-                                                <!-- Add Task Button -->
-                                                <button class="btn btn-sm btn-outline-{{ $statusData['color'] }} mb-2 add-task-btn text-muted" data-status="{{ $statusKey }}">
-                                                    <i class="fa-solid fa-plus me-1 icon-xs"></i> Görev Ekle
-                                                </button>
+                                            <!-- Add Task Button -->
+                                            <button class="btn btn-sm btn-outline-{{ $statusData['color'] }} mb-2 add-task-btn text-muted py-1 mt-2" data-status="{{ $statusKey }}" style="float: right">
+                                                <i class="fa-solid fa-plus me-1 icon-xs"></i> Görev Ekle
+                                            </button>
 
-                                                <!-- Add Task Form -->
-                                                <div class="add-task-form mb-2 d-none">
-                                                    <form class="task-create-form">
-                                                        @csrf
-                                                        <input type="hidden" name="status" value="{{ $statusKey }}">
-                                                        <input type="hidden" name="task_board_id" value="{{ $selectedBoardId }}">
+                                            <!-- Add Task Form -->
+                                            <div class="add-task-form my-2 mx-2 d-none">
+                                                <form class="task-create-form">
+                                                    @csrf
+                                                    <input type="hidden" name="status" value="{{ $statusKey }}">
+                                                    <input type="hidden" name="task_board_id" value="{{ $selectedBoardId }}">
 
-                                                        <div class="mb-2">
-                                                            <input type="text" name="title" class="form-control form-control-sm border-0" placeholder="Görev başlığı..." required>
-                                                        </div>
-                                                        <div class="mb-2">
-                                                            <input type="date" name="due_date" class="form-control form-control-sm border-0 text-muted" placeholder="Son Tarih">
-                                                        </div>
-                                                        <div class="mb-2">
-                                                            <select name="priority" class="form-select form-select-sm border-0">
-                                                                <option value="">Öncelik Seçin</option>
-                                                                <option value="Düşük">Düşük</option>
-                                                                <option value="Orta">Orta</option>
-                                                                <option value="Yüksek">Yüksek</option>
-                                                            </select>
-                                                        </div>
-                                                        <button type="submit" class="btn btn-outline-primary btn-sm w-100">Kaydet</button>
-                                                    </form>
-                                                </div>
+                                                    <div class="mb-2">
+                                                        <input type="text" name="title" class="form-control form-control-sm add-task-title" style="border: none;border-bottom: 1px solid #ced4da;border-radius: 0px;" placeholder="Görev başlığı..." required>
+                                                    </div>
+                                                   <div class="mb-2">
+                                                        <input type="text" onfocus="(this.type='date')" name="due_date"
+                                                            class="form-control form-control-sm text-muted"
+                                                            style="border: none;border-bottom: 1px solid #ced4da;border-radius: 0px;"
+                                                            placeholder="Son Tarih">
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <select name="priority" class="form-select form-select-sm add-task-priority" style="border: none;border-bottom: 1px solid #ced4da;border-radius: 0px;">
+                                                            <option value="">Öncelik Durumu...</option>
+                                                            <option value="Düşük">Düşük</option>
+                                                            <option value="Orta">Orta</option>
+                                                            <option value="Yüksek">Yüksek</option>
+                                                        </select>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-outline-primary btn-sm w-100">Kaydet</button>
+                                                </form>
+                                            </div>
 
+                                            <div class="task-column p-2 rounded"  data-status="{{ $statusKey }}">
                                                 @foreach ($tasks->where('status', $statusKey) as $task)
                                                     <div class="task-item card mb-2 px-3 py-2 rounded-4" data-id="{{ $task->id }}">
                                                         <div class="d-flex justify-content-between mt-1 align-items-start">
@@ -115,6 +117,7 @@
                                                                     <li><a class="dropdown-item delete-task text-dark" href="#" data-id="{{ $task->id }}">Sil</a></li>
                                                                 </ul>
                                                             </div>
+
                                                         </div>
 
                                                         <span class="text-muted fs-14 mb-1">Öncelik: {{ ucfirst($task->priority) }}</span>
@@ -128,7 +131,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                            @endif
+                            @endif    
                         </div>
                     </div>
                 </div>
@@ -166,6 +169,14 @@
 
 @section('css')
     <style>
+        .dropdown-menu {
+            z-index: 9999 !important;
+        }
+        .task-item {
+            cursor: pointer;
+        }
+
+
         #boardSelect {
             border: none !important;
             border-bottom: 1px solid #001b48 !important;
@@ -196,11 +207,14 @@
             font-size: 14px !important;
         }
         .add-task-form {
-            border: 1px solid lightgray;
+           border: 1px solid lightgray;
             border-radius: 12px;
             padding: 10px;
             background: #fff;
+            z-index: 9999999;
+            position: relative; 
         }
+        
         .btn-primary{
             color: #fff !important;
             border-color: #001b48 !important;
@@ -296,16 +310,52 @@
             e.preventDefault();
             const taskId = $(this).data('id');
 
-            if (confirm("Bu görevi silmek istediğinize emin misiniz?")) {
-                $.ajax({
-                    url: `/workspace/task/${taskId}`,
-                    method: 'DELETE',
-                    data: { _token: '{{ csrf_token() }}' },
-                    success: function () {
-                        $(`.task-item[data-id="${taskId}"]`).fadeOut(300, function () { $(this).remove(); });
-                    }
-                });
-            }
+            Swal.fire({
+                title: 'Emin misiniz?',
+                text: "Bu görevi silmek istediğinize emin misiniz?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Evet, sil!',
+                cancelButtonText: 'Vazgeç'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `/workspace/task/${taskId}`,
+                        method: 'DELETE',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function () {
+                            $(`.task-item[data-id="${taskId}"]`).fadeOut(300, function () {
+                                $(this).remove();
+                            });
+
+                            Swal.fire({
+                                title: 'Silindi!',
+                                text: 'Görev başarıyla silindi.',
+                                icon: 'success',
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+                        },
+                        error: function () {
+                            Swal.fire('Hata', 'Görev silinirken bir hata oluştu.', 'error');
+                        }
+                    });
+                }
+            });
+        });
+
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // draggable'ı kapat
+        document.querySelectorAll('.add-task-form input, .add-task-form select, .add-task-form button').forEach(el => {
+            el.setAttribute('draggable', 'false');
         });
     });
 </script>
@@ -317,6 +367,10 @@
             group: 'tasks',
             ghostClass: 'sortable-ghost',
             animation: 150,
+            filter: '.dropdown, .dropdown-menu, .add-task-btn',
+            onFilter: function (evt) {
+                evt.preventDefault(); 
+            },
             onEnd: function (evt) {
                 const taskId = evt.item.dataset.id;
                 const newStatus = evt.to.dataset.status;
@@ -336,8 +390,10 @@
     // Görev ekleme formunu göster
     document.querySelectorAll('.add-task-btn').forEach(button => {
         button.addEventListener('click', function () {
-            const parent = this.closest('.task-column');
-            parent.querySelector('.add-task-form').classList.toggle('d-none');
+            const form = this.nextElementSibling; // hemen sonraki kardeş (add-task-form)
+            if (form && form.classList.contains('add-task-form')) {
+                form.classList.toggle('d-none');
+            }
         });
     });
 
@@ -417,16 +473,6 @@
     });
 
 
-</script>
-
-{{-- change task board --}}
-<script>
-    $(document).on('click', '.task-item', function(e) {
-        if ($(e.target).closest('.dropdown').length) return;
-
-        let taskId = $(this).data('id');
-        window.location.href = `/tasks/${taskId}`;
-    });
 </script>
 
 {{-- create task board --}}
@@ -519,13 +565,66 @@
 
 </script>
 
+{{-- change task board and go detail --}}
+<script>
+    function onTaskClick(e) {
+        if (
+            $(e.target).closest('.dropdown').length ||
+            $(e.target).closest('.dropdown-menu').length
+        ) return;
+
+        let taskId = $(this).data('id');
+        if (taskId) {
+            window.location.href = `/tasks/${taskId}`;
+        }
+    }
+
+    let startX = 0, startY = 0, isDragging = false;
+    const DRAG_THRESHOLD = 10;
+
+    $(document).on('touchstart', '.task-item', function(e) {
+        const touch = e.touches[0];
+        startX = touch.clientX;
+        startY = touch.clientY;
+        isDragging = false;
+    });
+
+    $(document).on('touchmove', '.task-item', function(e) {
+        const touch = e.touches[0];
+        const diffX = Math.abs(touch.clientX - startX);
+        const diffY = Math.abs(touch.clientY - startY);
+
+        if (diffX > DRAG_THRESHOLD || diffY > DRAG_THRESHOLD) {
+            isDragging = true;
+        }
+    });
+
+    $(document).on('touchend', '.task-item', function(e) {
+        if (!isDragging) {
+            onTaskClick.call(this, e);
+        }
+    });
+
+    $(document).on('click', '.task-item', function(e) {
+        if (isDragging) {
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            return false;
+        }
+        onTaskClick.call(this, e);
+    });
+</script>
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const container = document.querySelector('.scroll-draggable');
-        let isDown = false;
-        let startX;
-        let scrollLeft;
+    const container = document.querySelector('.scroll-draggable');
+    let isDown = false;
+    let startX;
+    let scrollLeft;
 
+    // Sadece masaüstü cihazlarda (mouse) aktif olsun:
+    if (!('ontouchstart' in window)) {
         container.addEventListener('mousedown', (e) => {
             isDown = true;
             container.classList.add('active');
@@ -545,12 +644,13 @@
 
         container.addEventListener('mousemove', (e) => {
             if (!isDown) return;
-            e.preventDefault();
+            e.preventDefault(); // dikkatli kullanım!
             const x = e.pageX - container.offsetLeft;
-            const walk = (x - startX) * 1.5; // hız
+            const walk = (x - startX) * 1.5;
             container.scrollLeft = scrollLeft - walk;
         });
-    });
-</script>
+    }
+});
 
+</script>
 @endsection
