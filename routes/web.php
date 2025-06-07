@@ -66,9 +66,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/universite/{id}/yorumlar',[StoreCommentController::class,'universite_yorum_ekle'])->name('universite_yorum_ekle');
     Route::delete('/universite/{id}/yorumlar/{comment}',[DeleteCommentController::class,'universite_yorum_sil'])->name('universite_yorum_sil');
 
-    Route::get('kullanici_bilgileri',[UserController::class, 'kullanici_bilgileri'])->name('kullanici_bilgileri');
-    Route::get('kullanici_bilgileri_duzenle/{id}',[UserController::class, 'kullanici_bilgileri_duzenle'])->name('kullanici_bilgileri_duzenle');
-    Route::post('kullanici_bilgileri_duzenle_post',[UserController::class,'kullanici_bilgileri_duzenle_post'])->name('kullanici_bilgileri_duzenle_post');
+    Route::get('kullanici-bilgileri',[UserController::class, 'user_informations'])->name('user.informations');
 
     Route::get('istatistiklerim',[UserController::class, 'my_statistics'])->name('my.statistics');
     Route::get('begendiklerim',[UserController::class, 'my_likes'])->name('my.likes');

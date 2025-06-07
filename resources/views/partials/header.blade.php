@@ -30,12 +30,12 @@
         </li>
         @auth
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle {{ Request::is('kullanici_bilgileri') || Request::is('istatistiklerim') || Request::is('begendiklerim') || Request::is('yorumlarim') ? 'active-link' : '' }}" href="#" id="userDropdownDesktop" role="button" data-bs-toggle="dropdown">
+            <a class="nav-link dropdown-toggle {{ Request::is('kullanici-bilgileri') || Request::is('istatistiklerim') || Request::is('begendiklerim') || Request::is('yorumlarim') ? 'active-link' : '' }}" href="#" id="userDropdownDesktop" role="button" data-bs-toggle="dropdown">
                 <i class="fas fa-user me-2"></i>Hesabım
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a class="dropdown-item {{ Request::is('kullanici_bilgileri') ? 'active-link' : '' }}" href="/kullanici_bilgileri">
+                    <a class="dropdown-item {{ Request::is('kullanici-bilgileri') ? 'active-link' : '' }}" href="/kullanici-bilgileri">
                         <i class="fa-solid fa-circle-info me-2"></i>Bilgilerim
                     </a>
                 </li>
@@ -78,7 +78,7 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" id="userDropdownMobile"><i class="fas fa-user me-2"></i>Hesabım</a>
           <ul class="dropdown-menu-mobile">
-            <li class="sub-menu"><a href="/kullanici_bilgileri"><i class="fa-solid fa-circle-info me-2"></i>Bilgilerim</a></li>
+            <li class="sub-menu"><a href="/kullanici-bilgileri"><i class="fa-solid fa-circle-info me-2"></i>Bilgilerim</a></li>
             <li class="sub-menu"><a href="{{ route('my.statistics') }}"><i class="fa-solid fa-chart-simple me-2"></i>İstatistiklerim</a></li>
             <li class="sub-menu"><a href="{{ route('my.likes') }}"><i class="fa-solid fa-thumbs-up me-2"></i>Beğendiklerim</a></li>
             <li class="sub-menu"><a href="{{ route('my.comments') }}"><i class="fa-solid fa-comments me-2"></i>Yorumlarım</a></li>
