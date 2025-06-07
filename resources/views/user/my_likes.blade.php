@@ -46,7 +46,7 @@
                                     @if (count($liked_topics) == 0)
                                         <h5 class="mb-4">Henüz hiçbir yorum beğenmediniz.</h5>
                                     @else    
-                                        @foreach ($liked_topics as $item)   
+                                        @foreach ($liked_topics as $item)
                                             <div class="topic mb-3">
                                                 <h3 class="topic-title mb-3">
                                                     <a href="{{ route('topic.comments', ['slug' => $item->topic->topic_title_slug]) }}">
@@ -67,7 +67,7 @@
                                                     <div class="d-flex align-items-center entry-footer-bottom">
                                                         <div class="footer-info">
                                                             <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
-                                                                <p style="display: block;white-space:nowrap;color:#001b48;">{{ $item->user->username ?? 'Anonim' }}</p>
+                                                                <p style="display: block;white-space:nowrap;color:#001b48;">{{ $item->topic->user->username ?? 'Anonim' }}</p>
                                                             </div>
                     
                                                             <div style="display: block;padding:1px 2px;line-height: 14px;">
@@ -77,8 +77,8 @@
                                                         <div class="avatar-container">
                                                             <a href="">
                                                                 <img class="avatar" 
-                                                                style="background-color: {{$item->user->user_image == 'man.png' ? '#95bdff' : ($item->user->user_image == 'woman.png' ? '#ffbdd3' : 'transparent')}};"
-                                                                src="{{ asset('assets/images/icons/' . ($item->user->user_image ?? '//ekstat.com/img/default-profile-picture-light.svg')) }}"
+                                                                style="background-color: {{$item->topic->user->user_image == 'man.png' ? '#95bdff' : ($item->topic->user->user_image == 'woman.png' ? '#ffbdd3' : 'transparent')}};"
+                                                                src="{{ asset('assets/images/icons/' . ($item->topic->user->user_image ?? '//ekstat.com/img/default-profile-picture-light.svg')) }}"
                                                                 data-default="{{ asset('img/default-profile-picture-light.svg') }}" 
                                                                 alt="usuyensolucan" title="usuyensolucan">
                                                             </a>
