@@ -67,7 +67,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/universite/{id}/yorumlar/{comment}',[DeleteCommentController::class,'universite_yorum_sil'])->name('universite_yorum_sil');
 
     Route::get('kullanici-bilgileri',[UserController::class, 'user_informations'])->name('user.informations');
-
+    Route::post('/profile/image', [UserController::class, 'updateImage'])->name('profile.image.update');
     Route::get('istatistiklerim',[UserController::class, 'my_statistics'])->name('my.statistics');
     Route::get('begendiklerim',[UserController::class, 'my_likes'])->name('my.likes');
     Route::get('yorumlarim',[UserController::class, 'my_comments'])->name('my.comments');

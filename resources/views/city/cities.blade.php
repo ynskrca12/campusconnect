@@ -1131,6 +1131,7 @@
             height: 40px;
             margin-top: 2px;
             margin-bottom: 2px;
+            object-fit: cover;
         }
         .footer-info{
             float: left;

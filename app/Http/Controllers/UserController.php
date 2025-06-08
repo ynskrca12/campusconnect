@@ -19,6 +19,7 @@ use App\Models\UniversityTopic;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -32,6 +33,43 @@ class UserController extends Controller
             return redirect('/login')->with('message', 'Lütfen giriş yapınız.');
         }
     }
+
+     public function updateImage(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'user_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', 
+        ],
+        [
+            'user_image.required' => 'Lütfen bir profil resmi yükleyin.',
+            'user_image.image' => 'Yüklenen dosya bir resim olmalıdır.',
+            'user_image.mimes' => 'Yalnızca jpeg, png, jpg ve gif formatındaki resimler kabul edilir.',
+            'user_image.max' => 'Resim boyutu 2MB\'dan büyük olmamalıdır.'
+        ]);
+
+        // Eğer önceden yüklenmiş bir dosya varsa sil
+        if ($user->user_image && Storage::disk('public')->exists('profile_images/' . $user->user_image)) {
+            Storage::disk('public')->delete('profile_images/' . $user->user_image);
+        }
+
+        // Dosyayı yükle ve ismini kaydet
+        $file = $request->file('user_image');
+        $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+        $file->storeAs('profile_images', $filename, 'public');
+
+        $path = $file->storeAs('profile_images', $filename, 'public');
+
+        if (!$path) {
+            return back()->withErrors(['user_image' => 'Dosya yüklenemedi.']);
+        }
+
+        // Kullanıcı modelini güncelle
+        $user->user_image = $filename;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Profil resmi başarıyla güncellendi.');
+    }//End
 
     public function updateProfile(Request $request)
     {
@@ -70,7 +108,6 @@ class UserController extends Controller
         return response()->json(['exists' => $exists]);
     }//End
     
-
     public function checkEmail(Request $request)
     {
         $email = $request->email;
