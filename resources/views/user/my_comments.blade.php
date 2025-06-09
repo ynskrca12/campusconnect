@@ -61,9 +61,21 @@
                                         </h5>
                                     @else    
                                         @foreach ($my_comments as $item)   
+                                            @php
+                                                switch ($item->type) {
+                                                    case 'city':
+                                                        $route = route('city.topic.comments', ['slug' => $item->topic_title_slug]);
+                                                        break;
+                                                    case 'university':
+                                                        $route = route('university.topic.comments', ['slug' => $item->topic_title_slug]);
+                                                        break;
+                                                    default:
+                                                        $route = route('topic.comments', ['slug' => $item->topic_title_slug]);
+                                                }
+                                            @endphp
                                             <div class="topic mb-3">
                                                 <h3 class="topic-title mb-3">
-                                                    <a href="{{ route('topic.comments', ['slug' => $item->topic_title_slug]) }}">
+                                                    <a href="{{ $route }}">
                                                         {{ $item->topic_title }}
                                                     </a>
                                                 </h3>

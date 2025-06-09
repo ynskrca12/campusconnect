@@ -115,7 +115,7 @@
                                         <div class="col-md-9">
                                             <div class="topic mb-3 comment-section">
                                                 <h3 class="topic-title mb-3">
-                                                    <a href="{{ route('topic.comments', ['slug' => $statistics['mostLikedTopicCity']->topic_title_slug]) }}">
+                                                    <a href="{{ route('city.topic.comments', ['slug' => $statistics['mostLikedTopicCity']->topic_title_slug]) }}">
                                                         {{ $statistics['mostLikedTopicCity']->topic_title }}
                                                     </a>
                                                 </h3>
@@ -174,7 +174,7 @@
                                         <div class="col-md-9">
                                             <div class="topic mb-3 comment-section">
                                                 <h3 class="topic-title mb-3">
-                                                    <a href="{{ route('topic.comments', ['slug' => $statistics['mostLikedTopicUniversity']->topic_title_slug]) }}">
+                                                    <a href="{{ route('university.topic.comments', ['slug' => $statistics['mostLikedTopicUniversity']->topic_title_slug]) }}">
                                                         {{ $statistics['mostLikedTopicUniversity']->topic_title }}
                                                     </a>
                                                 </h3>

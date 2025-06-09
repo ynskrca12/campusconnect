@@ -268,22 +268,27 @@ class UserController extends Controller
 
             $cities_topics_likes = CityTopicsLike::where('user_id', $user->id)
                 ->with('topic')
-                ->where('like','1')    
-                ->get();
+                ->where('like', '1')
+                ->get()
+                ->each(fn($item) => $item->type = 'city');
 
             $universities_topics_likes = UniversityTopicsLike::where('user_id', $user->id)
-                ->with('topic')    
-                ->where('like','1')    
-                ->get(); 
+                ->with('topic')
+                ->where('like', '1')
+                ->get()
+                ->each(fn($item) => $item->type = 'university');
 
             $general_topics_likes = GeneralTopicsLike::where('user_id', $user->id)
                 ->with('topic')
-                ->where('like','1')    
-                ->get();    
-                
-            $liked_topics = $cities_topics_likes->merge($universities_topics_likes)
-            ->merge($general_topics_likes)
-            ->sortByDesc(fn($topic) => $topic->topic->created_at);
+                ->where('like', '1')
+                ->get()
+                ->each(fn($item) => $item->type = 'general');
+
+            $liked_topics = $cities_topics_likes
+                ->merge($universities_topics_likes)
+                ->merge($general_topics_likes)
+                ->sortByDesc(fn($topic) => $topic->topic->created_at);
+
 
         return view('user.my_likes',compact('liked_topics','user'));
     }//End
@@ -291,11 +296,11 @@ class UserController extends Controller
     public function my_comments(){
         $user = Auth::user();
 
-        $my_cities_comments = CityTopic::where('user_id', $user->id)->get();
+        $my_cities_comments = CityTopic::where('user_id', $user->id)->get()->each(fn($item) => $item->type = 'city');;
 
-        $my_universities_comments = UniversityTopic::where('user_id', $user->id)->get();
+        $my_universities_comments = UniversityTopic::where('user_id', $user->id)->get()->each(fn($item) => $item->type = 'university');;
 
-        $my_general_comments = GeneralTopic::where('user_id', $user->id)->get();
+        $my_general_comments = GeneralTopic::where('user_id', $user->id)->get()->each(fn($item) => $item->type = 'general');
     
         $my_comments = $my_cities_comments->merge($my_universities_comments)
         ->merge($my_general_comments)
