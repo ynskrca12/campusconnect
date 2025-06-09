@@ -209,17 +209,43 @@ class PageController extends Controller
             ->get();
 
         $formatted = $comments->map(function ($comment) {
-            // Cevapları (yanıtları) manuel olarak çekiyoruz
+
+            $userImage = $comment->user->user_image ?? null;
+
+            $userImagePath = $userImage
+                ? asset('storage/profile_images/' . $userImage)
+                : asset('assets/images/icons/user.png');
+
+            $bgColor = match ($userImage) {
+                'man.png' => '#95bdff',
+                'woman.png' => '#ffbdd3',
+                default => 'transparent',
+            };
+
             $replies = BlogComment::where('parent_id', $comment->id)
                 ->with('user')
                 ->orderBy('created_at')
                 ->get()
                 ->map(function ($reply) {
+
+                    $userImage = $reply->user->user_image ?? null;
+
+                    $userImagePath = $userImage
+                        ? asset('storage/profile_images/' . $userImage)
+                        : asset('assets/images/icons/user.png');
+
+                    $bgColor = match ($userImage) {
+                        'man.png' => '#95bdff',
+                        'woman.png' => '#ffbdd3',
+                        default => 'transparent',
+                    };
+                    
                     return [
                         'comment' => $reply->blog_comment,
                         'created_at' => $reply->created_at->diffForHumans(),
                         'username' => $reply->user->username,
-                        'user_image' => $reply->user->user_image ?? 'default.png',
+                        'user_image' => $userImagePath,
+                        'bg_color' => $bgColor,
                     ];
                 });
 
@@ -228,7 +254,8 @@ class PageController extends Controller
                 'comment' => $comment->blog_comment,
                 'created_at' => $comment->created_at->diffForHumans(),
                 'username' => $comment->user->username,
-                'user_image' => $comment->user->user_image ?? 'default.png',
+                'user_image' => $userImagePath,
+                'bg_color' => $bgColor,
                 'replies' => $replies,
             ];
         });
