@@ -17,13 +17,26 @@
                       <!-- Sidebar -->
                       <div class="col-lg-3 border-end text-center">
                         <div class="position-relative d-inline-block">
+                            @php 
+                                $imageName = $user->user_image;
+                                
+                                $imagePath = $imageName
+                                    ? asset('storage/profile_images/' . $imageName)
+                                    : asset('assets/images/icons/user.png');
+                                
+                                $bgColor = match ($imageName) {
+                                    'man.png' => '#95bdff',
+                                    'woman.png' => '#ffbdd3',
+                                    default => 'transparent',
+                                };
+                            @endphp  
                           <img 
-                            style="background-color: {{$user->user_image == 'man.png' ? '#95bdff' : ($user->user_image == 'woman.png' ? '#ffbdd3' : 'transparent')}};width: 70px;"
-                            src="{{ asset('assets/images/icons/'.$user->user_image ?? 'user.png') }}"
+                            style="background-color: {{ $bgColor }};width: 70px;height: 70px;object-fit: cover;"
+                            src="{{ $imagePath }}"
                             class="rounded-circle profile-pic" alt="Profile Picture" >
-                          <button class="btn btn-primary btn-sm position-absolute bottom-0 end-0 rounded-circle">
+                          {{-- <button class="btn btn-primary btn-sm position-absolute bottom-0 end-0 rounded-circle">
                               <i class="fas fa-camera"></i>
-                          </button>
+                          </button> --}}
                       </div>
                       <h5 class="mt-3 mb-1 userName">{{ Auth::user()->name }}</h5>
                           <div class="p-4">
@@ -48,9 +61,21 @@
                                         </h5>
                                     @else    
                                         @foreach ($my_comments as $item)   
+                                            @php
+                                                switch ($item->type) {
+                                                    case 'city':
+                                                        $route = route('city.topic.comments', ['slug' => $item->topic_title_slug]);
+                                                        break;
+                                                    case 'university':
+                                                        $route = route('university.topic.comments', ['slug' => $item->topic_title_slug]);
+                                                        break;
+                                                    default:
+                                                        $route = route('topic.comments', ['slug' => $item->topic_title_slug]);
+                                                }
+                                            @endphp
                                             <div class="topic mb-3">
                                                 <h3 class="topic-title mb-3">
-                                                    <a href="{{ route('topic.comments', ['slug' => $item->topic_title_slug]) }}">
+                                                    <a href="{{ $route }}">
                                                         {{ $item->topic_title }}
                                                     </a>
                                                 </h3>
@@ -75,11 +100,24 @@
                                                                 <p style="color: #888;font-size: 12px;">{{ $item->created_at->format('d.m.Y H:i') }}</p>
                                                             </div>
                                                         </div>
+                                                        @php 
+                                                            $imageName = $item->user->user_image;
+                                                            
+                                                            $imagePath = $imageName
+                                                                ? asset('storage/profile_images/' . $imageName)
+                                                                : asset('assets/images/icons/user.png');
+                                                            
+                                                            $bgColor = match ($imageName) {
+                                                                'man.png' => '#95bdff',
+                                                                'woman.png' => '#ffbdd3',
+                                                                default => 'transparent',
+                                                            };
+                                                        @endphp  
                                                         <div class="avatar-container">
                                                             <a href="">
                                                                 <img class="avatar" 
-                                                                style="background-color: {{$item->user->user_image == 'man.png' ? '#95bdff' : ($item->user->user_image == 'woman.png' ? '#ffbdd3' : 'transparent')}};"
-                                                                src="{{ asset('assets/images/icons/' . ($item->user->user_image ?? '//ekstat.com/img/default-profile-picture-light.svg')) }}"
+                                                                style="background-color: {{ $bgColor }};"
+                                                                src="{{ $imagePath }}"
                                                                 data-default="{{ asset('img/default-profile-picture-light.svg') }}" 
                                                                 alt="usuyensolucan" title="usuyensolucan">
                                                             </a>
@@ -188,6 +226,7 @@
             height: 40px;
             margin-top: -2px;
             margin-bottom: 2px;
+            object-fit: cover;
         }
         .footer-info{
             float: left;

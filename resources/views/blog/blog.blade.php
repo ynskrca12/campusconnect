@@ -306,8 +306,8 @@
                                 <div class="card mb-0 border-0">
                                     <div class="card-body py-4 px-3 px-md-5">
                                         <div class="d-flex align-items-start mb-2">
-                                            <img src="/assets/images/icons/${comment.user_image}" 
-                                            style="background-color: ${comment.user_image && comment.user_image === 'man.png' ? '#95bdff' : comment.user_image === 'woman.png' ? '#ffbdd3' : 'transparent'};"    
+                                            <img src="${comment.user_image}" 
+                                            style="background-color: ${comment.bg_color };"    
                                             class="rounded-circle me-3" width="50" height="50">
                                             <div>
                                                 <h6 class="mb-0">${comment.username}</h6>
@@ -330,8 +330,8 @@
                                         <div class="card ms-5 mb-3 bg-light border-0">
                                             <div class="card-body py-3">
                                                 <div class="d-flex align-items-start mb-2">
-                                                    <img src="/assets/images/icons/${reply.user_image}" 
-                                                    style="background-color: ${comment.user_image && comment.user_image === 'man.png' ? '#95bdff' : comment.user_image === 'woman.png' ? '#ffbdd3' : 'transparent'};"    
+                                                    <img src="${reply.user_image}" 
+                                                    style="background-color: ${reply.bg_color };"    
                                                     class="rounded-circle me-3" width="40" height="40">
                                                     <div>
                                                         <h6 class="mb-0">${reply.username}</h6>

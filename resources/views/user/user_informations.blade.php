@@ -19,21 +19,61 @@
               <div class="card-body p-0">
                   <div class="row g-0">
                       <!-- Sidebar -->
-                      <div class="col-lg-3 border-end text-center">
-                        <div class="position-relative d-inline-block">
-                          <img src="{{ asset('assets/images/icons/'.$user->user_image ?? 'user.png') }}" class="rounded-circle profile-pic" alt="Profile Picture"
-                          style="background-color: {{$user->user_image == 'man.png' ? '#95bdff' : ($user->user_image == 'woman.png' ? '#ffbdd3' : 'transparent')}};width: 70px;" >
-                          <button class="btn btn-primary btn-sm position-absolute bottom-0 end-0 rounded-circle">
-                              <i class="fas fa-camera"></i>
-                          </button>
-                      </div>
-                      <h5 class="mt-3 mb-1 userName">{{ Auth::user()->name }}</h5>
-                          <div class="p-4">
-                              <div class="nav flex-column nav-pills">
-                                  <a class="nav-link nav-link-profile active" id="bilgilerim-tab" href="#" data-target="#bilgilerim"><i class="fas fa-user me-2"></i>Bilgilerim</a>
-                              </div>
-                          </div>
-                      </div>
+                    <div class="col-lg-3 border-end text-center">
+    <div class="position-relative d-inline-block">
+        @php 
+            $imageName = $user->user_image;
+            
+            $imagePath = $imageName
+                ? asset('storage/profile_images/' . $imageName)
+                : asset('assets/images/icons/user.png');
+            
+            $bgColor = match ($imageName) {
+                'man.png' => '#95bdff',
+                'woman.png' => '#ffbdd3',
+                default => 'transparent',
+            };
+        @endphp
+
+        <img src="{{ $imagePath }}" 
+             class="rounded-circle profile-pic" 
+             alt="Profile Picture"
+             style="background-color: {{ $bgColor }}; width: 70px; height: 70px; object-fit: cover;">
+
+        <button class="btn btn-primary btn-sm position-absolute bottom-0 end-0 rounded-circle" data-bs-toggle="modal" data-bs-target="#profileImageModal">
+            <i class="fas fa-camera"></i>
+        </button>
+    </div>
+
+    <h5 class="mt-3 mb-1 userName">{{ $user->name }}</h5>
+
+    <div class="p-4">
+        <div class="nav flex-column nav-pills">
+            <a class="nav-link nav-link-profile active" id="bilgilerim-tab" href="#" data-target="#bilgilerim"><i class="fas fa-user me-2"></i>Bilgilerim</a>
+        </div>
+    </div>
+</div>
+
+<!-- Profil Resim Güncelleme Modal -->
+<div class="modal fade" id="profileImageModal" tabindex="-1" aria-labelledby="profileImageModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form action="{{ route('profile.image.update') }}" method="POST" enctype="multipart/form-data" class="modal-content">
+      @csrf
+      <div class="modal-header">
+        <h5 class="modal-title" id="profileImageModalLabel">Profil Resmini Güncelle</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+      </div>
+      <div class="modal-body">
+        <input type="file" name="user_image" accept="image/*" required>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 
                       <!-- Content Area -->
                       <div class="col-lg-9">
@@ -226,6 +266,7 @@
             height: 40px;
             margin-top: -2px;
             margin-bottom: 2px;
+            object-fit: cover;
         }
         .footer-info{
             float: left;

@@ -86,11 +86,24 @@
                                             <p style="color: #888;font-size: 12px;">{{ $topic->created_at->format('d.m.Y H:i') }}</p>
                                         </div>
                                     </div>
+                                    @php 
+                                        $imageName = $topic->user->user_image;
+                                        
+                                        $imagePath = $imageName
+                                            ? asset('storage/profile_images/' . $imageName)
+                                            : asset('assets/images/icons/user.png');
+                                        
+                                        $bgColor = match ($imageName) {
+                                            'man.png' => '#95bdff',
+                                            'woman.png' => '#ffbdd3',
+                                            default => 'transparent',
+                                        };
+                                    @endphp
                                     <div class="avatar-container">
                                         <a href="">
                                             <img class="avatar" 
-                                            style="background-color: {{$topic->user->user_image == 'man.png' ? '#95bdff' : ($topic->user->user_image == 'woman.png' ? '#ffbdd3' : 'transparent')}};"
-                                            src="{{ asset('assets/images/icons/' . ($topic->user->user_image ?? '//ekstat.com/img/default-profile-picture-light.svg')) }}"
+                                            style="background-color: {{ $bgColor }};"
+                                            src="{{ $imagePath }}"
                                             data-default="{{ asset('img/default-profile-picture-light.svg') }}" 
                                             alt="usuyensolucan" title="usuyensolucan">
                                         </a>
@@ -136,6 +149,7 @@
             height: 40px;
             margin-top: -2px;
             margin-bottom: 2px;
+            object-fit: cover;
         }
         .footer-info{
             float: left;

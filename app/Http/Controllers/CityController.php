@@ -172,7 +172,22 @@ class CityController extends Controller
         )
         ->get();
 
+              // Kullanıcı görsel yolu ve arka plan rengi ayarla
+        $topics = $topics->map(function ($topic) {
+            $imageName = $topic->user_image;
 
+            $topic->user_image_path = $imageName
+                ? asset('storage/profile_images/' . $imageName)
+                : asset('assets/images/icons/user.png');
+
+            $topic->bg_color = match ($imageName) {
+                'man.png' => '#95bdff',
+                'woman.png' => '#ffbdd3',
+                default => 'transparent',
+            };
+
+            return $topic;
+    });
 
             return response()->json(['topics' => $topics]);
     }//End

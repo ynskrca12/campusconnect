@@ -66,10 +66,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/universite/{id}/yorumlar',[StoreCommentController::class,'universite_yorum_ekle'])->name('universite_yorum_ekle');
     Route::delete('/universite/{id}/yorumlar/{comment}',[DeleteCommentController::class,'universite_yorum_sil'])->name('universite_yorum_sil');
 
-    Route::get('kullanici_bilgileri',[UserController::class, 'kullanici_bilgileri'])->name('kullanici_bilgileri');
-    Route::get('kullanici_bilgileri_duzenle/{id}',[UserController::class, 'kullanici_bilgileri_duzenle'])->name('kullanici_bilgileri_duzenle');
-    Route::post('kullanici_bilgileri_duzenle_post',[UserController::class,'kullanici_bilgileri_duzenle_post'])->name('kullanici_bilgileri_duzenle_post');
-
+    Route::get('kullanici-bilgileri',[UserController::class, 'user_informations'])->name('user.informations');
+    Route::post('/profile/image', [UserController::class, 'updateImage'])->name('profile.image.update');
     Route::get('istatistiklerim',[UserController::class, 'my_statistics'])->name('my.statistics');
     Route::get('begendiklerim',[UserController::class, 'my_likes'])->name('my.likes');
     Route::get('yorumlarim',[UserController::class, 'my_comments'])->name('my.comments');
@@ -156,6 +154,35 @@ Route::post('/contact-submit',[PageController::class, 'contact_submit'])->name('
 Route::get('/hakkimizda',[PageController::class, 'about_us'])->name('about.us');
 Route::get('/hizmetlerimiz',[PageController::class, 'services'])->name('services');
 
-Route::get('/calisma-alanim',[WorkspaceController::class, 'my_workspace'])->name('my_workspace');
+Route::get('/calisma-alanim', function () {
+    if (auth()->check()) {
+        return app(WorkspaceController::class)->my_workspace();
+    }
+    return view('workspace.workspace-promo');
+})->name('my_workspace');
+
+
 Route::post('/workspace/task', [WorkspaceController::class, 'storeTask'])->name('workspace.task.store');
 Route::patch('/workspace/task/{task}/status', [WorkspaceController::class, 'updateTaskStatus'])->name('workspace.task.update.status');
+
+// web.php
+Route::patch('/workspace/task/{task}/rename', [WorkspaceController::class, 'renameTask']);
+Route::delete('/workspace/task/{task}', [WorkspaceController::class, 'destroyTask']);
+Route::get('/tasks/{task}', [WorkspaceController::class, 'show'])->name('tasks.show');
+
+// (Eğer düzenleme/silme işlemleri varsa)
+Route::get('/tasks/{task}/edit', [WorkspaceController::class, 'edit'])->name('tasks.edit');
+Route::delete('/tasks/{task}', [WorkspaceController::class, 'destroy'])->name('tasks.destroy');
+
+Route::post('/tasks/live-update', [WorkspaceController::class, 'liveUpdate'])->name('tasks.live.update');
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/workspace', [WorkspaceController::class, 'task_board'])->name('workspace.index');
+    Route::post('/workspace/create-board', [WorkspaceController::class, 'createBoard'])->name('workspace.createBoard');
+});
+
+
+
+
+

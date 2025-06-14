@@ -259,7 +259,7 @@ class ForumController extends Controller
                 if ($likeEntry->like === 1) {
                     // Eğer zaten beğenmişse geri al
                     DB::table('general_topics_likes')->where('user_id', $userId)->where('topic_id', $id)->delete();
-                    $topic->decrement('likes');
+                    $topic->decrement('likes'); 
                     $liked = false;
                 } else {
                     // Beğeniyi güncelle (Dislike'ı kaldır, Like ekle)
@@ -281,7 +281,7 @@ class ForumController extends Controller
                 $liked = true;
             }
 
-            $topic->save();
+            // $topic->save();      
             DB::commit();
 
             return response()->json([

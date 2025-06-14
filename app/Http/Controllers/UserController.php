@@ -19,44 +19,57 @@ use App\Models\UniversityTopic;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    public function kullanici_bilgileri(){
+    public function user_informations(){
         if (Auth::check()) {
             $user = Auth::user();
             $universities = University::all();
             
-            return view("user.kullanici_bilgileri", compact('user','universities'));
+            return view("user.user_informations", compact('user','universities'));
         } else {
             return redirect('/login')->with('message', 'Lütfen giriş yapınız.');
         }
     }
 
-    public function kullanici_bilgileri_duzenle($id){
-        $user = User::find($id);
+     public function updateImage(Request $request)
+    {
+        $user = Auth::user();
 
-        return view('user.kullanici_bilgileri_duzenle',compact('user'));
-    }
+        $request->validate([
+            'user_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', 
+        ],
+        [
+            'user_image.required' => 'Lütfen bir profil resmi yükleyin.',
+            'user_image.image' => 'Yüklenen dosya bir resim olmalıdır.',
+            'user_image.mimes' => 'Yalnızca jpeg, png, jpg ve gif formatındaki resimler kabul edilir.',
+            'user_image.max' => 'Resim boyutu 2MB\'dan büyük olmamalıdır.'
+        ]);
 
-    public function kullanici_bilgileri_duzenle_post(Request $request){
-        $updatedData = [
-            'username'   => $request->input('kullanici_adi'),
-            'name'       => $request->input('name'),
-            'email'      => $request->input('email'),
-            'university' => $request->input('universite'),
-        ];
-
-        $update= User::where('id',$request->id)->update($updatedData);
-
-        if ($update) {
-            Session::flash('success','Bilgiler başarıyla güncellendi.');
-            return redirect()->route('kullanici_bilgileri');
-        } else {
-            Session::flash('error','Bilgiler güncellenemedi!');
-            return back();
+        // Eğer önceden yüklenmiş bir dosya varsa sil
+        if ($user->user_image && Storage::disk('public')->exists('profile_images/' . $user->user_image)) {
+            Storage::disk('public')->delete('profile_images/' . $user->user_image);
         }
-    }
+
+        // Dosyayı yükle ve ismini kaydet
+        $file = $request->file('user_image');
+        $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+        $file->storeAs('profile_images', $filename, 'public');
+
+        $path = $file->storeAs('profile_images', $filename, 'public');
+
+        if (!$path) {
+            return back()->withErrors(['user_image' => 'Dosya yüklenemedi.']);
+        }
+
+        // Kullanıcı modelini güncelle
+        $user->user_image = $filename;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Profil resmi başarıyla güncellendi.');
+    }//End
 
     public function updateProfile(Request $request)
     {
@@ -95,7 +108,6 @@ class UserController extends Controller
         return response()->json(['exists' => $exists]);
     }//End
     
-
     public function checkEmail(Request $request)
     {
         $email = $request->email;
@@ -144,7 +156,7 @@ class UserController extends Controller
         $user->new_email = null; 
         $user->save();
 
-        return redirect()->route('kullanici_bilgileri')->with('success', 'E-posta adresiniz başarıyla güncellenmiştir.');
+        return redirect()->route('user.informations')->with('success', 'E-posta adresiniz başarıyla güncellenmiştir.');
     }//End
     
     public function my_statistics(){
@@ -256,22 +268,27 @@ class UserController extends Controller
 
             $cities_topics_likes = CityTopicsLike::where('user_id', $user->id)
                 ->with('topic')
-                ->where('like','1')    
-                ->get();
+                ->where('like', '1')
+                ->get()
+                ->each(fn($item) => $item->type = 'city');
 
             $universities_topics_likes = UniversityTopicsLike::where('user_id', $user->id)
-                ->with('topic')    
-                ->where('like','1')    
-                ->get(); 
+                ->with('topic')
+                ->where('like', '1')
+                ->get()
+                ->each(fn($item) => $item->type = 'university');
 
             $general_topics_likes = GeneralTopicsLike::where('user_id', $user->id)
                 ->with('topic')
-                ->where('like','1')    
-                ->get();    
-                
-            $liked_topics = $cities_topics_likes->merge($universities_topics_likes)
-            ->merge($general_topics_likes)
-            ->sortByDesc(fn($topic) => $topic->topic->created_at);
+                ->where('like', '1')
+                ->get()
+                ->each(fn($item) => $item->type = 'general');
+
+            $liked_topics = $cities_topics_likes
+                ->merge($universities_topics_likes)
+                ->merge($general_topics_likes)
+                ->sortByDesc(fn($topic) => $topic->topic->created_at);
+
 
         return view('user.my_likes',compact('liked_topics','user'));
     }//End
@@ -279,11 +296,11 @@ class UserController extends Controller
     public function my_comments(){
         $user = Auth::user();
 
-        $my_cities_comments = CityTopic::where('user_id', $user->id)->get();
+        $my_cities_comments = CityTopic::where('user_id', $user->id)->get()->each(fn($item) => $item->type = 'city');;
 
-        $my_universities_comments = UniversityTopic::where('user_id', $user->id)->get();
+        $my_universities_comments = UniversityTopic::where('user_id', $user->id)->get()->each(fn($item) => $item->type = 'university');;
 
-        $my_general_comments = GeneralTopic::where('user_id', $user->id)->get();
+        $my_general_comments = GeneralTopic::where('user_id', $user->id)->get()->each(fn($item) => $item->type = 'general');
     
         $my_comments = $my_cities_comments->merge($my_universities_comments)
         ->merge($my_general_comments)
