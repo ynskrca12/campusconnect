@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\WorkspaceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CityController;
@@ -154,3 +155,7 @@ Route::post('/contact-submit',[PageController::class, 'contact_submit'])->name('
 
 Route::get('/hakkimizda',[PageController::class, 'about_us'])->name('about.us');
 Route::get('/hizmetlerimiz',[PageController::class, 'services'])->name('services');
+
+Route::get('/calisma-alanim',[WorkspaceController::class, 'my_workspace'])->name('my_workspace');
+Route::post('/workspace/task', [WorkspaceController::class, 'storeTask'])->name('workspace.task.store');
+Route::patch('/workspace/task/{task}/status', [WorkspaceController::class, 'updateTaskStatus'])->name('workspace.task.update.status');
