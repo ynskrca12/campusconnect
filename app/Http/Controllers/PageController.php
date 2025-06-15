@@ -246,6 +246,7 @@ class PageController extends Controller
                         'username' => $reply->user->username,
                         'user_image' => $userImagePath,
                         'bg_color' => $bgColor,
+                        'user_id' => $reply->user->id
                     ];
                 });
 
@@ -257,6 +258,7 @@ class PageController extends Controller
                 'user_image' => $userImagePath,
                 'bg_color' => $bgColor,
                 'replies' => $replies,
+                'user_id' => $comment->user->id
             ];
         });
 

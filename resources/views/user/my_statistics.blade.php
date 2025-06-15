@@ -140,26 +140,8 @@
                                                                 <p style="color: #888;font-size: 12px;">{{ $statistics['mostLikedTopicCity']->created_at->format('d.m.Y H:i') }}</p>
                                                             </div>
                                                         </div>
-                                                        @php 
-                                                            $imageName = $user->user_image;
-                                                            $imagePath = $imageName
-                                                                ? asset('storage/profile_images/' . $imageName)
-                                                                : asset('assets/images/icons/user.png');
-                                                            
-                                                            $bgColor = match ($imageName) {
-                                                                'man.png' => '#95bdff',
-                                                                'woman.png' => '#ffbdd3',
-                                                                default => 'transparent',
-                                                            };
-                                                        @endphp 
                                                         <div class="avatar-container">
-                                                            <a href="">
-                                                                <img class="avatar" 
-                                                                style="background-color: {{ $bgColor }};"
-                                                                src="{{ $imagePath }}"
-                                                                data-default="{{ asset('img/default-profile-picture-light.svg') }}" 
-                                                                alt="usuyensolucan" title="usuyensolucan">
-                                                            </a>
+                                                            <x-user-avatar :user="$user" />
                                                         </div>
                                                     </div>                            
                                                 </div>
@@ -199,26 +181,8 @@
                                                                 <p style="color: #888;font-size: 12px;">{{ $statistics['mostLikedTopicUniversity']->created_at->format('d.m.Y H:i') }}</p>
                                                             </div>
                                                         </div>
-                                                        @php 
-                                                            $imageName = $user->user_image;
-                                                            $imagePath = $imageName
-                                                                ? asset('storage/profile_images/' . $imageName)
-                                                                : asset('assets/images/icons/user.png');
-                                                            
-                                                            $bgColor = match ($imageName) {
-                                                                'man.png' => '#95bdff',
-                                                                'woman.png' => '#ffbdd3',
-                                                                default => 'transparent',
-                                                            };
-                                                        @endphp 
                                                         <div class="avatar-container">
-                                                            <a href="">
-                                                                <img class="avatar" 
-                                                                style="background-color: {{ $bgColor }};"
-                                                                src="{{ $imagePath }}"
-                                                                data-default="{{ asset('img/default-profile-picture-light.svg') }}" 
-                                                                alt="usuyensolucan" title="usuyensolucan">
-                                                            </a>
+                                                            <x-user-avatar :user="$user" />
                                                         </div>
                                                     </div>                            
                                                 </div>
@@ -258,26 +222,8 @@
                                                                 <p style="color: #888;font-size: 12px;">{{ $statistics['mostLikedTopicGeneral']->created_at->format('d.m.Y H:i') }}</p>
                                                             </div>
                                                         </div>
-                                                        @php 
-                                                            $imageName = $user->user_image;
-                                                            $imagePath = $imageName
-                                                                ? asset('storage/profile_images/' . $imageName)
-                                                                : asset('assets/images/icons/user.png');
-                                                            
-                                                            $bgColor = match ($imageName) {
-                                                                'man.png' => '#95bdff',
-                                                                'woman.png' => '#ffbdd3',
-                                                                default => 'transparent',
-                                                            };
-                                                        @endphp 
                                                         <div class="avatar-container">
-                                                            <a href="">
-                                                                <img class="avatar" 
-                                                                style="background-color: {{ $bgColor }};"
-                                                                src="{{ $imagePath }}"
-                                                                data-default="{{ asset('img/default-profile-picture-light.svg') }}" 
-                                                                alt="usuyensolucan" title="usuyensolucan">
-                                                            </a>
+                                                            <x-user-avatar :user="$user" />
                                                         </div>
                                                     </div>                            
                                                 </div>

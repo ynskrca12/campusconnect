@@ -258,22 +258,6 @@
             display: flex;
             justify-content: end;
         }
-
-        .avatar{
-            display: block;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            margin-top: -2px;
-            margin-bottom: 2px;
-            object-fit: cover;
-        }
-        .footer-info{
-            float: left;
-            vertical-align: middle;
-            padding: 4px;
-            padding-right: 10px;
-        }
 </style>
 @endsection
 

@@ -154,28 +154,9 @@
                                                     </p>
                                                 </div>
                                             </div>
-                                            @php 
-                                                $imageName = $topic->user->user_image;
-                                                 
-                                                $imagePath = $imageName
-                                                    ? asset('storage/profile_images/' . $imageName)
-                                                    : asset('assets/images/icons/user.png');
-                                                 
-                                                $bgColor = match ($imageName) {
-                                                    'man.png' => '#95bdff',
-                                                    'woman.png' => '#ffbdd3',
-                                                    default => 'transparent',
-                                                };
-                                            @endphp
-                                            <div class="avatar-container">
-                                                <a href="">
-                                                    <img class="avatar" 
-                                                        style="background-color: {{ $bgColor }};"
-                                                        src="{{ $imagePath }}"
-                                                        data-default="{{ asset('img/default-profile-picture-light.svg') }}" 
-                                                        alt="usuyensolucan" title="usuyensolucan">
-                                                </a>
-                                            </div>
+                                    <div class="avatar-container">
+                                        <x-user-avatar :user="$topic->user" />
+                                    </div>
                                         </div>                            
                                     </div>
                                 </div>
@@ -584,8 +565,7 @@
                             
                             response.topics.forEach(topic => {
 
-                            const userImage = topic.user_image_path;
-                            const backgroundColor = topic.bg_color;
+                            const avatarHTML = renderUserAvatar(topic);
                             
                                 newContent += `
                                     <div class="topic">
@@ -621,12 +601,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="avatar-container">
-                                                    <a href="">
-                                                        <img class="avatar" 
-                                                            src="${userImage}" 
-                                                            style="background-color: ${backgroundColor};"    
-                                                            alt="User Avatar">
-                                                    </a>
+                                                    ${avatarHTML}
                                                 </div>
                                             </div>
                                         </div>
@@ -705,8 +680,7 @@
 
                             response.topics.forEach(topic => {
 
-                                const userImage = topic.user_image_path;
-                                const backgroundColor = topic.bg_color;
+                                const avatarHTML = renderUserAvatar(topic);
 
                                 newContent += `
                                     <div class="topic">
@@ -742,12 +716,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="avatar-container">
-                                                    <a href="">
-                                                        <img class="avatar" 
-                                                            src="${userImage}" 
-                                                            style="background-color: ${backgroundColor};" 
-                                                            alt="User Avatar">
-                                                    </a>
+                                                    ${avatarHTML}
                                                 </div>
                                             </div>
                                         </div>

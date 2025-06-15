@@ -1,0 +1,14 @@
+.text-primary-color {
+  color: #001b48 !important;
+}
+
+.bg-primary-color {
+  background: #001b48 !important;
+}
+
+.object-fit-cover {
+    object-fit: cover;
+}
+.object-fit-contain {
+    object-fit: contain;
+}

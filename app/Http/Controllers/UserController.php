@@ -308,4 +308,36 @@ class UserController extends Controller
 
         return view('user.my_comments',compact('user','my_comments'));
     }//End
+
+    public function preview($id)
+    {
+        $user = User::findOrFail($id);
+        
+        $this->userCommentsCount($user->id);
+
+        return response()->json([
+            'username' => $user->username,
+            'university' => $user->university,
+            'joined_at' => $user->created_at->format('d.m.Y'),
+            'user_image' => asset('storage/profile_images/' . ($user->user_image )),
+            'user_comments_count' => $this->userCommentsCount($user->id)
+        ]);
+    }//End
+
+     private function userCommentsCount($id){
+        $user = User::findOrFail($id);
+
+        $my_cities_comments = CityTopic::where('user_id', $user->id)->get();
+
+        $my_universities_comments = UniversityTopic::where('user_id', $user->id)->get();
+
+        $my_general_comments = GeneralTopic::where('user_id', $user->id)->get();
+    
+        $my_comments = $my_cities_comments->merge($my_universities_comments)
+        ->merge($my_general_comments)
+        ->count();
+        
+        return $my_comments;
+    }//End
+
 }

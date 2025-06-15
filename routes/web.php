@@ -183,6 +183,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
+Route::get('/user-preview/{id}', [UserController::class, 'preview']);
 
 
 

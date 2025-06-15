@@ -154,26 +154,8 @@
                                                     </p>
                                                 </div>
                                             </div>
-                                            @php 
-                                                $imageName = $topic->user->user_image;
-                                                
-                                                $imagePath = $imageName
-                                                    ? asset('storage/profile_images/' . $imageName)
-                                                    : asset('assets/images/icons/user.png');
-                                                
-                                                $bgColor = match ($imageName) {
-                                                    'man.png' => '#95bdff',
-                                                    'woman.png' => '#ffbdd3',
-                                                    default => 'transparent',
-                                                };
-                                            @endphp
                                             <div class="avatar-container">
-                                                <a href="">
-                                                    <img class="avatar" 
-                                                        style="background-color: {{ $bgColor }};"
-                                                        src="{{ $imagePath }}"
-                                                        alt="usuyensolucan" title="usuyensolucan">
-                                                </a>
+                                                <x-user-avatar :user="$topic->user" />
                                             </div>
                                         </div>                            
                                     </div>
@@ -541,7 +523,6 @@
                     success: function (response) {
                         // Dönen verilerdeki her bir başlığı listeye ekle
                         response.topics.forEach(topic => {
-                            console.log(response.topics)
                             const listItem = `
                                 <li class="list-group-item">
                                     <a href="/forum/sehir/mevzu/${topic.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
@@ -575,9 +556,8 @@
                             let newContent = "";
 
                             response.topics.forEach(topic => {
-
-                                const userImage = topic.user_image_path;
-                                const backgroundColor = topic.bg_color;
+                                console.log(topic);
+                                const avatarHTML = renderUserAvatar(topic);
 
                                 newContent += `
                                     <div class="topic">
@@ -613,12 +593,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="avatar-container">
-                                                    <a href="">
-                                                        <img class="avatar" 
-                                                            src="${userImage}"
-                                                            style="background-color: ${backgroundColor};"
-                                                            alt="User Avatar">
-                                                    </a>
+                                                    ${avatarHTML}
                                                 </div>
                                             </div>
                                         </div>
@@ -695,8 +670,7 @@
 
                             response.topics.forEach(topic => {
 
-                                const userImage = topic.user_image_path;
-                                const backgroundColor = topic.bg_color;
+                                const avatarHTML = renderUserAvatar(topic.user);
 
                                 newContent += `
                                     <div class="topic">
@@ -732,12 +706,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="avatar-container">
-                                                    <a href="">
-                                                        <img class="avatar" 
-                                                            src="${userImage}" 
-                                                            style="background-color: ${backgroundColor};"    
-                                                            alt="User Avatar">
-                                                    </a>
+                                                    ${avatarHTML}
                                                 </div>
                                             </div>
                                         </div>

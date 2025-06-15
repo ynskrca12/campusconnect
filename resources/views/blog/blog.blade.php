@@ -308,7 +308,7 @@
                                         <div class="d-flex align-items-start mb-2">
                                             <img src="${comment.user_image}" 
                                             style="background-color: ${comment.bg_color };"    
-                                            class="rounded-circle me-3" width="50" height="50">
+                                            class="rounded-circle me-3 user-avatar-component" width="50" height="50" data-userid="${comment.user_id}">
                                             <div>
                                                 <h6 class="mb-0">${comment.username}</h6>
                                                 <small class="text-muted">${comment.created_at}</small>
@@ -332,7 +332,7 @@
                                                 <div class="d-flex align-items-start mb-2">
                                                     <img src="${reply.user_image}" 
                                                     style="background-color: ${reply.bg_color };"    
-                                                    class="rounded-circle me-3" width="40" height="40">
+                                                    class="rounded-circle me-3 user-avatar-component" width="40" height="40" data-userid="${reply.user_id}">
                                                     <div>
                                                         <h6 class="mb-0">${reply.username}</h6>
                                                         <small class="text-muted">${reply.created_at}</small>

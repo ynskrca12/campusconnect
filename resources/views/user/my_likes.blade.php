@@ -99,27 +99,8 @@
                                                                 <p style="color: #888;font-size: 12px;">{{ $item->topic->created_at->format('d.m.Y H:i') }}</p>
                                                             </div>
                                                         </div>
-                                                        @php 
-                                                            $imageName = $item->topic->user->user_image;
-                                                            
-                                                            $imagePath = $imageName
-                                                                ? asset('storage/profile_images/' . $imageName)
-                                                                : asset('assets/images/icons/user.png');
-                                                            
-                                                            $bgColor = match ($imageName) {
-                                                                'man.png' => '#95bdff',
-                                                                'woman.png' => '#ffbdd3',
-                                                                default => 'transparent',
-                                                            };
-                                                        @endphp  
                                                         <div class="avatar-container">
-                                                            <a href="">
-                                                                <img class="avatar" 
-                                                                style="{{ $bgColor }}"
-                                                                src="{{ $imagePath }}"
-                                                                data-default="{{ asset('img/default-profile-picture-light.svg') }}" 
-                                                                alt="usuyensolucan" title="usuyensolucan">
-                                                            </a>
+                                                            <x-user-avatar :user="$item->topic->user" />
                                                         </div>
                                                     </div>                            
                                                 </div>

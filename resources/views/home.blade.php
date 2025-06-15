@@ -57,27 +57,8 @@
                                         </div>
                                     </div>
 
-                                    @php
-                                        $imageName = $mostLikedTopicUniversity->user->user_image;
-                                        
-                                        $imagePath = $imageName
-                                            ? asset('storage/profile_images/' . $imageName)
-                                            : asset('assets/images/icons/user.png');
-                                         
-                                        $bgColor = match ($imageName) {
-                                            'man.png' => '#95bdff',
-                                            'woman.png' => '#ffbdd3',
-                                            default => 'transparent',
-                                        };
-                                    @endphp
                                     <div class="avatar-container">
-                                        <a href="">
-                                            <img class="avatar" 
-                                            style="background-color: {{ $bgColor }};"
-                                            src="{{ $imagePath }}"
-                                            data-default="{{ asset('img/default-profile-picture-light.svg') }}" 
-                                            alt="usuyensolucan" title="usuyensolucan">
-                                        </a>
+                                        <x-user-avatar :user="$mostLikedTopicUniversity->user" />
                                     </div>
                                 </div>                            
                             </div>
@@ -122,27 +103,8 @@
                                             <p style="color: #888;font-size: 12px;">{{ $mostLikedTopicGeneral->created_at->format('d.m.Y H:i') }}</p>
                                         </div>
                                     </div>
-                                    @php 
-                                        $imageName = $mostLikedTopicGeneral->user->user_image;
-                                         
-                                        $imagePath = $imageName
-                                            ? asset('storage/profile_images/' . $imageName)
-                                            : asset('assets/images/icons/user.png');
-                                         
-                                        $bgColor = match ($imageName) {
-                                            'man.png' => '#95bdff',
-                                            'woman.png' => '#ffbdd3',
-                                            default => 'transparent',
-                                        };
-                                    @endphp
-                                    <div class="avatar-container">
-                                        <a href="">
-                                            <img class="avatar" 
-                                            style="background-color: {{ $bgColor }};"
-                                            src="{{ $imagePath }}"
-                                            data-default="{{ asset('img/default-profile-picture-light.svg') }}" 
-                                            alt="usuyensolucan" title="usuyensolucan">
-                                        </a>
+                                   <div class="avatar-container">
+                                        <x-user-avatar :user="$mostLikedTopicGeneral->user" />
                                     </div>
                                 </div>                            
                             </div>
