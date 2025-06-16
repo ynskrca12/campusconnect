@@ -52,58 +52,12 @@
                 </div>
                 <div id="topic-list">
                     @foreach ($randomTopics as $topic)
-                        <div class="topic mb-3">
-                            <h3 class="topic-title mb-3">
-                                <a href="{{ route('topic.comments', ['slug' => $topic->topic_title_slug]) }}">
-                                    {{ $topic->topic_title }}
-                                </a>
-                            </h3>
-                            
-                            <p>{{ $topic->comment }}</p>
-                            <div class="like-dislike mt-3">
-                                <div class="like-btn d-inline me-3" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
-                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $topic->likes }}</span>
-                                </div>
-                                <div class="dislike-btn d-inline" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
-                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $topic->dislikes }}</span>
-                                </div>
-                                <div class="d-inline ms-3">
-                                    <a href="{{ route('topic.comments', ['slug' => $topic->topic_title_slug]) }}"
-                                        title="Yanıtla"
-                                        style="color: #555;">
-                                        <i class="fa-solid fa-reply"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="meta">
-                                <div class="d-flex align-items-center entry-footer-bottom">
-                                    <div class="footer-info">
-                                        <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
-                                            <p style="display: block;white-space:nowrap;color:#001b48;">{{ $topic->user->username ?? 'Anonim' }}</p>
-                                        </div>
-
-                                        <div style="display: block;padding:1px 2px;line-height: 14px;">
-                                            <p style="color: #888;font-size: 12px;">{{ $topic->created_at->format('d.m.Y H:i') }}</p>
-                                        </div>
-                                    </div>
-                                      <div class="avatar-container">
-                                        <x-user-avatar :user="$topic->user" />
-                                    </div>
-                                </div>                            
-                            </div>
-                        </div>
+                         <x-topic-box :topic="$topic" />
                     @endforeach   
                 </div>     
             </div>
 
         </div>
-
-        <!-- Sağ Menü (Reklam Alanı) -->
-        {{-- <div class="col-md-2">
-            <div class="advertisement">
-               
-            </div>
-        </div> --}}
     </div>
   
 @endsection 
@@ -121,47 +75,6 @@
             text-transform: none !important; 
             letter-spacing: 0.3px !important; 
             cursor: pointer;
-        }
-  
-        .avatar{
-            display: block;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            margin-top: -2px;
-            margin-bottom: 2px;
-            object-fit: cover;
-        }
-        .footer-info{
-            float: left;
-            vertical-align: middle;
-            padding: 4px;
-            padding-right: 10px;
-        }
-         .topic {
-            padding: 10px 0;
-        }
-       
-        .topic h3 a{
-            margin: 0;
-            font-size: 17px;
-            color: #333 !important;
-            text-decoration: none;
-        }
-
-        .topic h3 a:hover{
-            color: #424242 !important; 
-            text-decoration: underline; 
-        }
-
-        .topic p {
-            margin: 5px 0;
-            font-size: 14px;
-            color: #666;
-        }
-        .topic .meta {
-            display: flex;
-            justify-content: end;
         }
         #subcategories-list .list-group-item{
             border:none !important;
@@ -611,65 +524,17 @@
     {{-- get random topics with ajax --}}
     <script>
         $(document).on('click', '#refresh-icon', function () {
-            // İkon dönerken bir loading efekti göstermek isterseniz
             $(this).addClass('fa-spin');
     
             $.ajax({
                 url: '{{ route("topics.random") }}',
                 method: 'GET',
                 success: function (response) {
-                    let content = '';
-                    response.data.forEach(topic => {
-                    console.log(topic.topic_title_slug)
-
-                        content += `
-                            <div class="topic mb-3">
-                                 <h3 class="topic-title mb-3">
-                                    <a href="/forum/mevzu/${topic.topic_title_slug}">
-                                        ${topic.topic_title}
-                                    </a>
-                                </h3>
-                                <p>${topic.comment}</p>
-                                    <div class="like-dislike mt-3">
-                                        <div class="like-btn d-inline me-3" data-id="${topic.id}" style="cursor: pointer; color: #888;">
-                                            <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">${topic.likes}</span>
-                                        </div>
-                                        <div class="dislike-btn d-inline" data-id="${topic.id}" style="cursor: pointer; color: #888;">
-                                            <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">${topic.dislikes}</span>
-                                        </div>
-                                         <div class="d-inline ms-3">
-                                            <a href="/forum/mevzu/${topic.topic_title_slug}"
-                                                title="Yanıtla"
-                                                style="color: #555;">
-                                                <i class="fa-solid fa-reply"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                <div class="meta">
-                                    <div class="d-flex align-items-center entry-footer-bottom">
-                                        <div class="footer-info">
-                                            <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
-                                                <p style="display: block;white-space:nowrap;color:#001b48;">
-                                                    ${topic.user ? topic.user.username : 'Anonim'}
-                                                </p>
-                                            </div>
-                                            <div style="display: block;padding:1px 2px;line-height: 14px;">
-                                                <p style="color: #888;font-size: 12px;">
-                                                    ${new Date(topic.created_at).toLocaleString('tr-TR')}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="avatar-container">
-                                            <x-user-avatar :user="$topic->user" />
-                                        </div>
-                                    </div>                            
-                                </div>
-                            </div>
-                        `;
-                    });
-    
-                    $('#topic-list').html(content);
+                    if (response.success) {
+                        $('#topic-list').html(response.html);
+                    } else {
+                        $('#topic-list').html('<p class="text-danger">Veri getirilemedi.</p>');
+                    }
     
                     $('#refresh-icon').removeClass('fa-spin');
                 },

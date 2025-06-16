@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\View;
 
 
 class CityController extends Controller
@@ -134,12 +135,7 @@ class CityController extends Controller
 
     public function getCityCategoryTopicContent(Request $request){
         $category = $request->input('category');
-        $cityId = $request->input('cityId');
-
-        // $topics = DB::table('cities_topics')
-        //     ->where('city_id',$cityId)
-        //     ->where('category',$category)
-        //     ->get();
+        $cityId = $request->input('cityId'); 
 
         $topics = CityTopic::
             where('city_id', $cityId)
@@ -187,9 +183,21 @@ class CityController extends Controller
             };
 
             return $topic;
-    });
+        });
 
-            return response()->json(['topics' => $topics]);
+            // Render Component HTMLs
+        $html = '';
+        foreach ($topics as $topic) {
+            $html .= View::make('components.topic-box', [
+                'topic' => $topic,
+                'routeName' => 'city.topic.comments' 
+            ])->render();
+        }
+
+        return response()->json([
+            'success' => true,
+            'html' => $html
+        ]);
     }//End
 
     public function addCityTopic(Request $request)

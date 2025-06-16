@@ -21,3 +21,16 @@
         alt="{{ $user->username ?? 'Anonim' }}" 
         title="{{ $user->username ?? 'Anonim' }}">
 </a>
+
+
+<style>
+    .avatar{
+        display: block;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        margin-top: -2px;
+        margin-bottom: 2px;
+        object-fit: cover;
+    }
+</style>

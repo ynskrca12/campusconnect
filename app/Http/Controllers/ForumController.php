@@ -204,42 +204,45 @@ class ForumController extends Controller
 
     public function getRandomTopics()
     {
-        try {    
-            // get random topics from database
+        try {
+            // Rastgele konuları çek
             $randomTopics = GeneralTopic::with('user')
-                ->whereNotNull('created_by') 
+                ->whereNotNull('created_by')
                 ->inRandomOrder()
                 ->limit(10)
                 ->get();
-    
-           
+
             if ($randomTopics->isEmpty()) {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Gösterilecek konu bulunamadı.',
-                    'data' => []
+                    'html' => '<p class="text-muted">Gösterilecek konu bulunamadı.</p>'
                 ], 200);
             }
-    
+
+            // Tüm topic'leri component olarak render et
+            $html = '';
+            foreach ($randomTopics as $topic) {
+                $html .= view('components.topic-box', ['topic' => $topic])->render();
+            }
+
             return response()->json([
                 'success' => true,
-                'message' => 'Konular başarıyla alındı.',
-                'data' => $randomTopics
+                'html' => $html
             ], 200);
-    
+
         } catch (\Throwable $e) {
-            
             Log::error('Rastgele konular alınırken hata oluştu:', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-    
+
             return response()->json([
                 'success' => false,
-                'message' => 'Bir hata oluştu. Lütfen daha sonra tekrar deneyin.'
+                'html' => '<p class="text-danger">Bir hata oluştu. Lütfen daha sonra tekrar deneyin.</p>'
             ], 500);
         }
-    }//End
+    }
+
 
     public function like($id)
     {

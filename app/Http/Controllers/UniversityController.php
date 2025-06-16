@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\View;
 
 
 class UniversityController extends Controller
@@ -106,12 +106,7 @@ class UniversityController extends Controller
 
     public function getUnivercityCategoryTopicContent(Request $request){
         $category = $request->input('category');
-        $univercityId = $request->input('univercityId');
-
-        // $topics = UniversityTopic::
-        //     where('university_id',$univercityId)
-        //     ->where('category',$category)
-        //     ->get();
+        $univercityId = $request->input('univercityId'); 
 
         $topics = UniversityTopic::
             where('university_id', $univercityId)
@@ -161,7 +156,19 @@ class UniversityController extends Controller
             return $topic;
         });
 
-            return response()->json(['topics' => $topics]);
+        // Render Component HTMLs
+        $html = '';
+        foreach ($topics as $topic) {
+            $html .= View::make('components.topic-box', [
+                'topic' => $topic,
+                'routeName' => 'university.topic.comments' 
+            ])->render();
+        }
+
+        return response()->json([
+            'success' => true,
+            'html' => $html
+        ]);
     }//End
 
     public function addUniversityTopic(Request $request)
