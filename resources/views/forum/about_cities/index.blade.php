@@ -1,29 +1,34 @@
 @extends('layouts.master') 
 
 @section('content')
-    <div class="row mb-3" style="margin-top: -36px;">
+    <div class="row mb-4">
         <div class="col-12">
-            <!-- Sayfa Başlığı -->
-            <h1 class="page-title text-center mb-0">
-                {{ $city->title }} 
-            </h1>
+            <div class="university-banner-wrapper">
+                <img src="{{ asset( $city->image) }}" alt="{{ $city->title }}"
+                onerror="this.onerror=null; this.src='https:\//campusconnect.com.tr/public/assets/images/city-banner/default.jpg';">
+                <div class="university-banner-overlay">
+                    <div class="university-banner-title">
+                        {{ $city->title }}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
 
     <div class="row mb-3" style="border-bottom: 1px solid;">
-        <div class="col-md-1 d-flex align-items-center mobile-hidden">
+        <div class="col-md-3 d-flex align-items-center mobile-hidden">
             <i class="fa-solid fa-circle-left" style="font-size: 25px; cursor: pointer;" onclick="goBack()"></i>
         </div>
         
-        <div class="col-md-11 mb-3">
-            <ul class="nav nav-tabs d-flex justify-content-center mobile-hidden" id="mainTabs" role="tablist">
+        <div class="col-md-9 mb-3">
+            <ul class="nav nav-tabs d-flex justify-content-between mobile-hidden" id="mainTabs" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="free-zone-tab" data-bs-toggle="tab" href="#free-zone" role="tab" aria-controls="free-zone" aria-selected="true" data-category="free-zone">Serbest Bölge ({{$topicCount['free-zone']}})</a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" id="general-tab" data-bs-toggle="tab" href="#general-info" role="tab" aria-controls="general-info" aria-selected="true" data-category="general-info">Genel Bilgiler ({{$topicCount['general-info']}})</a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link" id="social-life-tab" data-bs-toggle="tab" href="#social-life" role="tab" aria-controls="social-life" aria-selected="false" data-category="social-life">Sosyal Hayat ({{$topicCount['social-life']}})</a>
                 </li>
@@ -40,7 +45,7 @@
                 <select class="form-select" id="mobileTabs" aria-label="Default select example" 
                     style="font-size: 13px;width: 70%;">
                     <option value="#free-zone" selected>Serbest Bölge ({{$topicCount['free-zone']}})</option>
-                    <option value="#general-info">Genel Bilgiler ({{$topicCount['general-info']}})</option>
+                    {{-- <option value="#general-info">Genel Bilgiler ({{$topicCount['general-info']}})</option> --}}
                     <option value="#social-life">Sosyal Yaşam ({{$topicCount['social-life']}})</option>
                     <option value="#job-opportunities">İş Fırsatları ({{$topicCount['job-opportunities']}})</option>
                     <option value="#question-answer">Soru Cevap ({{$topicCount['question-answer']}})</option>
@@ -105,7 +110,7 @@
         </div>
 
         <!--main content-->
-            <div class="col-md-7" >
+            <div class="col-md-9" >
                 <div class="tab-content">
 
                     <div class="tab-pane fade show active" id="free-zone" role="tabpanel" aria-labelledby="free-zone-tab">
@@ -124,10 +129,9 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane fade " id="general-info" role="tabpanel" aria-labelledby="general-tab">
+                    {{-- <div class="tab-pane fade " id="general-info" role="tabpanel" aria-labelledby="general-tab">
                         <div class="d-flex justify-content-between">
-                            <div class="d-flex align-items-center">
-                                {{-- <span class="categoryTitle">genel bilgileri</span> --}}
+                            <div class="d-flex align-items-center"> 
                             </div>
                            <div> 
                                 <button class="btn btnExplain" data-category="general-info">
@@ -135,10 +139,9 @@
                                 </button>
                             </div>
                         </div>        
-                        <div id="general-info-topic-list">
-                            <!-- İçerik buraya gelecek -->
+                        <div id="general-info-topic-list"> 
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="tab-pane fade" id="social-life" role="tabpanel" aria-labelledby="social-life-tab">
                         <div class="d-flex justify-content-between">
@@ -232,6 +235,54 @@
 
 @section('css')
 <style>
+    .university-banner-wrapper {
+        position: relative;
+        width: 100%;
+        height: 250px;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .university-banner-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+        filter: brightness(90%);
+    }
+
+    .university-banner-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .university-banner-title {
+        color: #fff;
+        font-size: 2.5rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    @media (max-width: 576px) {
+        .university-banner-wrapper {
+            height: 200px;
+        }
+
+        .university-banner-title {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+<style>
     .fa-envelope{
        font-size: 22px !important;
    }
@@ -250,7 +301,7 @@
        border-bottom: 0px;
    }
    .nav-tabs .nav-item{
-       width: 16%;
+       width: 20%;
        text-align: center;
    }
 

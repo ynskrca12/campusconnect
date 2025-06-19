@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="row" style="margin-top: -25px;">
+    <div class="row mt-5">
         <!-- Sol Menü (Alt Başlıklar) -->
         <div class="col-md-3 mb-3">
             <div class="mobile-hidden d-block">
@@ -481,7 +481,7 @@
             padding:2.75rem 15px !important;
         } 
         .custom-card{
-            min-width: 350px;
+            width: 300px !important;
             border-radius: 17px !important;
         }
         .btnDetail{
@@ -538,7 +538,7 @@
             font-weight: 600;
         }
         .content-area {
-            padding: 15px 30px;
+            padding: 0px 10px;
             
         }
         .activeCategory {
@@ -703,7 +703,6 @@
             .main-content{
                 border-top: 1px solid #e0e0e0;
                 border-left: none;
-                padding: 0;
             }
 
             .page-title{

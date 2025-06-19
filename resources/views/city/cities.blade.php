@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="row" style="margin-top: -25px;">
+    <div class="row mt-5">
         <!-- Sol Menü (Alt Başlıklar) -->
         <div class="col-md-2 mb-3">
             <div class="mobile-hidden d-block">

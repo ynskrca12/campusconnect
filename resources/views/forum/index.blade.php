@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="row" style="margin-top: -25px;">
+    <div class="row mt-5">
         <!-- Sol Menü (Alt Başlıklar) -->
         <div class="col-md-3">
             <div class="mobile-hidden">
@@ -33,9 +33,9 @@
         </div>
 
         <!-- Ana İçerik Alanı -->
-        <div class="col-md-7 main-content">
+        <div class="col-md-9 main-content">
             <!-- Forum Başlıkları -->
-            <div class="d-flex justify-content-between mb-3">
+            <div class="d-flex justify-content-between mb-5 px-3">
                 <div>
                     <button id="general-tab" class="btn me-2 activeCategory general-topic-btn">tartışalım</button>
                 </div>
@@ -46,10 +46,10 @@
 
             <!-- Genel Tartışma Alanı İçerikleri -->
             <div id="general-content" class="content-area">
-                <div class="d-flex justify-content-end">
-                    <i class="fa-solid fa-rotate" id="refresh-icon" style="cursor: pointer;" 
+                {{-- <div class="d-flex justify-content-end">
+                    <i class="fa-solid fa-rotate mb-4" id="refresh-icon" style="cursor: pointer;" 
                     data-bs-toggle="tooltip" data-bs-placement="bottom" title="Yenile"></i>
-                </div>
+                </div> --}}
                 <div id="topic-list">
                     @foreach ($randomTopics as $topic)
                          <x-topic-box :topic="$topic" />
@@ -92,7 +92,7 @@
             font-weight: 600;
         }
         .content-area {
-            padding: 15px 30px;
+            padding: 0px 10px;
             
         }
         .activeCategory {

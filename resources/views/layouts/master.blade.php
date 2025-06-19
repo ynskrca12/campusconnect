@@ -23,17 +23,13 @@
 </head>
 <body>
     <div class="container-scroller">
-      <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-        @include('partials.header')
-      </nav>
-    <div class="container-fluid page-body-wrapper">
-            <div class="content-wrapper">
-                 @yield('content')
-                 <x-user-preview-modal />
-            </div>
+            @include('partials.header')
+        <div class="{{ $containerClass ?? 'container' }} mt-4 min-vh-100">
+            @yield('content')
+            <x-user-preview-modal />
+        </div>
+        @include('partials.footer')
     </div>
-    @include('partials.footer')
-</div>
   <!-- Bootstrap core JavaScript -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

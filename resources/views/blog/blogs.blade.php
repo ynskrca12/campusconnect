@@ -14,8 +14,8 @@
     </section>
   
     <section class="section blog-wrap mt-5">
-            <div class="container-fluid">
-                    <div class="row px-md-5">
+            <div class="container-fluid px-0">
+                    <div class="row">
                         <div class="col-lg-9">
                             <div class="row">
                                 @if (!empty($blogs))
@@ -46,8 +46,8 @@
                             </div>
                         </div>
                         <div class="col-lg-3">
-                            <div class="sidebar-wrap px-xxl-4">                                    
-                                <div class="sidebar-widget latest-post card border-0 px-xxl-4 mb-3">
+                            <div class="sidebar-wrap">                                    
+                                <div class="sidebar-widget latest-post card border-0 mb-3">
                                     <h5>En Son Bloglar</h5>
                                     @foreach ($blogs as $blog)
                                         <div class="media border-bottom py-3">
@@ -78,6 +78,7 @@
             background-size: cover; 
             padding: 200px 0;
             background-attachment: fixed;
+            border-radius: 17px;
         }
         .page-body-wrapper {
             padding: 0;

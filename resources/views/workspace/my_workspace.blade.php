@@ -1,5 +1,7 @@
 @extends('layouts.master') 
-
+@php
+    $containerClass = 'container-fluid p-0';
+@endphp
 @section('content') 
 <div class="container-fluid">
     <div class="row">
@@ -54,7 +56,7 @@
 
 
 
-                    <div class="row">
+                    <div class="row min-vh-100">
                         @php
                             $statuses = config('task_statuses');
                         @endphp

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('plaka_cpde');
             $table->string('title');
+            $table->text('image')->nullable();
         });
     }
 

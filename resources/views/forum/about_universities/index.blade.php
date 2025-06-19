@@ -1,29 +1,87 @@
 @extends('layouts.master') 
 
+@section('title', $university->universite_ad)
+@section('meta_description', $university->universite_ad . ' hakkında detaylı bilgiler, yorumlar, bölümler, fakülteler ve kampüs hayatı. ' . $university->universite_ad . ' ile ilgili tüm sorularınızı buradan öğrenin.')
+@section('meta_keywords', $blog->meta_keywords ?? 'blog, haber, yazı')
+
 @section('content')
-    <div class="row mb-3" style="margin-top: -36px;">
+    <div class="row mb-4">
         <div class="col-12">
-            <!-- Sayfa Başlığı -->
-            <h1 class="page-title text-center mb-0">
-                {{ $university->universite_ad }}  
-            </h1>
+            <div class="university-banner-wrapper">
+                <img src="{{ asset( $university->image) }}" alt="{{ $university->universite_ad }}"
+                onerror="this.onerror=null; this.src='https:\//campusconnect.com.tr/public/assets/images/university-banner/default.jpg';">
+                <div class="university-banner-overlay">
+                    <div class="university-banner-title">
+                        {{ $university->universite_ad }}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
 
     <div class="row mb-3" style="border-bottom: 1px solid;">
-        <div class="col-md-1 d-flex align-items-center mobile-hidden">
-            <i class="fa-solid fa-circle-left" style="font-size: 25px; cursor: pointer;" onclick="goBack()"></i>
+       <div class="col-md-3 d-flex align-items-center justify-content-between mobile-hidden">
+        <!-- Geri Tuşu -->
+        <i class="fa-solid fa-circle-left" style="font-size: 25px; cursor: pointer;" onclick="goBack()"></i>
+
+        <!-- Sosyal Medya Butonları -->
+        <div class="d-flex align-items-center gap-4">
+            <!-- Resmi Site -->
+            <a href="https://www.universite-adi.edu.tr" target="_blank">
+                <i class="fa-solid fa-globe" style="font-size: 20px;color:#555"></i>
+            </a>
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/universiteadi" target="_blank">
+                
+                <svg class="mb-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="20px" width="20px" version="1.1" id="Layer_1" viewBox="0 0 551.034 551.034" xml:space="preserve">
+                    <g id="XMLID_13_">                        
+                            <linearGradient id="XMLID_2_" gradientUnits="userSpaceOnUse" x1="275.517" y1="4.5714" x2="275.517" y2="549.7202" gradientTransform="matrix(1 0 0 -1 0 554)">
+                            <stop offset="0" style="stop-color:#E09B3D"/>
+                            <stop offset="0.3" style="stop-color:#C74C4D"/>
+                            <stop offset="0.6" style="stop-color:#C21975"/>
+                            <stop offset="1" style="stop-color:#7024C4"/>
+                        </linearGradient>
+                        <path id="XMLID_17_" style="fill:url(#XMLID_2_);" d="M386.878,0H164.156C73.64,0,0,73.64,0,164.156v222.722   c0,90.516,73.64,164.156,164.156,164.156h222.722c90.516,0,164.156-73.64,164.156-164.156V164.156   C551.033,73.64,477.393,0,386.878,0z M495.6,386.878c0,60.045-48.677,108.722-108.722,108.722H164.156   c-60.045,0-108.722-48.677-108.722-108.722V164.156c0-60.046,48.677-108.722,108.722-108.722h222.722   c60.045,0,108.722,48.676,108.722,108.722L495.6,386.878L495.6,386.878z"/>
+                        
+                            <linearGradient id="XMLID_3_" gradientUnits="userSpaceOnUse" x1="275.517" y1="4.5714" x2="275.517" y2="549.7202" gradientTransform="matrix(1 0 0 -1 0 554)">
+                            <stop offset="0" style="stop-color:#E09B3D"/>
+                            <stop offset="0.3" style="stop-color:#C74C4D"/>
+                            <stop offset="0.6" style="stop-color:#C21975"/>
+                            <stop offset="1" style="stop-color:#7024C4"/>
+                        </linearGradient>
+                        <path id="XMLID_81_" style="fill:url(#XMLID_3_);" d="M275.517,133C196.933,133,133,196.933,133,275.516   s63.933,142.517,142.517,142.517S418.034,354.1,418.034,275.516S354.101,133,275.517,133z M275.517,362.6   c-48.095,0-87.083-38.988-87.083-87.083s38.989-87.083,87.083-87.083c48.095,0,87.083,38.988,87.083,87.083   C362.6,323.611,323.611,362.6,275.517,362.6z"/>
+                        
+                            <linearGradient id="XMLID_4_" gradientUnits="userSpaceOnUse" x1="418.306" y1="4.5714" x2="418.306" y2="549.7202" gradientTransform="matrix(1 0 0 -1 0 554)">
+                            <stop offset="0" style="stop-color:#E09B3D"/>
+                            <stop offset="0.3" style="stop-color:#C74C4D"/>
+                            <stop offset="0.6" style="stop-color:#C21975"/>
+                            <stop offset="1" style="stop-color:#7024C4"/>
+                        </linearGradient>
+                        <circle id="XMLID_83_" style="fill:url(#XMLID_4_);" cx="418.306" cy="134.072" r="34.149"/>
+                    </g>
+                </svg>
+            </a>
+            <!-- Twitter / X -->
+            <a href="https://twitter.com/universiteadi" target="_blank" class="text-dark">
+                <i class="fa-brands fa-x-twitter" style="font-size: 20px;"></i>
+            </a>
+            <!-- YouTube -->
+            <a href="https://www.youtube.com/@universiteadi" target="_blank" class="text-dark">
+                <i class="fa-brands fa-youtube" style="font-size: 20px;color:#ff0000"></i>
+            </a>
         </div>
+    </div>
+
         
-        <div class="col-md-11 mb-3">
-            <ul class="nav nav-tabs d-flex justify-content-center mobile-hidden" id="mainTabs" role="tablist">
+        <div class="col-md-9 mb-3">
+            <ul class="nav nav-tabs d-flex justify-content-between mobile-hidden" id="mainTabs" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="free-zone-tab" data-bs-toggle="tab" href="#free-zone" role="tab" aria-controls="free-zone" aria-selected="true" data-category="free-zone">Serbest Bölge ({{$topicCount['free-zone']}})</a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" id="general-tab" data-bs-toggle="tab" href="#general-info" role="tab" aria-controls="general-info" aria-selected="true" data-category="general-info">Genel Bilgiler ({{$topicCount['general-info']}})</a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link" id="departmant-programs-tab" data-bs-toggle="tab" href="#departmant-programs" role="tab" aria-controls="departmant-programs" aria-selected="false" data-category="departmant-programs">Bölüm ve Prog. ({{$topicCount['departmant-programs']}})</a>
                 </li>
@@ -40,7 +98,7 @@
                 <select class="form-select" id="mobileTabs" aria-label="Default select example" 
                     style="font-size: 13px;width: 70%;">
                     <option value="#free-zone" selected>Serbest Bölge ({{$topicCount['free-zone']}})</option>
-                    <option value="#general-info">Genel Bilgiler ({{$topicCount['general-info']}})</option>
+                    {{-- <option value="#general-info">Genel Bilgiler ({{$topicCount['general-info']}})</option> --}}
                     <option value="#departmant-programs">Bölüm ve Prog. ({{$topicCount['departmant-programs']}})</option>
                     <option value="#campus-life">Kampüs Hayatı ({{$topicCount['campus-life']}})</option>
                     <option value="#question-answer">Soru Cevap ({{$topicCount['question-answer']}})</option>
@@ -105,7 +163,7 @@
         </div>
 
         <!--main content-->
-            <div class="col-md-7" >
+            <div class="col-md-9"  style="border-left: 1px solid #e0e0e0;">
                 <div class="tab-content">
 
                     <div class="tab-pane fade show active" id="free-zone" role="tabpanel" aria-labelledby="free-zone-tab">
@@ -231,6 +289,54 @@
 @endsection 
 
 @section('css')
+<style>
+    .university-banner-wrapper {
+        position: relative;
+        width: 100%;
+        height: 250px;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .university-banner-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+        filter: brightness(90%);
+    }
+
+    .university-banner-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .university-banner-title {
+        color: #fff;
+        font-size: 2.5rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    @media (max-width: 576px) {
+        .university-banner-wrapper {
+            height: 200px;
+        }
+
+        .university-banner-title {
+            font-size: 1.5rem;
+        }
+    }
+</style>
     <style>
          .fa-envelope{
             font-size: 22px !important;
@@ -250,7 +356,7 @@
             border-bottom: 0px;
         }
         .nav-tabs .nav-item{
-            width: 16%;
+            width: 20%;
             text-align: center;
         }
 

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #001b48;">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #001b48;">
   <div class="container">
     <a href="/"><img src="{{ asset('assets/images/logos/dark_logo_cropped.png') }}" alt="" style="width: 156px;margin-right: 10px"></a>
     

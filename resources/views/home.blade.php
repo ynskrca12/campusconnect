@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-    <div class="info-section mb-4">
+    <div class="info-section mb-4 mt-4">
         <div class="overlay"></div>
         <div class="info-content">
             <h2 class="animated-title display-4">Üniversite hayatına dair  <span style="color: #87ceeb;">her şey burada!</span></h2>
@@ -16,137 +16,133 @@
         </div>
     </div>
 
-    <div class="px-3 px-md-5">
-        <div class="row mb-5 mt-2">
-            <h3 class="topic-title mb-3">Öne Çıkan Yorumlar</h3>
-            <div class="col-md-6 mb-3">
-                <div class="card custom-card h-100 d-flex flex-column justify-content-between">
-                        <div class="topic">
-                            <h3 class="topic-title mb-3">
-                                <a href="{{ route('university.topic.comments', ['slug' => $mostLikedTopicUniversity->topic_title_slug]) }}">
-                                    {{ $mostLikedTopicUniversity->topic_title }}
-                                </a>
-                            </h3>
-                            
-                            <p>{!! Str::length($mostLikedTopicUniversity->comment) > 360 ? Str::limit($mostLikedTopicUniversity->comment, 360, '... <a style="color: #001b48;font-size: 13px;font-weight: 700" href="' . route('topic.comments', ['slug' => $mostLikedTopicUniversity->topic_title_slug]) . '">devamını oku</a>') : e($mostLikedTopicUniversity->comment) !!}</p>
-
-                            <div class="university-like-dislike mt-3">
-                                <div class="university-like-btn d-inline me-3" data-id="{{ $mostLikedTopicUniversity->id }}" style="cursor: pointer; color: #888;">
-                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="university-like-count">{{ $mostLikedTopicUniversity->likes }}</span>
-                                </div>
-                                <div class="university-dislike-btn d-inline" data-id="{{ $mostLikedTopicUniversity->id }}" style="cursor: pointer; color: #888;">
-                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="university-dislike-count">{{ $mostLikedTopicUniversity->dislikes }}</span>
-                                </div>
-                                <div class="d-inline ms-3">
-                                    <a href="{{ route('university.topic.comments', ['slug' => $mostLikedTopicUniversity->topic_title_slug]) }}"
-                                        title="Yanıtla"
-                                        style="color: #555;">
-                                        <i class="fa-solid fa-reply"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="meta">
-                                <div class="d-flex align-items-center entry-footer-bottom">
-                                    <div class="footer-info">
-                                        <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
-                                            <p style="display: block;white-space:nowrap;color:#001b48;">{{ $mostLikedTopicUniversity->user->username ?? 'Anonim' }}</p>
-                                        </div>
-
-                                        <div style="display: block;padding:1px 2px;line-height: 14px;">
-                                            <p style="color: #888;font-size: 12px;">{{ $mostLikedTopicUniversity->created_at->format('d.m.Y H:i') }}</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="avatar-container">
-                                        <x-user-avatar :user="$mostLikedTopicUniversity->user" />
-                                    </div>
-                                </div>                            
-                            </div>
-                        </div>
-                </div>
-
-            </div>
-            <div class="col-md-6 mb-3">
-                <div class="card custom-card h-100 d-flex flex-column justify-content-between">
-                        <div class="topic">
-                            <h3 class="topic-title mb-3">
-                                <a href="{{ route('topic.comments', ['slug' => $mostLikedTopicGeneral->topic_title_slug]) }}">
-                                    {{ $mostLikedTopicGeneral->topic_title }}
-                                </a>
-                            </h3>
-                            
-                            <p>{!! Str::length($mostLikedTopicGeneral->comment) > 360 ? Str::limit($mostLikedTopicGeneral->comment, 360, '... <a style="color: #001b48;font-size: 13px;font-weight: 700" href="' . route('topic.comments', ['slug' => $mostLikedTopicGeneral->topic_title_slug]) . '">devamını oku</a>') : e($mostLikedTopicGeneral->comment) !!}</p>
-
-                            <div class="like-dislike mt-3">
-                                <div class="like-btn d-inline me-3" data-id="{{ $mostLikedTopicGeneral->id }}" style="cursor: pointer; color: #888;">
-                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $mostLikedTopicGeneral->likes }}</span>
-                                </div>
-                                <div class="dislike-btn d-inline" data-id="{{ $mostLikedTopicGeneral->id }}" style="cursor: pointer; color: #888;">
-                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $mostLikedTopicGeneral->dislikes }}</span>
-                                </div>
-                                <div class="d-inline ms-3">
-                                    <a href="{{ route('topic.comments', ['slug' => $mostLikedTopicGeneral->topic_title_slug]) }}"
-                                        title="Yanıtla"
-                                        style="color: #555;">
-                                        <i class="fa-solid fa-reply"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="meta">
-                                <div class="d-flex align-items-center entry-footer-bottom">
-                                    <div class="footer-info">
-                                        <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
-                                            <p style="display: block;white-space:nowrap;color:#001b48;">{{ $mostLikedTopicGeneral->user->username ?? 'Anonim' }}</p>
-                                        </div>
-
-                                        <div style="display: block;padding:1px 2px;line-height: 14px;">
-                                            <p style="color: #888;font-size: 12px;">{{ $mostLikedTopicGeneral->created_at->format('d.m.Y H:i') }}</p>
-                                        </div>
-                                    </div>
-                                   <div class="avatar-container">
-                                        <x-user-avatar :user="$mostLikedTopicGeneral->user" />
-                                    </div>
-                                </div>                            
-                            </div>
-                        </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="px-3 px-md-5">
-        <div class="row mb-5 mt-2">
-            <h3 class="topic-title mb-4">Son bloglar</h3>
-            @if (!empty($blogs))
-                @foreach ($blogs as $blog)
-                    <div class="col-lg-4 col-md-6 mb-5">
-                        <div class="blog-item h-100 d-flex flex-column">
-                            <a href="{{route('blog.single', ['slug' => $blog->slug])}}">
-                                <img src="{{ asset( $blog->cover_image) }}" loading="lazy" alt="blog yazısı" class="img-fluid">
+    <div class="row mb-5 mt-2">
+        <h3 class="topic-title mb-3">Öne Çıkan Yorumlar</h3>
+        <div class="col-md-6 mb-3">
+            <div class="card custom-card h-100 d-flex flex-column justify-content-between">
+                    <div class="topic">
+                        <h3 class="topic-title mb-3">
+                            <a href="{{ route('university.topic.comments', ['slug' => $mostLikedTopicUniversity->topic_title_slug]) }}">
+                                {{ $mostLikedTopicUniversity->topic_title }}
                             </a>
-                
-                            <div class="blog-item-content px-5 px-md-4 py-5">
-                                <div class="blog-item-meta  py-1 px-2">
-                                    <span class="text-muted text-capitalize mr-3"><i class="fa-solid fa-feather me-2"></i> {{$blog->blogCategory->name}}</span>
-                                </div> 
-                
-                                <h3 class="mt-3 mb-3"><a href="{{route('blog.single', ['slug' => $blog->slug])}}">{{$blog->title}}</a></h3>
-                                <p class="mb-4 mt-1 fs-6">{{$blog->summary}}</p>
-                
-                                <a href="{{route('blog.single', ['slug' => $blog->slug])}}" class="btn btn-small btn-main btn-round-full px-4">Daha Fazla</a>
+                        </h3>
+                        
+                        <p>{!! Str::length($mostLikedTopicUniversity->comment) > 360 ? Str::limit($mostLikedTopicUniversity->comment, 360, '... <a style="color: #001b48;font-size: 13px;font-weight: 700" href="' . route('topic.comments', ['slug' => $mostLikedTopicUniversity->topic_title_slug]) . '">devamını oku</a>') : e($mostLikedTopicUniversity->comment) !!}</p>
+
+                        <div class="university-like-dislike mt-3">
+                            <div class="university-like-btn d-inline me-3" data-id="{{ $mostLikedTopicUniversity->id }}" style="cursor: pointer; color: #888;">
+                                <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="university-like-count">{{ $mostLikedTopicUniversity->likes }}</span>
                             </div>
+                            <div class="university-dislike-btn d-inline" data-id="{{ $mostLikedTopicUniversity->id }}" style="cursor: pointer; color: #888;">
+                                <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="university-dislike-count">{{ $mostLikedTopicUniversity->dislikes }}</span>
+                            </div>
+                            <div class="d-inline ms-3">
+                                <a href="{{ route('university.topic.comments', ['slug' => $mostLikedTopicUniversity->topic_title_slug]) }}"
+                                    title="Yanıtla"
+                                    style="color: #555;">
+                                    <i class="fa-solid fa-reply"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="meta">
+                            <div class="d-flex align-items-center entry-footer-bottom">
+                                <div class="footer-info">
+                                    <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
+                                        <p style="display: block;white-space:nowrap;color:#001b48;">{{ $mostLikedTopicUniversity->user->username ?? 'Anonim' }}</p>
+                                    </div>
+
+                                    <div style="display: block;padding:1px 2px;line-height: 14px;">
+                                        <p style="color: #888;font-size: 12px;">{{ $mostLikedTopicUniversity->created_at->format('d.m.Y H:i') }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="avatar-container">
+                                    <x-user-avatar :user="$mostLikedTopicUniversity->user" />
+                                </div>
+                            </div>                            
                         </div>
                     </div>
-                @endforeach
-            @else
-                
-            @endif
-                                            
+            </div>
+
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card custom-card h-100 d-flex flex-column justify-content-between">
+                    <div class="topic">
+                        <h3 class="topic-title mb-3">
+                            <a href="{{ route('topic.comments', ['slug' => $mostLikedTopicGeneral->topic_title_slug]) }}">
+                                {{ $mostLikedTopicGeneral->topic_title }}
+                            </a>
+                        </h3>
+                        
+                        <p>{!! Str::length($mostLikedTopicGeneral->comment) > 360 ? Str::limit($mostLikedTopicGeneral->comment, 360, '... <a style="color: #001b48;font-size: 13px;font-weight: 700" href="' . route('topic.comments', ['slug' => $mostLikedTopicGeneral->topic_title_slug]) . '">devamını oku</a>') : e($mostLikedTopicGeneral->comment) !!}</p>
+
+                        <div class="like-dislike mt-3">
+                            <div class="like-btn d-inline me-3" data-id="{{ $mostLikedTopicGeneral->id }}" style="cursor: pointer; color: #888;">
+                                <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $mostLikedTopicGeneral->likes }}</span>
+                            </div>
+                            <div class="dislike-btn d-inline" data-id="{{ $mostLikedTopicGeneral->id }}" style="cursor: pointer; color: #888;">
+                                <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $mostLikedTopicGeneral->dislikes }}</span>
+                            </div>
+                            <div class="d-inline ms-3">
+                                <a href="{{ route('topic.comments', ['slug' => $mostLikedTopicGeneral->topic_title_slug]) }}"
+                                    title="Yanıtla"
+                                    style="color: #555;">
+                                    <i class="fa-solid fa-reply"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="meta">
+                            <div class="d-flex align-items-center entry-footer-bottom">
+                                <div class="footer-info">
+                                    <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
+                                        <p style="display: block;white-space:nowrap;color:#001b48;">{{ $mostLikedTopicGeneral->user->username ?? 'Anonim' }}</p>
+                                    </div>
+
+                                    <div style="display: block;padding:1px 2px;line-height: 14px;">
+                                        <p style="color: #888;font-size: 12px;">{{ $mostLikedTopicGeneral->created_at->format('d.m.Y H:i') }}</p>
+                                    </div>
+                                </div>
+                                <div class="avatar-container">
+                                    <x-user-avatar :user="$mostLikedTopicGeneral->user" />
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+            </div>
+
         </div>
     </div>
 
-    <div class="container my-5">
+    <div class="row mb-5 mt-2">
+        <h3 class="topic-title mb-4">Son bloglar</h3>
+        @if (!empty($blogs))
+            @foreach ($blogs as $blog)
+                <div class="col-lg-4 col-md-6 mb-5">
+                    <div class="blog-item h-100 d-flex flex-column">
+                        <a href="{{route('blog.single', ['slug' => $blog->slug])}}">
+                            <img src="{{ asset( $blog->cover_image) }}" loading="lazy" alt="blog yazısı" class="img-fluid">
+                        </a>
+            
+                        <div class="blog-item-content px-5 px-md-4 py-5">
+                            <div class="blog-item-meta  py-1 px-2">
+                                <span class="text-muted text-capitalize mr-3"><i class="fa-solid fa-feather me-2"></i> {{$blog->blogCategory->name}}</span>
+                            </div> 
+            
+                            <h3 class="mt-3 mb-3"><a href="{{route('blog.single', ['slug' => $blog->slug])}}">{{$blog->title}}</a></h3>
+                            <p class="mb-4 mt-1 fs-6">{{$blog->summary}}</p>
+            
+                            <a href="{{route('blog.single', ['slug' => $blog->slug])}}" class="btn btn-small btn-main btn-round-full px-4">Daha Fazla</a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        @else
+            
+        @endif
+                                        
+    </div>
+
+    <div class="my-5">
         <h4 class="text-center mb-4" style="color:#001b48;margin-top: 80px;">Bizi Sosyal Medyadan Takip Edin</h4>
         <div class="row justify-content-center text-center">
             <div class="col-md-4 mb-4">
@@ -176,28 +172,23 @@
         </div>
     </div>
 
-    
-    <div class="2">       
-        <div class="row mb-4 mt-4" style="margin-top: 40px !important;">
-          
-            <div class="col-12">
-                <div class="university-slider">
-                    <div class="logos">
-                        @foreach (File::glob(public_path('university logos') . '/*.{jpg,jpeg,png,gif}', GLOB_BRACE) as $image)
-                            <div class="logo-item">
-                                <img src="{{ asset('/university logos/' . basename($image)) }}" class="img-fluid" alt="Üniversite Logosu">
-                            </div>
-                        @endforeach
-                        @foreach (File::glob(public_path('university logos') . '/*.{jpg,jpeg,png,gif}', GLOB_BRACE) as $image)
-                            <div class="logo-item">
-                                <img src="{{ asset('/university logos/' . basename($image)) }}" class="img-fluid" alt="Üniversite Logosu">
-                            </div>
-                        @endforeach
-                    </div>
+    <div class="row mb-4 mt-4" style="margin-top: 40px !important;">          
+        <div class="col-12">
+            <div class="university-slider">
+                <div class="logos">
+                    @foreach (File::glob(public_path('university logos') . '/*.{jpg,jpeg,png,gif}', GLOB_BRACE) as $image)
+                        <div class="logo-item">
+                            <img src="{{ asset('/university logos/' . basename($image)) }}" class="img-fluid" alt="Üniversite Logosu">
+                        </div>
+                    @endforeach
+                    @foreach (File::glob(public_path('university logos') . '/*.{jpg,jpeg,png,gif}', GLOB_BRACE) as $image)
+                        <div class="logo-item">
+                            <img src="{{ asset('/university logos/' . basename($image)) }}" class="img-fluid" alt="Üniversite Logosu">
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
-       
     </div>
 @endsection
 
@@ -444,7 +435,7 @@
             text-align: center;
             padding: 20px;
             overflow: hidden;
-            /* border-radius: 17px; */
+            border-radius: 17px;
         }
 
         .overlay {
