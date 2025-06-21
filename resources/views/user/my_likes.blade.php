@@ -80,6 +80,7 @@
                                                 </h3>
                                                 
                                                 <p>{!! $item->topic->comment !!}</p>
+                                                <div class="d-flex justify-content-between mt-3">
                                                 <div class="like-dislike mt-3">
                                                     <div class="like-btn d-inline me-3" data-id="{{ $item->topic->id }}" style="cursor: pointer; color: #888;">
                                                         <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $item->topic->likes }}</span>
@@ -103,6 +104,7 @@
                                                             <x-user-avatar :user="$item->topic->user" />
                                                         </div>
                                                     </div>                            
+                                                </div>
                                                 </div>
                                             </div>
                                         @endforeach  
@@ -169,7 +171,7 @@
 
 <style>
      .topic {
-        box-shadow: rgba(0, 0, 0, 0.6) 0px 4px 7px, rgba(0, 0, 0, 0.22) 0px 11px 12px !important;
+        border: 1px solid #dcdcdc !important;
         border-radius: 17px;
         padding: 10px 20px;
         }

@@ -271,13 +271,7 @@
                             <div class="card-container">
                                 <div class="card-image">
                                     <img src="{{ asset('well-established universities/bogazici-universitesi.jpg') }}" alt="bogazici-universitesi">
-                                </div>
-                                <div class="card-overlay">
-                                    <div class="card-content">
-                                        <h3 class="card-title">Boğaziçi Üniversitesi</h3>
-                                        <h4 class="card-location">İstanbul</h4>
-                                    </div>
-                                </div>
+                                </div>                               
                             </div>
                             
                         </div>
@@ -286,28 +280,15 @@
                             <div class="card-container">
                                 <div class="card-image">
                                     <img src="{{ asset('well-established universities/odtu.jpg') }}" alt="bogazici-universitesi">
-                                </div>
-                                <div class="card-overlay">
-                                    <div class="card-content">
-                                        <h3 class="card-title">Orta Doğu Teknik Üniversitesi</h3>
-                                        <h4 class="card-location">Ankara</h4>
-                                    </div>
-                                </div>
-                            </div>
-                            
+                                </div>                                
+                            </div>                            
                         </div>
 
                         <div class="col-md-4">
                             <div class="card-container">
                                 <div class="card-image">
                                     <img src="{{ asset('well-established universities/itu.jpeg') }}" alt="bogazici-universitesi">
-                                </div>
-                                <div class="card-overlay">
-                                    <div class="card-content">
-                                        <h3 class="card-title">İstanbul Teknik Üniversitesi</h3>
-                                        <h4 class="card-location">İstanbul</h4>
-                                    </div>
-                                </div>
+                                </div>                                
                             </div>
                             
                         </div>
@@ -323,13 +304,7 @@
                             <div class="card-container">
                                 <div class="card-image">
                                     <img src="{{ asset('well-established universities/odtu.jpg') }}" alt="bogazici-universitesi">
-                                </div>
-                                <div class="card-overlay" style="background: rgba(0, 54, 133, 0.8);">
-                                    <div class="card-content">
-                                        <h3 class="card-title">1. Orta Doğu Teknik Üniversitesi</h3>
-                                        <h4 class="card-location">Ankara</h4>
-                                    </div>
-                                </div>
+                                </div>                                
                             </div>                        
                         </div>
 
@@ -337,13 +312,7 @@
                             <div class="card-container">
                                 <div class="card-image">
                                     <img src="{{ asset('well-established universities/bogazici-universitesi.jpg') }}" alt="bogazici-universitesi">
-                                </div>
-                                <div class="card-overlay" style="background: rgba(0, 54, 133, 0.8);">
-                                    <div class="card-content">
-                                        <h3 class="card-title">2. Boğaziçi Üniversitesi</h3>
-                                        <h4 class="card-location">İstanbul</h4>
-                                    </div>
-                                </div>
+                                </div>                               
                             </div>                        
                         </div>
 
@@ -351,13 +320,7 @@
                             <div class="card-container">
                                 <div class="card-image">
                                     <img src="{{ asset('well-established universities/hacettepe-uni.jpg') }}" alt="bogazici-universitesi">
-                                </div>
-                                <div class="card-overlay" style="background: rgba(0, 54, 133, 0.8);">
-                                    <div class="card-content">
-                                        <h3 class="card-title">3. Hacettepe Üniversitesi</h3>
-                                        <h4 class="card-location">Ankara</h4>
-                                    </div>
-                                </div>
+                                </div>                               
                             </div>
                             
                         </div>
@@ -660,17 +623,12 @@
           text-decoration: none; 
           padding: 5px 7px; 
           margin: 0 5px; 
-          color: blue; 
+          color: #001b48 !important; 
           border:none;
       }
-
-      #pagination-container a.active {
-          background-color: white !important;
-          border-color: #007bff !important;
-      }
-
-      #pagination-container a:hover {
-          background-color: #f1f1f1; 
+      #pagination-container .active {
+        background: #001b48 !important;
+        border-color: #001b48 !important;
       }
 
     </style>

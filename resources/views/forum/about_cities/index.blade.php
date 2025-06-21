@@ -26,9 +26,6 @@
                 <li class="nav-item">
                     <a class="nav-link active" id="free-zone-tab" data-bs-toggle="tab" href="#free-zone" role="tab" aria-controls="free-zone" aria-selected="true" data-category="free-zone">Serbest Bölge ({{$topicCount['free-zone']}})</a>
                 </li>
-                {{-- <li class="nav-item">
-                    <a class="nav-link" id="general-tab" data-bs-toggle="tab" href="#general-info" role="tab" aria-controls="general-info" aria-selected="true" data-category="general-info">Genel Bilgiler ({{$topicCount['general-info']}})</a>
-                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link" id="social-life-tab" data-bs-toggle="tab" href="#social-life" role="tab" aria-controls="social-life" aria-selected="false" data-category="social-life">Sosyal Hayat ({{$topicCount['social-life']}})</a>
                 </li>
@@ -45,7 +42,6 @@
                 <select class="form-select" id="mobileTabs" aria-label="Default select example" 
                     style="font-size: 13px;width: 70%;">
                     <option value="#free-zone" selected>Serbest Bölge ({{$topicCount['free-zone']}})</option>
-                    {{-- <option value="#general-info">Genel Bilgiler ({{$topicCount['general-info']}})</option> --}}
                     <option value="#social-life">Sosyal Yaşam ({{$topicCount['social-life']}})</option>
                     <option value="#job-opportunities">İş Fırsatları ({{$topicCount['job-opportunities']}})</option>
                     <option value="#question-answer">Soru Cevap ({{$topicCount['question-answer']}})</option>
@@ -118,7 +114,7 @@
                             
                            <div> 
                                 <button class="btn btnExplain" data-category="free-zone">
-                                    <i class="fa-solid fa-envelope"></i>    
+                                    <i class="fa-solid fa-comments me-2"></i>Yorum Yap   
                                 </button>
                             </div>
                         </div>        
@@ -129,20 +125,6 @@
                         </div>
                     </div>
 
-                    {{-- <div class="tab-pane fade " id="general-info" role="tabpanel" aria-labelledby="general-tab">
-                        <div class="d-flex justify-content-between">
-                            <div class="d-flex align-items-center"> 
-                            </div>
-                           <div> 
-                                <button class="btn btnExplain" data-category="general-info">
-                                    <i class="fa-solid fa-envelope"></i>
-                                </button>
-                            </div>
-                        </div>        
-                        <div id="general-info-topic-list"> 
-                        </div>
-                    </div> --}}
-
                     <div class="tab-pane fade" id="social-life" role="tabpanel" aria-labelledby="social-life-tab">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
@@ -150,7 +132,7 @@
                             </div>
                            <div> 
                                 <button class="btn btnExplain" data-category="social-life">
-                                    <i class="fa-solid fa-envelope"></i>
+                                    <i class="fa-solid fa-comments me-2"></i>Yorum Yap
                                 </button>
                             </div>
                         </div>
@@ -167,7 +149,7 @@
                             </div>
                            <div> 
                                 <button class="btn btnExplain" data-category="job-opportunities">
-                                    <i class="fa-solid fa-envelope"></i>
+                                    <i class="fa-solid fa-comments me-2"></i>Yorum Yap
                                 </button>
                             </div>
                         </div>
@@ -184,7 +166,7 @@
                             </div>
                             <div>
                                 <button class="btn btnExplain" data-category="question-answer">
-                                    <i class="fa-solid fa-envelope"></i>
+                                    <i class="fa-solid fa-comments me-2"></i>Yorum Yap
                                 </button>
                             </div>
                         </div>        
@@ -283,10 +265,6 @@
     }
 </style>
 <style>
-    .fa-envelope{
-       font-size: 22px !important;
-   }
-
    .categoryTitle{
        font-weight: 700;
        font-size: medium;

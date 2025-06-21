@@ -112,7 +112,7 @@
                                 {{-- mostLikedTopicCity --}}
                                 @if ($statistics['mostLikedTopicCity'] != null)
                                     <div class="row">
-                                        <div class="col-md-9">
+                                        <div class="col-md-10">
                                             <div class="topic mb-3 comment-section">
                                                 <h3 class="topic-title mb-3">
                                                     <a href="{{ route('city.topic.comments', ['slug' => $statistics['mostLikedTopicCity']->topic_title_slug]) }}">
@@ -121,6 +121,7 @@
                                                 </h3>
                                                 
                                                 <p>{{ $statistics['mostLikedTopicCity']->comment }}</p>
+                                                <div class="d-flex justify-content-between mt-4">
                                                 <div class="like-dislike mt-3">
                                                     <div class="like-btn d-inline me-3" data-id="{{ $statistics['mostLikedTopicCity']->id }}" style="cursor: pointer; color: #888;">
                                                         <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $statistics['mostLikedTopicCity']->likes }}</span>
@@ -145,6 +146,7 @@
                                                         </div>
                                                     </div>                            
                                                 </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -153,7 +155,7 @@
                                 {{-- mostLikedTopicUniversity --}}
                                 @if ($statistics['mostLikedTopicUniversity'] != null)
                                     <div class="row">
-                                        <div class="col-md-9">
+                                        <div class="col-md-10">
                                             <div class="topic mb-3 comment-section">
                                                 <h3 class="topic-title mb-3">
                                                     <a href="{{ route('university.topic.comments', ['slug' => $statistics['mostLikedTopicUniversity']->topic_title_slug]) }}">
@@ -162,6 +164,7 @@
                                                 </h3>
                                                 
                                                 <p>{{ $statistics['mostLikedTopicUniversity']->comment }}</p>
+                                                <div class="d-flex justify-content-between mt-4">
                                                 <div class="like-dislike mt-3">
                                                     <div class="like-btn d-inline me-3" data-id="{{ $statistics['mostLikedTopicUniversity']->id }}" style="cursor: pointer; color: #888;">
                                                         <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $statistics['mostLikedTopicUniversity']->likes }}</span>
@@ -186,6 +189,7 @@
                                                         </div>
                                                     </div>                            
                                                 </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -194,7 +198,7 @@
                                 {{-- mostLikedTopicGeneral --}}
                                 @if ($statistics['mostLikedTopicGeneral'] != null)
                                     <div class="row">
-                                        <div class="col-md-9">
+                                        <div class="col-md-10">
                                             <div class="topic mb-3 comment-section">
                                                 <h3 class="topic-title mb-3">
                                                     <a href="{{ route('topic.comments', ['slug' => $statistics['mostLikedTopicGeneral']->topic_title_slug]) }}">
@@ -203,6 +207,7 @@
                                                 </h3>
                                                 
                                                 <p>{{ $statistics['mostLikedTopicGeneral']->comment }}</p>
+                                                <div class="d-flex justify-content-between mt-4">
                                                 <div class="like-dislike mt-3">
                                                     <div class="like-btn d-inline me-3" data-id="{{ $statistics['mostLikedTopicGeneral']->id }}" style="cursor: pointer; color: #888;">
                                                         <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $statistics['mostLikedTopicGeneral']->likes }}</span>
@@ -226,6 +231,7 @@
                                                             <x-user-avatar :user="$user" />
                                                         </div>
                                                     </div>                            
+                                                </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -300,7 +306,7 @@
         margin-left: 4px;
     }
     .comment-section {
-        box-shadow: rgba(0, 0, 0, 0.6) 0px 4px 7px, rgba(0, 0, 0, 0.22) 0px 11px 12px !important;
+        border: 1px solid #dcdcdc !important;
         padding: 10px 20px !important;
         border-radius: 17px;
     }

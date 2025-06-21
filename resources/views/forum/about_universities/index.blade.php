@@ -79,9 +79,6 @@
                 <li class="nav-item">
                     <a class="nav-link active" id="free-zone-tab" data-bs-toggle="tab" href="#free-zone" role="tab" aria-controls="free-zone" aria-selected="true" data-category="free-zone">Serbest Bölge ({{$topicCount['free-zone']}})</a>
                 </li>
-                {{-- <li class="nav-item">
-                    <a class="nav-link" id="general-tab" data-bs-toggle="tab" href="#general-info" role="tab" aria-controls="general-info" aria-selected="true" data-category="general-info">Genel Bilgiler ({{$topicCount['general-info']}})</a>
-                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link" id="departmant-programs-tab" data-bs-toggle="tab" href="#departmant-programs" role="tab" aria-controls="departmant-programs" aria-selected="false" data-category="departmant-programs">Bölüm ve Prog. ({{$topicCount['departmant-programs']}})</a>
                 </li>
@@ -98,7 +95,6 @@
                 <select class="form-select" id="mobileTabs" aria-label="Default select example" 
                     style="font-size: 13px;width: 70%;">
                     <option value="#free-zone" selected>Serbest Bölge ({{$topicCount['free-zone']}})</option>
-                    {{-- <option value="#general-info">Genel Bilgiler ({{$topicCount['general-info']}})</option> --}}
                     <option value="#departmant-programs">Bölüm ve Prog. ({{$topicCount['departmant-programs']}})</option>
                     <option value="#campus-life">Kampüs Hayatı ({{$topicCount['campus-life']}})</option>
                     <option value="#question-answer">Soru Cevap ({{$topicCount['question-answer']}})</option>
@@ -170,8 +166,8 @@
                         <div class="d-flex justify-content-end">
                             
                            <div> 
-                                <button class="btn btnExplain" data-category="free-zone">
-                                    <i class="fa-solid fa-envelope"></i>    
+                                <button class="btn btnExplain mb-2" data-category="free-zone">
+                                    <i class="fa-solid fa-comments me-2"></i>Yorum Yap
                                 </button>
                             </div>
                         </div>        
@@ -182,22 +178,6 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane fade " id="general-info" role="tabpanel" aria-labelledby="general-tab">
-                        <div class="d-flex justify-content-between">
-                            <div class="d-flex align-items-center">
-                                {{-- <span class="categoryTitle">genel bilgileri</span> --}}
-                            </div>
-                           <div> 
-                                <button class="btn btnExplain" data-category="general-info">
-                                    <i class="fa-solid fa-envelope"></i>
-                                </button>
-                            </div>
-                        </div>        
-                        <div id="general-info-topic-list">
-                            <!-- İçerik buraya gelecek -->
-                        </div>
-                    </div>
-
                     <div class="tab-pane fade" id="departmant-programs" role="tabpanel" aria-labelledby="departmant-programs-tab">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex align-items-center">
@@ -205,7 +185,7 @@
                             </div>
                            <div> 
                                 <button class="btn btnExplain" data-category="departmant-programs">
-                                    <i class="fa-solid fa-envelope"></i>
+                                    <i class="fa-solid fa-comments me-2"></i>Yorum Yap
                                 </button>
                             </div>
                         </div>
@@ -222,7 +202,7 @@
                             </div>
                            <div> 
                                 <button class="btn btnExplain" data-category="campus-life">
-                                    <i class="fa-solid fa-envelope"></i>
+                                    <i class="fa-solid fa-comments me-2"></i>Yorum Yap
                                 </button>
                             </div>
                         </div>
@@ -239,7 +219,7 @@
                             </div>
                             <div>
                                 <button class="btn btnExplain" data-category="question-answer">
-                                    <i class="fa-solid fa-envelope"></i>
+                                    <i class="fa-solid fa-comments me-2"></i>Yorum Yap
                                 </button>
                             </div>
                         </div>        

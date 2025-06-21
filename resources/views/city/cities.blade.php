@@ -32,7 +32,7 @@
         </div>
 
         <!-- Ana İçerik Alanı -->
-        <div class="col-md-10 main-content">          
+        <div class="col-md-10 main-content px-4">          
             <div id="cities-content" class="content-area">
 
                   <!-- Placeholder Başlangıç -->              
@@ -1087,8 +1087,8 @@
             padding:2.75rem 15px !important;
         } 
         .city_card{
-            border: 1px solid #ffd848;
-            background: #fff9e3;
+    background: #f9fbff;
+    border: 1px solid #dcdcdc !important;
         }
         .city_card .card-title{
             color: #000000;
@@ -1103,9 +1103,7 @@
             font-size: 12px;
             border-radius: 12px;
             padding: 5px 10px;
-            background-color: #fff2c7 !important;
-            border: 1px solid #fff2c7 !important;
-            /* border: 1px solid #ffc600 !important; */
+            background-color: #d2e3ff !important;
         }
     </style>
 

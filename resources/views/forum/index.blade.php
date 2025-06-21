@@ -40,7 +40,7 @@
                     <button id="general-tab" class="btn me-2 activeCategory general-topic-btn">tartışalım</button>
                 </div>
                 <div>
-                    <button class="btn btnCreateGeneral">gündem oluştur</button>
+                    <button class="btn btnCreateGeneral"><i class="fa-solid fa-comments me-2"></i>Yorum Yap</button>
                 </div>
             </div>
 

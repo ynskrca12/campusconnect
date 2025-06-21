@@ -7,11 +7,32 @@
             <p class="animated-text">Üniversite ve şehir hayatını keşfet, yorumları oku, deneyimlerini paylaş.
             </p>
             <div class="row mt-5">
-                <div class="col-12 d-flex justify-content-between gap-3">
+                <div class="col-12 d-flex justify-content-between gap-2 px-0">
                     <a href="{{ route('forum') }}" class="custom-btn btn-forum">Herkese Açık</a>
                     <a href="{{ route('universities') }}" class="custom-btn btn-universities">Üniversiteleri Keşfet</a>
                     <a href="{{ route('cities') }}" class="custom-btn btn-cities">Şehirleri Keşfet</a>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 60px !important;margin-bottom: 60px !important;">          
+        <div class="col-12">
+            <div class="university-slider-wrapper">
+            <div class="university-slider">
+                <div class="logos">
+                    @foreach (File::glob(public_path('university logos') . '/*.{jpg,jpeg,png,gif}', GLOB_BRACE) as $image)
+                        <div class="logo-item">
+                            <img src="{{ asset('/university logos/' . basename($image)) }}" class="img-fluid" alt="Üniversite Logosu">
+                        </div>
+                    @endforeach
+                    @foreach (File::glob(public_path('university logos') . '/*.{jpg,jpeg,png,gif}', GLOB_BRACE) as $image)
+                        <div class="logo-item">
+                            <img src="{{ asset('/university logos/' . basename($image)) }}" class="img-fluid" alt="Üniversite Logosu">
+                        </div>
+                    @endforeach
+                </div>
+            </div>
             </div>
         </div>
     </div>
@@ -29,37 +50,39 @@
                         
                         <p>{!! Str::length($mostLikedTopicUniversity->comment) > 360 ? Str::limit($mostLikedTopicUniversity->comment, 360, '... <a style="color: #001b48;font-size: 13px;font-weight: 700" href="' . route('topic.comments', ['slug' => $mostLikedTopicUniversity->topic_title_slug]) . '">devamını oku</a>') : e($mostLikedTopicUniversity->comment) !!}</p>
 
-                        <div class="university-like-dislike mt-3">
-                            <div class="university-like-btn d-inline me-3" data-id="{{ $mostLikedTopicUniversity->id }}" style="cursor: pointer; color: #888;">
-                                <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="university-like-count">{{ $mostLikedTopicUniversity->likes }}</span>
+                        <div class="d-flex justify-content-between mt-3">
+                            <div class="university-like-dislike mt-3">
+                                <div class="university-like-btn d-inline me-3" data-id="{{ $mostLikedTopicUniversity->id }}" style="cursor: pointer; color: #888;">
+                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="university-like-count">{{ $mostLikedTopicUniversity->likes }}</span>
+                                </div>
+                                <div class="university-dislike-btn d-inline" data-id="{{ $mostLikedTopicUniversity->id }}" style="cursor: pointer; color: #888;">
+                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="university-dislike-count">{{ $mostLikedTopicUniversity->dislikes }}</span>
+                                </div>
+                                <div class="d-inline ms-3">
+                                    <a href="{{ route('university.topic.comments', ['slug' => $mostLikedTopicUniversity->topic_title_slug]) }}"
+                                        title="Yanıtla"
+                                        style="color: #555;">
+                                        <i class="fa-solid fa-reply"></i>
+                                    </a>
+                                </div>
                             </div>
-                            <div class="university-dislike-btn d-inline" data-id="{{ $mostLikedTopicUniversity->id }}" style="cursor: pointer; color: #888;">
-                                <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="university-dislike-count">{{ $mostLikedTopicUniversity->dislikes }}</span>
-                            </div>
-                            <div class="d-inline ms-3">
-                                <a href="{{ route('university.topic.comments', ['slug' => $mostLikedTopicUniversity->topic_title_slug]) }}"
-                                    title="Yanıtla"
-                                    style="color: #555;">
-                                    <i class="fa-solid fa-reply"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="meta">
-                            <div class="d-flex align-items-center entry-footer-bottom">
-                                <div class="footer-info">
-                                    <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
-                                        <p style="display: block;white-space:nowrap;color:#001b48;">{{ $mostLikedTopicUniversity->user->username ?? 'Anonim' }}</p>
+                            <div class="meta">
+                                <div class="d-flex align-items-center entry-footer-bottom">
+                                    <div class="footer-info">
+                                        <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
+                                            <p style="display: block;white-space:nowrap;color:#001b48;">{{ $mostLikedTopicUniversity->user->username ?? 'Anonim' }}</p>
+                                        </div>
+
+                                        <div style="display: block;padding:1px 2px;line-height: 14px;">
+                                            <p style="color: #888;font-size: 12px;">{{ $mostLikedTopicUniversity->created_at->format('d.m.Y H:i') }}</p>
+                                        </div>
                                     </div>
 
-                                    <div style="display: block;padding:1px 2px;line-height: 14px;">
-                                        <p style="color: #888;font-size: 12px;">{{ $mostLikedTopicUniversity->created_at->format('d.m.Y H:i') }}</p>
+                                    <div class="avatar-container">
+                                        <x-user-avatar :user="$mostLikedTopicUniversity->user" />
                                     </div>
-                                </div>
-
-                                <div class="avatar-container">
-                                    <x-user-avatar :user="$mostLikedTopicUniversity->user" />
-                                </div>
-                            </div>                            
+                                </div>                            
+                            </div>
                         </div>
                     </div>
             </div>
@@ -76,36 +99,38 @@
                         
                         <p>{!! Str::length($mostLikedTopicGeneral->comment) > 360 ? Str::limit($mostLikedTopicGeneral->comment, 360, '... <a style="color: #001b48;font-size: 13px;font-weight: 700" href="' . route('topic.comments', ['slug' => $mostLikedTopicGeneral->topic_title_slug]) . '">devamını oku</a>') : e($mostLikedTopicGeneral->comment) !!}</p>
 
-                        <div class="like-dislike mt-3">
-                            <div class="like-btn d-inline me-3" data-id="{{ $mostLikedTopicGeneral->id }}" style="cursor: pointer; color: #888;">
-                                <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $mostLikedTopicGeneral->likes }}</span>
+                        <div class="d-flex justify-content-between mt-3">
+                            <div class="like-dislike mt-3">
+                                <div class="like-btn d-inline me-3" data-id="{{ $mostLikedTopicGeneral->id }}" style="cursor: pointer; color: #888;">
+                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $mostLikedTopicGeneral->likes }}</span>
+                                </div>
+                                <div class="dislike-btn d-inline" data-id="{{ $mostLikedTopicGeneral->id }}" style="cursor: pointer; color: #888;">
+                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $mostLikedTopicGeneral->dislikes }}</span>
+                                </div>
+                                <div class="d-inline ms-3">
+                                    <a href="{{ route('topic.comments', ['slug' => $mostLikedTopicGeneral->topic_title_slug]) }}"
+                                        title="Yanıtla"
+                                        style="color: #555;">
+                                        <i class="fa-solid fa-reply"></i>
+                                    </a>
+                                </div>
                             </div>
-                            <div class="dislike-btn d-inline" data-id="{{ $mostLikedTopicGeneral->id }}" style="cursor: pointer; color: #888;">
-                                <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $mostLikedTopicGeneral->dislikes }}</span>
-                            </div>
-                            <div class="d-inline ms-3">
-                                <a href="{{ route('topic.comments', ['slug' => $mostLikedTopicGeneral->topic_title_slug]) }}"
-                                    title="Yanıtla"
-                                    style="color: #555;">
-                                    <i class="fa-solid fa-reply"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="meta">
-                            <div class="d-flex align-items-center entry-footer-bottom">
-                                <div class="footer-info">
-                                    <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
-                                        <p style="display: block;white-space:nowrap;color:#001b48;">{{ $mostLikedTopicGeneral->user->username ?? 'Anonim' }}</p>
-                                    </div>
+                            <div class="meta">
+                                <div class="d-flex align-items-center entry-footer-bottom">
+                                    <div class="footer-info">
+                                        <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
+                                            <p style="display: block;white-space:nowrap;color:#001b48;">{{ $mostLikedTopicGeneral->user->username ?? 'Anonim' }}</p>
+                                        </div>
 
-                                    <div style="display: block;padding:1px 2px;line-height: 14px;">
-                                        <p style="color: #888;font-size: 12px;">{{ $mostLikedTopicGeneral->created_at->format('d.m.Y H:i') }}</p>
+                                        <div style="display: block;padding:1px 2px;line-height: 14px;">
+                                            <p style="color: #888;font-size: 12px;">{{ $mostLikedTopicGeneral->created_at->format('d.m.Y H:i') }}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="avatar-container">
-                                    <x-user-avatar :user="$mostLikedTopicGeneral->user" />
-                                </div>
-                            </div>                            
+                                    <div class="avatar-container">
+                                        <x-user-avatar :user="$mostLikedTopicGeneral->user" />
+                                    </div>
+                                </div>                            
+                            </div>
                         </div>
                     </div>
             </div>
@@ -123,7 +148,7 @@
                             <img src="{{ asset( $blog->cover_image) }}" loading="lazy" alt="blog yazısı" class="img-fluid">
                         </a>
             
-                        <div class="blog-item-content px-5 px-md-4 py-5">
+                        <div class="blog-item-content px-5 px-md-4 py-4">
                             <div class="blog-item-meta  py-1 px-2">
                                 <span class="text-muted text-capitalize mr-3"><i class="fa-solid fa-feather me-2"></i> {{$blog->blogCategory->name}}</span>
                             </div> 
@@ -135,9 +160,7 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
-        @else
-            
+            @endforeach            
         @endif
                                         
     </div>
@@ -172,33 +195,27 @@
         </div>
     </div>
 
-    <div class="row mb-4 mt-4" style="margin-top: 40px !important;">          
-        <div class="col-12">
-            <div class="university-slider">
-                <div class="logos">
-                    @foreach (File::glob(public_path('university logos') . '/*.{jpg,jpeg,png,gif}', GLOB_BRACE) as $image)
-                        <div class="logo-item">
-                            <img src="{{ asset('/university logos/' . basename($image)) }}" class="img-fluid" alt="Üniversite Logosu">
-                        </div>
-                    @endforeach
-                    @foreach (File::glob(public_path('university logos') . '/*.{jpg,jpeg,png,gif}', GLOB_BRACE) as $image)
-                        <div class="logo-item">
-                            <img src="{{ asset('/university logos/' . basename($image)) }}" class="img-fluid" alt="Üniversite Logosu">
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
+
 @endsection
 
 @section('css')
     {{-- blog css --}}
     <style>
         .blog-item {
-            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #dcdcdc !important;
             border-radius: 17px;
             overflow: hidden;
+        }
+        .blog-item-content {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .blog-item-content .btn {
+            margin-top: auto;
         }
 
         .blog-item-content h3 {
@@ -225,7 +242,7 @@
         }
 
         .blog-item-content .btn-main {
-            background-color: #007bff;
+            background-color: #001b48;
             color: #fff;
             font-size: 14px;
             font-weight: 500;
@@ -236,8 +253,9 @@
         }
 
         .blog-item-content .btn-main:hover {
-            background-color: #0056b3;
-            color: #fff;
+            background-color: #fff;
+            color: #001b48;
+            border: 1px solid #001b48;
         }
     </style>
     <style>
@@ -246,24 +264,16 @@
             padding: 10px 15px;
             font-weight: bold;
             border: none;
-            color: white;
+            background: #fff;
+            color: #001b48;
             text-align: center;
             text-decoration: none;
             border-radius: 6px;
             transition: 0.3s ease;
         }
         .custom-btn:hover {
-            color: white !important;
-        }
-
-        .btn-forum {
-            background: linear-gradient(45deg, #23ade4, #0068ff);
-        }
-        .btn-universities {
-            background: linear-gradient(45deg, #005dff, #3d8cff);
-        }
-        .btn-cities {
-            background: linear-gradient(270deg, #23ade4, #0068ff);
+            background: #001b48;
+            color: #fff;
         }
 
         .custom-btn:hover {
@@ -274,7 +284,7 @@
         .custom-card{
             padding: 10px 40px 0px 40px !important;
             border-radius: 17px !important;
-            box-shadow: rgba(0, 0, 0, 0.6) 0px 4px 7px, rgba(0, 0, 0, 0.22) 0px 11px 12px !important
+            border: 1px solid #dcdcdc !important;
         }
         .feature-card {
             background: #fff;
@@ -307,9 +317,12 @@
             margin-bottom: 20px;
         }
         @media (max-width: 768px) {
+            .info-section {
+                padding: 10px;
+            }
             .custom-btn {
                 font-size: 10px;
-                padding: 10px;
+                padding: 10px 0;
             }
     
             .feature-desc{
@@ -385,6 +398,16 @@
     </style>
 
     <style>
+        .university-slider-wrapper {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            background: #fff;
+        }
+
         .university-slider {
             overflow: hidden;
             position: relative;

@@ -26,7 +26,7 @@
                                                     <img src="{{ asset( $blog->cover_image) }}" loading="lazy" alt="blog yazısı" class="img-fluid">
                                                 </a>
                                     
-                                                <div class="blog-item-content px-5 px-md-4 py-5">
+                                                <div class="blog-item-content px-5 px-md-4 py-4">
                                                     <div class="blog-item-meta  py-1 px-2">
                                                         <span class="text-muted text-capitalize mr-3"><i class="fa-solid fa-feather me-2"></i> {{$blog->blogCategory->name}}</span>
                                                     </div> 
@@ -88,11 +88,22 @@
             padding: 0;
             margin-top: -10px;
         }
+        
+        .blog-item-content .btn {
+            margin-top: auto;
+        }
 
         .blog-item {
-            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #dcdcdc !important;
             border-radius: 17px;
             overflow: hidden;
+        }
+        .blog-item-content {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
         }
 
         .blog-item-content h3 {
@@ -119,7 +130,7 @@
         }
 
         .blog-item-content .btn-main {
-            background-color: #007bff; /* mavi ton */
+            background-color: #001b48; /* mavi ton */
             color: #fff;
             font-size: 14px;
             font-weight: 500;
@@ -130,8 +141,9 @@
         }
 
         .blog-item-content .btn-main:hover {
-            background-color: #0056b3;
-            color: #fff;
+            background-color: #fff;
+            color: #001b48;
+            border: 1px solid #001b48;
         }
 
         .media {
