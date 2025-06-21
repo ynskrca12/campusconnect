@@ -559,7 +559,12 @@
                         if (response.success && response.html) {
                             topicListContainer.html(response.html);
                         } else {
-                            topicListContainer.html("<p>Bu kategoriye ait içerik bulunmamaktadır.</p>");
+                            topicListContainer.html(`
+                                <div class="text-center p-3 rounded-4 mt-3" style="border: 1px solid #dcdcdc; color: #001b48;">
+                                    <p class="mb-1 fw-semibold">Burada henüz yorum yapılmamış...</p>
+                                    <p class="mb-0" style="opacity: 0.8;">İlk yorumu sen yap!</p>
+                                </div>
+                            `);
                         }
                     },
                     error: function () {
@@ -627,7 +632,12 @@
                         if (response.success && response.html) {
                             topicListContainer.html(response.html);
                         } else {
-                            topicListContainer.html("<p>Bu kategoriye ait içerik bulunmamaktadır.</p>");
+                            topicListContainer.html(`
+                                <div class="text-center p-3 rounded-4 mt-3" style="border: 1px solid #dcdcdc; color: #001b48;">
+                                    <p class="mb-1 fw-semibold">Burada henüz yorum yapılmamış...</p>
+                                    <p class="mb-0" style="opacity: 0.8;">İlk yorumu sen yap!</p>
+                                </div>
+                            `);
                         }
                     },
                     error: function () {
