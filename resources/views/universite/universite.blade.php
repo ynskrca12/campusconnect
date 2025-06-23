@@ -744,7 +744,7 @@
                             const topicCount = response.universities_topics_count[item.id] || 0;
                             universitiesHtml += `
                                 <li class="list-group-item universityLi">
-                                    <a href="/forum/universite/${item.slug}" class="text-decoration-none universityTag d-flex justify-content-between">
+                                    <a href="/universite-yorumlari/${item.slug}" class="text-decoration-none universityTag d-flex justify-content-between">
                                         <span class="topic-title-sub-category">${item.universite_ad}</span>
                                         <span class="count">${topicCount}</span>
                                     </a>

@@ -16,7 +16,7 @@
                 <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i>
                 <span class="like-count">{{ $topic->likes }}</span>
             </div>
-            <div class="dislike-btn d-inline me2" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
+            <div class="dislike-btn d-inline me-2" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
                 <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i>
                 <span class="dislike-count">{{ $topic->dislikes }}</span>
             </div>

@@ -500,6 +500,7 @@
     <script>
         $(document).ready(function () {
             let isLoading = false;
+            const topicRouteBase = "{{ route('university.topic.comments', ['slug' => '___SLUG___']) }}";
 
             $(".nav-link").on("click", function () {
                 if(isLoading) return;
@@ -526,13 +527,14 @@
                         univercityId:univercityId
                     },
                     success: function (response) {
-                        // Dönen verilerdeki her bir başlığı listeye ekle
                         response.topics.forEach(topic => {
+                            const topicUrl = topicRouteBase.replace('___SLUG___', topic.topic_title_slug);
+
                             const listItem = `
                                 <li class="list-group-item">
-                                    <a href="/forum/universite/mevzu/${topic.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
-                                         <span class="topic-title-sub-category">${topic.topic_title}</span>
-                                         <span class="count">${topic.count}</span>
+                                    <a href="${topicUrl}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
+                                        <span class="topic-title-sub-category">${topic.topic_title}</span>
+                                        <span class="count">${topic.count}</span>
                                     </a>
                                 </li>`;
                             subcategoriesList.append(listItem);
@@ -600,9 +602,10 @@
                     success: function (response) {
                         // Dönen verilerdeki her bir başlığı listeye ekle
                         response.topics.forEach(topic => {
+                            const topicUrl = topicRouteBase.replace('___SLUG___', topic.topic_title_slug);
                             const listItem = `
                                <li class="list-group-item">
-                                    <a href="/forum/universite/mevzu/${topic.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
+                                    <a href="${topicUrl}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
                                          <span class="topic-title-sub-category">${topic.topic_title}</span>
                                          <span class="count">${topic.count}</span>
                                     </a>

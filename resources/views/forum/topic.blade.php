@@ -12,7 +12,7 @@
         </div>
 
         <!-- Ana İçerik Alanı -->
-        <div class="col-md-7 position-relative main-content">
+        <div class="col-md-8 position-relative main-content">
 
             <!-- Genel Tartışma Alanı İçerikleri -->
             <div id="general-content" class="content-area">
@@ -68,17 +68,8 @@
                 </div>
 
             </div>
-
-           
-
         </div>
 
-        <!-- Sağ Menü (Reklam Alanı) -->
-        <div class="col-md-2">
-            <div class="advertisement">
-                {{-- <p>Reklam Alanı</p> --}}
-            </div>
-        </div>
     </div>
   
 @endsection 
@@ -357,62 +348,22 @@
 
     </script>
     
-    {{-- siderbar change --}}
+    {{-- sidebar change --}}
     <script>
-        $(document).ready(function () {
-            // general subcategories
-            const generalSubcategories = @json($general_topics);          
-
-            function loadSubcategories(subcategories, type = 'general') {
-                $("#subcategories-list").empty();
-                subcategories.forEach(function (item) {
-
-                    const generalSubCategoriesCount = item.count || 0;
-
-                    if (type === 'university') {
-                        // university limk
-                        $("#subcategories-list").append(
-                            `<li class="list-group-item universityLi">
-                                <a href="/forum/universite/${item.slug}" class="text-decoration-none universityTag">${item.universite_ad}</a>
-                            </li>`
-                        );
-                    } else if (type === 'city') {
-                        // city link
-                        $("#subcategories-list").append(
-                            `<li class="list-group-item cityLi">
-                                <a href="/forum/sehir/${item.slug}" class="text-decoration-none cityTag">${item.title}</a>
-                            </li>`
-                        );
-                    } else {
-                        // general topics
-                        $("#subcategories-list").append(
-                        `<li class="list-group-item mb-1">
-                                <a href="/forum/mevzu/${item.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
-                                    <span class="topic-title-sub-category">${item.topic_title}</span>
-                                    <span class="count">${generalSubCategoriesCount}</span>
-                                </a>
-                            </li>`
-                        );
-                    }
+        $(document).ready(function () {            
+            const generalSubcategories = @json($general_topics);        
+                generalSubcategories.forEach(function (item) {
+                    const generalSubCategoriesCount = item.count || 0;                
+                   
+                    $("#subcategories-list").append(
+                    `<li class="list-group-item mb-1">
+                            <a href="/forum/mevzu/${item.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
+                                <span class="topic-title-sub-category">${item.topic_title}</span>
+                                <span class="count">${generalSubCategoriesCount}</span>
+                            </a>
+                        </li>`
+                    );                   
                 });
-            }
-
-            // Tab butonları
-            $("#general-tab").on("click", function () {
-                $("#general-tab").addClass("activeCategory");
-                $("#universities-tab, #cities-tab").removeClass("activeCategory");
-                
-                $("#general-content").removeClass("d-none");
-                $("#universities-content, #cities-content",).addClass("d-none");
-
-                $('.btnCreateGeneral').removeClass('d-none');
-
-                loadSubcategories(generalSubcategories);
-            });
-
-            // Başlangıç olarak genel tartışma alt başlıklarını yükle
-            loadSubcategories(generalSubcategories);
-            $("#general-tab").addClass("activeCategory");
         });
     </script>
     

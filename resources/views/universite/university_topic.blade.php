@@ -366,7 +366,7 @@
                 
                 $("#subcategories-list").append(
                 `<li class="list-group-item mb-1">
-                        <a href="/forum/universite/mevzu/${item.topic_title_slug}" 
+                        <a href="/universite-yorumlari/konu/${item.topic_title_slug}" 
                             class="text-decoration-none subCategoryTag d-flex justify-content-between">
                             <span class="topic-title-sub-category">${item.topic_title}</span>
                             <span class="count">${universitySubCategoriesCount}</span>
@@ -376,7 +376,7 @@
 
                 $("#subcategories-list-mobile").append(
                 `<li class="list-group-item mb-1">
-                        <a href="/forum/universite/mevzu/${item.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
+                        <a href="/universite-yorumlari/konu/${item.topic_title_slug}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
                             <span class="topic-title-sub-category">${item.topic_title}</span>
                             <span class="count">${universitySubCategoriesCount}</span>
                         </a>

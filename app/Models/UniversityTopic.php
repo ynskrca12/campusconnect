@@ -14,6 +14,11 @@ class UniversityTopic extends Model
 
     protected $table = 'universities_topics';
 
+    public function university(): BelongsTo
+    {
+        return $this->belongsTo(University::class, 'university_id', 'id');
+    }//End
+
 
     public function user(): BelongsTo{
         return $this->belongsTo(User::class);

@@ -127,8 +127,10 @@ Route::get('/forum/sehir/mevzu/{slug}',[CityController::class,'topicComments'])-
 Route::get('/get-city-category-topics',[CityController::class,'getCityCategoryTopics']);
 Route::get('/get-city-category-topic-content',[CityController::class,'getCityCategoryTopicContent']);
 
-Route::get('/forum/universite/{slug}', [UniversityController::class, 'show'])->name('university.show');
-Route::get('/forum/universite/mevzu/{slug}',[UniversityController::class,'topicComments'])->name('university.topic.comments');
+// Route::get('/forum/universite/{slug}', [UniversityController::class, 'show'])->name('university.show');
+Route::get('/universite-yorumlari/{slug}', [UniversityController::class, 'show'])->name('university.show');
+Route::get('/universite-yorumlari/konu/{slug}',[UniversityController::class,'topicComments'])->name('university.topic.comments');
+// Route::get('/forum/universite/mevzu/{slug}',[UniversityController::class,'topicComments'])->name('university.topic.comments');
 Route::get('/get-univercity-category-topics',[UniversityController::class,'getUnivercityCategoryTopics']);
 Route::get('/get-univercity-category-topic-content',[UniversityController::class,'getUnivercityCategoryTopicContent']);
 
