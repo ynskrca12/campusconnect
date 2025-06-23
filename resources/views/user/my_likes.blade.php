@@ -8,18 +8,13 @@
   @endif
 
   <div class="row">
-      <!-- Profile Header -->
-      {{-- <div class="col-12 mb-4 text-center">
-         
-      </div> --}}
-
       <!-- Main Content -->
       <div class="col-12">
-          <div class="card border-0 shadow-sm">
+          <div class="card border-0 mt-0 mt-md-5">
               <div class="card-body p-0">
                   <div class="row g-0">
                       <!-- Sidebar -->
-                      <div class="col-lg-3 border-end text-center">
+                      <div class="col-lg-3 text-center mb-4 pe-0 pe-md-4">
                         <div class="position-relative d-inline-block">
                             @php 
                                 $imageName = $user->user_image;
@@ -43,19 +38,15 @@
                           </button> --}}
                       </div>
                       <h5 class="mt-3 mb-1 userName">{{ Auth::user()->name }}</h5>
-                          <div class="p-4">
                               <div class="nav flex-column nav-pills">
                                   <a class="nav-link nav-link-profile active" id="my-likes-tab" href="#" data-target="#myLikes"><i class="fa-solid fa-thumbs-up me-2"></i>Beğendiklerim ({{ count($liked_topics) }})</a>
                               </div>
-
-                          </div>
                       </div>
 
                       <!-- Content Area -->
-                      <div class="col-lg-9">
-                          <div class="p-4">
+                      <div class="col-lg-9 ps-0 ps-md-4">
                               <div id="myLikes" class="content-section">
-                                <div class="col-md-10">
+                                <div class="col-md-12">
                                     @if (count($liked_topics) == 0)
                                         <h5 class="mb-4">Henüz hiçbir yorum beğenmediniz.</h5>
                                     @else    
@@ -111,7 +102,6 @@
                                     @endif
                                 </div>
                               </div>
-                          </div>
                       </div>
                   </div>
               </div>

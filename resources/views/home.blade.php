@@ -517,6 +517,9 @@
             .navbar.fixed-top + .page-body-wrapper {
                 padding: 56px 0px 0px 0px !important;
             }
+            .custom-card {
+                padding: 10px 20px 0px 20px !important;
+            }
         }
     </style>
 @endsection

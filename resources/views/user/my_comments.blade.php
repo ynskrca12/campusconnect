@@ -11,11 +11,11 @@
 
       <!-- Main Content -->
       <div class="col-12">
-          <div class="card border-0 shadow-sm">
+          <div class="card border-0 mt-0 mt-md-5">
               <div class="card-body p-0">
                   <div class="row g-0">
                       <!-- Sidebar -->
-                      <div class="col-lg-3 border-end text-center">
+                      <div class="col-lg-3 text-center mb-4 pe-0 pe-md-4">
                         <div class="position-relative d-inline-block">
                             @php 
                                 $imageName = $user->user_image;
@@ -39,83 +39,75 @@
                           </button> --}}
                       </div>
                       <h5 class="mt-3 mb-1 userName">{{ Auth::user()->name }}</h5>
-                          <div class="p-4">
-                              <div class="nav flex-column nav-pills">
-                                  <a class="nav-link nav-link-profile active" id="my-comments-tab" href="#" data-target="#myComments"><i class="fa-solid fa-comments me-2"></i>Yorumlarım ({{ count($my_comments) }})</a>
-                              </div>
-                          </div>
+                            <div class="nav flex-column nav-pills">
+                                <a class="nav-link nav-link-profile active" id="my-comments-tab" href="#" data-target="#myComments"><i class="fa-solid fa-comments me-2"></i>Yorumlarım ({{ count($my_comments) }})</a>
+                            </div>
                       </div>
 
                       <!-- Content Area -->
-                      <div class="col-lg-9">
-                          <div class="p-4">
-                              
-                              <div id="myComments" class="content-section">
-                                <div class="col-md-10">
-                                    @if (count($my_comments) == 0)
-                                        <h5 class="mb-4">Henüz hiçbir yorum yapmadınız @if (Auth::user()->gender == 'male')
-                                                beyefendi
-                                            @elseif(Auth::user()->gender == 'female')
-                                                hanımefendi
-                                            @endif
-                                        </h5>
-                                    @else    
-                                        @foreach ($my_comments as $item)   
-                                            @php
-                                                switch ($item->type) {
-                                                    case 'city':
-                                                        $route = route('city.topic.comments', ['slug' => $item->topic_title_slug]);
-                                                        break;
-                                                    case 'university':
-                                                        $route = route('university.topic.comments', ['slug' => $item->topic_title_slug]);
-                                                        break;
-                                                    default:
-                                                        $route = route('topic.comments', ['slug' => $item->topic_title_slug]);
-                                                }
-                                            @endphp
-                                            <div class="topic mb-3">
-                                                <h3 class="topic-title mb-3">
-                                                    <a href="{{ $route }}">
-                                                        {{ $item->topic_title }}
-                                                    </a>
-                                                </h3>
-                                                
-                                                <p>{{ $item->comment }}</p>
-                                                <div class="d-flex justify-content-between mt-3">
-                                                <div class="like-dislike mt-3">
-                                                    <div class="like-btn d-inline me-3" data-id="{{ $item->id }}" style="cursor: pointer; color: #888;">
-                                                        <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $item->likes }}</span>
-                                                    </div>
-                                                    <div class="dislike-btn d-inline" data-id="{{ $item->id }}" style="cursor: pointer; color: #888;">
-                                                        <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $item->dislikes }}</span>
-                                                    </div>
+                      <div class="col-lg-9 ps-0 ps-md-4">                              
+                        <div id="myComments" class="content-section">
+                            <div class="col-md-12">
+                                @if (count($my_comments) == 0)
+                                    <h5 class="mb-4">Henüz hiçbir yorum yapmadınız @if (Auth::user()->gender == 'male')
+                                            beyefendi
+                                        @elseif(Auth::user()->gender == 'female')
+                                            hanımefendi
+                                        @endif
+                                    </h5>
+                                @else    
+                                    @foreach ($my_comments as $item)   
+                                        @php
+                                            switch ($item->type) {
+                                                case 'city':
+                                                    $route = route('city.topic.comments', ['slug' => $item->topic_title_slug]);
+                                                    break;
+                                                case 'university':
+                                                    $route = route('university.topic.comments', ['slug' => $item->topic_title_slug]);
+                                                    break;
+                                                default:
+                                                    $route = route('topic.comments', ['slug' => $item->topic_title_slug]);
+                                            }
+                                        @endphp
+                                        <div class="topic mb-3">
+                                            <h3 class="topic-title mb-3">
+                                                <a href="{{ $route }}">
+                                                    {{ $item->topic_title }}
+                                                </a>
+                                            </h3>
+                                            
+                                            <p>{{ $item->comment }}</p>
+                                            <div class="d-flex justify-content-between mt-3">
+                                            <div class="like-dislike mt-3">
+                                                <div class="like-btn d-inline me-3" data-id="{{ $item->id }}" style="cursor: pointer; color: #888;">
+                                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $item->likes }}</span>
                                                 </div>
-                                                <div class="meta">
-                                                    <div class="d-flex align-items-center entry-footer-bottom">
-                                                        <div class="footer-info">
-                                                            <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
-                                                                <p style="display: block;white-space:nowrap;color:#001b48;">{{ $item->user->username ?? 'Anonim' }}</p>
-                                                            </div>
-                    
-                                                            <div style="display: block;padding:1px 2px;line-height: 14px;">
-                                                                <p style="color: #888;font-size: 12px;">{{ $item->created_at->format('d.m.Y H:i') }}</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="avatar-container">
-                                                            <x-user-avatar :user="$item->user" />
-                                                        </div>
-                                                    </div>                            
-                                                </div>
+                                                <div class="dislike-btn d-inline" data-id="{{ $item->id }}" style="cursor: pointer; color: #888;">
+                                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $item->dislikes }}</span>
                                                 </div>
                                             </div>
-                                        @endforeach  
-                                    @endif
-                                </div>
-
-                              </div>
-
-                            
-                          </div>
+                                            <div class="meta">
+                                                <div class="d-flex align-items-center entry-footer-bottom">
+                                                    <div class="footer-info">
+                                                        <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
+                                                            <p style="display: block;white-space:nowrap;color:#001b48;">{{ $item->user->username ?? 'Anonim' }}</p>
+                                                        </div>
+                
+                                                        <div style="display: block;padding:1px 2px;line-height: 14px;">
+                                                            <p style="color: #888;font-size: 12px;">{{ $item->created_at->format('d.m.Y H:i') }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="avatar-container">
+                                                        <x-user-avatar :user="$item->user" />
+                                                    </div>
+                                                </div>                            
+                                            </div>
+                                            </div>
+                                        </div>
+                                    @endforeach  
+                                @endif
+                            </div>
+                        </div>
                       </div>
                   </div>
               </div>

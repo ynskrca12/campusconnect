@@ -12,15 +12,15 @@
     <div class="d-flex justify-content-between mt-2">
 
         <div class="like-dislike mt-3">
-            <div class="like-btn d-inline me-3" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
+            <div class="like-btn d-inline me-2" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
                 <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i>
                 <span class="like-count">{{ $topic->likes }}</span>
             </div>
-            <div class="dislike-btn d-inline" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
+            <div class="dislike-btn d-inline me2" data-id="{{ $topic->id }}" style="cursor: pointer; color: #888;">
                 <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i>
                 <span class="dislike-count">{{ $topic->dislikes }}</span>
             </div>
-            <div class="d-inline ms-3">
+            <div class="d-inline">
                 <a href="{{ route($routeName, ['slug' => $topic->topic_title_slug]) }}"
                 title="Yanıtla"
                 style="color: #555;">
@@ -83,5 +83,16 @@
         vertical-align: middle;
         padding: 4px;
         padding-right: 10px;
+    }
+    @media (max-width: 768px) {
+        .topic {
+            padding: 15px 20px 15px 20px !important;
+        }
+        .topic h3 a {
+            font-size: 15px;
+        }
+        .topic p {
+            font-size: 13px;
+        }
     }
 </style>

@@ -136,9 +136,9 @@
                    
                     
                     <div class="container mb-5 p-0">
-                        <h3 class="text-center mb-4 fw-bold city-content-title">🎓 Türkiye’nin En İyi 10 Öğrenci Şehri</h3>
-                        <p class="text-center text-muted mb-5 fst-italic">
-                            📊 Kira, KYK yurt kapasitesi ve öğrenci yaşam kalitesi verilerine göre hazırlandı.
+                        <h3 class="text-center mb-4 fw-bold city-content-title">Türkiye’nin En İyi 10 Öğrenci Şehri</h3>
+                        <p class="text-center text-muted mb-4 fst-italic">
+                            Kira, KYK yurt kapasitesi ve öğrenci yaşam kalitesi verilerine göre hazırlandı.
                         </p>
 
                         <div class="row g-4">

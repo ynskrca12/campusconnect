@@ -28,7 +28,7 @@
         <!-- Sosyal Medya Butonları -->
         <div class="d-flex align-items-center gap-4">
             <!-- Resmi Site -->
-            <a href="https://www.universite-adi.edu.tr" target="_blank">
+            <a href="{{ $university->internet_sitesi }}" target="_blank">
                 <i class="fa-solid fa-globe" style="font-size: 20px;color:#555"></i>
             </a>
             <!-- Instagram -->

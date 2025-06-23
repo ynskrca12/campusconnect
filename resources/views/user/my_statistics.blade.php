@@ -15,11 +15,11 @@
 
       <!-- Main Content -->
       <div class="col-12">
-          <div class="card border-0">
+          <div class="card border-0 mt-0 mt-md-5">
               <div class="card-body p-0">
                   <div class="row g-0">
                       <!-- Sidebar -->
-                      <div class="col-lg-3 border-end text-center">
+                      <div class="col-lg-3 text-center mb-4 pe-0 pe-md-4">
                         <div class="position-relative d-inline-block">
                             @php 
                                 $imageName = $user->user_image;
@@ -42,16 +42,13 @@
                           </button> --}}
                       </div>
                       <h5 class="mt-3 mb-1 userName">{{ Auth::user()->name }}</h5>
-                          <div class="p-4">
-                              <div class="nav flex-column nav-pills">
-                                  <a class="nav-link nav-link-profile active" id="istatistiklerim-tab" href="#" data-target="#istatistiklerim"><i class="fa-solid fa-chart-simple me-2"></i>İstatistiklerim</a>
-                              </div>
-                          </div>
+                            <div class="nav flex-column nav-pills">
+                                <a class="nav-link nav-link-profile active" id="istatistiklerim-tab" href="#" data-target="#istatistiklerim"><i class="fa-solid fa-chart-simple me-2"></i>İstatistiklerim</a>
+                            </div>
                       </div>
 
                         <!-- Content Area -->
-                        <div class="col-lg-9">
-                            <div class="p-4">
+                        <div class="col-lg-9 ps-0 ps-md-4">
                               <div id="istatistiklerim" class="content-section">
 
                                 <div class="row mb-3">
@@ -112,7 +109,7 @@
                                 {{-- mostLikedTopicCity --}}
                                 @if ($statistics['mostLikedTopicCity'] != null)
                                     <div class="row">
-                                        <div class="col-md-10">
+                                        <div class="col-md-12">
                                             <div class="topic mb-3 comment-section">
                                                 <h3 class="topic-title mb-3">
                                                     <a href="{{ route('city.topic.comments', ['slug' => $statistics['mostLikedTopicCity']->topic_title_slug]) }}">
@@ -155,7 +152,7 @@
                                 {{-- mostLikedTopicUniversity --}}
                                 @if ($statistics['mostLikedTopicUniversity'] != null)
                                     <div class="row">
-                                        <div class="col-md-10">
+                                        <div class="col-md-12">
                                             <div class="topic mb-3 comment-section">
                                                 <h3 class="topic-title mb-3">
                                                     <a href="{{ route('university.topic.comments', ['slug' => $statistics['mostLikedTopicUniversity']->topic_title_slug]) }}">
@@ -198,7 +195,7 @@
                                 {{-- mostLikedTopicGeneral --}}
                                 @if ($statistics['mostLikedTopicGeneral'] != null)
                                     <div class="row">
-                                        <div class="col-md-10">
+                                        <div class="col-md-12">
                                             <div class="topic mb-3 comment-section">
                                                 <h3 class="topic-title mb-3">
                                                     <a href="{{ route('topic.comments', ['slug' => $statistics['mostLikedTopicGeneral']->topic_title_slug]) }}">
@@ -238,8 +235,7 @@
                                     </div>
                                 @endif
 
-                              </div>
-                            </div>
+                              </div>                            
                         </div>
                   </div>
               </div>
