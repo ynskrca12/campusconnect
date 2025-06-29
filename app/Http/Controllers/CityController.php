@@ -30,8 +30,7 @@ class CityController extends Controller
 
         $cities = $query->paginate(28);
 
-        $cities_topics_count = DB::table('cities_topics')
-            ->select('city_id', DB::raw('COUNT(*) as count'))
+        $cities_topics_count = CityTopic::select('city_id', DB::raw('COUNT(*) as count'))
             ->groupBy('city_id')
             ->pluck('count', 'city_id')
             ->toArray();
@@ -49,8 +48,7 @@ class CityController extends Controller
             ->where('category','free-zone')
             ->get();
         
-        $getCityFreeZoneTopics = DB::table('cities_topics')
-            ->select('topic_title', 'topic_title_slug', DB::raw('COUNT(*) as count'))
+        $getCityFreeZoneTopics = CityTopic::select('topic_title', 'topic_title_slug', DB::raw('COUNT(*) as count'))
             ->where('city_id',$city->id)
             ->where('category','free-zone')
             ->groupBy('topic_title', 'topic_title_slug')
@@ -100,8 +98,7 @@ class CityController extends Controller
             $city_id          = $comments->first()->city_id;
             $comment_category = $comments->first()->category;
 
-            $cities_topics = DB::table('cities_topics')
-                ->where('city_id',$city_id)
+            $cities_topics = CityTopic::where('city_id',$city_id)
                 ->select('topic_title', 'topic_title_slug', DB::raw('COUNT(topic_title_slug) as count'))
                 ->groupBy('topic_title', 'topic_title_slug')
                 ->get();
@@ -123,8 +120,7 @@ class CityController extends Controller
         $category = $request->input('category');
         $cityId = $request->input('cityId');
 
-        $topics = DB::table('cities_topics')
-            ->where('city_id',$cityId)
+        $topics = CityTopic::where('city_id',$cityId)
             ->where('category',$category)
             ->select('topic_title', 'topic_title_slug', DB::raw('COUNT(*) as count'))
             ->groupBy('topic_title', 'topic_title_slug')
@@ -190,7 +186,8 @@ class CityController extends Controller
         foreach ($topics as $topic) {
             $html .= View::make('components.topic-box', [
                 'topic' => $topic,
-                'routeName' => 'city.topic.comments' 
+                'routeName' => 'city.topic.comments',
+                'type' => 'city'
             ])->render();
         }
 

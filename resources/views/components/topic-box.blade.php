@@ -1,11 +1,36 @@
-@props(['topic', 'routeName' => 'topic.comments'])
+@props(['topic', 'routeName' => 'topic.comments', 'type' => 'general'])
 
 <div class="topic mb-3">
-    <h3 class="topic-title mb-3">
-        <a href="{{ route($routeName, ['slug' => $topic->topic_title_slug]) }}" class="text-decoration-none text-dark">
-            {{ $topic->topic_title }}
-        </a>
-    </h3>
+    <div class="d-flex justify-content-between align-items-start">
+        <h3 class="topic-title mb-3">
+            <a href="{{ route($routeName, ['slug' => $topic->topic_title_slug]) }}" class="text-decoration-none text-dark">
+                {{ $topic->topic_title }}
+            </a>
+        </h3>
+        <div class="dropdown me-3">
+            <i class="fa-solid fa-ellipsis cursor-pointer text-muted fs-6 mt-3" role="button" id="dropdownMenu{{ $topic->id }}" data-bs-toggle="dropdown" aria-expanded="false"></i>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu{{ $topic->id }}">
+                    <li>
+                    <a class="dropdown-item copy-link text-dark"
+                    href="#"
+                    data-link="{{ route($routeName, ['slug' => $topic->topic_title_slug]) }}">
+                        <i class="fa-solid fa-link me-2"></i> Linki Kopyala
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item text-dark"
+                    href="https://twitter.com/intent/tweet?text={{ urlencode($topic->topic_title . ' - ' . route($routeName, ['slug' => $topic->topic_title_slug])) }}"
+                    target="_blank">
+                        <i class="fa-brands fa-twitter me-2"></i> Twitter’da Paylaş
+                    </a>
+                </li> 
+                @if (auth()->check() && auth()->user()->id === $topic->user_id)
+                    <li><a class="dropdown-item delete-topic text-dark" href="#" data-id="{{ $topic->id }}" data-type="{{ $type }}"><i class="fa-solid fa-trash me-3"></i>Sil</a></li>                    
+                @endif
+                                
+            </ul>
+        </div>
+    </div>
 
     <p>{!! $topic->comment !!}</p>
 
@@ -94,5 +119,8 @@
         .topic p {
             font-size: 13px;
         }
+    }
+    .fa-ellipsis {
+        z-index: 9999 !important;
     }
 </style>

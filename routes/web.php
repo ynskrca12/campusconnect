@@ -105,7 +105,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/add/blog/comment/{id}', [PageController::class, 'storeComment'])->name('add.blog.comment');
     Route::post('/blog/comment/reply', [PageController::class, 'replyComment'])->name('add.blog.comment.reply');
 
-    
+    //delete topic
+    Route::get('/topic-delete', [ForumController::class, 'deleteTopic'])->name('topic.delete');
+
 });
 
 

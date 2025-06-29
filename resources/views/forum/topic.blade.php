@@ -21,30 +21,58 @@
                 <div id="topic-list">
                     @foreach ($comments as $comment)
                         <div class="topic mb-3">
-                            <p>{!! $comment['comment'] !!}</p>
-                            <div class="like-dislike mt-3">
-                                <div class="like-btn d-inline me-3" data-id="{{ $comment['id'] }}" style="cursor: pointer; color: #888;">
-                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $comment['likes'] }}</span>
-                                </div>
-                                <div class="dislike-btn d-inline" data-id="{{ $comment['id'] }}" style="cursor: pointer; color: #888;">
-                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $comment['dislikes'] }}</span>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>{!! $comment['comment'] !!}</div>
+                                <div class="dropdown me-3">
+                                    <i class="fa-solid fa-ellipsis cursor-pointer text-muted fs-6 mt-3" role="button" id="dropdownMenu{{ $comment['id'] }}" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu{{ $comment['id'] }}">
+                                        <li>
+                                            <a class="dropdown-item copy-link text-dark"
+                                            href="#"
+                                            data-link="{{ route('topic.comments', ['slug' => $topicTitleSlug]) }}">
+                                                <i class="fa-solid fa-link me-2"></i> Linki Kopyala
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item text-dark"
+                                            href="https://twitter.com/intent/tweet?text={{ urlencode($topicTitle . ' - ' . route('topic.comments', ['slug' => $topicTitleSlug])) }}"
+                                            target="_blank">
+                                                <i class="fa-brands fa-twitter me-2"></i> Twitter’da Paylaş
+                                            </a>
+                                        </li> 
+                                        @if (auth()->check() && auth()->user()->id === $comment['user_id'])
+                                            <li><a class="dropdown-item delete-topic text-dark" href="#" data-id="{{ $comment['id'] }}" data-type="general"><i class="fa-solid fa-trash me-3"></i>Sil</a></li>                    
+                                        @endif
+                                                        
+                                    </ul>
                                 </div>
                             </div>
-                            <div class="meta">
-                                <div class="d-flex align-items-center entry-footer-bottom">
-                                    <div class="footer-info">
-                                        <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
-                                            <p style="display: block;white-space:nowrap;color:#001b48;">{{ \App\Models\User::where('id',$comment['user_id'])->value('username') ?? 'Anonim'}}</p>
-                                        </div>
 
-                                        <div style="display: block;padding:1px 2px;line-height: 14px;">
-                                            <p style="color: #888;font-size: 12px;">{{ \Carbon\Carbon::parse($comment['created_at'])->format('d.m.Y H:i') }}</p>
+                            <div class="d-flex align-items-center justify-content-between mt-3">
+                                <div class="like-dislike mt-3">
+                                    <div class="like-btn d-inline me-3" data-id="{{ $comment['id'] }}" style="cursor: pointer; color: #888;">
+                                        <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $comment['likes'] }}</span>
+                                    </div>
+                                    <div class="dislike-btn d-inline" data-id="{{ $comment['id'] }}" style="cursor: pointer; color: #888;">
+                                        <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $comment['dislikes'] }}</span>
+                                    </div>
+                                </div>
+                                <div class="meta">
+                                    <div class="d-flex align-items-center entry-footer-bottom">
+                                        <div class="footer-info">
+                                            <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
+                                                <p style="display: block;white-space:nowrap;color:#001b48;">{{ \App\Models\User::where('id',$comment['user_id'])->value('username') ?? 'Anonim'}}</p>
+                                            </div>
+
+                                            <div style="display: block;padding:1px 2px;line-height: 14px;">
+                                                <p style="color: #888;font-size: 12px;">{{ \Carbon\Carbon::parse($comment['created_at'])->format('d.m.Y H:i') }}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="avatar-container">
-                                        <x-user-avatar :user="$comment->user" />
-                                    </div>
-                                </div>                            
+                                        <div class="avatar-container">
+                                            <x-user-avatar :user="$comment->user" />
+                                        </div>
+                                    </div>                            
+                                </div>
                             </div>
                         </div>
                     @endforeach   

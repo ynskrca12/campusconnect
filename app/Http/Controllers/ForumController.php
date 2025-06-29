@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\GeneralTopic;
+use App\Models\UniversityTopic;
+use App\Models\CityTopic;
 use App\Models\University;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -222,7 +224,7 @@ class ForumController extends Controller
             // Tüm topic'leri component olarak render et
             $html = '';
             foreach ($randomTopics as $topic) {
-                $html .= view('components.topic-box', ['topic' => $topic])->render();
+                $html .= view('components.topic-box', ['topic' => $topic, 'type' => 'general'])->render();
             }
 
             return response()->json([
@@ -354,6 +356,50 @@ class ForumController extends Controller
         }
     }//End
 
-    
+    public function deleteTopic(Request $request)
+    {
+        $id = $request->input('id');
+        $type = $request->input('type');
+
+        $userId = auth()->id();
+
+        switch ($type) {
+            case 'general':
+                $topic = GeneralTopic::where('id', $id)->where('user_id', $userId)->first();
+                break;
+            case 'university':
+                $topic = UniversityTopic::where('id', $id)->where('user_id', $userId)->first();
+                break;
+            case 'city':
+                $topic = CityTopic::where('id', $id)->where('user_id', $userId)->first();
+                break;
+            default:
+                return response()->json(['success' => false, 'message' => 'Geçersiz tür.']);
+        }
+
+        if (!$topic) {
+            return response()->json(['success' => false, 'message' => 'Yorum bulunamadı.']);
+        }
+
+        if (!empty($topic->created_by)) {
+            switch ($type) {
+                case 'general':
+                    GeneralTopic::where('topic_title_slug', $topic->topic_title_slug)->delete();
+                    break;
+                case 'university':
+                    UniversityTopic::where('topic_title_slug', $topic->topic_title_slug)->delete();
+                    break;
+                case 'city':
+                    CityTopic::where('topic_title_slug', $topic->topic_title_slug)->delete();
+                    break;
+            }
+        }
+
+         $topic->delete();
+
+
+        return response()->json(['success' => true, 'message' => 'Yorum başarıyla silindi.']);
+    }
+
     
 }   

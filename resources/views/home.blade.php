@@ -88,7 +88,8 @@
             </div>
 
         </div>
-        <div class="col-md-6 mb-3">
+        @if ($mostLikedTopicGeneral)
+              <div class="col-md-6 mb-3">
             <div class="card custom-card h-100 d-flex flex-column justify-content-between">
                     <div class="topic">
                         <h3 class="topic-title mb-3">
@@ -136,6 +137,8 @@
             </div>
 
         </div>
+        @endif
+      
     </div>
 
     <div class="row mb-5 mt-2">

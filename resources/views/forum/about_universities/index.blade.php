@@ -173,7 +173,7 @@
                         </div>        
                         <div id="free-zone-topic-list">
                             @foreach ($univercity_free_zone_topics as $topic) 
-                                <x-topic-box :topic="$topic" routeName="university.topic.comments" />
+                                <x-topic-box :topic="$topic" routeName="university.topic.comments" type="university"/>
                             @endforeach   
                         </div>
                     </div>

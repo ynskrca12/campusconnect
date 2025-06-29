@@ -20,37 +20,11 @@ class UniversityController extends Controller
     public function index(){
         // $universiteler = University::all();
         $universities = DB::table('universiteler')->get();
-        $universities_topics_count = DB::table('universities_topics')
-            ->select('university_id', DB::raw('COUNT(*) as count'))
+        $universities_topics_count = UniversityTopic::select('university_id', DB::raw('COUNT(*) as count'))
             ->groupBy('university_id')
             ->pluck('count', 'university_id')
             ->toArray();
         return view('universite.universite',compact('universities','universities_topics_count'));
-    }
-
-    public function universite_detay($id){
-
-         $universite = DB::table('universiteler')->where('id',$id)->first();
-
-         $universite_yorumlar = DB::table('universite_yorum')
-                                    ->where('universite_id',$universite->id)
-                                    ->orderBy('created_at','desc')
-                                    ->get();
-
-        return view('universite.universite_detay',compact('universite','universite_yorumlar'));
-    }
-
-    public function devlet_universite_getir(Request $request){
-        $universite_turu = $request->input('universite_turu');
-        $devletUniversiteleri = University::where('turu', $universite_turu)->get();
-        return json_decode($devletUniversiteleri);
-    }
-
-
-    public function vakif_universite_getir($universite_turu){
-        $vakifUniversiteleri = University::where('turu',$universite_turu)->get();
-
-        return json_encode($vakifUniversiteleri);
     }
 
     public function show($slug){
@@ -61,8 +35,7 @@ class UniversityController extends Controller
             ->where('category','free-zone')
             ->get();
 
-        $getUnivercityFreeZoneTopics = DB::table('universities_topics')
-            ->select('topic_title', 'topic_title_slug', DB::raw('COUNT(*) as count'))
+        $getUnivercityFreeZoneTopics = universityTopic::select('topic_title', 'topic_title_slug', DB::raw('COUNT(*) as count'))
             ->where('university_id',$university->id)
             ->where('category','free-zone')
             ->groupBy('topic_title', 'topic_title_slug')
@@ -161,7 +134,8 @@ class UniversityController extends Controller
         foreach ($topics as $topic) {
             $html .= View::make('components.topic-box', [
                 'topic' => $topic,
-                'routeName' => 'university.topic.comments' 
+                'routeName' => 'university.topic.comments',
+                'type' => 'university'
             ])->render();
         }
 
@@ -236,8 +210,7 @@ class UniversityController extends Controller
 
         $universities = $query->paginate(40);
 
-        $universities_topics_count = DB::table('universities_topics')
-            ->select('university_id', DB::raw('COUNT(*) as count'))
+        $universities_topics_count = UniversityTopic::select('university_id', DB::raw('COUNT(*) as count'))
             ->groupBy('university_id')
             ->pluck('count', 'university_id')
             ->toArray();
@@ -409,8 +382,7 @@ class UniversityController extends Controller
             $university_id    = $comments->first()->university_id;
             $comment_category = $comments->first()->category;
 
-            $universities_topics = DB::table('universities_topics')
-                ->where('university_id',$university_id)
+            $universities_topics = UniversityTopic::where('university_id',$university_id)
                 ->select('topic_title', 'topic_title_slug', DB::raw('COUNT(topic_title_slug) as count'))
                 ->groupBy('topic_title', 'topic_title_slug')
                 ->get();
