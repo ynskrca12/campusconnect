@@ -260,12 +260,14 @@ class ForumController extends Controller
         DB::beginTransaction();
 
         try {
+            $removedFromLikes = false;
             if ($likeEntry) {
                 if ($likeEntry->like === 1) {
                     // Eğer zaten beğenmişse geri al
                     DB::table('general_topics_likes')->where('user_id', $userId)->where('topic_id', $id)->delete();
                     $topic->decrement('likes'); 
                     $liked = false;
+                    $removedFromLikes = true; 
                 } else {
                     // Beğeniyi güncelle (Dislike'ı kaldır, Like ekle)
                     DB::table('general_topics_likes')->where('user_id', $userId)->where('topic_id', $id)->update(['like' => 1,'updated_at' => Carbon::now()]);
@@ -292,7 +294,8 @@ class ForumController extends Controller
             return response()->json([
                 'likes' => $topic->likes,
                 'dislikes' => $topic->dislikes,
-                'liked' => $liked
+                'liked' => $liked,
+                'removedFromLikes' => $removedFromLikes
             ]);
 
         } catch (\Exception $e) {
@@ -315,6 +318,7 @@ class ForumController extends Controller
         DB::beginTransaction();
 
         try {
+            $removedFromLikes = false;
             if ($dislikeEntry) {
                 if ($dislikeEntry->like === 0) {
                     // Eğer zaten beğenmemişse geri al
@@ -327,6 +331,7 @@ class ForumController extends Controller
                     $topic->increment('dislikes');
                     $topic->decrement('likes');
                     $disliked = true;
+                    $removedFromLikes = true;
                 }
             } else {
                 // Yeni bir dislike ekle
@@ -347,7 +352,8 @@ class ForumController extends Controller
             return response()->json([
                 'likes' => $topic->likes,
                 'dislikes' => $topic->dislikes,
-                'disliked' => $disliked
+                'disliked' => $disliked,
+                'removedFromLikes' => $removedFromLikes
             ]);
 
         } catch (\Exception $e) {

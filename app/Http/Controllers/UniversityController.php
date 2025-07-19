@@ -245,6 +245,7 @@ class UniversityController extends Controller
         DB::beginTransaction();
 
         try {
+             $removedFromLikes = false;
             if ($existing) {
                 if ($existing->like == 1) {
                     // Zaten beğenmişse, beğeniyi geri al
@@ -253,6 +254,7 @@ class UniversityController extends Controller
                         ->delete();
 
                     DB::table('universities_topics')->where('id', $id)->decrement('likes');
+                    $removedFromLikes = true;
                 } else {
                     // Dislike'ı like olarak değiştir
                     DB::table('university_topics_likes')
@@ -284,7 +286,8 @@ class UniversityController extends Controller
 
             return response()->json([
                 'likes' => $updated->likes,
-                'dislikes' => $updated->dislikes
+                'dislikes' => $updated->dislikes,
+                'removedFromLikes' => $removedFromLikes
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -314,6 +317,7 @@ class UniversityController extends Controller
         DB::beginTransaction();
 
         try {
+            $removedFromLikes = false;
             if ($existing) {
                 if ($existing->like == 0) {
                     // Zaten dislike ise, geri al
@@ -333,6 +337,7 @@ class UniversityController extends Controller
 
                     DB::table('universities_topics')->where('id', $id)->increment('dislikes');
                     DB::table('universities_topics')->where('id', $id)->decrement('likes');
+                    $removedFromLikes = true;
                 }
             } else {
                 // İlk kez dislike yapıyorsa
@@ -353,7 +358,8 @@ class UniversityController extends Controller
 
             return response()->json([
                 'likes' => $updated->likes,
-                'dislikes' => $updated->dislikes
+                'dislikes' => $updated->dislikes,
+                'removedFromLikes' => $removedFromLikes
             ]);
         } catch (\Exception $e) {
             DB::rollBack();

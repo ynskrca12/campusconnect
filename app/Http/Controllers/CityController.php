@@ -319,6 +319,7 @@ class CityController extends Controller
         DB::beginTransaction();
 
         try {
+            $removedFromLikes = false;
             $entry = DB::table('city_topics_likes')
                 ->where('user_id', $userId)
                 ->where('topic_id', $id)
@@ -333,6 +334,7 @@ class CityController extends Controller
                         ->delete();
 
                     DB::table('cities_topics')->where('id', $id)->decrement('likes');
+                    $removedFromLikes = true;
                 } elseif ($entry->like == 0) {
                     // Daha önce dislike yapılmışsa, dislike'ı kaldır ve like ekle
                     DB::table('city_topics_likes')
@@ -365,7 +367,8 @@ class CityController extends Controller
 
             return response()->json([
                 'likes' => $updated->likes,
-                'dislikes' => $updated->dislikes
+                'dislikes' => $updated->dislikes,
+                'removedFromLikes' => $removedFromLikes
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -391,6 +394,7 @@ class CityController extends Controller
         DB::beginTransaction();
 
         try {
+            $removedFromLikes = false;
             $entry = DB::table('city_topics_likes')
                 ->where('user_id', $userId)
                 ->where('topic_id', $id)
@@ -417,6 +421,7 @@ class CityController extends Controller
 
                     DB::table('cities_topics')->where('id', $id)->increment('dislikes');
                     DB::table('cities_topics')->where('id', $id)->decrement('likes');
+                    $removedFromLikes = true;
                 }
             } else {
                 // İlk kez dislike yapılıyorsa
@@ -437,7 +442,8 @@ class CityController extends Controller
 
             return response()->json([
                 'likes' => $updated->likes,
-                'dislikes' => $updated->dislikes
+                'dislikes' => $updated->dislikes,
+                'removedFromLikes' => $removedFromLikes
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
