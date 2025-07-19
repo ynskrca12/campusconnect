@@ -189,5 +189,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/user-preview/{id}', [UserController::class, 'preview']);
 
+// routes/web.php
+Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index']);
 
 
