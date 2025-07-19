@@ -4,7 +4,7 @@
         <div class="overlay"></div>
         <div class="info-content">
             <h2 class="animated-title display-4">Üniversite hayatına dair  <span style="color: #87ceeb;">her şey burada!</span></h2>
-            <p class="animated-text">Üniversite ve şehir hayatını keşfet, yorumları oku, deneyimlerini paylaş.
+            <p class="animated-text">Üniversite yorumları, öğrenci ve mezun deneyimleri ve daha fazlası...  
             </p>
             <div class="row mt-5">
                 <div class="col-12 d-flex justify-content-between gap-2 px-0">
@@ -37,8 +37,37 @@
         </div>
     </div>
 
+    <section class="py-5 bg-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="{{ asset('assets/images/home-img.jpg') }}" alt="Üniversite Platformu" class="img-fluid rounded">
+                </div>
+                <div class="col-lg-6">
+                    <h3 class="fw-bold" style="color: #001b48;">Türkiye'nin En Kapsamlı Üniversite Platformu</h3>
+                    <p class="lead mt-3 mb-4 text-secondary">
+                        Gerçek öğrenci yorumları, fakülte ve bölüm detayları, kampüs yaşamı, şehir deneyimleri, taban puanlar ve çok daha fazlası tek bir platformda! 
+                    </p>
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Tüm üniversiteler ve bölümler tek çatı altında</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Öğrencilerden gerçek yorumlar ve deneyimler</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Kampüs ve şehir yaşamı hakkında bilgiler</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Topluluk desteği ve etkileşimli içerikler</li>
+                    </ul>
+                    <a href="{{ route('universities') }}" class="btn px-4 py-2 rounded-pill" style="background-color: #001b48; color: #fff;">
+                        Üniversiteleri Keşfet
+                        <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
     <div class="row mb-5 mt-2">
         <h3 class="topic-title mb-3">Öne Çıkan Yorumlar</h3>
+        @if ($mostLikedTopicUniversity)
         <div class="col-md-6 mb-3">
             <div class="card custom-card h-100 d-flex flex-column justify-content-between">
                     <div class="topic">
@@ -88,6 +117,7 @@
             </div>
 
         </div>
+        @endif
         @if ($mostLikedTopicGeneral)
               <div class="col-md-6 mb-3">
             <div class="card custom-card h-100 d-flex flex-column justify-content-between">
