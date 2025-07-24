@@ -431,7 +431,7 @@
                     const taskHtml = `
                         <div class="task-item card mb-2 px-3 py-2 rounded-3" data-id="${data.task.id}">
                             <div class="d-flex justify-content-between mt-1 align-items-start">
-                                <span class="fw-semibold fs-14 mb-1 task-title" data-id="${data.task.id}">${data.task.title}</span>
+                                <span class="fw-semibold fs-14 mb-1 task-title" data-id="${data.task.id}" title="${data.task.title}">${data.task.title.length > 37 ? data.task.title.substring(0, 37) + '...' : data.task.title}</span>
 
                                 <div class="dropdown">
                                     <i class="fa-solid fa-ellipsis cursor-pointer text-muted" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
