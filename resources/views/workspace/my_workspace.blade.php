@@ -67,9 +67,9 @@
                                         <div class="p-2 rounded-4" style="background-color: {{ $statusData['bg-color'] }};" data-status="{{ $statusKey }}"
                                         data-board="{{ $selectedBoardId }}">
 
-                                            <label class="form-label fs-14 fw-semibold border-2 rounded px-3 py-1 mt-2" style="color: #000000" >
+                                            <label class="form-label fs-14 fw-semibold border-2 rounded px-3 py-1 mt-2 task-section" style="color: #000000" >
                                                 <i class="bi {{ $statusData['icon'] }} text-{{ $statusData['color'] }} me-1"></i>
-                                                {{ $statusData['label'] }}
+                                                {{ $statusData['label'] }} (<span class="task-count">{{ $tasks->where('status', $statusKey)->count() }}</span>)
                                             </label>
 
                                             <!-- Add Task Button -->
@@ -115,7 +115,7 @@
                                                                 <i class="fa-solid fa-ellipsis cursor-pointer text-muted ms-2" role="button" id="dropdownMenu{{ $task->id }}" data-bs-toggle="dropdown" aria-expanded="false"></i>
                                                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu{{ $task->id }}">
                                                                     <li><a class="dropdown-item rename-task text-dark" href="#" data-id="{{ $task->id }}">Yeniden Adlandır</a></li>
-                                                                    <li><a class="dropdown-item delete-task text-dark" href="#" data-id="{{ $task->id }}">Sil</a></li>
+                                                                    <li><a class="dropdown-item delete-task text-dark" href="#" data-id="{{ $task->id }}" data-status="{{ $statusKey }}">Sil</a></li>
                                                                 </ul>
                                                             </div>
 
@@ -320,9 +320,10 @@
             });
         });
 
-        $('.delete-task').on('click', function (e) {
+        $(document).on('click', '.delete-task', function(e) {
             e.preventDefault();
             const taskId = $(this).data('id');
+            const status = $(this).data('status');
 
             Swal.fire({
                 title: 'Emin misiniz?',
@@ -342,6 +343,15 @@
                             _token: '{{ csrf_token() }}'
                         },
                         success: function () {
+                            const $taskItem = $(`.task-item[data-id="${taskId}"]`);
+                            const $column = $taskItem.closest('.task-board-column');
+                            const $countSpan = $column.find('.task-count');
+
+                            // Sayıyı azalt
+                            let count = parseInt($countSpan.text());
+                            count = Math.max(0, count - 1);
+                            $countSpan.text(count);
+
                             $(`.task-item[data-id="${taskId}"]`).fadeOut(300, function () {
                                 $(this).remove();
                             });
@@ -450,7 +460,7 @@
                                     <i class="fa-solid fa-ellipsis cursor-pointer text-muted" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item rename-task text-dark" href="#" data-id="${data.task.id}">Yeniden Adlandır</a></li>
-                                        <li><a class="dropdown-item delete-task text-dark" href="#" data-id="${data.task.id}">Sil</a></li>
+                                        <li><a class="dropdown-item delete-task text-dark" href="#" data-id="${data.task.id}" data-status="${status}">Sil</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -462,6 +472,13 @@
                     // İlgili sütunu bul ve görevi ekle
                     const targetColumn = document.querySelector(`.task-column[data-status="${status}"]`);
                     targetColumn.insertAdjacentHTML('beforeend', taskHtml);
+
+                    const column = targetColumn.closest('.task-board-column');
+                    const countSpan = column.querySelector('.task-count');
+                    if (countSpan) {
+                        let count = parseInt(countSpan.textContent);
+                        countSpan.textContent = count + 1;
+                    }
 
                     // Formu temizle ve kapat
                     form.reset();
