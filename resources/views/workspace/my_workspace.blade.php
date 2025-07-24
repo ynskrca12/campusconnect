@@ -96,9 +96,9 @@
                                                     <div class="mb-2">
                                                         <select name="priority" class="form-select form-select-sm add-task-priority" style="border: none;border-bottom: 1px solid #ced4da;border-radius: 0px;">
                                                             <option value="">Öncelik Durumu...</option>
-                                                            <option value="Düşük">Düşük</option>
-                                                            <option value="Orta">Orta</option>
-                                                            <option value="Yüksek">Yüksek</option>
+                                                            <option class="priority-düşük" value="Düşük">Düşük</option>
+                                                            <option class="priority-orta" value="Orta">Orta</option>
+                                                            <option class="priority-yüksek" value="Yüksek">Yüksek</option>
                                                         </select>
                                                     </div>
                                                     <button type="submit" class="btn btn-outline-primary btn-sm w-100">Kaydet</button>
@@ -121,9 +121,11 @@
 
                                                         </div>
 
-                                                        <span class="text-muted fs-14 mb-1">Öncelik: {{ ucfirst($task->priority) }}</span>
+                                                        <span class="text-muted fs-14 mb-1 priority-{{ strtolower($task->priority) }}">
+                                                            Öncelik: {{ ucfirst($task->priority) }}
+                                                        </span>
                                                         @if ($task->due_date)
-                                                            <span class="text-muted fs-14 mb-1">Son Tarih: {{ $task->due_date }}</span>
+                                                            <span class="text-muted fs-14 mb-1">Son Tarih: {{ date('d.m.Y', strtotime($task->due_date)) }}</span>
                                                         @endif
                                                     </div>
                                                 @endforeach
@@ -170,6 +172,17 @@
 
 @section('css')
     <style>
+        .priority-düşük {
+            color: #17a2b8 !important;
+        }
+
+        .priority-orta {
+            color: #ff7400 !important; 
+        }
+
+        .priority-yüksek {
+            color: #ff0802 !important; 
+        }
         .dropdown-menu {
             z-index: 9999 !important;
         }
@@ -441,8 +454,8 @@
                                     </ul>
                                 </div>
                             </div>
-                            <span class="text-muted fs-14 mb-1">Öncelik: ${data.task.priority ?? 'Yok'}</span>
-                            ${data.task.due_date ? `<span class="text-muted fs-14 mb-1">Son Tarih: ${data.task.due_date}</span>` : ''}
+                            <span class="text-muted fs-14 mb-1 priority-${data.task.priority.toLowerCase()}">Öncelik: ${data.task.priority ?? 'Yok'}</span>
+                            ${data.task.due_date ? `<span class="text-muted fs-14 mb-1">Son Tarih: ${new Date(data.task.due_date).toLocaleDateString('tr-TR')}</span>` : ''}
                         </div>
                     `;
 
