@@ -489,7 +489,7 @@
 
                     // İlgili sütunu bul ve görevi ekle
                     const targetColumn = document.querySelector(`.task-column[data-status="${status}"]`);
-                    targetColumn.insertAdjacentHTML('beforeend', taskHtml);
+                    targetColumn.insertAdjacentHTML('afterbegin', taskHtml);
 
                     const column = targetColumn.closest('.task-board-column');
                     const countSpan = column.querySelector('.task-count');

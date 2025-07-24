@@ -17,6 +17,7 @@ class WorkspaceController extends Controller
 
         $tasks = Task::where('user_id', auth()->id())
                     ->where('task_board_id', $selectedBoardId)
+                    ->orderBy('created_at', 'desc')
                     ->get();
 
         return view('workspace.my_workspace', compact('taskBoards', 'tasks', 'selectedBoardId'));
