@@ -18,6 +18,13 @@
                             value="{{ $task->title }}">
                     </div>
 
+                    <div class="mt-2 mb-4 pb-2 border-bottom d-flex justify-content-between text-muted small">
+                        <div class="task-created-at">
+                            <i class="fa-regular fa-clock me-1"></i> Oluşturulma Tarihi:
+                            {{ date('d.m.Y H:i', strtotime($task->created_at)) }}
+                        </div>
+                    </div>
+
                     <div class="row mb-4">
                         <!-- Durum -->
                         <div class="col-md-4 mb-3">
@@ -51,6 +58,7 @@
                             </label>
                             <input type="date" class="form-control live-update" data-field="due_date" data-id="{{ $task->id }}" value="{{ $task->due_date }}">
                         </div>
+                        
                     </div>
 
                     <!-- Açıklama -->
@@ -76,6 +84,11 @@
 
 @section('css')
 <style>
+    .task-created-at {
+        letter-spacing: 1px;
+        font-size: 14px;
+        color: #333333;
+    }
     .content-wrapper {
         padding:2.75rem 15px !important;
     } 
@@ -90,10 +103,6 @@
 
     .form-select, .form-control {
         border-radius: 10px;
-    }
-
-    select.form-select {
-        background-color: #f9fafb;
     }
 
     .form-label {
