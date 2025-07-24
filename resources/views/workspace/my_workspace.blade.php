@@ -399,6 +399,24 @@
                 const taskId = evt.item.dataset.id;
                 const newStatus = evt.to.dataset.status;
 
+                const oldColumn = evt.from;
+                const newColumn = evt.to;
+
+                const oldCountSpan = oldColumn.closest('.task-board-column').querySelector('.task-count');
+                const newCountSpan = newColumn.closest('.task-board-column').querySelector('.task-count');
+
+                // Eski sütundan 1 azalt
+                if (oldCountSpan) {
+                    let oldCount = parseInt(oldCountSpan.textContent);
+                    oldCountSpan.textContent = Math.max(0, oldCount - 1);
+                }
+
+                // Yeni sütuna 1 ekle
+                if (newCountSpan) {
+                    let newCount = parseInt(newCountSpan.textContent);
+                    newCountSpan.textContent = newCount + 1;
+                }
+
                 fetch(`/workspace/task/${taskId}/status`, {
                     method: 'PATCH',
                     headers: {
