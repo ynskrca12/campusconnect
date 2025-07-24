@@ -109,10 +109,10 @@
                                                 @foreach ($tasks->where('status', $statusKey) as $task)
                                                     <div class="task-item card mb-2 px-3 py-2 rounded-4" data-id="{{ $task->id }}">
                                                         <div class="d-flex justify-content-between mt-1 align-items-start">
-                                                            <span class="fw-semibold fs-14 mb-1 task-title" data-id="{{ $task->id }}">{{ $task->title }}</span>
+                                                            <span class="fw-semibold fs-14 mb-1 task-title" data-id="{{ $task->id }}" title="{{ $task->title }}">{{ \Str::limit($task->title, 37) }}</span>
 
                                                             <div class="dropdown">
-                                                                <i class="fa-solid fa-ellipsis cursor-pointer text-muted" role="button" id="dropdownMenu{{ $task->id }}" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                                                <i class="fa-solid fa-ellipsis cursor-pointer text-muted ms-2" role="button" id="dropdownMenu{{ $task->id }}" data-bs-toggle="dropdown" aria-expanded="false"></i>
                                                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu{{ $task->id }}">
                                                                     <li><a class="dropdown-item rename-task text-dark" href="#" data-id="{{ $task->id }}">Yeniden Adlandır</a></li>
                                                                     <li><a class="dropdown-item delete-task text-dark" href="#" data-id="{{ $task->id }}">Sil</a></li>
@@ -297,11 +297,11 @@
                             method: 'PATCH',
                             data: { title: newTitle, _token: '{{ csrf_token() }}' },
                             success: function () {
-                                $input.replaceWith(`<span class="fw-semibold fs-14 mb-1 task-title" data-id="${taskId}">${newTitle}</span>`);
+                                $input.replaceWith(`<span class="fw-semibold fs-14 mb-1 task-title" data-id="${taskId}" title="${newTitle}">${newTitle.length > 37 ? newTitle.substring(0, 37) + '...' : newTitle}</span>`);
                             }
                         });
                     } else {
-                        $input.replaceWith(`<span class="fw-semibold fs-14 mb-1 task-title" data-id="${taskId}">${currentTitle}</span>`);
+                        $input.replaceWith(`<span class="fw-semibold fs-14 mb-1 task-title" data-id="${taskId}" title="${currentTitle}">${currentTitle.length > 37 ? currentTitle.substring(0, 37) + '...' : currentTitle}</span>`);
                     }
                 }
             });
