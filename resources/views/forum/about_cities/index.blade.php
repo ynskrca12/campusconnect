@@ -220,7 +220,7 @@
     .university-banner-wrapper {
         position: relative;
         width: 100%;
-        height: 250px;
+        height: 350px;
         border-radius: 12px;
         overflow: hidden;
     }
@@ -237,17 +237,16 @@
     .university-banner-overlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
         display: flex;
-        justify-content: center;
-        align-items: center;
+        justify-content: left;
+        align-items: end;
         text-align: center;
         padding: 1rem;
     }
 
     .university-banner-title {
         color: #fff;
-        font-size: 2.5rem;
+        font-size: 32px;
         font-weight: 700;
         letter-spacing: 1.5px;
         text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
