@@ -142,6 +142,8 @@ Route::get('blog-makale/{slug}',[PageController::class,'blog'])->name('blog.sing
 //random topics
 Route::get('/topics/random', [ForumController::class, 'getRandomTopics'])->name('topics.random');
 
+Route::get('/forum/load-more', [ForumController::class, 'loadMore'])->name('forum.load-more');
+
 Route::get('/forum/mevzu/{slug}',[ForumController::class,'topicComments'])->name('topic.comments');
 
 //get blog comments

@@ -34,11 +34,8 @@
 
         <!-- Ana İçerik Alanı -->
         <div class="col-md-9 main-content">
-            <!-- Forum Başlıkları -->
-            <div class="d-flex justify-content-between mb-5 px-3">
-                <div>
-                    <button id="general-tab" class="btn me-2 activeCategory general-topic-btn">tartışalım</button>
-                </div>
+
+            <div class="d-flex justify-content-center mb-3 px-3">                
                 <div>
                     <button class="btn btnCreateGeneral"><i class="fa-solid fa-comments me-2"></i>Yorum Yap</button>
                 </div>
@@ -46,16 +43,20 @@
 
             <!-- Genel Tartışma Alanı İçerikleri -->
             <div id="general-content" class="content-area">
-                {{-- <div class="d-flex justify-content-end">
-                    <i class="fa-solid fa-rotate mb-4" id="refresh-icon" style="cursor: pointer;" 
-                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Yenile"></i>
-                </div> --}}
                 <div id="topic-list">
-                    @foreach ($randomTopics as $topic)
-                         <x-topic-box :topic="$topic" type="general"/>
-                    @endforeach   
-                </div>     
+                    @foreach ($latestTopics as $topic)
+                        <x-topic-box :topic="$topic" type="general"/>
+                    @endforeach
+                </div>
+
+                <div id="spinner" class="text-center my-4" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Yükleniyor...</span>
+                    </div>
+                </div>
+
             </div>
+
 
         </div>
     </div>
@@ -239,6 +240,43 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     
+    <script>
+        let currentPage = 1;
+        let isLoading = false;
+        let hasMore = true;
+
+        $(window).on('scroll', function () {
+            if (isLoading || !hasMore) return;
+
+            if ($(window).scrollTop() + $(window).height() >= $(document).height() - 200) {
+                loadMoreTopics();
+            }
+        });
+
+        function loadMoreTopics() {
+            isLoading = true;
+            currentPage++;
+            $('#spinner').show();
+
+            $.ajax({
+                url: '{{ route("forum.load-more") }}',
+                method: 'GET',
+                data: { page: currentPage },
+                success: function (response) {
+                    $('#topic-list').append(response.html);
+                    hasMore = response.hasMore;
+                    isLoading = false;
+                    $('#spinner').hide();
+                },
+                error: function () {
+                    isLoading = false;
+                    $('#spinner').hide();
+                    console.error("Bir hata oluştu.");
+                }
+            });
+        }
+
+    </script>
     {{-- like dislike --}}
     <script>
         $(document).on('click', '.like-btn', function () {
@@ -519,31 +557,6 @@
         @if (session('error'))
             toastr.error("{{ session('error') }}");
         @endif
-    </script>
-
-    {{-- get random topics with ajax --}}
-    <script>
-        $(document).on('click', '#refresh-icon', function () {
-            $(this).addClass('fa-spin');
-    
-            $.ajax({
-                url: '{{ route("topics.random") }}',
-                method: 'GET',
-                success: function (response) {
-                    if (response.success) {
-                        $('#topic-list').html(response.html);
-                    } else {
-                        $('#topic-list').html('<p class="text-danger">Veri getirilemedi.</p>');
-                    }
-    
-                    $('#refresh-icon').removeClass('fa-spin');
-                },
-                error: function () {
-                    alert('Bir hata oluştu. Lütfen tekrar deneyin.');
-                    $('#refresh-icon').removeClass('fa-spin');
-                }
-            });
-        });
     </script>
 
     <script>

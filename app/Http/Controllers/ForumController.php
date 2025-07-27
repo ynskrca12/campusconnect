@@ -15,33 +15,50 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\View;
 
 class ForumController extends Controller
 {
     public function index(){
-        $universities = University::all();
+         
         $general_topics = GeneralTopic::select('topic_title', 'topic_title_slug', DB::raw('COUNT(topic_title_slug) as count'))
             ->groupBy('topic_title', 'topic_title_slug')
             ->get();
-        $cities = City::all();
-        $randomTopics = GeneralTopic::with('user')
-        ->whereNotNull('created_by')
-        ->inRandomOrder()->limit(10)->get();
+         
+        $latestTopics = GeneralTopic::with('user')
+            ->whereNotNull('created_by')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
-        $universities_topics_count = DB::table('universities_topics')
-            ->select('university_id', DB::raw('COUNT(*) as count'))
-            ->groupBy('university_id')
-            ->pluck('count', 'university_id')
-            ->toArray();
-
-        $cities_topics_count = DB::table('cities_topics')
-            ->select('city_id', DB::raw('COUNT(*) as count'))
-            ->groupBy('city_id')
-            ->pluck('count', 'city_id')
-            ->toArray();
-
-        return view('forum.index',compact('universities','general_topics','cities','randomTopics','universities_topics_count','cities_topics_count'));
+        return view('forum.index',compact('general_topics','latestTopics'));
     }//End
+
+    // AJAX ile sonraki yorumları getirecek
+public function loadMore(Request $request)
+{
+    // Varsayılan olarak ilk sayfayı al
+    $page = $request->input('page', 1);
+
+    // Sabit sayfa boyutu (gerekirse config dosyasına alınabilir)
+    $perPage = 10;
+
+    // En son oluşturulan yorumlara göre sırala
+    $topics = GeneralTopic::with('user')
+        ->whereNotNull('created_by')
+        ->orderBy('created_at', 'desc')
+        ->paginate($perPage, ['*'], 'page', $page);
+
+    // Eğer AJAX istek gelmişse, sadece partial view döndür
+    if ($request->ajax()) {
+        return response()->json([
+            'html' => View::make('components.topic-list', compact('topics'))->render(),
+            'hasMore' => $topics->hasMorePages(),
+        ]);
+    }
+
+    // Normal istek için (fallback)
+    return redirect()->route('forum');
+}
 
    public function createTopicGeneralForum(Request $request){
         
