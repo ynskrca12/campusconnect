@@ -296,15 +296,34 @@ class UserController extends Controller
     public function my_comments(){
         $user = Auth::user();
 
-        $my_cities_comments = CityTopic::where('user_id', $user->id)->get()->each(fn($item) => $item->type = 'city');;
+        $my_cities_comments = CityTopic::where('user_id', $user->id)->get()
+            ->map(function ($item) {
+                $item->type = 'city';
+                return $item;
+            });
 
-        $my_universities_comments = UniversityTopic::where('user_id', $user->id)->get()->each(fn($item) => $item->type = 'university');;
+        $my_universities_comments = UniversityTopic::where('user_id', $user->id)->get()
+            ->map(function ($item) {
+                $item->type = 'university';
+                return $item;
+            });
 
-        $my_general_comments = GeneralTopic::where('user_id', $user->id)->get()->each(fn($item) => $item->type = 'general');
-    
-        $my_comments = $my_cities_comments->merge($my_universities_comments)
-        ->merge($my_general_comments)
-        ->sortByDesc(fn($topic) => $topic->created_at);
+        $my_general_comments = GeneralTopic::where('user_id', $user->id)->get()
+            ->map(function ($item) {
+                $item->type = 'general';
+                return $item;
+            });
+
+        // Önce array'e dönüştürüp merge et, sonra koleksiyona dönüştür
+        $mergedArray = array_merge(
+            $my_cities_comments->all(),
+            $my_universities_comments->all(),
+            $my_general_comments->all()
+        );
+
+        $my_comments = collect($mergedArray)
+            ->sortByDesc(fn($topic) => $topic->created_at)
+            ->values();
 
         return view('user.my_comments',compact('user','my_comments'));
     }//End
