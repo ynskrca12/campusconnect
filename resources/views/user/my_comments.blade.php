@@ -60,50 +60,16 @@
                                         @php
                                             switch ($item->type) {
                                                 case 'city':
-                                                    $route = route('city.topic.comments', ['slug' => $item->topic_title_slug]);
+                                                    $routeName = 'city.topic.comments';
                                                     break;
                                                 case 'university':
-                                                    $route = route('university.topic.comments', ['slug' => $item->topic_title_slug]);
+                                                    $routeName = 'university.topic.comments';
                                                     break;
                                                 default:
-                                                    $route = route('topic.comments', ['slug' => $item->topic_title_slug]);
+                                                    $routeName = 'topic.comments';
                                             }
                                         @endphp
-                                        <div class="topic mb-3">
-                                            <h3 class="topic-title mb-3">
-                                                <a href="{{ $route }}">
-                                                    {{ $item->topic_title }}
-                                                </a>
-                                            </h3>
-                                            
-                                            <p>{{ $item->comment }}</p>
-                                            <div class="d-flex justify-content-between mt-3">
-                                            <div class="like-dislike mt-3">
-                                                <div class="like-btn d-inline me-3" data-id="{{ $item->id }}" style="cursor: pointer; color: #888;">
-                                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $item->likes }}</span>
-                                                </div>
-                                                <div class="dislike-btn d-inline" data-id="{{ $item->id }}" style="cursor: pointer; color: #888;">
-                                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $item->dislikes }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="meta">
-                                                <div class="d-flex align-items-center entry-footer-bottom">
-                                                    <div class="footer-info">
-                                                        <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
-                                                            <p style="display: block;white-space:nowrap;color:#001b48;">{{ $item->user->username ?? 'Anonim' }}</p>
-                                                        </div>
-                
-                                                        <div style="display: block;padding:1px 2px;line-height: 14px;">
-                                                            <p style="color: #888;font-size: 12px;">{{ $item->created_at->format('d.m.Y H:i') }}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="avatar-container">
-                                                        <x-user-avatar :user="$item->user" />
-                                                    </div>
-                                                </div>                            
-                                            </div>
-                                            </div>
-                                        </div>
+                                        <x-topic-box :topic="$item" routeName="{{ $routeName }}" type="{{ $item->type }}"/>                                        
                                     @endforeach  
                                 @endif
                             </div>
@@ -214,6 +180,77 @@
 
 @section('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        function getTopicUrl(type, topicId, action) {
+            switch (type) {
+                case 'city':
+                    return `/city/topic/${topicId}/${action}`;
+                case 'university':
+                    return `/university/topic/${topicId}/${action}`;
+                default:
+                    return `/general/topic/${topicId}/${action}`;
+            }
+        }
+
+        $(document).on('click', '.like-btn', function () {
+            const $this = $(this);
+            const topicId = $(this).data('id');
+            const type = $(this).data('type');
+            const userId = '{{ auth()->id() }}';
+
+            if (!userId) {
+                toastr.error('Giriş yapmalısın.');
+                return;
+            }
+
+            const likeCount = $(this).find('.like-count');
+            const dislikeBtn = $(this).closest('.like-dislike').find('.dislike-btn');
+            const dislikeCount = dislikeBtn.find('.dislike-count');
+
+            $.ajax({
+                url: getTopicUrl(type, topicId, 'like'),
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function (response) {
+                    likeCount.text(response.likes);
+                    dislikeCount.text(response.dislikes);
+
+                }
+            });
+        });
+
+        $(document).on('click', '.dislike-btn', function () {
+            const $this = $(this);
+            const topicId = $(this).data('id');
+            const type = $(this).data('type');
+            const userId = '{{ auth()->id() }}';
+
+            if (!userId) {
+                toastr.error('Giriş yapmalısın.');
+                return;
+            }
+
+            const dislikeCount = $(this).find('.dislike-count');
+            const likeBtn = $(this).closest('.like-dislike').find('.like-btn');
+            const likeCount = likeBtn.find('.like-count');
+
+            $.ajax({
+                url: getTopicUrl(type, topicId, 'dislike'),
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function (response) {
+                    likeCount.text(response.likes);
+                    dislikeCount.text(response.dislikes);
+                }
+            });
+        });
+    </script>
+
 
     <script>
         $(document).ready(function () {
