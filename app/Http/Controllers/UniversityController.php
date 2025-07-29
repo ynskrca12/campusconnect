@@ -33,6 +33,7 @@ class UniversityController extends Controller
 
         $univercity_free_zone_topics = UniversityTopic::where('university_id',$university->id)
             ->where('category','free-zone')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         $getUnivercityFreeZoneTopics = universityTopic::select('topic_title', 'topic_title_slug', DB::raw('COUNT(*) as count'))
@@ -110,6 +111,7 @@ class UniversityController extends Controller
                     'users.username',
                     'users.user_image'
         )
+        ->orderBy('universities_topics.created_at', 'desc')
         ->get();
 
          // Görsel yolunu ve arka plan rengini ekleyelim

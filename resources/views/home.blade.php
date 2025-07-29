@@ -1,20 +1,33 @@
 @extends('layouts.master')
 @section('content')
-    <div class="info-section mb-4 mt-4">
-        <div class="overlay"></div>
-        <div class="info-content">
-            <h2 class="animated-title display-4">Üniversite hayatına dair  <span style="color: #87ceeb;">her şey burada!</span></h2>
-            <p class="animated-text">Üniversite yorumları, öğrenci ve mezun deneyimleri ve daha fazlası...  
-            </p>
-            <div class="row mt-5">
-                <div class="col-12 d-flex justify-content-between gap-2 px-0">
-                    <a href="{{ route('forum') }}" class="custom-btn btn-forum">Herkese Açık</a>
-                    <a href="{{ route('universities') }}" class="custom-btn btn-universities">Üniversiteleri Keşfet</a>
-                    <a href="{{ route('cities') }}" class="custom-btn btn-cities">Şehirleri Keşfet</a>
+    
+    <section class="mb-5">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="{{ asset('/assets/images/home-img.jpg') }}" alt="Üniversite Platformu" class="img-fluid rounded">
+                </div>
+                <div class="col-lg-6">
+                    <div class="row d-flex justify-content-center">
+                    <h3 class="fw-bold " style="color: #001b48;">Türkiye'nin En Kapsamlı Üniversite Platformu</h3>
+                    <p class="lead mt-3 mb-4 ">
+                        Öğrenciler ne düşünüyor? Üniversite yorumları, kampüs yaşamı, bölümler, yurtlar, sosyal hayat ve daha fazlası bu sayfada.
+                    </p>
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Tüm üniversiteler ve bölümler tek çatı altında</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Öğrencilerden gerçek yorumlar ve deneyimler</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Kampüs ve şehir yaşamı hakkında bilgiler</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Topluluk desteği ve etkileşimli içerikler</li>
+                    </ul>
+                    <a href="{{ route('universities') }}" class="btn px-4 py-2 rounded-pill" style="background-color: #001b48; color: #fff;">
+                        Üniversiteleri Keşfet
+                        <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <div class="row" style="margin-top: 60px !important;margin-bottom: 60px !important;">          
         <div class="col-12">
@@ -37,37 +50,8 @@
         </div>
     </div>
 
-    <section class="py-5 bg-white">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="{{ asset('assets/images/home-img.jpg') }}" alt="Üniversite Platformu" class="img-fluid rounded">
-                </div>
-                <div class="col-lg-6">
-                    <h3 class="fw-bold" style="color: #001b48;">Türkiye'nin En Kapsamlı Üniversite Platformu</h3>
-                    <p class="lead mt-3 mb-4 text-secondary">
-                        Gerçek öğrenci yorumları, fakülte ve bölüm detayları, kampüs yaşamı, şehir deneyimleri, taban puanlar ve çok daha fazlası tek bir platformda! 
-                    </p>
-                    <ul class="list-unstyled mb-4">
-                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Tüm üniversiteler ve bölümler tek çatı altında</li>
-                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Öğrencilerden gerçek yorumlar ve deneyimler</li>
-                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Kampüs ve şehir yaşamı hakkında bilgiler</li>
-                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Topluluk desteği ve etkileşimli içerikler</li>
-                    </ul>
-                    <a href="{{ route('universities') }}" class="btn px-4 py-2 rounded-pill" style="background-color: #001b48; color: #fff;">
-                        Üniversiteleri Keşfet
-                        <i class="bi bi-arrow-right ms-2"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-
     <div class="row mb-5 mt-2">
         <h3 class="topic-title mb-3">Öne Çıkan Yorumlar</h3>
-        @if ($mostLikedTopicUniversity)
         <div class="col-md-6 mb-3">
             <div class="card custom-card h-100 d-flex flex-column justify-content-between">
                     <div class="topic">
@@ -106,7 +90,7 @@
                                             <p style="color: #888;font-size: 12px;">{{ $mostLikedTopicUniversity->created_at->format('d.m.Y H:i') }}</p>
                                         </div>
                                     </div>
-
+                                    
                                     <div class="avatar-container">
                                         <x-user-avatar :user="$mostLikedTopicUniversity->user" />
                                     </div>
@@ -117,58 +101,57 @@
             </div>
 
         </div>
-        @endif
         @if ($mostLikedTopicGeneral)
-              <div class="col-md-6 mb-3">
-            <div class="card custom-card h-100 d-flex flex-column justify-content-between">
-                    <div class="topic">
-                        <h3 class="topic-title mb-3">
-                            <a href="{{ route('topic.comments', ['slug' => $mostLikedTopicGeneral->topic_title_slug]) }}">
-                                {{ $mostLikedTopicGeneral->topic_title }}
-                            </a>
-                        </h3>
-                        
-                        <p>{!! Str::length($mostLikedTopicGeneral->comment) > 360 ? Str::limit($mostLikedTopicGeneral->comment, 360, '... <a style="color: #001b48;font-size: 13px;font-weight: 700" href="' . route('topic.comments', ['slug' => $mostLikedTopicGeneral->topic_title_slug]) . '">devamını oku</a>') : e($mostLikedTopicGeneral->comment) !!}</p>
+            <div class="col-md-6 mb-3">
+                <div class="card custom-card h-100 d-flex flex-column justify-content-between">
+                        <div class="topic">
+                            <h3 class="topic-title mb-3">
+                                <a href="{{ route('topic.comments', ['slug' => $mostLikedTopicGeneral->topic_title_slug]) }}">
+                                    {{ $mostLikedTopicGeneral->topic_title }}
+                                </a>
+                            </h3>
+                            
+                            <p>{!! Str::length($mostLikedTopicGeneral->comment) > 360 ? Str::limit($mostLikedTopicGeneral->comment, 360, '... <a style="color: #001b48;font-size: 13px;font-weight: 700" href="' . route('topic.comments', ['slug' => $mostLikedTopicGeneral->topic_title_slug]) . '">devamını oku</a>') : e($mostLikedTopicGeneral->comment) !!}</p>
+                            <div class="d-flex justify-content-between mt-3">
+                                <div class="like-dislike mt-3">
+                                    <div class="like-btn d-inline me-3" data-id="{{ $mostLikedTopicGeneral->id }}" style="cursor: pointer; color: #888;">
+                                        <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $mostLikedTopicGeneral->likes }}</span>
+                                    </div>
+                                    <div class="dislike-btn d-inline" data-id="{{ $mostLikedTopicGeneral->id }}" style="cursor: pointer; color: #888;">
+                                        <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $mostLikedTopicGeneral->dislikes }}</span>
+                                    </div>
+                                    <div class="d-inline ms-3">
+                                        <a href="{{ route('topic.comments', ['slug' => $mostLikedTopicGeneral->topic_title_slug]) }}"
+                                            title="Yanıtla"
+                                            style="color: #555;">
+                                            <i class="fa-solid fa-reply"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="meta">
+                                    <div class="d-flex align-items-center entry-footer-bottom">
+                                        <div class="footer-info">
+                                            <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
+                                                <p style="display: block;white-space:nowrap;color:#001b48;">{{ $mostLikedTopicGeneral->user->username ?? 'Anonim' }}</p>
+                                            </div>
 
-                        <div class="d-flex justify-content-between mt-3">
-                            <div class="like-dislike mt-3">
-                                <div class="like-btn d-inline me-3" data-id="{{ $mostLikedTopicGeneral->id }}" style="cursor: pointer; color: #888;">
-                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $mostLikedTopicGeneral->likes }}</span>
-                                </div>
-                                <div class="dislike-btn d-inline" data-id="{{ $mostLikedTopicGeneral->id }}" style="cursor: pointer; color: #888;">
-                                    <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $mostLikedTopicGeneral->dislikes }}</span>
-                                </div>
-                                <div class="d-inline ms-3">
-                                    <a href="{{ route('topic.comments', ['slug' => $mostLikedTopicGeneral->topic_title_slug]) }}"
-                                        title="Yanıtla"
-                                        style="color: #555;">
-                                        <i class="fa-solid fa-reply"></i>
-                                    </a>
+                                            <div style="display: block;padding:1px 2px;line-height: 14px;">
+                                                <p style="color: #888;font-size: 12px;">{{ $mostLikedTopicGeneral->created_at->format('d.m.Y H:i') }}</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="avatar-container">
+                                            <x-user-avatar :user="$mostLikedTopicGeneral->user" />
+                                        </div>
+                                    </div>                            
                                 </div>
                             </div>
-                            <div class="meta">
-                                <div class="d-flex align-items-center entry-footer-bottom">
-                                    <div class="footer-info">
-                                        <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
-                                            <p style="display: block;white-space:nowrap;color:#001b48;">{{ $mostLikedTopicGeneral->user->username ?? 'Anonim' }}</p>
-                                        </div>
 
-                                        <div style="display: block;padding:1px 2px;line-height: 14px;">
-                                            <p style="color: #888;font-size: 12px;">{{ $mostLikedTopicGeneral->created_at->format('d.m.Y H:i') }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="avatar-container">
-                                        <x-user-avatar :user="$mostLikedTopicGeneral->user" />
-                                    </div>
-                                </div>                            
-                            </div>
                         </div>
-                    </div>
-            </div>
+                </div>
 
-        </div>
+            </div>
         @endif
-      
     </div>
 
     <div class="row mb-5 mt-2">
@@ -194,8 +177,7 @@
                     </div>
                 </div>
             @endforeach            
-        @endif
-                                        
+        @endif                                        
     </div>
 
     <div class="my-5">
@@ -227,8 +209,7 @@
             </div>
         </div>
     </div>
-
-
+    
 @endsection
 
 @section('css')
@@ -285,16 +266,16 @@
             transition: background-color 0.3s ease;
         }
 
-        .blog-item-content .btn-main:hover {
-            background-color: #fff;
-            color: #001b48;
-            border: 1px solid #001b48;
+       .blog-item-content .btn-main:hover {
+            background-color: #fff !important;
+            color: #001b48 !important;
+            border: 1px solid #001b48 !important;
         }
     </style>
     <style>
         .custom-btn {
             flex: 1;
-            padding: 10px 15px;
+            padding: 10px 0px;
             font-weight: bold;
             border: none;
             background: #fff;
@@ -306,9 +287,9 @@
         }
         .custom-btn:hover {
             background: #001b48;
+            border: 1px solid #fff;
             color: #fff;
         }
-
         .custom-btn:hover {
             transform: scale(1.02);
         }
@@ -440,7 +421,6 @@
             margin-right: -50vw;
             background: #fff;
         }
-
         .university-slider {
             overflow: hidden;
             position: relative;
@@ -453,7 +433,7 @@
         .logos {
             display: flex;
             width: max-content;
-            animation: slide 20s linear infinite;
+            animation: slide 60s linear infinite;
         }
         
         .logo-item {

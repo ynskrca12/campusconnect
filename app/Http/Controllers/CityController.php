@@ -46,6 +46,7 @@ class CityController extends Controller
         $city = City::where('slug', $slug)->first();
         $city_free_zone_topics = CityTopic::where('city_id',$city->id)
             ->where('category','free-zone')
+            ->orderBy('created_at', 'desc') 
             ->get();
         
         $getCityFreeZoneTopics = CityTopic::select('topic_title', 'topic_title_slug', DB::raw('COUNT(*) as count'))
@@ -162,6 +163,7 @@ class CityController extends Controller
                     'users.username',
                     'users.user_image'
         )
+        ->orderBy('cities_topics.created_at', 'desc')
         ->get();
 
               // Kullanıcı görsel yolu ve arka plan rengi ayarla
