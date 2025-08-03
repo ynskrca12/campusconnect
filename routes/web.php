@@ -28,6 +28,12 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
     Route::get('/blogs', [AdminController::class, 'blogs'])->name('admin.blogs');
+
+    Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/university-comments', [AdminController::class, 'universityComments'])->name('admin.university.comments');
+    Route::get('/city-comments', [AdminController::class, 'cityComments'])->name('admin.city.comments');
+    Route::get('/general-comments', [AdminController::class, 'generalComments'])->name('admin.general.comments');
+
     Route::get('/blog-olustur', [AdminController::class, 'blogCreate'])->name('admin.blog.create');
     Route::post('/blog-olustur', [AdminController::class, 'blogStore'])->name('admin.blog.store');
     Route::get('/blog/{id}/duzenle', [AdminController::class, 'blogEdit'])->name('admin.blog.edit');

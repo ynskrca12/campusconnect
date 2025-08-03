@@ -235,59 +235,34 @@
         <div class="row">
             <!-- Main content -->
             <main class="col-md-12 col-lg-12 px-4">
-                <h1 class="h2 mb-4 text-center">Blog ve Makaleler</h1>
-                    <div class="row">
-                        <div class="col-12">
-                           <a href="{{route('admin.blog.create')}}" class="btn btn-moder">Blog Oluştur</a>     
-                        </div> 
-                    </div> 
+                <h1 class="h2 mb-4 text-center">Kullanıcılar</h1> 
                     <div class="row mt-3 mb-4">
                         <div class="col-12">
+                            <p>Toplam Kullanıcı Sayısı: {{ $users->count() }}</p>
                             <div class="table-container">
                                 <div class="table-responsive" style="border-radius: 11px;">
                                     <table class="table table-striped table-hover table-bordered shadow-sm rounded">
                                         <thead class="bg-erapan text-white">
                                             <tr>
                                                 <th>#</th>
-                                                <th>Kapak Görseli</th>
-                                                <th>Yazar</th>
-                                                <th>Başlık</th>
-                                                <th>Kategori</th>
-                                                <th>İçerik Özeti</th>
-                                                <th>Görüntülenme</th>
-                                                <th>Like/Dislike Sayısı</th>
-                                                <th>Tarih</th>
+                                                <th>Ad Soyad</th>
+                                                <th>Kullanıcı Adı</th>
+                                                <th>E-mail</th>
+                                                <th>Üniversite</th>
+                                                <th>Kayıt Tarihi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if ($blogs->isEmpty())
+                                            @foreach ($users as $item)
                                                 <tr>
-                                                    <td colspan="12" class="text-center">Veri bulunamadı.</td>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $item->name }}</td>
+                                                    <td>{{ $item->username }}</td>
+                                                    <td>{{ $item->email }}</td>
+                                                    <td>{{ $item->university }}</td>                                                    
+                                                    <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y') }}</td>
                                                 </tr>
-
-                                            @else
-                                                @foreach ($blogs as $item)
-                                                    <tr>
-                                                        <td>{{ $loop->iteration }}</td>
-                                                        <td>
-                                                            <img src="{{asset('assets/images/blog_img/default_blog_img.webp')}}" alt="Kapak Gorseli" style="width: 100px; height: 100px; object-fit: cover;">
-                                                        </td>
-                                                        <td>{{ $item->user->name }}</td>
-                                                        <td title="{{ $item->title }}">
-                                                            {{ \Illuminate\Support\Str::limit($item->title, 30, '...') }}
-                                                        </td>
-                                                        <td>{{ $item->blogCategory->name }}</td>
-                                                        <td title="{{ $item->summary }}">
-                                                            {{ \Illuminate\Support\Str::limit($item->summary, 50, '...') }}
-                                                        </td>
-                                                        <td>{{ $item->view_count }}</td>
-                                                        <td>{{ $item->likes }} / {{ $item->dislikes }}</td>
-                                                       
-                                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y') }}</td>
-                                                    </tr>
-                                                @endforeach
-                                            @endif
-                                           
+                                            @endforeach                                           
                                         </tbody>
                                     </table>
                                 </div>

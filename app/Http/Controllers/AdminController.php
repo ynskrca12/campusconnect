@@ -199,4 +199,32 @@ class AdminController extends Controller
         return redirect()->back()->with('success','Blog kategorisi oluşturuldu');
         // return redirect()->route('admin.blog.categories')->with('success','Blog kategorisi oluşturuldu');
     }//End
+
+    public function users(){
+        $users = User::where('user_type', 1)
+        ->orderBy('created_at', 'DESC')    
+        ->get();
+        return view('admin.users', compact('users'));
+    }//End
+
+    public function universityComments(){
+        $universityComments = UniversityTopic::with('user')
+        ->orderBy('created_at', 'DESC')
+        ->get();
+        return view('admin.university_comments', compact('universityComments'));
+    }//End
+
+    public function cityComments(){
+        $cityComments = CityTopic::with('user')
+        ->orderBy('created_at', 'DESC')
+        ->get();
+        return view('admin.city_comments', compact('cityComments'));
+    }//End
+
+        public function generalComments(){
+        $generalComments = GeneralTopic::with('user')
+        ->orderBy('created_at', 'DESC')
+        ->get();
+        return view('admin.general_comments', compact('generalComments'));
+    }//End
 }
