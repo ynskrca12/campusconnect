@@ -149,6 +149,8 @@ Route::get('blog-makale/{slug}',[PageController::class,'blog'])->name('blog.sing
 Route::get('/topics/random', [ForumController::class, 'getRandomTopics'])->name('topics.random');
 
 Route::get('/forum/load-more', [ForumController::class, 'loadMore'])->name('forum.load-more');
+Route::get('/university/forum/load-more', [UniversityController::class, 'loadMore'])->name('university.forum.load-more');
+Route::get('/city/forum/load-more', [CityController::class, 'loadMore'])->name('city.forum.load-more');
 
 Route::get('/forum/mevzu/{slug}',[ForumController::class,'topicComments'])->name('topic.comments');
 

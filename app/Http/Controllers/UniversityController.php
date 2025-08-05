@@ -34,7 +34,7 @@ class UniversityController extends Controller
         $univercity_free_zone_topics = UniversityTopic::where('university_id',$university->id)
             ->where('category','free-zone')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate('10');
 
         $getUnivercityFreeZoneTopics = universityTopic::select('topic_title', 'topic_title_slug', DB::raw('COUNT(*) as count'))
             ->where('university_id',$university->id)
@@ -51,6 +51,35 @@ class UniversityController extends Controller
         return view('forum.about_universities.index',
          compact('university','univercity_free_zone_topics','getUnivercityFreeZoneTopics','topicCount'));
     }//End
+
+    public function loadMore(Request $request)
+    {
+        $page = $request->input('page', 1);
+        $perPage = 10;
+
+        $universityId = $request->input('university_id');
+        $category = $request->input('category');
+
+
+        // En son oluşturulan yorumlara göre sırala
+        $topics = UniversityTopic::with('user')
+            ->where('university_id', $universityId)
+            ->where('category', $category)
+            // ->whereNotNull('created_by')
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        // Eğer AJAX istek gelmişse, sadece partial view döndür
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => View::make('components.topic-list', compact('topics'))->render(),
+                'hasMore' => $topics->hasMorePages(),
+            ]);
+        }
+
+        // Normal istek için (fallback)
+        return redirect()->route('forum');
+    }
 
     private function getUniversityCategoryCount($universityId){
         $categories = ['free-zone', 'general-info', 'departmant-programs', 'campus-life', 'question-answer'];
@@ -112,7 +141,7 @@ class UniversityController extends Controller
                     'users.user_image'
         )
         ->orderBy('universities_topics.created_at', 'desc')
-        ->get();
+        ->paginate('10');
 
          // Görsel yolunu ve arka plan rengini ekleyelim
         $topics = $topics->map(function ($topic) {

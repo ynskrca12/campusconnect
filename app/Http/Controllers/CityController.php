@@ -47,7 +47,7 @@ class CityController extends Controller
         $city_free_zone_topics = CityTopic::where('city_id',$city->id)
             ->where('category','free-zone')
             ->orderBy('created_at', 'desc') 
-            ->get();
+            ->paginate('10');
         
         $getCityFreeZoneTopics = CityTopic::select('topic_title', 'topic_title_slug', DB::raw('COUNT(*) as count'))
             ->where('city_id',$city->id)
@@ -64,6 +64,35 @@ class CityController extends Controller
 
         return view('forum.about_cities.index', compact('city','city_free_zone_topics','getCityFreeZoneTopics','topicCount'));
     }//End
+
+    public function loadMore(Request $request)
+    {
+        $page = $request->input('page', 1);
+        $perPage = 10;
+
+        $cityId = $request->input('city_id');
+        $category = $request->input('category');
+
+
+        // En son oluşturulan yorumlara göre sırala
+        $topics = CityTopic::with('user')
+            ->where('city_id', $cityId)
+            ->where('category', $category)
+            // ->whereNotNull('created_by')
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        // Eğer AJAX istek gelmişse, sadece partial view döndür
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => View::make('components.topic-list', compact('topics'))->render(),
+                'hasMore' => $topics->hasMorePages(),
+            ]);
+        }
+
+        // Normal istek için (fallback)
+        return redirect()->route('forum');
+    }
 
     private function getCityCategoryCount($cityId){
         $categories = ['free-zone', 'general-info', 'social-life', 'job-opportunities', 'question-answer'];
@@ -164,7 +193,7 @@ class CityController extends Controller
                     'users.user_image'
         )
         ->orderBy('cities_topics.created_at', 'desc')
-        ->get();
+        ->paginate('10');
 
               // Kullanıcı görsel yolu ve arka plan rengi ayarla
         $topics = $topics->map(function ($topic) {

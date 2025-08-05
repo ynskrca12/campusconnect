@@ -175,6 +175,11 @@
                             @foreach ($univercity_free_zone_topics as $topic) 
                                 <x-topic-box :topic="$topic" routeName="university.topic.comments" type="university"/>
                             @endforeach   
+                            <div id="free-zone-spinner" class="text-center my-4" style="display: none;">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Yükleniyor...</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -191,6 +196,11 @@
                         </div>
                         <div id="departmant-programs-topic-list">
                             <!-- İçerik buraya gelecek -->
+                            <div id="departmant-programs-spinner" class="text-center my-4" style="display: none;">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Yükleniyor...</span>
+                                </div>
+                            </div>
                         </div>
                     
                     </div>
@@ -208,6 +218,11 @@
                         </div>
                         <div id="campus-life-topic-list">
                             <!-- İçerik buraya gelecek -->
+                            <div id="campus-life-spinner" class="text-center my-4" style="display: none;">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Yükleniyor...</span>
+                                </div>
+                            </div>
                         </div>
                     
                     </div>
@@ -225,6 +240,11 @@
                         </div>        
                         <div id="question-answer-topic-list">
                             <!-- İçerik buraya gelecek -->
+                            <div id="question-answer-spinner" class="text-center my-4" style="display: none;">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Yükleniyor...</span>
+                                </div>
+                            </div>
                         </div>
                     
                     </div>
@@ -437,6 +457,64 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
+     {{-- load more comments --}}
+    <script>
+        let currentPages = {
+            'free-zone': 1,
+            'departmant-programs': 1,
+            'campus-life': 1,
+            'question-answer': 1
+        };
+        let isLoading = false;
+        let hasMorePages = {
+            'free-zone': true,
+            'departmant-programs': true,
+            'campus-life': true,
+            'question-answer': true
+        };
+        
+        const universityId = {{ $university->id }};
+
+        $(window).on('scroll', function () {
+            if (isLoading) return;
+
+            if ($(window).scrollTop() + $(window).height() >= $(document).height() - 300) {
+                const activeTabId = $('.tab-pane.active').attr('id');
+                if (hasMorePages[activeTabId]) {
+                    loadMoreTopics(activeTabId);
+                }
+            }
+        });
+
+        function loadMoreTopics(category) {
+            isLoading = true;
+            currentPages[category]++;
+
+            $(`#${category}-spinner`).show();
+
+            $.ajax({
+                url: '{{ route("university.forum.load-more") }}',
+                method: 'GET',
+                data: { 
+                    page: currentPages[category],
+                    university_id: universityId,
+                    category: category
+                },
+                success: function (response) {
+                    $(`#${category}-topic-list`).append(response.html);
+                    hasMorePages[category] = response.hasMore;
+                    isLoading = false;
+                    $(`#${category}-spinner`).hide();
+                },
+                error: function () {
+                    isLoading = false;
+                    $(`#${category}-spinner`).hide();
+                    console.error("Bir hata oluştu.");
+                }
+            });
+        }
+
+    </script>
     
     <script>
         // Mobil Select Elementi
@@ -511,6 +589,9 @@
                 const univercityId = @json($university->id);
 
                 const topicListContainer = $("#" + category + "-topic-list");
+
+                currentPages[category] = 1;
+                hasMorePages[category] = true;
 
                 if (topicListContainer.length === 0) {
                     console.error("Hedef container bulunamadı.");
