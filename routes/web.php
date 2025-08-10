@@ -76,7 +76,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profile/image', [UserController::class, 'updateImage'])->name('profile.image.update');
     Route::get('istatistiklerim',[UserController::class, 'my_statistics'])->name('my.statistics');
     Route::get('begendiklerim',[UserController::class, 'my_likes'])->name('my.likes');
-    Route::get('yorumlarim',[UserController::class, 'my_comments'])->name('my.comments');
+    Route::get('/yorumlarim', [UserController::class, 'my_comments'])->name('my.comments');
+
 
     Route::post('/update-profile', [UserController::class, 'updateProfile'])->name('user.updateProfile');
     Route::get('/check-username', [UserController::class, 'checkUsername'])->name('user.checkUsername');
@@ -151,6 +152,9 @@ Route::get('/topics/random', [ForumController::class, 'getRandomTopics'])->name(
 Route::get('/forum/load-more', [ForumController::class, 'loadMore'])->name('forum.load-more');
 Route::get('/university/forum/load-more', [UniversityController::class, 'loadMore'])->name('university.forum.load-more');
 Route::get('/city/forum/load-more', [CityController::class, 'loadMore'])->name('city.forum.load-more');
+
+Route::get('/my-comments/load-more', [UserController::class, 'myCommentsLoadMore'])->name('my.comments.load-more');
+
 
 Route::get('/forum/mevzu/{slug}',[ForumController::class,'topicComments'])->name('topic.comments');
 

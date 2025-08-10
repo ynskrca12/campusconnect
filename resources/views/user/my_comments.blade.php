@@ -55,22 +55,30 @@
                                             hanımefendi
                                         @endif
                                     </h5>
-                                @else    
-                                    @foreach ($my_comments as $item)   
-                                        @php
-                                            switch ($item->type) {
-                                                case 'city':
-                                                    $routeName = 'city.topic.comments';
-                                                    break;
-                                                case 'university':
-                                                    $routeName = 'university.topic.comments';
-                                                    break;
-                                                default:
-                                                    $routeName = 'topic.comments';
-                                            }
-                                        @endphp
-                                        <x-topic-box :topic="$item" routeName="{{ $routeName }}" type="{{ $item->type }}"/>                                        
-                                    @endforeach  
+                                @else 
+                                    <div id="topic-list">
+                                        @foreach ($my_comments as $topic)
+                                            @php
+                                                switch ($topic->type) {
+                                                    case 'city':
+                                                        $routeName = 'city.topic.comments';
+                                                        break;
+                                                    case 'university':
+                                                        $routeName = 'university.topic.comments';
+                                                        break;
+                                                    default:
+                                                        $routeName = 'topic.comments';
+                                                }
+                                            @endphp
+                                            <x-topic-box :topic="$topic" routeName="{{ $routeName }}" type="{{ $topic->type }}"/>
+                                        @endforeach
+
+                                    </div>
+                                    <div id="spinner" class="text-center my-4" style="display: none;">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Yükleniyor...</span>
+                                        </div>
+                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -180,6 +188,45 @@
 
 @section('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+     <script>
+        let currentPage = 1;
+let isLoading = false;
+let hasMore = true;
+
+$(window).on('scroll', function () {
+    if (isLoading || !hasMore) return;
+
+    if ($(window).scrollTop() + $(window).height() >= $(document).height() - 200) {
+        loadMoreTopics();
+    }
+});
+
+function loadMoreTopics() {
+    isLoading = true;
+    currentPage++;
+    $('#spinner').show();
+
+    $.ajax({
+        url: '{{ route("my.comments") }}',
+        method: 'GET',
+        data: { page: currentPage },
+        success: function (response) {
+            $('#topic-list').append(response.html);
+            hasMore = response.hasMore;
+            isLoading = false;
+            $('#spinner').hide();
+        },
+        error: function () {
+            isLoading = false;
+            $('#spinner').hide();
+            console.error("Bir hata oluştu.");
+        }
+    });
+}
+
+
+    </script>
 
     <script>
         function getTopicUrl(type, topicId, action) {

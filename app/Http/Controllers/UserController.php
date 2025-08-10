@@ -20,6 +20,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\View;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class UserController extends Controller
 {
@@ -293,40 +296,66 @@ class UserController extends Controller
         return view('user.my_likes',compact('liked_topics','user'));
     }//End
 
-    public function my_comments(){
-        $user = Auth::user();
+    public function my_comments(Request $request)
+        {
+            $user = Auth::user();
 
-        $my_cities_comments = CityTopic::where('user_id', $user->id)->get()
-            ->map(function ($item) {
-                $item->type = 'city';
-                return $item;
-            });
+            $perPage = 10;
+            $page = $request->input('page', 1);
 
-        $my_universities_comments = UniversityTopic::where('user_id', $user->id)->get()
-            ->map(function ($item) {
-                $item->type = 'university';
-                return $item;
-            });
+            $my_comments = $this->getUserComments($user)
+                ->forPage($page, $perPage);
 
-        $my_general_comments = GeneralTopic::where('user_id', $user->id)->get()
-            ->map(function ($item) {
-                $item->type = 'general';
-                return $item;
-            });
+            $paginator = new LengthAwarePaginator(
+                $my_comments,
+                $this->getUserComments($user)->count(),
+                $perPage,
+                $page,
+                ['path' => $request->url(), 'query' => $request->query()]
+            );
 
-        // Önce array'e dönüştürüp merge et, sonra koleksiyona dönüştür
-        $mergedArray = array_merge(
-            $my_cities_comments->all(),
-            $my_universities_comments->all(),
-            $my_general_comments->all()
-        );
+            if ($request->ajax()) {
+                return response()->json([
+                    'html' => View::make('components.topic-list', ['topics' => $my_comments])->render(),
+                    'hasMore' => $paginator->hasMorePages(),
+                ]);
+            }
 
-        $my_comments = collect($mergedArray)
-            ->sortByDesc(fn($topic) => $topic->created_at)
-            ->values();
+            return view('user.my_comments', [
+                'user' => $user,
+                'my_comments' => $paginator
+            ]);
+        }
 
-        return view('user.my_comments',compact('user','my_comments'));
-    }//End
+        /**
+         * Kullanıcı yorumlarını collection olarak döner.
+         */
+        private function getUserComments($user): Collection
+        {
+            $my_cities_comments = CityTopic::where('user_id', $user->id)->get()
+                ->map(function ($item) {
+                    $item->type = 'city';
+                    return $item;
+                });
+
+            $my_universities_comments = UniversityTopic::where('user_id', $user->id)->get()
+                ->map(function ($item) {
+                    $item->type = 'university';
+                    return $item;
+                });
+
+            $my_general_comments = GeneralTopic::where('user_id', $user->id)->get()
+                ->map(function ($item) {
+                    $item->type = 'general';
+                    return $item;
+                });
+
+            return collect(array_merge(
+                $my_cities_comments->all(),
+                $my_universities_comments->all(),
+                $my_general_comments->all()
+            ))->sortByDesc(fn($topic) => $topic->created_at)->values();
+        }
 
     public function preview($id)
     {
