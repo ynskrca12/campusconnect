@@ -266,35 +266,58 @@ class UserController extends Controller
         return $sum_likes;
     }//End
 
-    public function my_likes(){
-            $user = Auth::user();
+    public function my_likes()
+    {
+        $user = Auth::user();
 
-            $cities_topics_likes = CityTopicsLike::where('user_id', $user->id)
-                ->with('topic')
-                ->where('like', '1')
-                ->get()
-                ->each(fn($item) => $item->type = 'city');
+        $total_likes = $this->getLikedTopics($user)->count();
+        // İlk sayfa verisi (sayfa=1)
+        $liked_topics = $this->getLikedTopics($user)->forPage(1, 10);
 
-            $universities_topics_likes = UniversityTopicsLike::where('user_id', $user->id)
-                ->with('topic')
-                ->where('like', '1')
-                ->get()
-                ->each(fn($item) => $item->type = 'university');
+        $total = $this->getLikedTopics($user)->count();
 
-            $general_topics_likes = GeneralTopicsLike::where('user_id', $user->id)
-                ->with('topic')
-                ->where('like', '1')
-                ->get()
-                ->each(fn($item) => $item->type = 'general');
+        return view('user.my_likes', compact('liked_topics', 'total', 'user', 'total_likes'));
+    }
 
-            $liked_topics = $cities_topics_likes
-                ->merge($universities_topics_likes)
-                ->merge($general_topics_likes)
-                ->sortByDesc(fn($topic) => $topic->topic->created_at);
+    public function load_more_likes(Request $request)
+    {
+        $page = (int) $request->get('page', 1);
+        $user = Auth::user();
 
+        $liked_topics = $this->getLikedTopics($user)->forPage($page, 10);
 
-        return view('user.my_likes',compact('liked_topics','user'));
-    }//End
+        return response()->json([
+            'html' => view('user.partials.liked_topics', compact('liked_topics'))->render(),
+            'hasMore' => $this->getLikedTopics($user)->count() > $page * 10
+        ]);
+    }
+
+    private function getLikedTopics($user)
+    {
+        $cities_topics_likes = CityTopicsLike::where('user_id', $user->id)
+            ->with('topic')
+            ->where('like', '1')
+            ->get()
+            ->each(fn($item) => $item->type = 'city');
+
+        $universities_topics_likes = UniversityTopicsLike::where('user_id', $user->id)
+            ->with('topic')
+            ->where('like', '1')
+            ->get()
+            ->each(fn($item) => $item->type = 'university');
+
+        $general_topics_likes = GeneralTopicsLike::where('user_id', $user->id)
+            ->with('topic')
+            ->where('like', '1')
+            ->get()
+            ->each(fn($item) => $item->type = 'general');
+
+        return $cities_topics_likes
+            ->merge($universities_topics_likes)
+            ->merge($general_topics_likes)
+            ->sortByDesc(fn($topic) => $topic->topic->created_at)
+            ->values(); // index sıfırlama
+    }
 
     public function my_comments(Request $request)
         {

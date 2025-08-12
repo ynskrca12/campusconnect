@@ -39,109 +39,20 @@
                       </div>
                       <h5 class="mt-3 mb-1 userName">{{ Auth::user()->name }}</h5>
                               <div class="nav flex-column nav-pills">
-                                  <a class="nav-link nav-link-profile active" id="my-likes-tab" href="#" data-target="#myLikes"><i class="fa-solid fa-thumbs-up me-2"></i>Beğendiklerim ({{ count($liked_topics) }})</a>
+                                  <a class="nav-link nav-link-profile active" id="my-likes-tab" href="#" data-target="#myLikes"><i class="fa-solid fa-thumbs-up me-2"></i>Beğendiklerim ({{ $total_likes }})</a>
                               </div>
                       </div>
 
                       <!-- Content Area -->
                       <div class="col-lg-9 ps-0 ps-md-4">
-                              <div id="myLikes" class="content-section">
-                                <div class="col-md-12">
-                                    @if (count($liked_topics) == 0)
-                                        <h5 class="mb-4">Henüz hiçbir yorum beğenmediniz.</h5>
-                                    @else    
-                                        @foreach ($liked_topics as $item)
-                                            @php
-                                                switch ($item->type) {
-                                                    case 'city':
-                                                        $route = route('city.topic.comments', ['slug' => $item->topic->topic_title_slug]);
-                                                        $routeName = 'city.topic.comments';
-                                                        break;
-                                                    case 'university':
-                                                        $route = route('university.topic.comments', ['slug' => $item->topic->topic_title_slug]);
-                                                        $routeName = 'university.topic.comments';
-                                                        break;
-                                                    default:
-                                                        $route = route('topic.comments', ['slug' => $item->topic->topic_title_slug]);
-                                                        $routeName = 'topic.comments';
-                                                }
-                                            @endphp
-                                            <div class="topic mb-3">
-                                                <div class="d-flex justify-content-between align-items-start">
-                                                    <h3 class="topic-title mb-3">
-                                                        <a href="{{ $route }}" class="text-decoration-none text-dark">
-                                                            {{ $item->topic->topic_title }}
-                                                        </a>
-                                                    </h3>
-                                                    <div class="dropdown me-3">
-                                                        <i class="fa-solid fa-ellipsis cursor-pointer text-muted fs-6 mt-3" role="button"
-                                                        id="dropdownMenu{{ $item->topic->id }}" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu{{ $item->topic->id }}">
-                                                            <li>
-                                                                <a class="dropdown-item copy-link text-dark" href="#" data-link="{{ $route }}">
-                                                                    <i class="fa-solid fa-link me-2"></i> Linki Kopyala
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item text-dark"
-                                                                href="https://twitter.com/intent/tweet?text={{ urlencode($item->topic->topic_title . ' - ' . $route) }}"
-                                                                target="_blank">
-                                                                    <i class="fa-brands fa-twitter me-2"></i> Twitter’da Paylaş
-                                                                </a>
-                                                            </li>
-                                                            @if (auth()->check() && auth()->user()->id === $item->topic->user_id)
-                                                                <li><a class="dropdown-item delete-topic text-dark" href="#" data-id="{{ $item->topic->id }}" data-type="{{ $item->type }}"><i class="fa-solid fa-trash me-3"></i>Sil</a></li>                    
-                                                            @endif
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-                                                <p>{!! $item->topic->comment !!}</p>
-
-                                                <div class="d-flex justify-content-between mt-2">
-                                                    <div class="like-dislike mt-3">
-                                                        <div class="like-btn d-inline me-2"
-                                                            data-id="{{ $item->topic->id }}"
-                                                            data-type="{{ $item->type }}"
-                                                            style="cursor: pointer; color: #888;">
-                                                            <i class="fa-solid fa-thumbs-up"></i>
-                                                            <span class="like-count">{{ $item->topic->likes }}</span>
-                                                        </div>
-                                                        <div class="dislike-btn d-inline me-2"
-                                                            data-id="{{ $item->topic->id }}"
-                                                            data-type="{{ $item->type }}"
-                                                            style="cursor: pointer; color: #888;">
-                                                            <i class="fa-solid fa-thumbs-down"></i>
-                                                            <span class="dislike-count">{{ $item->topic->dislikes }}</span>
-                                                        </div>
-                                                        <div class="d-inline">
-                                                            <a href="{{ $route }}" title="Yanıtla" style="color: #555;">
-                                                                <i class="fa-solid fa-reply"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="meta">
-                                                        <div class="d-flex align-items-center entry-footer-bottom">
-                                                            <div class="footer-info">
-                                                                <div style="text-align: end;margin: -5px 0px;">
-                                                                    <p style="color:#001b48;">{{ $item->topic->user->username ?? 'Anonim' }}</p>
-                                                                </div>
-                                                                <div style="line-height: 14px;">
-                                                                    <p style="color: #888;font-size: 12px;">{{ $item->topic->created_at->format('d.m.Y H:i') }}</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="avatar-container">
-                                                                <x-user-avatar :user="$item->topic->user" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach  
-                                    @endif
-                                </div>
-                              </div>
+                        <div id="myLikesList">
+                            @include('user.partials.liked_topics', ['liked_topics' => $liked_topics])
+                        </div>
+                        <div id="loading" class="text-center my-4" style="display: none;">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Yükleniyor...</span>
+                            </div>
+                        </div>
                       </div>
                   </div>
               </div>
@@ -249,6 +160,27 @@
 @section('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        let page = 1;
+        let loading = false;
+        let hasMore = {{ $total > 10 ? 'true' : 'false' }};
+
+        $(window).on('scroll', function() {
+            if (!loading && hasMore && $(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+                loading = true;
+                page++;
+                $('#loading').show();
+
+                $.get('{{ route('my.likes.load') }}', { page: page }, function(data) {
+                    $('#myLikesList').append(data.html);
+                    hasMore = data.hasMore;
+                    loading = false;
+                    $('#loading').hide();
+                });
+            }
+        });
+    </script>
 
     <script>
     function getTopicUrl(type, topicId, action) {

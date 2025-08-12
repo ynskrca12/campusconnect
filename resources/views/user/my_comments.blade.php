@@ -191,39 +191,39 @@
 
      <script>
         let currentPage = 1;
-let isLoading = false;
-let hasMore = true;
+        let isLoading = false;
+        let hasMore = true;
 
-$(window).on('scroll', function () {
-    if (isLoading || !hasMore) return;
+        $(window).on('scroll', function () {
+            if (isLoading || !hasMore) return;
 
-    if ($(window).scrollTop() + $(window).height() >= $(document).height() - 200) {
-        loadMoreTopics();
-    }
-});
+            if ($(window).scrollTop() + $(window).height() >= $(document).height() - 200) {
+                loadMoreTopics();
+            }
+        });
 
-function loadMoreTopics() {
-    isLoading = true;
-    currentPage++;
-    $('#spinner').show();
+        function loadMoreTopics() {
+            isLoading = true;
+            currentPage++;
+            $('#spinner').show();
 
-    $.ajax({
-        url: '{{ route("my.comments") }}',
-        method: 'GET',
-        data: { page: currentPage },
-        success: function (response) {
-            $('#topic-list').append(response.html);
-            hasMore = response.hasMore;
-            isLoading = false;
-            $('#spinner').hide();
-        },
-        error: function () {
-            isLoading = false;
-            $('#spinner').hide();
-            console.error("Bir hata oluştu.");
+            $.ajax({
+                url: '{{ route("my.comments") }}',
+                method: 'GET',
+                data: { page: currentPage },
+                success: function (response) {
+                    $('#topic-list').append(response.html);
+                    hasMore = response.hasMore;
+                    isLoading = false;
+                    $('#spinner').hide();
+                },
+                error: function () {
+                    isLoading = false;
+                    $('#spinner').hide();
+                    console.error("Bir hata oluştu.");
+                }
+            });
         }
-    });
-}
 
 
     </script>
