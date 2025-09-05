@@ -47,151 +47,8 @@
         <!-- Ana İçerik Alanı -->
         <div class="col-md-9 main-content">          
             <div id="universities-content" class="content-area">
-
-                  <!-- Placeholder Başlangıç -->
-              
-
-                <div class="row placeholder-content">
-
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="content-title">Yükleniyor...</span>
-                    </div>
-
-                    <div class="col-md-4 mb-5">
-                        <div class="card placeholder-glow">
-                            <div class="placeholder-image bg-secondary" style="height: 180px;"></div>
-                            <div class="card-body">
-                                <h5 class="card-title placeholder-glow">
-                                    <span class="placeholder col-6"></span>
-                                </h5>
-                                <p class="card-text placeholder-glow">
-                                    <span class="placeholder col-7"></span>
-                                    <span class="placeholder col-4"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-5">
-                        <div class="card placeholder-glow">
-                            <div class="placeholder-image bg-secondary" style="height: 180px;"></div>
-                            <div class="card-body">
-                                <h5 class="card-title placeholder-glow">
-                                    <span class="placeholder col-6"></span>
-                                </h5>
-                                <p class="card-text placeholder-glow">
-                                    <span class="placeholder col-7"></span>
-                                    <span class="placeholder col-4"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-5">
-                        <div class="card placeholder-glow">
-                            <div class="placeholder-image bg-secondary" style="height: 180px;"></div>
-                            <div class="card-body">
-                                <h5 class="card-title placeholder-glow">
-                                    <span class="placeholder col-6"></span>
-                                </h5>
-                                <p class="card-text placeholder-glow">
-                                    <span class="placeholder col-7"></span>
-                                    <span class="placeholder col-4"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-5">
-                        <div class="card placeholder-glow">
-                            <div class="placeholder-image bg-secondary" style="height: 180px;"></div>
-                            <div class="card-body">
-                                <h5 class="card-title placeholder-glow">
-                                    <span class="placeholder col-6"></span>
-                                </h5>
-                                <p class="card-text placeholder-glow">
-                                    <span class="placeholder col-7"></span>
-                                    <span class="placeholder col-4"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-5">
-                        <div class="card placeholder-glow">
-                            <div class="placeholder-image bg-secondary" style="height: 180px;"></div>
-                            <div class="card-body">
-                                <h5 class="card-title placeholder-glow">
-                                    <span class="placeholder col-6"></span>
-                                </h5>
-                                <p class="card-text placeholder-glow">
-                                    <span class="placeholder col-7"></span>
-                                    <span class="placeholder col-4"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-5">
-                        <div class="card placeholder-glow">
-                            <div class="placeholder-image bg-secondary" style="height: 180px;"></div>
-                            <div class="card-body">
-                                <h5 class="card-title placeholder-glow">
-                                    <span class="placeholder col-6"></span>
-                                </h5>
-                                <p class="card-text placeholder-glow">
-                                    <span class="placeholder col-7"></span>
-                                    <span class="placeholder col-4"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-4">
-                        <div class="card placeholder-glow">
-                            <div class="placeholder-image bg-secondary" style="height: 180px;"></div>
-                            <div class="card-body">
-                                <h5 class="card-title placeholder-glow">
-                                    <span class="placeholder col-6"></span>
-                                </h5>
-                                <p class="card-text placeholder-glow">
-                                    <span class="placeholder col-7"></span>
-                                    <span class="placeholder col-4"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card placeholder-glow">
-                            <div class="placeholder-image bg-secondary" style="height: 180px;"></div>
-                            <div class="card-body">
-                                <h5 class="card-title placeholder-glow">
-                                    <span class="placeholder col-6"></span>
-                                </h5>
-                                <p class="card-text placeholder-glow">
-                                    <span class="placeholder col-7"></span>
-                                    <span class="placeholder col-4"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card placeholder-glow">
-                            <div class="placeholder-image bg-secondary" style="height: 180px;"></div>
-                            <div class="card-body">
-                                <h5 class="card-title placeholder-glow">
-                                    <span class="placeholder col-6"></span>
-                                </h5>
-                                <p class="card-text placeholder-glow">
-                                    <span class="placeholder col-7"></span>
-                                    <span class="placeholder col-4"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <!-- Placeholder Bitiş -->
-
-                <div class="real-content"style="display: none;"> 
-                      <h3 class="text-center mb-4">Türkiye’nin En Öğrenci Dostu 10 Üniversitesi (2025)</h3>
+                <div> 
+                    <h3 class="text-center mb-4">Türkiye’nin En Öğrenci Dostu 10 Üniversitesi (2025)</h3>
 
                     <div class="row justify-content-center">
                         <div class="col-md-12">
@@ -649,10 +506,6 @@
             border-left: 1px solid #e0e0e0;
         }
 
-        .real-content {
-            display: none;
-        }
-
     </style>
 
     {{-- mobil --}}
@@ -792,25 +645,6 @@
                     $(this).toggleClass('collapsed');
                 });
             });
-
-    </script>
-    
-    <script>
-       document.addEventListener("DOMContentLoaded", function () {
-            const placeholderContent = document.querySelector(".placeholder-content");
-            const realContent = document.querySelector(".real-content");
-
-            // Placeholder'ları göster
-            placeholderContent.style.display = "flex";
-            realContent.style.display = "none";
-
-            // 3 saniye sonra gerçek içeriği göster
-            setTimeout(function () {
-                placeholderContent.style.display = "none"; // Placeholder'ları gizle
-                realContent.style.display = "block"; // Gerçek içeriği göster
-            }, 3000);
-        });
-
 
     </script>
 @endsection
