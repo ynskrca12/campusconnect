@@ -1,41 +1,17 @@
 @extends('layouts.master')
 @section('content')
 
-    <section class="mb-5">
-        <div class="container">
-            <div class="row align-items-center justify-content-center">
-                <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="{{ asset('/assets/images/home-img.jpg') }}" alt="Üniversite Platformu" class="img-fluid rounded">
-                </div>
-                <div class="col-lg-6">
-                    <div class="row d-flex justify-content-center">
-                        <h3 class="fw-bold " style="color: #001b48;">Türkiye'nin En Kapsamlı Üniversite Platformu</h3>
-                        <p class="lead mt-3 mb-4 ">
-                            Öğrenciler ne düşünüyor? Üniversite yorumları, kampüs yaşamı, bölümler, yurtlar, sosyal hayat ve
-                            daha fazlası bu sayfada.
-                        </p>
-                        <ul class="list-unstyled mb-4">
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Tüm üniversiteler
-                                ve bölümler tek çatı altında</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Öğrencilerden
-                                gerçek yorumlar ve deneyimler</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Kampüs ve şehir
-                                yaşamı hakkında bilgiler</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Topluluk desteği ve
-                                etkileşimli içerikler</li>
-                        </ul>
-                        <a href="{{ route('universities') }}" class="btn px-4 py-2 rounded-pill"
-                            style="background-color: #001b48; color: #fff;">
-                            Üniversiteleri Keşfet
-                            <i class="bi bi-arrow-right ms-2"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="mb-5 mt-2 text-center">
+        <h1 class="topic-title mb-4 h4">Üniversite Yorumlarını Keşfet</h1>
+        <p class="mb-4 text-muted" style="font-size: 16px;">
+            Gerçek öğrencilerden üniversiteler hakkında yorumları hemen oku, kendi deneyimini paylaş.
+        </p>
+        <a href="{{ route('universities') }}" class="btn px-4 py-2 rounded-pill" style="background-color: #001b48; color: #fff; font-size: 16px;">
+            Üniversiteleri Gör <i class="bi bi-arrow-right ms-2"></i>
+        </a>
+    </div>
 
-    <div class="row" style="margin-top: 60px !important;margin-bottom: 60px !important;">
+    <div class="row my-5">
         <div class="col-12">
             <div class="university-slider-wrapper">
                 <div class="university-slider">
@@ -76,9 +52,41 @@
             <button id="load-more-university-topics" class="btn custom-btn px-3" data-offset="10">Daha Fazlasını
                 Gör</button>
         </div>
-
-
     </div>
+
+     <section class="mb-5">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="{{ asset('/assets/images/home-img.jpg') }}" alt="Üniversite Platformu" class="img-fluid rounded">
+                </div>
+                <div class="col-lg-6">
+                    <div class="row d-flex justify-content-center">
+                        <h3 class="fw-bold " style="color: #001b48;">Türkiye'nin En Kapsamlı Üniversite Platformu</h3>
+                        <p class="lead mt-3 mb-4 ">
+                            Öğrenciler ne düşünüyor? Üniversite yorumları, kampüs yaşamı, bölümler, yurtlar, sosyal hayat ve
+                            daha fazlası bu sayfada.
+                        </p>
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Tüm üniversiteler
+                                ve bölümler tek çatı altında</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Öğrencilerden
+                                gerçek yorumlar ve deneyimler</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Kampüs ve şehir
+                                yaşamı hakkında bilgiler</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Topluluk desteği ve
+                                etkileşimli içerikler</li>
+                        </ul>
+                        <a href="{{ route('universities') }}" class="btn px-4 py-2 rounded-pill"
+                            style="background-color: #001b48; color: #fff;">
+                            Üniversiteleri Keşfet
+                            <i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <div class="row mb-5 mt-2">
         <h3 class="topic-title mb-4">Son bloglar</h3>
@@ -267,7 +275,7 @@
             }
 
             .custom-btn {
-                font-size: 10px;
+                font-size: 14px;
                 padding: 10px 0;
             }
 
