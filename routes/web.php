@@ -23,6 +23,8 @@ Route::get('/logout',[AuthController::class, 'logout'])->name('logout');
 // })->name('home');
 
 Route::get('/',[PageController::class, 'home'])->name('home');
+Route::post('/load-more-university-topics', [PageController::class, 'loadMoreUniversityTopics'])
+    ->name('load.more.university.topics');
 
 Route::prefix('admin')->middleware(['auth','admin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');

@@ -27,10 +27,23 @@ class PageController extends Controller
         $mostLikedTopicGeneral = GeneralTopic::where('likes','>',0)
         ->orderByDesc('likes')->first();
 
+        $latestUniversityTopics = UniversityTopic::latest()->take(10)->get();
+
         $blogs = Blog::latest()->get();
 
-        return view('home',compact('mostLikedTopicUniversity','mostLikedTopicGeneral','blogs'));
+        return view('home',compact('mostLikedTopicUniversity','mostLikedTopicGeneral','blogs','latestUniversityTopics'));
     }//End
+    public function loadMoreUniversityTopics(Request $request){
+    $offset = $request->offset ?? 0;
+    $limit = 10;
+
+    $topics = UniversityTopic::latest()
+        ->skip($offset)
+        ->take($limit)
+        ->get();
+
+    return view('components.university_topics', compact('topics'))->render();
+}
     public function contact_us(){
         return view('pages.contact_us');
     }//End

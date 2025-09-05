@@ -1,4 +1,4 @@
-@props(['topic', 'routeName' => 'topic.comments', 'type' => 'general'])
+@props(['topic', 'routeName' => 'topic.comments', 'type' => 'general','isHome' => false])
 
 <div class="topic mb-3">
     <div class="d-flex justify-content-between align-items-start">
@@ -32,7 +32,15 @@
         </div>
     </div>
 
-    <p>{!! $topic->comment !!}</p>
+    <p>
+        @if($isHome && strlen(strip_tags($topic->comment)) > 150)
+            {{ Str::limit(strip_tags($topic->comment), 150) }}
+            <a href="{{ route($routeName, ['slug' => $topic->topic_title_slug]) }}"
+                style="color: #001b48">Devamını Oku</a>
+        @else
+            {!! $topic->comment !!}
+        @endif
+    </p>
 
     <div class="d-flex justify-content-between mt-2">
 
