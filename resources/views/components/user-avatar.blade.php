@@ -13,7 +13,7 @@
     };
 @endphp
 
-<a href="javascript:void(0);" class="avatar user-avatar-component" data-userid="{{ $user->id }}">
+<a href="javascript:void(0);" class="avatar user-avatar-component" data-userid="{{ $user->id ?? ''}}">
     <img class="avatar"
         style="background-color: {{ $bgColor }};"
         src="{{ $imagePath }}"

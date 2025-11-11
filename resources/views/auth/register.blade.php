@@ -298,6 +298,13 @@
               }
           });
 
+          const gender = $("input[name='gender']:checked").val();
+          if (!gender) {
+              isValid = false;
+              toastr.error("Lütfen cinsiyet seçiniz.");
+              return; 
+          }
+
           // Şifre ve şifre tekrar kontrolü
           const password = $("#password").val();
           const passwordConfirmation = $("#password_confirmation").val();
