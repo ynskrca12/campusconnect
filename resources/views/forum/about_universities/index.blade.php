@@ -268,7 +268,7 @@
                   {{-- <label for="topicTitle" class="form-label">Konu Başlığı</label> --}}
                   <input type="text" id="title" name="topic_title" class="form-control" 
                     placeholder="başlık" maxlength="80" 
-                    style="border: none;border-bottom: 1px solid #ced4da;border-radius: 0px;">
+                    style="border: none;border-bottom: 1px solid #ced4da;border-radius: 0px;" required>
                     <small id="charCount" class="form-text text-muted">
                         0/80 karakter
                     </small>

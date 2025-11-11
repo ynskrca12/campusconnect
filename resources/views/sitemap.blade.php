@@ -32,24 +32,34 @@
     @endforeach --}}
 
     {{-- Üniversite Forum Konuları --}}
-    {{-- @foreach ($universities_topics as $topic)
+    @foreach ($universities_topics as $topic)
         <url>
             <loc>{{ url('universite-yorumlari/konu/' . $topic->topic_title_slug) }}</loc>
             <lastmod>{{ now() }}</lastmod>
             <changefreq>weekly</changefreq>
             <priority>0.8</priority>
         </url>
-    @endforeach --}}
+    @endforeach
 
     
     {{-- Şehir Forum Konuları --}}
-    @foreach ($cities_topics as $topic)
+    {{-- @foreach ($cities_topics as $topic)
         <url>
             <loc>{{ url('forum/sehir/mevzu/' . $topic->topic_title_slug) }}</loc>
             <lastmod>{{ now() }}</lastmod>
             <changefreq>weekly</changefreq>
             <priority>0.8</priority>
         </url>
-    @endforeach
+    @endforeach --}}
+
+        {{-- blog yazıları --}}
+    {{-- @foreach ($blogs as $blog)
+        <url>
+            <loc>{{ url('/blog-makale/' . $blog->slug) }}</loc>
+            <lastmod>{{ now() }}</lastmod>
+            <changefreq>weekly</changefreq>
+            <priority>0.8</priority>
+        </url>
+    @endforeach --}}
 
 </urlset>
