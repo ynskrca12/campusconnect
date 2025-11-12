@@ -2,6 +2,7 @@
 
 @section('content')
 
+
     <div class="row mt-5">
         <!-- Sol Menü (Alt Başlıklar) -->
         <div class="col-md-3 mb-3">
@@ -45,7 +46,33 @@
         </div>
 
         <!-- Ana İçerik Alanı -->
-        <div class="col-md-9 main-content">          
+        <div class="col-md-9 main-content">   
+            
+{{-- Hızlı Yorum Yap Bölümü --}}
+<div class="container-fluid mt-4 mb-4">
+    <div class="text-center mb-4">
+        <h5 class="fw-semibold">En çok yorum yapılan üniversitelere tek tıkla ulaş</h5>
+    </div>
+    
+    <div class="row g-3 justify-content-center">
+        @foreach($popularUniversities as $uni)
+        <div class="col-lg-4 col-md-3 col-sm-4 col-6">
+            <div class="quick-comment-card" onclick="window.location.href='/universite-yorumlari/{{ $uni->slug }}'">
+                <div class="card-logo">
+                    <img src="{{ $uni->logo }}" alt="{{ $uni->universite_ad }}">
+                </div>
+                <h6 class="card-uni-name">{{ Str::limit($uni->universite_ad, 31) }} Yorumları</h6>
+                <span class="comment-badge">
+                    {{ $universities_topics_count[$uni->id] ?? 0 }} yorum
+                </span>
+                <button class="btn btn-sm btn-comment w-100">
+                    <i class="bi bi-chat-dots-fill"></i> Yorum Yap
+                </button>
+            </div>
+        </div>
+        @endforeach
+    </div>
+</div>       
             <div id="universities-content" class="content-area">
                 <div> 
                     <h3 class="text-center mb-4">Türkiye’nin En Öğrenci Dostu 10 Üniversitesi (2025)</h3>
@@ -295,6 +322,193 @@
 @endsection 
 
 @section('css')
+    <style>
+        /* Sticky Arama Barı */
+        .sticky-action-bar {
+            position: sticky;
+            top: 0;
+            background: linear-gradient(135deg, #001b48 0%, #023e7d 100%);
+            padding: 20px 0;
+            box-shadow: 0 4px 20px rgba(0, 27, 72, 0.3);
+            z-index: 1000;
+            margin-bottom: 0;
+        }
+
+        .search-wrapper {
+            position: relative;
+        }
+
+        .search-input {
+            border: none;
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-input:focus {
+            box-shadow: 0 6px 25px rgba(35, 173, 228, 0.3);
+            outline: none;
+        }
+
+        /* Arama Dropdown */
+        .search-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 10px;
+            display: none;
+            z-index: 1001;
+        }
+
+        .search-dropdown.show {
+            display: block;
+        }
+
+        .suggestion-item {
+            padding: 12px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.2s;
+        }
+
+        .suggestion-item:hover {
+            background: #f8f9fa;
+        }
+
+        .suggestion-item img {
+            width: 35px;
+            height: 35px;
+            object-fit: contain;
+        }
+
+        .suggestion-item-name {
+            flex: 1;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .suggestion-item-btn {
+            background: #23ade4;
+            color: white;
+            border: none;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .suggestion-item-btn:hover {
+            background: #001b48;
+            transform: scale(1.05);
+        }
+
+        /* Hızlı Yorum Kartları */
+        .quick-comment-card {
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-radius: 15px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .quick-comment-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(35, 173, 228, 0.2);
+            border-color: #23ade4;
+        }
+
+        .card-logo {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .card-logo img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        .card-uni-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #001b48;
+            margin-bottom: 8px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .comment-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .btn-comment {
+            background: #001B48;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .btn-comment:hover {
+            background: #23ade4;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Mobil Responsive */
+        @media (max-width: 768px) {
+            .sticky-action-bar {
+                padding: 15px 0;
+            }
+            
+            .search-input {
+                font-size: 14px;
+                padding: 12px 20px;
+            }
+            
+            .quick-comment-card {
+                padding: 15px 10px;
+            }
+            
+            .card-logo {
+                height: 45px;
+            }
+            
+            .card-uni-name {
+                font-size: 12px;
+                min-height: 35px;
+            }
+        }
+    </style>
     <style> 
 
         .content-wrapper {
@@ -582,6 +796,74 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <script>
+$(document).ready(function() {
+    let searchTimeout;
+    
+    // Arama input'u
+    $('#quick-search').on('input', function() {
+        clearTimeout(searchTimeout);
+        const query = $(this).val().trim();
+        
+        if(query.length >= 2) {
+            searchTimeout = setTimeout(function() {
+                searchUniversities(query);
+            }, 300);
+        } else {
+            $('#search-dropdown').removeClass('show').html('');
+        }
+    });
+    
+    // Dışarı tıklandığında dropdown'u kapat
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('.search-wrapper').length) {
+            $('#search-dropdown').removeClass('show');
+        }
+    });
+    
+    // Arama fonksiyonu
+    function searchUniversities(query) {
+        $.ajax({
+            url: '/universities/search-suggestions',
+            type: 'GET',
+            data: { q: query },
+            success: function(universities) {
+                if(universities.length > 0) {
+                    let html = '';
+                    universities.forEach(function(uni) {
+                        html += `
+                            <div class="suggestion-item" onclick="goToUniversity('${uni.slug}')">
+                                <img src="${uni.logo ? '/university logos/' + uni.logo : '/default-uni-logo.png'}" 
+                                     onerror="this.src='/default-uni-logo.png'">
+                                <span class="suggestion-item-name">${uni.universite_ad}</span>
+                                <button class="suggestion-item-btn">
+                                    <i class="bi bi-chat-dots-fill"></i> Yorum Yap
+                                </button>
+                            </div>
+                        `;
+                    });
+                    $('#search-dropdown').html(html).addClass('show');
+                } else {
+                    $('#search-dropdown').html(`
+                        <div class="suggestion-item">
+                            <span class="text-muted">Üniversite bulunamadı</span>
+                        </div>
+                    `).addClass('show');
+                }
+            },
+            error: function() {
+                toastr.error('Arama sırasında bir hata oluştu');
+            }
+        });
+    }
+});
+
+// Üniversite sayfasına yönlendir
+function goToUniversity(slug) {
+    window.location.href = `/universite-yorumlari/${slug}`;
+}
+</script>
 
 
     <script>

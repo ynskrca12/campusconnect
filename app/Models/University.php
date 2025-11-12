@@ -22,4 +22,9 @@ class University extends Model
     //     return $this->hasMany(Comment::class);
     // }
 
+    public function topics()
+    {
+        return $this->hasMany(UniversityTopic::class, 'university_id');
+    }
+
 }

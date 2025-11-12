@@ -18,13 +18,45 @@ use Illuminate\Support\Facades\View;
 class UniversityController extends Controller
 {
     public function index(){
-        // $universiteler = University::all();
+        // Tüm üniversiteler
         $universities = DB::table('universiteler')->get();
+        
+        // Her üniversitenin yorum sayısı
         $universities_topics_count = UniversityTopic::select('university_id', DB::raw('COUNT(*) as count'))
             ->groupBy('university_id')
             ->pluck('count', 'university_id')
             ->toArray();
-        return view('universite.universite',compact('universities','universities_topics_count'));
+        
+        // En çok yorumlanan 9 üniversite (Hızlı Erişim için)
+        $popularUniversities = University::withCount('topics')
+            ->orderByDesc('topics_count')
+            ->limit(12)
+            ->get();
+        
+        // Son yapılan yorumlar (Sidebar için)
+        $recentComments = UniversityTopic::with('university:id,universite_ad,slug,logo')
+            ->latest()
+            ->limit(5)
+            ->get();
+        
+        return view('universite.universite', compact(
+            'universities',
+            'universities_topics_count',
+            'popularUniversities',
+            'recentComments'
+        ));
+    }
+
+    // Autocomplete için yeni method
+    public function searchSuggestions(Request $request){
+        $query = $request->input('q');
+        
+        $universities = DB::table('universiteler')
+            ->where('universite_ad', 'LIKE', "%{$query}%")
+            ->limit(8)
+            ->get(['id', 'universite_ad', 'slug', 'logo']);
+        
+        return response()->json($universities);
     }
 
     public function show($slug){
