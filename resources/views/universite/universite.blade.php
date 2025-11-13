@@ -66,7 +66,7 @@
                     {{ $universities_topics_count[$uni->id] ?? 0 }} yorum
                 </span>
                 <button class="btn btn-sm btn-comment w-100">
-                    <i class="bi bi-chat-dots-fill"></i> Yorum Yap
+                    <i class="bi bi-chat-dots-fill me-1"></i> <span>Yorum Yap</span>
                 </button>
             </div>
         </div>
@@ -796,75 +796,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
-    <script>
-$(document).ready(function() {
-    let searchTimeout;
-    
-    // Arama input'u
-    $('#quick-search').on('input', function() {
-        clearTimeout(searchTimeout);
-        const query = $(this).val().trim();
-        
-        if(query.length >= 2) {
-            searchTimeout = setTimeout(function() {
-                searchUniversities(query);
-            }, 300);
-        } else {
-            $('#search-dropdown').removeClass('show').html('');
-        }
-    });
-    
-    // Dışarı tıklandığında dropdown'u kapat
-    $(document).on('click', function(e) {
-        if (!$(e.target).closest('.search-wrapper').length) {
-            $('#search-dropdown').removeClass('show');
-        }
-    });
-    
-    // Arama fonksiyonu
-    function searchUniversities(query) {
-        $.ajax({
-            url: '/universities/search-suggestions',
-            type: 'GET',
-            data: { q: query },
-            success: function(universities) {
-                if(universities.length > 0) {
-                    let html = '';
-                    universities.forEach(function(uni) {
-                        html += `
-                            <div class="suggestion-item" onclick="goToUniversity('${uni.slug}')">
-                                <img src="${uni.logo ? '/university logos/' + uni.logo : '/default-uni-logo.png'}" 
-                                     onerror="this.src='/default-uni-logo.png'">
-                                <span class="suggestion-item-name">${uni.universite_ad}</span>
-                                <button class="suggestion-item-btn">
-                                    <i class="bi bi-chat-dots-fill"></i> Yorum Yap
-                                </button>
-                            </div>
-                        `;
-                    });
-                    $('#search-dropdown').html(html).addClass('show');
-                } else {
-                    $('#search-dropdown').html(`
-                        <div class="suggestion-item">
-                            <span class="text-muted">Üniversite bulunamadı</span>
-                        </div>
-                    `).addClass('show');
-                }
-            },
-            error: function() {
-                toastr.error('Arama sırasında bir hata oluştu');
-            }
-        });
-    }
-});
-
-// Üniversite sayfasına yönlendir
-function goToUniversity(slug) {
-    window.location.href = `/universite-yorumlari/${slug}`;
-}
-</script>
-
 
     <script>
         $(document).ready(function () {

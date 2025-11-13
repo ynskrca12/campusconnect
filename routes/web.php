@@ -123,7 +123,6 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::get('/universiteler',[UniversityController::class, 'index'])->name('universities');
-Route::get('/universities/search-suggestions', [UniversityController::class, 'searchSuggestions']);
 Route::get('/universities/fetch', [UniversityController::class, 'fetchUniversities'])->name('universities.fetch');
 
 Route::get('/sehirler',[CityController::class, 'index'])->name('cities');

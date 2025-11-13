@@ -1,14 +1,28 @@
 @extends('layouts.master')
 @section('content')
 
-    <div class="mb-5 mt-2 text-center">
-        <h1 class="topic-title mb-4 h4">Üniversite Yorumlarını Keşfet</h1>
-        <p class="mb-4 text-muted" style="font-size: 16px;">
-            Gerçek öğrencilerden üniversiteler hakkında yorumları hemen oku, kendi deneyimini paylaş.
-        </p>
-        <a href="{{ route('universities') }}" class="btn px-4 py-2 rounded-pill" style="background-color: #001b48; color: #fff; font-size: 16px;">
-            Üniversiteleri Gör <i class="bi bi-arrow-right ms-2"></i>
-        </a>
+    <div class="hero-section mb-5">
+        <div class="container">
+            <h1 class="hero-title">Üniversiteni Bul, Deneyimini Paylaş</h1>
+            
+            {{-- Direkt Arama --}}
+            <div class="hero-search-wrapper position-relative">
+                <input type="text" id="hero-search" 
+                    class="hero-search-input" 
+                    placeholder="🔍 Üniversiteni ara ve hemen yorum yap..."
+                    autocomplete="off">
+                <div id="hero-search-dropdown" class="hero-search-dropdown"></div>
+            </div>
+            
+            {{-- Hızlı Erişim Butonları --}}
+            <div class="quick-access-tags mt-4">
+                <span class="me-2 text-dark fw-bold">Popüler:</span>
+                @foreach($topUniversities as $uni)
+                    <a href="/universite-yorumlari/{{$uni->slug}}" 
+                    class="quick-tag">{{Str::limit($uni->universite_ad, 25)}}</a>
+                @endforeach
+            </div>
+        </div>
     </div>
 
     <div class="row my-5">
@@ -156,6 +170,180 @@
 @endsection
 
 @section('css')
+    <style>
+        /* Hero Section */
+        .hero-section {
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .hero-title {
+            color: #001b48;
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .hero-search-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .hero-search-input {
+            width: 100%;
+            padding: 16px 22px;
+            font-size: 16px;
+            border: 1px solid #dcdcdc;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .hero-search-input:focus {
+            outline: none;
+            box-shadow: 0 10px 40px rgba(35, 173, 228, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Arama Dropdown */
+        .hero-search-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 10px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .hero-search-dropdown.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-result-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.2s;
+        }
+
+        .search-result-item:hover {
+            background: #f8f9fa;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .search-result-info {
+            flex: 1;
+        }
+
+        .search-result-name {
+            font-weight: 600;
+            color: #001b48;
+            font-size: 15px;
+            margin-bottom: 2px;
+        }
+
+        .search-result-stats {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .search-result-btn {
+            background: #23ade4;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .search-result-btn:hover {
+            background: #001b48;
+            transform: scale(1.05);
+        }
+
+        /* Hızlı Erişim Tagları */
+        .quick-access-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quick-tag {
+            display: inline-block;
+            padding: 8px 16px;
+            backdrop-filter: blur(10px);
+            color: #001b48;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            transition: all 0.2s;
+            border: 1px solid #dcdcdc;
+        }
+
+        .quick-tag:hover {
+            background: white;
+            color: #001b48;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Mobil Responsive */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 20px 0px;
+            }
+            
+            .hero-title {
+                font-size: 21px;
+            }
+            .hero-search-input {
+                padding: 15px 20px;
+                font-size: 14px;
+            }
+            
+            .quick-tag {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+        }
+    </style>
     {{-- blog css --}}
     <style>
         .blog-item {
@@ -494,6 +682,99 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <script>
+        $(document).ready(function() {
+            let searchTimeout;
+            
+            // Hero Arama
+            $('#hero-search').on('input', function() {
+                clearTimeout(searchTimeout);
+                const query = $(this).val().trim();
+                
+                if(query.length >= 2) {
+                    searchTimeout = setTimeout(function() {
+                        searchUniversities(query);
+                    }, 300);
+                } else {
+                    $('#hero-search-dropdown').removeClass('show').html('');
+                }
+            });
+            
+            // Dışarı tıklandığında dropdown'u kapat
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.hero-search-wrapper').length) {
+                    $('#hero-search-dropdown').removeClass('show');
+                }
+            });
+            
+            // Enter tuşuna basıldığında ilk sonuca git
+            $('#hero-search').on('keypress', function(e) {
+                if(e.which === 13) {
+                    e.preventDefault();
+                    const firstResult = $('.search-result-item').first();
+                    if(firstResult.length) {
+                        window.location.href = firstResult.data('url');
+                    }
+                }
+            });
+        });
+
+        // Arama fonksiyonu - Mevcut route'u kullanıyor
+        function searchUniversities(query) {
+            $.ajax({
+                url: '/universities/fetch',
+                type: 'GET',
+                data: { search: query },
+                success: function(response) {
+                    const universities = response.universities.data;
+                    const topicsCount = response.universities_topics_count;
+                    
+                    if(universities.length > 0) {
+                        let html = '';
+                        universities.forEach(function(uni) {
+                            const topicCount = topicsCount[uni.id] || 0;
+                            html += `
+                                <div class="search-result-item" data-url="/universite-yorumlari/${uni.slug}">
+                                    <img src="${uni.logo ? uni.logo : '/default-logo.png'}" 
+                                        class="search-result-logo"
+                                        onerror="this.src='/default-logo.png'">
+                                    <div class="search-result-info">
+                                        <div class="search-result-name">${uni.universite_ad}</div>
+                                        <div class="search-result-stats">${topicCount} yorum</div>
+                                    </div>
+                                    <button class="search-result-btn" onclick="goToUniversity('${uni.slug}', event)">
+                                        <i class="bi bi-chat-dots-fill me-1"></i> <span>Yorum Yap</span>
+                                    </button>
+                                </div>
+                            `;
+                        });
+                        $('#hero-search-dropdown').html(html).addClass('show');
+                    } else {
+                        $('#hero-search-dropdown').html(`
+                            <div class="search-result-item">
+                                <span class="text-muted"><i class="bi bi-search"></i> "${query}" için sonuç bulunamadı</span>
+                            </div>
+                        `).addClass('show');
+                    }
+                },
+                error: function() {
+                    toastr.error('Arama sırasında bir hata oluştu');
+                }
+            });
+        }
+
+        // Üniversite sayfasına yönlendir
+        function goToUniversity(slug, event) {
+            if(event) event.stopPropagation();
+            window.location.href = `/universite-yorumlari/${slug}`;
+        }
+
+        // Tüm search-result-item'lere tıklanabilirlik ekle
+        $(document).on('click', '.search-result-item', function() {
+            window.location.href = $(this).data('url');
+        });
+    </script>
 
     <script>
         $(document).ready(function() {

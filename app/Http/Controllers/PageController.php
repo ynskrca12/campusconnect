@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\BlogComment;
 use Exception;
@@ -28,10 +29,18 @@ class PageController extends Controller
         ->orderByDesc('likes')->first();
 
         $latestUniversityTopics = UniversityTopic::latest()->take(10)->get();
+        
+        $topUniversities = DB::table('universiteler')
+        ->leftJoin('universities_topics', 'universiteler.id', '=', 'universities_topics.university_id')
+        ->select('universiteler.id', 'universiteler.universite_ad', 'universiteler.slug')
+        ->groupBy('universiteler.id', 'universiteler.universite_ad', 'universiteler.slug')
+        ->orderByRaw('COUNT(universities_topics.id) DESC')
+        ->limit(5)
+        ->get();
 
         $blogs = Blog::latest()->get();
 
-        return view('home',compact('mostLikedTopicUniversity','mostLikedTopicGeneral','blogs','latestUniversityTopics'));
+        return view('home',compact('mostLikedTopicUniversity','mostLikedTopicGeneral','blogs','latestUniversityTopics','topUniversities'));
     }//End
     public function loadMoreUniversityTopics(Request $request){
     $offset = $request->offset ?? 0;

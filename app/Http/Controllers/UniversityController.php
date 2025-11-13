@@ -47,18 +47,6 @@ class UniversityController extends Controller
         ));
     }
 
-    // Autocomplete için yeni method
-    public function searchSuggestions(Request $request){
-        $query = $request->input('q');
-        
-        $universities = DB::table('universiteler')
-            ->where('universite_ad', 'LIKE', "%{$query}%")
-            ->limit(8)
-            ->get(['id', 'universite_ad', 'slug', 'logo']);
-        
-        return response()->json($universities);
-    }
-
     public function show($slug){
         
         $university = University::where('slug', $slug)->first();
