@@ -1,78 +1,75 @@
 @extends('layouts.master') 
 
-@section('title', $university->universite_ad)
-@section('meta_description', $university->universite_ad . ' hakkında detaylı bilgiler, yorumlar, bölümler, fakülteler ve kampüs hayatı. ' . $university->universite_ad . ' ile ilgili tüm sorularınızı buradan öğrenin.')
-@section('meta_keywords', $blog->meta_keywords ?? 'blog, haber, yazı')
+@section('title', $university->universite_ad . ' | Yorumlar, Bölümler, Kampüs Hayatı ve Daha Fazlası - CampusConnect')
+
+@section('meta_description', $university->universite_ad . ' hakkında öğrenci yorumları, kampüs yaşamı, bölümler ve gerçek deneyimlerle detaylı bilgiler. ' . $university->universite_ad . ' iyi mi? Nasıl bir üniversite? Merak edilen her şey burada.')
 
 @section('content')
-    <div class="row mb-4">
+    <div class="row mb-3">
+          <div class="d-flex justify-content-center mb-1">
+                <h1 class="university-banner-title">{{ $university->universite_ad }} Yorumları</h1>
+            </div>
         <div class="col-12">
             <div class="university-banner-wrapper">
                 <img src="{{ asset( $university->image) }}" alt="{{ $university->universite_ad }}"
-                onerror="this.onerror=null; this.src='https:\//campusconnect.com.tr/public/assets/images/university-banner/default.jpg';">
-                <div class="university-banner-overlay">
-                    <div class="university-banner-title">
-                        {{ $university->universite_ad }}
-                    </div>
-                </div>
+                onerror="this.onerror=null; this.src='https:\//campusconnect.com.tr/public/assets/images/university-banner/university-campus.jpg';">
+              
             </div>
         </div>
     </div>
 
 
     <div class="row mb-3" style="border-bottom: 1px solid;">
-       <div class="col-md-3 d-flex align-items-center justify-content-between mobile-hidden">
-        <!-- Geri Tuşu -->
-        <i class="fa-solid fa-circle-left" style="font-size: 25px; cursor: pointer;" onclick="goBack()"></i>
+        <div class="col-md-3 d-flex align-items-center justify-content-between mobile-hidden">
+            <!-- Geri Tuşu -->
+            <i class="fa-solid fa-circle-left" style="font-size: 25px; cursor: pointer;" onclick="goBack()"></i>
 
-        <!-- Sosyal Medya Butonları -->
-        <div class="d-flex align-items-center gap-4">
-            <!-- Resmi Site -->
-            <a href="{{ $university->internet_sitesi }}" target="_blank">
-                <i class="fa-solid fa-globe" style="font-size: 20px;color:#555"></i>
-            </a>
-            <!-- Instagram -->
-            <a href="https://www.instagram.com/universiteadi" target="_blank">
-                
-                <svg class="mb-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="20px" width="20px" version="1.1" id="Layer_1" viewBox="0 0 551.034 551.034" xml:space="preserve">
-                    <g id="XMLID_13_">                        
-                            <linearGradient id="XMLID_2_" gradientUnits="userSpaceOnUse" x1="275.517" y1="4.5714" x2="275.517" y2="549.7202" gradientTransform="matrix(1 0 0 -1 0 554)">
-                            <stop offset="0" style="stop-color:#E09B3D"/>
-                            <stop offset="0.3" style="stop-color:#C74C4D"/>
-                            <stop offset="0.6" style="stop-color:#C21975"/>
-                            <stop offset="1" style="stop-color:#7024C4"/>
-                        </linearGradient>
-                        <path id="XMLID_17_" style="fill:url(#XMLID_2_);" d="M386.878,0H164.156C73.64,0,0,73.64,0,164.156v222.722   c0,90.516,73.64,164.156,164.156,164.156h222.722c90.516,0,164.156-73.64,164.156-164.156V164.156   C551.033,73.64,477.393,0,386.878,0z M495.6,386.878c0,60.045-48.677,108.722-108.722,108.722H164.156   c-60.045,0-108.722-48.677-108.722-108.722V164.156c0-60.046,48.677-108.722,108.722-108.722h222.722   c60.045,0,108.722,48.676,108.722,108.722L495.6,386.878L495.6,386.878z"/>
-                        
-                            <linearGradient id="XMLID_3_" gradientUnits="userSpaceOnUse" x1="275.517" y1="4.5714" x2="275.517" y2="549.7202" gradientTransform="matrix(1 0 0 -1 0 554)">
-                            <stop offset="0" style="stop-color:#E09B3D"/>
-                            <stop offset="0.3" style="stop-color:#C74C4D"/>
-                            <stop offset="0.6" style="stop-color:#C21975"/>
-                            <stop offset="1" style="stop-color:#7024C4"/>
-                        </linearGradient>
-                        <path id="XMLID_81_" style="fill:url(#XMLID_3_);" d="M275.517,133C196.933,133,133,196.933,133,275.516   s63.933,142.517,142.517,142.517S418.034,354.1,418.034,275.516S354.101,133,275.517,133z M275.517,362.6   c-48.095,0-87.083-38.988-87.083-87.083s38.989-87.083,87.083-87.083c48.095,0,87.083,38.988,87.083,87.083   C362.6,323.611,323.611,362.6,275.517,362.6z"/>
-                        
-                            <linearGradient id="XMLID_4_" gradientUnits="userSpaceOnUse" x1="418.306" y1="4.5714" x2="418.306" y2="549.7202" gradientTransform="matrix(1 0 0 -1 0 554)">
-                            <stop offset="0" style="stop-color:#E09B3D"/>
-                            <stop offset="0.3" style="stop-color:#C74C4D"/>
-                            <stop offset="0.6" style="stop-color:#C21975"/>
-                            <stop offset="1" style="stop-color:#7024C4"/>
-                        </linearGradient>
-                        <circle id="XMLID_83_" style="fill:url(#XMLID_4_);" cx="418.306" cy="134.072" r="34.149"/>
-                    </g>
-                </svg>
-            </a>
-            <!-- Twitter / X -->
-            <a href="https://twitter.com/universiteadi" target="_blank" class="text-dark">
-                <i class="fa-brands fa-x-twitter" style="font-size: 20px;"></i>
-            </a>
-            <!-- YouTube -->
-            <a href="https://www.youtube.com/@universiteadi" target="_blank" class="text-dark">
-                <i class="fa-brands fa-youtube" style="font-size: 20px;color:#ff0000"></i>
-            </a>
+            <!-- Sosyal Medya Butonları -->
+            <div class="d-flex align-items-center gap-4">
+                <!-- Resmi Site -->
+                {{-- <a href="https://{{ $university->internet_sitesi }}" target="_blank">
+                    <i class="fa-solid fa-globe" style="font-size: 20px;color:#555"></i>
+                </a> --}}
+                <!-- Instagram -->
+                {{-- <a href="{{ $university->instagram}}" target="_blank">                    
+                    <svg class="mb-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="20px" width="20px" version="1.1" id="Layer_1" viewBox="0 0 551.034 551.034" xml:space="preserve">
+                        <g id="XMLID_13_">                        
+                                <linearGradient id="XMLID_2_" gradientUnits="userSpaceOnUse" x1="275.517" y1="4.5714" x2="275.517" y2="549.7202" gradientTransform="matrix(1 0 0 -1 0 554)">
+                                <stop offset="0" style="stop-color:#E09B3D"/>
+                                <stop offset="0.3" style="stop-color:#C74C4D"/>
+                                <stop offset="0.6" style="stop-color:#C21975"/>
+                                <stop offset="1" style="stop-color:#7024C4"/>
+                            </linearGradient>
+                            <path id="XMLID_17_" style="fill:url(#XMLID_2_);" d="M386.878,0H164.156C73.64,0,0,73.64,0,164.156v222.722   c0,90.516,73.64,164.156,164.156,164.156h222.722c90.516,0,164.156-73.64,164.156-164.156V164.156   C551.033,73.64,477.393,0,386.878,0z M495.6,386.878c0,60.045-48.677,108.722-108.722,108.722H164.156   c-60.045,0-108.722-48.677-108.722-108.722V164.156c0-60.046,48.677-108.722,108.722-108.722h222.722   c60.045,0,108.722,48.676,108.722,108.722L495.6,386.878L495.6,386.878z"/>
+                            
+                                <linearGradient id="XMLID_3_" gradientUnits="userSpaceOnUse" x1="275.517" y1="4.5714" x2="275.517" y2="549.7202" gradientTransform="matrix(1 0 0 -1 0 554)">
+                                <stop offset="0" style="stop-color:#E09B3D"/>
+                                <stop offset="0.3" style="stop-color:#C74C4D"/>
+                                <stop offset="0.6" style="stop-color:#C21975"/>
+                                <stop offset="1" style="stop-color:#7024C4"/>
+                            </linearGradient>
+                            <path id="XMLID_81_" style="fill:url(#XMLID_3_);" d="M275.517,133C196.933,133,133,196.933,133,275.516   s63.933,142.517,142.517,142.517S418.034,354.1,418.034,275.516S354.101,133,275.517,133z M275.517,362.6   c-48.095,0-87.083-38.988-87.083-87.083s38.989-87.083,87.083-87.083c48.095,0,87.083,38.988,87.083,87.083   C362.6,323.611,323.611,362.6,275.517,362.6z"/>
+                            
+                                <linearGradient id="XMLID_4_" gradientUnits="userSpaceOnUse" x1="418.306" y1="4.5714" x2="418.306" y2="549.7202" gradientTransform="matrix(1 0 0 -1 0 554)">
+                                <stop offset="0" style="stop-color:#E09B3D"/>
+                                <stop offset="0.3" style="stop-color:#C74C4D"/>
+                                <stop offset="0.6" style="stop-color:#C21975"/>
+                                <stop offset="1" style="stop-color:#7024C4"/>
+                            </linearGradient>
+                            <circle id="XMLID_83_" style="fill:url(#XMLID_4_);" cx="418.306" cy="134.072" r="34.149"/>
+                        </g>
+                    </svg>
+                </a> --}}
+                <!-- Twitter / X -->
+                {{-- <a href="{{ $university->twitter}}" target="_blank" class="text-dark">
+                    <i class="fa-brands fa-x-twitter" style="font-size: 20px;"></i>
+                </a> --}}
+                <!-- YouTube -->
+                {{-- <a href="{{ $university->youtube}}" target="_blank" class="text-dark">
+                    <i class="fa-brands fa-youtube" style="font-size: 20px;color:#ff0000"></i>
+                </a> --}}
+            </div>
         </div>
-    </div>
-
         
         <div class="col-md-9 mb-3">
             <ul class="nav nav-tabs d-flex justify-content-between mobile-hidden" id="mainTabs" role="tablist">
@@ -113,10 +110,10 @@
         <div class="col-md-3">
 
             <div class="mobile-hidden d-block">
-                <h4>öne çıkan mevzular</h4>
+                <h4 class="fs-4">Güncel Yorumlar</h4>
 
                 <ul id="subcategories-list" class="list-group">
-                    @foreach($getUnivercityFreeZoneTopics as $topic)
+                    @foreach($getUnivercityFreeZoneTopics as $topic) 
                         <li class="list-group-item">
                             <a href="{{ route('university.topic.comments', ['slug' => $topic->topic_title_slug]) }}" class="text-decoration-none subCategoryTag d-flex justify-content-between">
                                 <span class="topic-title-sub-category">{{ $topic->topic_title }}</span>
@@ -128,13 +125,13 @@
             </div>
 
             <div class="mobile-show d-none">
-                <a class="btn btn-primary w-100" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-                    <i class="bi bi-chat-dots me-2"></i> öne çıkan mevzular
+                <a class="btn btn-primary w-100" style="background-color: #001b48;border-color: #001b48;" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                    <i class="bi bi-chat-dots me-2"></i> Güncel Yorumlar
                 </a>           
 
                 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                     <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">öne çıkan mevzular</h5>
+                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Güncel Yorumlar</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                         <div class="offcanvas-body">
@@ -159,35 +156,39 @@
         </div>
 
         <!--main content-->
-            <div class="col-md-9"  style="border-left: 1px solid #e0e0e0;">
+            <div class="col-md-9" style="border-left: 1px solid #e0e0e0;">
                 <div class="tab-content">
 
                     <div class="tab-pane fade show active" id="free-zone" role="tabpanel" aria-labelledby="free-zone-tab">
-                        <div class="d-flex justify-content-end">
+                        <div class="d-flex justify-content-center">
                             
                            <div> 
-                                <button class="btn btnExplain mb-2" data-category="free-zone">
-                                    <i class="fa-solid fa-comments me-2"></i>Yorum Yap
+                                <button class="btn btnExplain" data-category="free-zone">
+                                    <i class="fa-solid fa-comments me-2"></i>Yorum Yap 
                                 </button>
                             </div>
                         </div>        
                         <div id="free-zone-topic-list">
-                            @foreach ($univercity_free_zone_topics as $topic) 
-                                <x-topic-box :topic="$topic" routeName="university.topic.comments" type="university"/>
-                            @endforeach   
-                            <div id="free-zone-spinner" class="text-center my-4" style="display: none;">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">Yükleniyor...</span>
+                            @if ($univercity_free_zone_topics->count())
+                                @foreach ($univercity_free_zone_topics as $topic)
+                                    <x-topic-box :topic="$topic" routeName="university.topic.comments" type="university"/>
+                                @endforeach
+                                <div id="free-zone-spinner" class="text-center my-4 d-none">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Yükleniyor...</span>
+                                    </div>
                                 </div>
-                            </div>
+                            @else
+                                <div class="text-center p-3 rounded-4 mt-3" style="border: 1px solid #dcdcdc; color: #001b48;">
+                                    <p class="mb-1 fw-semibold">Burada henüz yorum yapılmamış...</p>
+                                    <p class="mb-0" style="opacity: 0.8;">İlk yorumu sen yap!</p>
+                                </div>
+                            @endif 
                         </div>
                     </div>
 
                     <div class="tab-pane fade" id="departmant-programs" role="tabpanel" aria-labelledby="departmant-programs-tab">
-                        <div class="d-flex justify-content-between">
-                            <div class="d-flex align-items-center">
-                                {{-- <span class="categoryTitle">bölüm ve programlar</span> --}}
-                            </div>
+                        <div class="d-flex justify-content-center">
                            <div> 
                                 <button class="btn btnExplain" data-category="departmant-programs">
                                     <i class="fa-solid fa-comments me-2"></i>Yorum Yap
@@ -206,13 +207,10 @@
                     </div>
 
                     <div class="tab-pane fade" id="campus-life" role="tabpanel" aria-labelledby="campus-life-tab">
-                        <div class="d-flex justify-content-between">
-                            <div class="d-flex align-items-center">
-                                {{-- <span class="categoryTitle">kampüs hayatı</span> --}}
-                            </div>
+                        <div class="d-flex justify-content-center">
                            <div> 
                                 <button class="btn btnExplain" data-category="campus-life">
-                                    <i class="fa-solid fa-comments me-2"></i>Yorum Yap
+                                   <i class="fa-solid fa-comments me-2"></i>Yorum Yap
                                 </button>
                             </div>
                         </div>
@@ -228,10 +226,7 @@
                     </div>
 
                     <div class="tab-pane fade" id="question-answer" role="tabpanel" aria-labelledby="question-answer-tab">
-                        <div class="d-flex justify-content-between">
-                            <div class="d-flex align-items-center">
-                                {{-- <span class="categoryTitle">soru cevap</span> --}}
-                            </div>
+                        <div class="d-flex justify-content-center">
                             <div>
                                 <button class="btn btnExplain" data-category="question-answer">
                                     <i class="fa-solid fa-comments me-2"></i>Yorum Yap
@@ -248,16 +243,15 @@
                         </div>
                     
                     </div>
-
                 </div>
-            </div> 
+            </div>
     </div>
 
     <div class="modal fade" id="topicModal" tabindex="-1" aria-labelledby="topicModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="topicModalLabel">mevzu nedir </h5>
+              <h5 class="modal-title" id="topicModalLabel"><i class="fa-solid fa-pen-nib me-2"></i><span>Yorumunu Yaz...</span></h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -278,7 +272,7 @@
                   <textarea class="form-control" id="topicDescription" placeholder="açıklamanız" name="comment" rows="3" required></textarea>
                 </div>
                 <input type="hidden" id="categoryName" name="category">
-                <button type="submit" class="btn btn-primary" id="submitTopic">Kaydet</button>
+                <button type="submit" class="btn btn-primary w-100" id="submitTopic">Yorum Yap</button>
               </form>
             </div>
           </div>
@@ -289,59 +283,61 @@
 @endsection 
 
 @section('css')
-<style>
-    .university-banner-wrapper {
-        position: relative;
-        width: 100%;
-        height: 250px;
-        border-radius: 12px;
-        overflow: hidden;
-    }
-
-    .university-banner-wrapper img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-        display: block;
-        filter: brightness(90%);
-    }
-
-    .university-banner-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        padding: 1rem;
-    }
-
-    .university-banner-title {
-        color: #fff;
-        font-size: 2.5rem;
-        font-weight: 700;
-        letter-spacing: 1.5px;
-        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    @media (max-width: 576px) {
+    <style>
         .university-banner-wrapper {
-            height: 200px;
+            position: relative;
+            width: 100%;
+            height: 350px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .university-banner-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            filter: brightness(90%);
+        }
+
+        .university-banner-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: end;
+            text-align: center;
+            /* padding: 1rem 1.5rem; */
         }
 
         .university-banner-title {
-            font-size: 1.5rem;
-        }
-    }
-</style>
-    <style>
-         .fa-envelope{
-            font-size: 22px !important;
+            /* color: #fff; */
+            font-size: 21px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7); */
+            /* background: rgba(0, 0, 0, 0.4); */
+            padding: 0px 10px;
+            border-radius: 10px;
+            display: inline-block;
         }
 
+        @media (max-width: 768px) {
+            .university-banner-wrapper {
+                height: 250px;
+            }
+              .fs-md-5 {
+                font-size: 1.25rem !important; /* örnek: fs-5 boyutu */
+            }
+
+            .university-banner-title {
+                font-size: 15px;
+            }
+        }
+    </style>
+    <style>
         .categoryTitle{
             font-weight: 700;
             font-size: medium;
@@ -405,7 +401,6 @@
             font-weight: bold;
             color: #333;
         }
-        
         .subCategoryTag{
             color: #000000 !important;
             font-size: 13px;
@@ -437,6 +432,10 @@
             .tab-content>.active {
                 margin-top: 20px;
             }
+        }
+        .btn-primary {
+            background-color: #001b48;
+            border-color: #001b48;
         }
     </style>
 @endsection
@@ -635,10 +634,11 @@
                         category: category,
                         univercityId: univercityId,
                     },
-                    beforeSend: function () { 
+                    beforeSend: function () {
+                        // Yükleniyor animasyonu eklenebilir
                         topicListContainer.html("<p>İçerik yükleniyor...</p>");
                     },
-                    success: function (response) { 
+                    success: function (response) {
                         if (response.success && response.html) {
                             topicListContainer.html(response.html);
                         } else {
@@ -648,6 +648,7 @@
                                     <p class="mb-0" style="opacity: 0.8;">İlk yorumu sen yap!</p>
                                 </div>
                             `);
+
                         }
                     },
                     error: function () {
@@ -681,7 +682,6 @@
                         univercityId: univercityId
                     },
                     success: function (response) {
-                        // Dönen verilerdeki her bir başlığı listeye ekle
                         response.topics.forEach(topic => {
                             const topicUrl = topicRouteBase.replace('___SLUG___', topic.topic_title_slug);
                             const listItem = `
@@ -753,12 +753,11 @@
             $('#topicForm').on('submit', function (e) {
                 e.preventDefault();
 
-                
                 let $submitTopic = $('#submitTopic');
 
                 $submitTopic.prop('disabled', true);
                 $submitTopic.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Gönderiliyor...');
-                
+
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -822,7 +821,7 @@
     </script>
 
    {{-- like dislike --}}
-    <script>
+    {{-- <script>
       $(document).on('click', '.like-btn', function () {
             let topicId = $(this).data('id');
             let userId = '{{ auth()->id() }}'; 
@@ -881,6 +880,73 @@
             });
         });
 
-    </script>
+    </script> --}}
+
+    <script>
+  $(document).on('click', '.like-btn', function () {
+      const $btn = $(this);
+      const topicId = $btn.data('id');
+
+      const likeCount = $btn.find('.like-count');
+      const $dislikeBtn = $btn.closest('.like-dislike').find('.dislike-btn');
+      const dislikeCount = $dislikeBtn.find('.dislike-count');
+
+      $.ajax({
+          url: `/university/topic/${topicId}/like`,
+          method: 'POST',
+          data: {
+              _token: '{{ csrf_token() }}',
+          },
+          success: function (response) {
+              likeCount.text(response.likes);
+              dislikeCount.text(response.dislikes);
+
+              // Buton renklerini güncelle
+              $btn.css("color", "#007bff"); // Like mavi
+              $dislikeBtn.css("color", "#888"); // Dislike gri
+          },
+          error: function (xhr) {
+              if (xhr.status === 401) {
+                  toastr.error('Giriş yapmalısın.');
+              } else {
+                  toastr.error('Bir hata oluştu.');
+              }
+          }
+      });
+  });
+
+  $(document).on('click', '.dislike-btn', function () {
+      const $btn = $(this);
+      const topicId = $btn.data('id');
+
+      const dislikeCount = $btn.find('.dislike-count');
+      const $likeBtn = $btn.closest('.like-dislike').find('.like-btn');
+      const likeCount = $likeBtn.find('.like-count');
+
+      $.ajax({
+          url: `/university/topic/${topicId}/dislike`,
+          method: 'POST',
+          data: {
+              _token: '{{ csrf_token() }}',
+          },
+          success: function (response) {
+              likeCount.text(response.likes);
+              dislikeCount.text(response.dislikes);
+
+              // Buton renklerini güncelle
+              $btn.css("color", "#dc3545"); // Dislike kırmızı
+              $likeBtn.css("color", "#888"); // Like gri
+          },
+          error: function (xhr) {
+              if (xhr.status === 401) {
+                  toastr.error('Giriş yapmalısın.');
+              } else {
+                  toastr.error('Bir hata oluştu.');
+              }
+          }
+      });
+  });
+</script>
+
 
 @endsection
