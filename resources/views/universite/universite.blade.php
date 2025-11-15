@@ -7,40 +7,43 @@
         <!-- Sol Menü (Alt Başlıklar) -->
         <div class="col-md-3 mb-3">
             <div class="mobile-hidden d-block">
-
-                    {{-- <div class="d-flex justify-content-between">
-                        <h4 class="sidebarTitle">üniversiteler</h4>
-
-                        <button id="toggle-subcategories" class="btn btn-sm d-none" >
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </button>
-
-                    </div> --}}
-            
-                {{-- <div class="mobile-hidden-pagination"> --}}
-                    <input type="text" id="university-search" class="form-control mb-2 mt-2 searchInput" placeholder="Üniversite Ara...">
-                        <ul id="subcategories-list" class="list-group" > </ul>
-            
-                        <div id="pagination-container" class="pagination-container mt-3"></div>
-                {{-- </div>  --}}
+                <input type="text" id="university-search" class="form-control mb-2 mt-2 searchInput" placeholder="Üniversite Ara...">
+                <ul id="subcategories-list" class="list-group" > </ul>
+    
+                <div id="pagination-container" class="pagination-container mt-3"></div>
             </div>
 
-            <div class="mobile-show d-none">
-                <a class="btn btn-primary w-100" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-                    <i class="bi bi-chat-dots me-2"></i> üniversiteni yorumla
-                </a>
-           
 
+           <div class="mobile-show d-none">
+                <!-- Açıklama -->
+                <div class="text-center px-3 mb-2">
+                    <p class="fw-semibold text-muted" style="font-size: 14px; line-height: 1.4;">
+                        Bu alan üzerinden <span class="text-dark">üniversiteler hakkında genel bilgileri görebilir</span>, 
+                        <span class="text-dark">kendi üniversiteni yorumlayabilir</span> ve 
+                        <span class="text-dark">diğer öğrencilerin paylaştığı yorumları</span> okuyabilirsin.
+                    </p>
+                </div>
+
+                <!-- Buton -->
+                <a class="btn btn-primary w-100" 
+                style="background-color: #001b48; border-color: #001b48;" 
+                data-bs-toggle="offcanvas" 
+                href="#offcanvasExample" 
+                role="button" 
+                aria-controls="offcanvasExample">
+                    <i class="bi bi-chat-dots me-2"></i> Üniversiteleri ve Yorumları Gör / Yorum Yap
+                </a>
+
+                <!-- Offcanvas -->
                 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                     <div class="offcanvas-header">
-                    {{-- <h5 class="offcanvas-title" id="offcanvasExampleLabel">üniversiteler</h5> --}}
-                    <input type="text" id="university-search" class="form-control mb-2 mt-2 searchInput" placeholder="Üniversite Ara...">
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        <input type="text" id="university-search" class="form-control mb-2 mt-2 searchInput" placeholder="Üniversite Ara...">
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
-                        <div class="offcanvas-body">  
-                            <ul id="subcategories-list" class="list-group mobile-universities-list"></ul>
-                            <div id="pagination-container" class="pagination-container mt-3"></div>
-                        </div>
+                    <div class="offcanvas-body">  
+                        <ul id="subcategories-list" class="list-group mobile-universities-list"></ul>
+                        <div id="pagination-container" class="pagination-container mt-3"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -785,6 +788,63 @@
         }
 
     </style>
+
+    <style>
+        /* University List Logo Styles */
+.university-list-logo {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+.universityLi {
+    transition: all 0.2s ease;
+}
+
+.universityTag {
+    padding: 8px 0;
+}
+
+.universityTag .flex-1 {
+    flex: 1;
+    min-width: 0;
+}
+
+.topic-title-sub-category {
+    flex: 1;
+    word-wrap: break-word;
+    word-break: break-word;
+    font-size: 13px;
+    color: #333;
+}
+
+.universityLi:hover {
+    background-color: #f8f9fa;
+}
+
+.universityLi:hover .university-list-logo {
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .university-list-logo {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .topic-title-sub-category {
+        font-size: 12px;
+    }
+    
+    .count {
+        font-size: 11px;
+    }
+}
+    </style>
 @endsection
 
 @section('js')
@@ -797,56 +857,64 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-    <script>
-        $(document).ready(function () {
-            function loadUniversities(page = 1, query = '') {
-                $.ajax({
-                    url: '/universities/fetch',
-                    type: 'GET',
-                    data: { page: page, search: query },
-                    success: function (response) {
-                        let universitiesHtml = '';
-                        $.each(response.universities.data, function (index, item) {
-                            const topicCount = response.universities_topics_count[item.id] || 0;
-                            universitiesHtml += `
-                                <li class="list-group-item universityLi">
-                                    <a href="/universite-yorumlari/${item.slug}" class="text-decoration-none universityTag d-flex justify-content-between">
-                                        <span class="topic-title-sub-category">${item.universite_ad}</span>
-                                        <span class="count">${topicCount}</span>
-                                    </a>
-                                </li>`;
-                        });
-                        $('#subcategories-list').html(universitiesHtml);
-                        $('.mobile-universities-list').html(universitiesHtml);
-                        
-                        // Sayfa bağlantılarını güncelle
-                        $('#pagination-container').html(response.links);
-                        $('.pagination-container').html(response.links);
-                    },
-                    error: function () {
-                        alert('Üniversiteler yüklenirken bir hata oluştu.');
-                    }
+<script>
+$(document).ready(function () {
+const defaultUniversityLogo = "{{ asset('assets/images/university-placeholder.png') }}";
+    function loadUniversities(page = 1, query = '') {
+        $.ajax({
+            url: '/universities/fetch',
+            type: 'GET',
+            data: { page: page, search: query },
+            success: function (response) {
+                let universitiesHtml = '';
+                $.each(response.universities.data, function (index, item) {
+                    const topicCount = response.universities_topics_count[item.id] || 0;
+                    const logoPath = item.logo ? `${item.logo}` : defaultUniversityLogo;
+                    
+                    universitiesHtml += `
+                        <li class="list-group-item universityLi">
+                            <a href="/universite-yorumlari/${item.slug}" class="text-decoration-none universityTag d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-2 flex-1">
+                                    <img src="${logoPath}" 
+                                         alt="${item.universite_ad}" 
+                                         class="university-list-logo"
+                                          onerror="this.src='${defaultUniversityLogo}'">
+                                    <span class="topic-title-sub-category">${item.universite_ad}</span>
+                                </div>
+                                <span class="count">${topicCount}</span>
+                            </a>
+                        </li>`;
                 });
+                $('#subcategories-list').html(universitiesHtml);
+                $('.mobile-universities-list').html(universitiesHtml);
+                
+                // Sayfa bağlantılarını güncelle
+                $('#pagination-container').html(response.links);
+                $('.pagination-container').html(response.links);
+            },
+            error: function () {
+                alert('Üniversiteler yüklenirken bir hata oluştu.');
             }
-    
-            // İlk yükleme
-            loadUniversities();
-    
-            $(document).on('click', '#pagination-container a', function (e) {
-                e.preventDefault();
-                const url = $(this).attr('href');
-                const page = new URL(url).searchParams.get('page');
-                const query = $('.searchInput').val();
-                loadUniversities(page, query);
-            });
-    
-            $(document).on('input', '.searchInput', function () {
-                const query = $(this).val();
-                console.log(query)
-                loadUniversities(1, query);
-            });
         });
-    </script>
+    }
+
+    // İlk yükleme
+    loadUniversities();
+
+    $(document).on('click', '#pagination-container a', function (e) {
+        e.preventDefault();
+        const url = $(this).attr('href');
+        const page = new URL(url).searchParams.get('page');
+        const query = $('.searchInput').val();
+        loadUniversities(page, query);
+    });
+
+    $(document).on('input', '.searchInput', function () {
+        const query = $(this).val();
+        loadUniversities(1, query);
+    });
+});
+</script>
     
     <script>
         $(document).ready(function () {
