@@ -2,6 +2,30 @@
 
 @section('content')
 
+    {{-- Thread Header --}}
+    <div class="thread-header">
+        <div class="header-top">
+            <button class="btn-back" onclick="window.history.back()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <div class="header-breadcrumb">
+                <a href="{{ route('universities') }}" class="breadcrumb-item">Üniversiteler</a>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="breadcrumb-arrow">
+                    <polyline points="9 18 15 12 9 6"/>
+                </svg>
+                <a href="{{ route('university.show', App\Models\University::find($university_id)->slug) }}" class="breadcrumb-item breadcrumb-truncate">
+                    {{ App\Models\University::find($university_id)->universite_ad }}
+                </a>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="breadcrumb-arrow">
+                    <polyline points="9 18 15 12 9 6"/>
+                </svg>
+                <span class="breadcrumb-item breadcrumb-current">{{ Str::limit($topicTitle, 50) }}</span>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <!-- Sol Menü (Alt Başlıklar) -->
         <div class="col-md-3">
@@ -23,8 +47,8 @@
                         <div class="topic mb-3">
                              <div class="d-flex justify-content-between align-items-start">
                                 <div>{!! $comment['comment'] !!}</div>
-                                <div class="dropdown me-3">
-                                    <i class="fa-solid fa-ellipsis cursor-pointer text-muted fs-6 mt-3" role="button" id="dropdownMenu{{ $comment['id'] }}" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                <div class="dropdown me-3 ms-1">
+                                    <i class="fa-solid fa-ellipsis cursor-pointer text-muted fs-6" role="button" id="dropdownMenu{{ $comment['id'] }}" data-bs-toggle="dropdown" aria-expanded="false"></i>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu{{ $comment['id'] }}">
                                         <li>
                                             <a class="dropdown-item copy-link text-dark"
@@ -48,7 +72,7 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-between align-items-center mt-2">
                                 <div class="like-dislike mt-3">
                                     <div class="like-btn d-inline me-3" data-id="{{ $comment['id'] }}" style="cursor: pointer; color: #888;">
                                         <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $comment['likes'] }}</span>
@@ -75,7 +99,7 @@
                                 </div>
                             </div>
                         </div>
-                    @endforeach   
+                    @endforeach     
                 </div>
 
                      <!-- Yorum Alanı -->
@@ -114,6 +138,82 @@
 @endsection 
 
 @section('css')
+
+<style>
+    /* ========== HEADER ========== */
+.thread-header {
+    background: var(--bg-1);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+
+.header-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-back {
+    display: flex;
+    align-items: center;
+    padding: 7px 0px;
+    background: var(--bg-2);
+    border: none;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s;
+}
+
+.header-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    flex: 1;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.header-breadcrumb::-webkit-scrollbar {
+    display: none;
+}
+
+.breadcrumb-item {
+    color: var(--text-2);
+    text-decoration: none;
+    /* white-space: nowrap; */
+    transition: color 0.2s;
+}
+
+.breadcrumb-item:hover {
+    color: var(--primary);
+}
+
+.breadcrumb-truncate {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.breadcrumb-current {
+    font-weight: 600;
+    color: var(--text-1);
+}
+
+.breadcrumb-arrow {
+    flex-shrink: 0;
+    color: var(--text-3);
+}
+
+</style>
     <style>
   
         .avatar{
@@ -132,7 +232,9 @@
             padding-right: 10px;
         }
          .topic {
-            padding: 10px 0;
+            border: 1px solid #dcdcdc;
+            padding: 18px 24px;
+            border-radius: 17px;
         }
        
         .topic h3 {
@@ -279,6 +381,9 @@
             }        
             .content-area {
                 padding: 0px 10px;
+            }
+            .topic {
+                padding: 20px 18px;
             }
         }
     </style>
