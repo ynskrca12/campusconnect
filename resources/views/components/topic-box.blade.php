@@ -45,11 +45,11 @@
     <div class="d-flex justify-content-between mt-2">
 
         <div class="like-dislike mt-3">
-            <div class="like-btn d-inline me-2" data-id="{{ $topic->id }}" data-type="{{ $topic->type }}" style="cursor: pointer; color: #888;">
+            <div class="like-btn d-inline me-2" data-id="{{ $topic->id }}" data-type="{{ $type }}" style="cursor: pointer; color: #888;">
                 <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i>
                 <span class="like-count">{{ $topic->likes }}</span>
             </div>
-            <div class="dislike-btn d-inline me-2" data-id="{{ $topic->id }}" data-type="{{ $topic->type }}" style="cursor: pointer; color: #888;">
+            <div class="dislike-btn d-inline me-2" data-id="{{ $topic->id }}" data-type="{{ $type }}" style="cursor: pointer; color: #888;">
                 <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i>
                 <span class="dislike-count">{{ $topic->dislikes }}</span>
             </div>

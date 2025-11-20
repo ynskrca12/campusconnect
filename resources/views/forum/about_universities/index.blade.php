@@ -335,560 +335,560 @@
 
 @section('css')
 <style>
-:root {
-    --primary: #001b48;
-    --accent: #0ea5e9;
-    --text-primary: #0f172a;
-    --text-secondary: #64748b;
-    --bg-primary: #ffffff;
-    --bg-secondary: #f8fafc;
-    --border: #e2e8f0;
-    --hover: #f1f5f9;
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-}
+    :root {
+        --primary: #001b48;
+        --accent: #0ea5e9;
+        --text-primary: #0f172a;
+        --text-secondary: #64748b;
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8fafc;
+        --border: #e2e8f0;
+        --hover: #f1f5f9;
+        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    }
+
+    /* ========== HEADER ========== */
+    .university-header {
+        background: var(--bg-primary);
+        border-bottom: 1px solid var(--border);
+        padding: 16px 0;
+        margin-bottom: 24px;
+    }
+
+    .header-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .btn-back {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: none;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        flex-shrink: 0;
+    }
+
+    .btn-back:hover {
+        background: var(--hover);
+    }
+
+    .header-info {
+        flex: 1;
+        min-width: 0;
+    }
 
-/* ========== HEADER ========== */
-.university-header {
-    background: var(--bg-primary);
-    border-bottom: 1px solid var(--border);
-    padding: 16px 0;
-    margin-bottom: 24px;
-}
-
-.header-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.btn-back {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: none;
-    background: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    flex-shrink: 0;
-}
-
-.btn-back:hover {
-    background: var(--hover);
-}
-
-.header-info {
-    flex: 1;
-    min-width: 0;
-}
-
-.university-name {
-    font-size: 22px;
-    font-weight: 500 !important;
-    line-height: 1;
-    /* white-space: nowrap; */
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.header-stats {
-    display: flex;
-    gap: 20px;
-}
-
-.stat-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 14px;
-    color: var(--text-secondary);
-}
-
-.stat-item svg {
-    flex-shrink: 0;
-}
-
-.btn-write-review {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    background: #001b48;
-    color: white;
-    border: none;
-    border-radius: 24px;
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-
-.btn-write-review:hover {
-    background: #0284c7;
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-}
-
-/* ========== CONTAINER ========== */
-.main-container {
-    max-width: 1200px;
-    padding: 0 16px 40px;
-}
-
-/* ========== SIDEBAR ========== */
-.sidebar-sticky {
-    position: sticky;
-    top: 20px;
-}
-
-.sidebar-card {
-    background: var(--bg-primary);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 16px;
-}
-
-.sidebar-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin: 0 0 16px 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.sidebar-title svg {
-    color: var(--accent);
-}
-
-/* Category Nav */
-.category-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.category-btn {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px;
-    background: transparent;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: left;
-}
-
-.category-btn:hover {
-    background: var(--hover);
-}
-
-.category-btn.active {
-    background: var(--bg-secondary);
-}
-
-.category-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: var(--bg-secondary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.2s;
-}
-
-.category-btn.active .category-icon {
-    background: #001b48;
-}
-
-.category-icon svg {
-    color: var(--text-secondary);
-}
-
-.category-btn.active .category-icon svg {
-    color: white;
-}
-
-.category-text {
-    flex: 1;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.category-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.category-count {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-secondary);
-    background: var(--bg-secondary);
-    padding: 3px 10px;
-    border-radius: 12px;
-}
-
-.category-btn.active .category-count {
-    background: var(--accent);
-    color: white;
-}
-
-/* Trending */
-.trending-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.trending-list li {
-    margin-bottom: 8px;
-}
-
-.trending-link {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    padding: 10px;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: all 0.2s;
-}
-
-.trending-link:hover {
-    background: var(--hover);
-}
-
-.trending-text {
-    flex: 1;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-primary);
-    line-height: 1.4;
-}
-
-.trending-badge {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-secondary);
-    background: var(--bg-secondary);
-    padding: 4px 10px;
-    border-radius: 12px;
-    flex-shrink: 0;
-}
-
-.empty-text {
-    text-align: center;
-    color: var(--text-secondary);
-    font-size: 13px;
-    padding: 20px;
-}
-
-/* ========== MOBILE CATEGORIES ========== */
-.mobile-categories {
-    background: var(--bg-primary);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 8px;
-    margin-bottom: 16px;
-}
-
-.mobile-categories-scroll {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    scrollbar-width: none;
-}
-
-.mobile-categories-scroll::-webkit-scrollbar {
-    display: none;
-}
-
-.mobile-category {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    padding: 12px 16px;
-    background: transparent;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-}
-
-.mobile-category svg {
-    color: var(--text-secondary);
-}
-
-.mobile-category span {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-secondary);
-}
-
-.mobile-category.active {
-    background: var(--bg-secondary);
-}
-
-.mobile-category.active svg,
-.mobile-category.active span {
-    color: var(--accent);
-}
-
-.mobile-badge {
-    font-size: 11px !important;
-    background: var(--bg-secondary);
-    padding: 2px 8px;
-    border-radius: 10px;
-}
-
-.mobile-category.active .mobile-badge {
-    background: var(--accent);
-    color: white !important;
-}
-
-/* ========== SHARE CARD ========== */
-.share-card {
-    background: var(--bg-primary);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 16px;
-}
-
-.share-card-content {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.share-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: var(--bg-secondary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.share-icon svg {
-    color: #001b48;
-}
-
-.share-input {
-    flex: 1;
-    padding: 12px 16px;
-    background: var(--bg-secondary);
-    border: none;
-    border-radius: 24px;
-    font-size: 15px;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: left;
-}
-
-.share-input:hover {
-    background: var(--hover);
-}
-
-/* ========== TOPICS ========== */
-.topics-container {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.tab-panel {
-    display: none;
-}
-
-.tab-panel.active {
-    display: block;
-}
-
-.loading-spinner {
-    text-align: center;
-    padding: 40px;
-}
-
-.spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-.empty-state {
-    background: var(--bg-primary);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 60px 40px;
-    text-align: center;
-}
-
-.empty-state svg {
-    color: var(--text-secondary);
-    opacity: 0.3;
-    margin-bottom: 16px;
-}
-
-.empty-state h4 {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin: 0 0 8px 0;
-}
-
-.empty-state p {
-    font-size: 14px;
-    color: var(--text-secondary);
-    margin: 0;
-}
-
-/* ========== MOBILE FAB ========== */
-.mobile-fab {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: var(--accent);
-    color: white;
-    border: none;
-    box-shadow: var(--shadow-lg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 1000;
-    transition: all 0.3s;
-}
-
-.mobile-fab:hover {
-    transform: scale(1.1);
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
-}
-
-/* ========== MODAL ========== */
-.modal-content {
-    border-radius: 16px;
-    border: 1px solid var(--border);
-}
-
-.modal-header {
-    border-bottom: 1px solid var(--border);
-    padding: 20px 24px;
-}
-
-.modal-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text-primary);
-}
-
-.modal-body {
-    padding: 24px;
-}
-
-.form-control {
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 12px 16px;
-    font-size: 15px;
-    transition: all 0.2s;
-}
-
-.form-control:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
-}
-
-.btn-primary {
-    background: var(--accent);
-    border: none;
-    padding: 12px 24px;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: all 0.2s;
-}
-
-.btn-primary:hover {
-    background: #0284c7;
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-}
-
-/* ========== RESPONSIVE ========== */
-@media (max-width: 992px) {
     .university-name {
-        font-size: 18px;
+        font-size: 22px;
+        font-weight: 500 !important;
+        line-height: 1;
+        /* white-space: nowrap; */
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
-    
+
+    .header-stats {
+        display: flex;
+        gap: 20px;
+    }
+
+    .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 14px;
+        color: var(--text-secondary);
+    }
+
+    .stat-item svg {
+        flex-shrink: 0;
+    }
+
     .btn-write-review {
-        padding: 8px 16px;
-        font-size: 13px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        background: #001b48;
+        color: white;
+        border: none;
+        border-radius: 24px;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        white-space: nowrap;
+        flex-shrink: 0;
     }
-    
-    .btn-write-review span {
+
+    .btn-write-review:hover {
+        background: #0284c7;
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+    }
+
+    /* ========== CONTAINER ========== */
+    .main-container {
+        max-width: 1200px;
+        padding: 0 16px 40px;
+    }
+
+    /* ========== SIDEBAR ========== */
+    .sidebar-sticky {
+        position: sticky;
+        top: 20px;
+    }
+
+    .sidebar-card {
+        background: var(--bg-primary);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 16px;
+    }
+
+    .sidebar-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0 0 16px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .sidebar-title svg {
+        color: var(--accent);
+    }
+
+    /* Category Nav */
+    .category-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .category-btn {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        background: transparent;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: left;
+    }
+
+    .category-btn:hover {
+        background: var(--hover);
+    }
+
+    .category-btn.active {
+        background: var(--bg-secondary);
+    }
+
+    .category-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: var(--bg-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: all 0.2s;
+    }
+
+    .category-btn.active .category-icon {
+        background: #001b48;
+    }
+
+    .category-icon svg {
+        color: var(--text-secondary);
+    }
+
+    .category-btn.active .category-icon svg {
+        color: white;
+    }
+
+    .category-text {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .category-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .category-count {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text-secondary);
+        background: var(--bg-secondary);
+        padding: 3px 10px;
+        border-radius: 12px;
+    }
+
+    .category-btn.active .category-count {
+        background: var(--accent);
+        color: white;
+    }
+
+    /* Trending */
+    .trending-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .trending-list li {
+        margin-bottom: 8px;
+    }
+
+    .trending-link {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 10px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+    .trending-link:hover {
+        background: var(--hover);
+    }
+
+    .trending-text {
+        flex: 1;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-primary);
+        line-height: 1.4;
+    }
+
+    .trending-badge {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text-secondary);
+        background: var(--bg-secondary);
+        padding: 4px 10px;
+        border-radius: 12px;
+        flex-shrink: 0;
+    }
+
+    .empty-text {
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 13px;
+        padding: 20px;
+    }
+
+    /* ========== MOBILE CATEGORIES ========== */
+    .mobile-categories {
+        background: var(--bg-primary);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 8px;
+        margin-bottom: 16px;
+    }
+
+    .mobile-categories-scroll {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .mobile-categories-scroll::-webkit-scrollbar {
         display: none;
     }
-}
 
-@media (max-width: 576px) {
-    .university-header {
-        padding: 12px 0;
+    .mobile-category {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding: 12px 16px;
+        background: transparent;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.2s;
+        white-space: nowrap;
     }
-    
-    .header-wrapper {
+
+    .mobile-category svg {
+        color: var(--text-secondary);
+    }
+
+    .mobile-category span {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-secondary);
+    }
+
+    .mobile-category.active {
+        background: var(--bg-secondary);
+    }
+
+    .mobile-category.active svg,
+    .mobile-category.active span {
+        color: var(--accent);
+    }
+
+    .mobile-badge {
+        font-size: 11px !important;
+        background: var(--bg-secondary);
+        padding: 2px 8px;
+        border-radius: 10px;
+    }
+
+    .mobile-category.active .mobile-badge {
+        background: var(--accent);
+        color: white !important;
+    }
+
+    /* ========== SHARE CARD ========== */
+    .share-card {
+        background: var(--bg-primary);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+
+    .share-card-content {
+        display: flex;
+        align-items: center;
         gap: 12px;
     }
-    
-    .university-name {
-        font-size: 16px;
+
+    .share-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: var(--bg-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
     }
-    
-    .header-stats {
+
+    .share-icon svg {
+        color: #001b48;
+    }
+
+    .share-input {
+        flex: 1;
+        padding: 12px 16px;
+        background: var(--bg-secondary);
+        border: none;
+        border-radius: 24px;
+        font-size: 15px;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: left;
+    }
+
+    .share-input:hover {
+        background: var(--hover);
+    }
+
+    /* ========== TOPICS ========== */
+    .topics-container {
+        display: flex;
         flex-direction: column;
-        gap: 6px;
+        gap: 16px;
     }
-    
-    .stat-item {
-        font-size: 13px;
+
+    .tab-panel {
+        display: none;
     }
-}
+
+    .tab-panel.active {
+        display: block;
+    }
+
+    .loading-spinner {
+        text-align: center;
+        padding: 40px;
+    }
+
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid var(--border);
+        border-top-color: var(--accent);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .empty-state {
+        background: var(--bg-primary);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 60px 40px;
+        text-align: center;
+    }
+
+    .empty-state svg {
+        color: var(--text-secondary);
+        opacity: 0.3;
+        margin-bottom: 16px;
+    }
+
+    .empty-state h4 {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0 0 8px 0;
+    }
+
+    .empty-state p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin: 0;
+    }
+
+    /* ========== MOBILE FAB ========== */
+    .mobile-fab {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: white;
+        border: none;
+        box-shadow: var(--shadow-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1000;
+        transition: all 0.3s;
+    }
+
+    .mobile-fab:hover {
+        transform: scale(1.1);
+        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    }
+
+    /* ========== MODAL ========== */
+    .modal-content {
+        border-radius: 16px;
+        border: 1px solid var(--border);
+    }
+
+    .modal-header {
+        border-bottom: 1px solid var(--border);
+        padding: 20px 24px;
+    }
+
+    .modal-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+
+    .modal-body {
+        padding: 24px;
+    }
+
+    .form-control {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-size: 15px;
+        transition: all 0.2s;
+    }
+
+    .form-control:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+    }
+
+    .btn-primary {
+        background: var(--accent);
+        border: none;
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.2s;
+    }
+
+    .btn-primary:hover {
+        background: #0284c7;
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 992px) {
+        .university-name {
+            font-size: 18px;
+        }
+        
+        .btn-write-review {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+        
+        .btn-write-review span {
+            display: none;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .university-header {
+            padding: 12px 0;
+        }
+        
+        .header-wrapper {
+            gap: 12px;
+        }
+        
+        .university-name {
+            font-size: 16px;
+        }
+        
+        .header-stats {
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .stat-item {
+            font-size: 13px;
+        }
+    }
 </style>
 @endsection
 
@@ -896,137 +896,197 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+    {{-- like dislike --}}
+    <script>
+        $(document).on('click', '.like-btn', function () {
+            let topicId = $(this).data('id');
+            let userId = '{{ auth()->id() }}'; 
 
+            if (!userId) {
+                toastr.error('Giriş yapmalısın.');
+                return;
+            }
+            
+            let likeCount = $(this).find('.like-count');
+            let dislikeBtn = $(this).closest('.like-dislike').find('.dislike-btn');
+            let dislikeCount = dislikeBtn.find('.dislike-count');
+
+            $.ajax({
+                url: `/university/topic/${topicId}/like`,
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function (response) {
+                    likeCount.text(response.likes);
+                    dislikeCount.text(response.dislikes);
+                    
+                    $('.like-btn[data-id="' + topicId + '"]').css("color", "#007bff"); // Mavi renk
+                    $('.dislike-btn[data-id="' + topicId + '"]').css("color", "#888"); // Gri renk
+                }
+            });
+        });
+
+        $(document).on('click', '.dislike-btn', function () {
+            let topicId = $(this).data('id');
+            let userId = '{{ auth()->id() }}'; 
+
+            if (!userId) {
+                toastr.error('Giriş yapmalısın.');
+                return;
+            }
+
+            let dislikeCount = $(this).find('.dislike-count');
+            let likeBtn = $(this).closest('.like-dislike').find('.like-btn');
+            let likeCount = likeBtn.find('.like-count');
+
+            $.ajax({
+                url: `/university/topic/${topicId}/dislike`,
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function (response) {
+                    likeCount.text(response.likes);
+                    dislikeCount.text(response.dislikes);
+
+                    $('.dislike-btn[data-id="' + topicId + '"]').css("color", "#dc3545"); // Kırmızı renk
+                    $('.like-btn[data-id="' + topicId + '"]').css("color", "#888"); // Gri renk
+                }
+            });
+        });
+
+    </script>
 <script>
-$(document).ready(function() {
-    const universityId = {{ $university->id }};
-    let currentCategory = 'free-zone';
-    let currentPages = { 'free-zone': 1, 'departmant-programs': 1, 'campus-life': 1, 'question-answer': 1 };
-    let isLoading = false;
-    let hasMorePages = { 'free-zone': true, 'departmant-programs': true, 'campus-life': true, 'question-answer': true };
+    $(document).ready(function() {
+        const universityId = {{ $university->id }};
+        let currentCategory = 'free-zone';
+        let currentPages = { 'free-zone': 1, 'departmant-programs': 1, 'campus-life': 1, 'question-answer': 1 };
+        let isLoading = false;
+        let hasMorePages = { 'free-zone': true, 'departmant-programs': true, 'campus-life': true, 'question-answer': true };
 
-    // Category switch
-    $('.category-btn, .mobile-category').on('click', function() {
-        const category = $(this).data('category');
-        if (category === currentCategory) return;
-        
-        currentCategory = category;
-        
-        $('.category-btn, .mobile-category').removeClass('active');
-        $(`.category-btn[data-category="${category}"], .mobile-category[data-category="${category}"]`).addClass('active');
-        
-        $('.tab-panel').removeClass('active');
-        $(`#${category}`).addClass('active');
-        
-        $('#categoryName').val(category);
-        $('.btnExplain').data('category', category);
-        
-        if ($(`#${category}-topic-list`).is(':empty')) {
-            loadCategoryContent(category);
+        // Category switch
+        $('.category-btn, .mobile-category').on('click', function() {
+            const category = $(this).data('category');
+            if (category === currentCategory) return;
+            
+            currentCategory = category;
+            
+            $('.category-btn, .mobile-category').removeClass('active');
+            $(`.category-btn[data-category="${category}"], .mobile-category[data-category="${category}"]`).addClass('active');
+            
+            $('.tab-panel').removeClass('active');
+            $(`#${category}`).addClass('active');
+            
+            $('#categoryName').val(category);
+            $('.btnExplain').data('category', category);
+            
+            if ($(`#${category}-topic-list`).is(':empty')) {
+                loadCategoryContent(category);
+            }
+            loadSidebarTopics(category);
+        });
+
+        function loadCategoryContent(category) {
+            if (isLoading) return;
+            isLoading = true;
+            $(`#${category}-spinner`).show();
+            
+            $.ajax({
+                url: '/get-univercity-category-topic-content',
+                method: 'GET',
+                data: { category, univercityId: universityId },
+                success: function(response) {
+                    $(`#${category}-topic-list`).html(response.success && response.html ? response.html : 
+                        '<div class="empty-state"><svg width="64" height="64" viewBox="0 0 24 24" fill="black" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><h4>Henüz Yorum Yok</h4><p>Bu kategoride ilk yorumu sen yap!</p></div>');
+                    isLoading = false;
+                    $(`#${category}-spinner`).hide();
+                }
+            });
         }
-        loadSidebarTopics(category);
-    });
 
-    function loadCategoryContent(category) {
-        if (isLoading) return;
-        isLoading = true;
-        $(`#${category}-spinner`).show();
-        
-        $.ajax({
-            url: '/get-univercity-category-topic-content',
-            method: 'GET',
-            data: { category, univercityId: universityId },
-            success: function(response) {
-                $(`#${category}-topic-list`).html(response.success && response.html ? response.html : 
-                    '<div class="empty-state"><svg width="64" height="64" viewBox="0 0 24 24" fill="black" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><h4>Henüz Yorum Yok</h4><p>Bu kategoride ilk yorumu sen yap!</p></div>');
-                isLoading = false;
-                $(`#${category}-spinner`).hide();
-            }
-        });
-    }
-
-    function loadSidebarTopics(category) {
-        $.ajax({
-            url: '/get-univercity-category-topics',
-            method: 'GET',
-            data: { category, univercityId: universityId },
-            success: function(response) {
-                let html = '';
-                response.topics.slice(0, 8).forEach(topic => {
-                    const url = "{{ route('university.topic.comments', ['slug' => '__SLUG__']) }}".replace('__SLUG__', topic.topic_title_slug);
-                    html += `<li><a href="${url}" class="trending-link"><span class="trending-text">${topic.topic_title.substring(0, 45)}...</span><span class="trending-badge">${topic.count}</span></a></li>`;
-                });
-                $('.trending-list').html(html || '<li class="empty-text">Henüz yorum yok</li>');
-            }
-        });
-    }
-
-    $(window).on('scroll', function() {
-        if (isLoading || !hasMorePages[currentCategory]) return;
-        if ($(window).scrollTop() + $(window).height() >= $(document).height() - 500) {
-            currentPages[currentCategory]++;
-            loadMore();
+        function loadSidebarTopics(category) {
+            $.ajax({
+                url: '/get-univercity-category-topics',
+                method: 'GET',
+                data: { category, univercityId: universityId },
+                success: function(response) {
+                    let html = '';
+                    response.topics.slice(0, 8).forEach(topic => {
+                        const url = "{{ route('university.topic.comments', ['slug' => '__SLUG__']) }}".replace('__SLUG__', topic.topic_title_slug);
+                        html += `<li><a href="${url}" class="trending-link"><span class="trending-text">${topic.topic_title.substring(0, 45)}...</span><span class="trending-badge">${topic.count}</span></a></li>`;
+                    });
+                    $('.trending-list').html(html || '<li class="empty-text">Henüz yorum yok</li>');
+                }
+            });
         }
-    });
 
-    function loadMore() {
-        isLoading = true;
-        $(`#${currentCategory}-spinner`).removeClass('d-none').show();
-        
-        $.ajax({
-            url: '{{ route("university.forum.load-more") }}',
-            method: 'GET',
-            data: { page: currentPages[currentCategory], university_id: universityId, category: currentCategory },
-            success: function(response) {
-                $(`#${currentCategory}-topic-list`).append(response.html);
-                hasMorePages[currentCategory] = response.hasMore;
-                isLoading = false;
-                $(`#${currentCategory}-spinner`).addClass('d-none').hide();
+        $(window).on('scroll', function() {
+            if (isLoading || !hasMorePages[currentCategory]) return;
+            if ($(window).scrollTop() + $(window).height() >= $(document).height() - 500) {
+                currentPages[currentCategory]++;
+                loadMore();
             }
         });
-    }
 
-    $('.btnExplain, .share-input').on('click', function() {
-        @if(auth()->check())
-            $('#categoryName').val($(this).data('category') || currentCategory);
-            $('#topicModal').modal('show');
-        @else
-            toastr.warning('Yorum yapmak için giriş yapmalısınız');
-            setTimeout(() => window.location.href = '/login', 1500);
-        @endif
-    });
+        function loadMore() {
+            isLoading = true;
+            $(`#${currentCategory}-spinner`).removeClass('d-none').show();
+            
+            $.ajax({
+                url: '{{ route("university.forum.load-more") }}',
+                method: 'GET',
+                data: { page: currentPages[currentCategory], university_id: universityId, category: currentCategory },
+                success: function(response) {
+                    $(`#${currentCategory}-topic-list`).append(response.html);
+                    hasMorePages[currentCategory] = response.hasMore;
+                    isLoading = false;
+                    $(`#${currentCategory}-spinner`).addClass('d-none').hide();
+                }
+            });
+        }
 
-    $('#title').on('input', function() {
-        $('#charCount').text($(this).val().length);
-    });
-
-    $('#topicForm').on('submit', function(e) {
-        e.preventDefault();
-        const $btn = $('#submitTopic');
-        $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Gönderiliyor...');
-        
-        $.ajax({
-            url: '/university-topic/add',
-            method: 'POST',
-            data: $(this).serialize(),
-            success: function() {
-                $('#topicModal').modal('hide');
-                $('#topicForm')[0].reset();
-                toastr.success('Yorumunuz başarıyla paylaşıldı!');
-                setTimeout(() => location.reload(), 1500);
-            },
-            error: function() {
-                toastr.error('Bir hata oluştu');
-                $btn.prop('disabled', false).html('<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Paylaş');
-            }
+        $('.btnExplain, .share-input').on('click', function() {
+            @if(auth()->check())
+                $('#categoryName').val($(this).data('category') || currentCategory);
+                $('#topicModal').modal('show');
+            @else
+                toastr.warning('Yorum yapmak için giriş yapmalısınız');
+                setTimeout(() => window.location.href = '/login', 1500);
+            @endif
         });
+
+        $('#title').on('input', function() {
+            $('#charCount').text($(this).val().length);
+        });
+
+        $('#topicForm').on('submit', function(e) {
+            e.preventDefault();
+            const $btn = $('#submitTopic');
+            $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Gönderiliyor...');
+            
+            $.ajax({
+                url: '/university-topic/add',
+                method: 'POST',
+                data: $(this).serialize(),
+                success: function() {
+                    $('#topicModal').modal('hide');
+                    $('#topicForm')[0].reset();
+                    toastr.success('Yorumunuz başarıyla paylaşıldı!');
+                    setTimeout(() => location.reload(), 1500);
+                },
+                error: function() {
+                    toastr.error('Bir hata oluştu');
+                    $btn.prop('disabled', false).html('<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Paylaş');
+                }
+            });
+        });
+
+        window.goBack = () => window.history.back();
+
+        toastr.options = { closeButton: true, progressBar: true, positionClass: "toast-top-right", timeOut: 3000 };
+        @if(session('success')) toastr.success("{{ session('success') }}"); @endif
+        @if(session('error')) toastr.error("{{ session('error') }}"); @endif
     });
-
-    window.goBack = () => window.history.back();
-
-    toastr.options = { closeButton: true, progressBar: true, positionClass: "toast-top-right", timeOut: 3000 };
-    @if(session('success')) toastr.success("{{ session('success') }}"); @endif
-    @if(session('error')) toastr.error("{{ session('error') }}"); @endif
-});
 </script>
 @endsection
