@@ -12,22 +12,53 @@
             <div class="profile-card">
                 {{-- Avatar --}}
                 <div class="text-center mb-4">
-                    <div class="avatar-wrapper"      style="background-color:
+                    <div class="avatar-wrapper" 
+                        style="background-color:
                             @if($user->user_image === 'man.png')
                                 #95bdff
                             @elseif($user->user_image === 'woman.png')
                                 #ffbdd3
                             @endif
-                        ">
+                        "
+                        data-bs-toggle="modal" 
+                        data-bs-target="#profileImageModal"
+                        style="cursor: pointer;">
                         <img src="{{ asset('storage/profile_images/' . $user->user_image) }}" 
-                             alt="{{ $user->username }}" 
-                             class="profile-avatar">
+                            alt="{{ $user->username }}" 
+                            class="profile-avatar"
+                            id="profileImage">
                     </div>
                     <h2 class="profile-username mt-3">{{ $user->username }}</h2>
                     <p class="profile-join-date">
                         <i class="fa-solid fa-calendar-alt me-1"></i>
                         {{ $user->created_at->format('d.m.Y') }} tarihinde katıldı
                     </p>
+                </div>
+
+                {{-- Profil Resmi Modal (Gelişmiş) --}}
+                <div class="modal fade" id="profileImageModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-fullscreen">
+                        <div class="modal-content bg-dark">
+                            <div class="modal-header border-0 position-absolute w-100" style="z-index: 1050;">
+                                <div class="d-flex align-items-center">
+                                    <img src="{{ asset('storage/profile_images/' . $user->user_image) }}" 
+                                        class="rounded-circle me-2" 
+                                        width="40" 
+                                        height="40"
+                                        alt="{{ $user->username }}">
+                                    <span class="text-white fw-bold">{{ $user->username }}</span>
+                                </div>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                            </div>
+                            
+                            <div class="modal-body d-flex align-items-center justify-content-center">
+                                <img src="{{ asset('storage/profile_images/' . $user->user_image) }}" 
+                                    alt="{{ $user->username }}" 
+                                    class="profile-zoom-image"
+                                    style="max-width: 100%; max-height: 100vh; object-fit: contain;">
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 {{-- Kullanıcı Detayları --}}
@@ -59,10 +90,6 @@
                     <div class="stat-item">
                         <div class="stat-value">{{ $totalLikes }}</div>
                         <div class="stat-label">Alınan Beğeni</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">{{ $totalDislikes }}</div>
-                        <div class="stat-label">Beğenilmeme</div>
                     </div>
                 </div>
 
@@ -306,6 +333,47 @@
 </div>
 
 <style>
+.avatar-wrapper {
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.avatar-wrapper:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 27, 72, 0.3);
+}
+
+    /* Fullscreen Modal */
+#profileImageModal.modal-fullscreen .modal-content {
+    border-radius: 0;
+}
+
+#profileImageModal .modal-header {
+    padding: 15px 20px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+}
+
+#profileImageModal .modal-body {
+    overflow: hidden;
+    cursor: zoom-in;
+}
+
+#profileImageModal .profile-zoom-image {
+    transition: transform 0.3s ease;
+}
+
+#profileImageModal .modal-body.zoomed {
+    cursor: zoom-out;
+}
+
+#profileImageModal .modal-body.zoomed .profile-zoom-image {
+    transform: scale(2);
+    cursor: grab;
+}
+
+#profileImageModal .modal-body.zoomed .profile-zoom-image:active {
+    cursor: grabbing;
+}
 
     .university-list-logo {
         width: 28px;
@@ -849,6 +917,36 @@
 @endsection
 
 @section('js')
+
+<script>
+    // Zoom toggle
+let isZoomed = false;
+
+$('#profileImageModal .modal-body').on('click', function(e) {
+    if (isZoomed) {
+        $(this).removeClass('zoomed');
+        $(this).find('img').css('transform', 'scale(1)');
+        isZoomed = false;
+    } else {
+        $(this).addClass('zoomed');
+        isZoomed = true;
+    }
+});
+
+// Modal kapandığında zoom'u sıfırla
+$('#profileImageModal').on('hidden.bs.modal', function() {
+    $('.modal-body').removeClass('zoomed');
+    $('.modal-body img').css('transform', 'scale(1)');
+    isZoomed = false;
+});
+
+// ESC ile kapat
+$(document).on('keyup', function(e) {
+    if (e.key === 'Escape' && $('#profileImageModal').hasClass('show')) {
+        $('#profileImageModal').modal('hide');
+    }
+});
+</script>
 <script>
 // Profil sayfasında mı kontrol et
 const isOwnProfile = '{{ auth()->check() && auth()->id() == $user->id ? "true" : "false" }}' === 'true';
