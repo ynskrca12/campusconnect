@@ -35,6 +35,12 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
+                    <a class="dropdown-item {{ Request::is('profil/*') ? 'active-link' : '' }}" 
+                      href="/profil/{{ Auth::user()->username }}">
+                        <i class="fa-solid fa-user me-2"></i>Profilim
+                    </a>
+                </li>
+                <li>
                     <a class="dropdown-item {{ Request::is('kullanici-bilgileri') ? 'active-link' : '' }}" href="/kullanici-bilgileri">
                         <i class="fa-solid fa-circle-info me-2"></i>Bilgilerim
                     </a>
