@@ -70,10 +70,13 @@
           </div>
           <div class="mb-2">
             <label for="university" class="form-label">Üniversite</label>
-            <select class="form-select registerInput" id="university" name="university" style="line-height: 20px !important">
+            <select class="form-select registerInput" id="university" name="university">
                 <option value="" selected disabled>Üniversite Seçin</option>
                 @foreach($universiteler as $universite)
-                    <option value="{{ $universite->universite_ad }}">{{ $universite->universite_ad }}</option>
+                    <option value="{{ $universite->universite_ad }}"
+                            data-logo="{{ $universite->logo }}">
+                        {{ $universite->universite_ad }}
+                    </option>
                 @endforeach
             </select>
           </div>
@@ -109,6 +112,38 @@
 
 @section('css')
 <style>
+      .select2-container .select2-selection--single {
+          height: auto !important;
+          padding: 10px !important;
+          border-radius: 11px !important;
+          display: flex;
+          align-items: center;
+      }
+
+      .select2-container--default .select2-selection--single .select2-selection__rendered {
+          line-height: normal !important;
+          padding-left: 0 !important;
+      }
+
+      .select2-container--default .select2-selection--single .select2-selection__arrow {
+          height: 100% !important;
+      }
+
+      .university-list-logo {
+        width: 28px;
+        height: 28px;
+        object-fit: contain;
+        border-radius: 6px;
+        flex-shrink: 0;
+        margin-right: 8px;
+    }
+
+    @media (max-width: 768px) {
+        .university-list-logo {
+            width: 28px;
+            height: 28px;
+        }
+    }
     #registerForm .form-check-label{
         margin-left: 2px;
         margin-right: 10px;
@@ -254,9 +289,27 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- Toastr CSS -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
-
 <!-- Toastr JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+<script>
+    $('#university').select2({
+      templateResult: function(option) {
+          if (!option.id) return option.text;
+
+          const logo = $(option.element).data('logo');
+          return $(`
+              <span style="display:flex;align-items:center;gap:8px;">
+                  <img src="${logo}" style="width:22px;height:22px;border-radius:50%;">
+                  ${option.text}
+              </span>
+          `);
+      }
+    });
+</script>
 
 <script>
    $(document).ready(function () {
