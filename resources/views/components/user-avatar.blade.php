@@ -13,16 +13,6 @@
     };
 @endphp
 
-<a href="javascript:void(0);" class="avatar user-avatar-component" data-userid="{{ $user->id ?? ''}}">
-    <img class="avatar"
-        style="background-color: {{ $bgColor }};"
-        src="{{ $imagePath }}"
-        data-default="{{ asset('img/default-profile-picture-light.svg') }}" 
-        alt="{{ $user->username ?? 'Anonim' }}" 
-        title="{{ $user->username ?? 'Anonim' }}">
-</a>
-
-
 <style>
     .avatar{
         display: block;
@@ -34,3 +24,23 @@
         object-fit: cover;
     }
 </style>
+
+@if($user)
+    <div class="user-avatar-component"
+         data-userid="{{ $user->id }}"
+         data-username="{{ $user->username }}"
+         style="cursor: pointer;">
+        <img src="{{ $imagePath }}"
+             alt="{{ $user->username }}"
+             style="background-color: {{ $bgColor }};"
+              class="avatar">
+    </div>
+@else
+    {{-- Kullanıcı silinmiş veya yok --}}
+    <div style="cursor: default;">
+        <img  src="{{ $imagePath }}"
+            style="background-color: {{ $bgColor }};"
+             alt="Anonim"
+             class="avatar">
+    </div>
+@endif

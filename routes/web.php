@@ -211,3 +211,6 @@ Route::get('/user-preview/{id}', [UserController::class, 'preview']);
 Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index']);
 
 
+Route::get('/profil/{username}', [UserController::class, 'profile'])->name('user.profile');
+Route::get('/profil/{username}/load-more-comments', [UserController::class, 'loadMoreComments'])->name('user.profile.load-more-comments');
+Route::get('/profil/{username}/load-more-liked-category', [UserController::class, 'loadMoreLikedByCategory'])->name('user.profile.load-more-liked-category');

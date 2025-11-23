@@ -51,4 +51,9 @@ class User extends Authenticatable
         return $this->hasMany(Ilan::class, 'user_id', 'id');
     }
 
+    public function universityInfo()
+    {
+         return $this->belongsTo(University::class, 'university', 'universite_ad');
+    }
+
 }

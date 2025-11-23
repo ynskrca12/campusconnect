@@ -411,4 +411,318 @@ class UserController extends Controller
         return $my_comments;
     }//End
 
+
+    public function profile($username)
+    {
+        // Kullanıcıyı bul
+        $user = User::where('username', $username)->firstOrFail();
+        
+        // Toplam yorum sayıları
+        $citiesCommentsCount = CityTopic::where('user_id', $user->id)->count();
+        $universitiesCommentsCount = UniversityTopic::where('user_id', $user->id)->count();
+        $generalCommentsCount = GeneralTopic::where('user_id', $user->id)->count();
+        $totalComments = $citiesCommentsCount + $universitiesCommentsCount + $generalCommentsCount;
+        
+        // Toplam aldığı beğeni sayısı
+        $totalLikes = CityTopic::where('user_id', $user->id)->sum('likes')
+                    + UniversityTopic::where('user_id', $user->id)->sum('likes')
+                    + GeneralTopic::where('user_id', $user->id)->sum('likes');
+        
+        // Toplam dislike sayısı
+        $totalDislikes = CityTopic::where('user_id', $user->id)->sum('dislikes')
+                    + UniversityTopic::where('user_id', $user->id)->sum('dislikes')
+                    + GeneralTopic::where('user_id', $user->id)->sum('dislikes');
+        
+        // İLK 10 YORUM (Pagination için)
+        $recentCitiesComments = CityTopic::where('user_id', $user->id)
+            ->latest()
+            ->take(10)
+            ->get();
+        
+        $recentUniversitiesComments = UniversityTopic::where('user_id', $user->id)
+            ->latest()
+            ->take(10)
+            ->get();
+        
+        $recentGeneralComments = GeneralTopic::where('user_id', $user->id)
+            ->latest()
+            ->take(10)
+            ->get();
+
+        // BEĞENDİKLERİM - İLK 10
+    $likedGeneralTopics = GeneralTopicsLike::where('user_id', $user->id)
+            ->where('like', 1)
+            ->with('topic')
+            ->latest()
+            ->take(10)
+            ->get()
+            ->pluck('topic')
+            ->filter();
+        
+        $likedUniversityTopics = UniversityTopicsLike::where('user_id', $user->id)
+            ->where('like', 1)
+            ->with('topic')
+            ->latest()
+            ->take(10)
+            ->get()
+            ->pluck('topic')
+            ->filter();
+        
+        $likedCityTopics = CityTopicsLike::where('user_id', $user->id)
+            ->where('like', 1)
+            ->with('topic')
+            ->latest()
+            ->take(10)
+            ->get()
+            ->pluck('topic')
+            ->filter();
+
+        $likedGeneralCount = GeneralTopicsLike::where('user_id', $user->id)->where('like', 1)->count();
+        $likedUniversityCount = UniversityTopicsLike::where('user_id', $user->id)->where('like', 1)->count();
+        $likedCityCount = CityTopicsLike::where('user_id', $user->id)->where('like', 1)->count();
+        
+        return view('user.profile', compact(
+            'user',
+            'totalComments',
+            'citiesCommentsCount',
+            'universitiesCommentsCount',
+            'generalCommentsCount',
+            'totalLikes',
+            'totalDislikes',
+            'recentCitiesComments',
+            'recentUniversitiesComments',
+            'recentGeneralComments',
+            'likedGeneralTopics',
+            'likedUniversityTopics',
+            'likedCityTopics',
+            'likedGeneralCount',
+            'likedUniversityCount',
+            'likedCityCount'
+        ));
+    }
+
+    public function loadMoreComments(Request $request, $username)
+    {
+        $user = User::where('username', $username)->firstOrFail();
+        $type = $request->type; // 'general', 'university', 'city'
+        $offset = $request->offset ?? 0;
+        
+        $topics = collect();
+        
+        switch ($type) {
+            case 'university':
+                $topics = UniversityTopic::where('user_id', $user->id)
+                    ->latest()
+                    ->skip($offset)
+                    ->take(10)
+                    ->get();
+                break;
+            case 'city':
+                $topics = CityTopic::where('user_id', $user->id)
+                    ->latest()
+                    ->skip($offset)
+                    ->take(10)
+                    ->get();
+                break;
+            default: // general
+                $topics = GeneralTopic::where('user_id', $user->id)
+                    ->latest()
+                    ->skip($offset)
+                    ->take(10)
+                    ->get();
+                break;
+        }
+        
+        $html = '';
+        foreach ($topics as $topic) {
+            $routeName = $type === 'university' ? 'university.topic.comments' : 
+                        ($type === 'city' ? 'city.topic.comments' : 'topic.comments');
+            $html .= view('components.topic-box', [
+                'topic' => $topic,
+                'routeName' => $routeName,
+                'type' => $type
+            ])->render();
+        }
+        
+        return response()->json([
+            'html' => $html,
+            'hasMore' => $topics->count() === 10
+        ]);
+    }
+
+    public function loadMoreLiked(Request $request, $username)
+    {
+        $user = User::where('username', $username)->firstOrFail();
+        $offset = $request->offset ?? 0;
+        
+        // Her kategoriden offset/3 kadar al (dengeli dağılım)
+        $perCategory = ceil($offset / 3);
+        
+        // University
+        $universityLiked = UniversityTopicsLike::where('user_id', $user->id)
+            ->where('like', 1)
+            ->with('topic')
+            ->latest()
+            ->skip($perCategory)
+            ->take(4)
+            ->get()
+            ->filter(fn($like) => $like->topic)
+            ->map(function($like) {
+                return [
+                    'topic' => $like->topic,
+                    'type' => 'university',
+                    'created_at' => $like->created_at
+                ];
+            });
+        
+        // General
+        $generalLiked = GeneralTopicsLike::where('user_id', $user->id)
+            ->where('like', 1)
+            ->with('topic')
+            ->latest()
+            ->skip($perCategory)
+            ->take(4)
+            ->get()
+            ->filter(fn($like) => $like->topic)
+            ->map(function($like) {
+                return [
+                    'topic' => $like->topic,
+                    'type' => 'general',
+                    'created_at' => $like->created_at
+                ];
+            });
+        
+        // City
+        $cityLiked = CityTopicsLike::where('user_id', $user->id)
+            ->where('like', 1)
+            ->with('topic')
+            ->latest()
+            ->skip($perCategory)
+            ->take(4)
+            ->get()
+            ->filter(fn($like) => $like->topic)
+            ->map(function($like) {
+                return [
+                    'topic' => $like->topic,
+                    'type' => 'city',
+                    'created_at' => $like->created_at
+                ];
+            });
+        
+        $html = '';
+        
+        // Her kategoriden ayrı ayrı ekle (kategori başlıkları ile)
+        if ($universityLiked->count() > 0) {
+            $html .= '<div class="liked-category-title"><i class="fa-solid fa-graduation-cap me-2"></i>Üniversiteler</div>';
+            foreach ($universityLiked as $item) {
+                $html .= '<div class="liked-item" data-topic-id="' . $item['topic']->id . '" data-topic-type="university">';
+                $html .= view('components.topic-box', [
+                    'topic' => $item['topic'],
+                    'routeName' => 'university.topic.comments',
+                    'type' => 'university'
+                ])->render();
+                $html .= '</div>';
+            }
+        }
+        
+        if ($generalLiked->count() > 0) {
+            $html .= '<div class="liked-category-title"><i class="fa-solid fa-comments me-2"></i>Genel Forum</div>';
+            foreach ($generalLiked as $item) {
+                $html .= '<div class="liked-item" data-topic-id="' . $item['topic']->id . '" data-topic-type="general">';
+                $html .= view('components.topic-box', [
+                    'topic' => $item['topic'],
+                    'routeName' => 'topic.comments',
+                    'type' => 'general'
+                ])->render();
+                $html .= '</div>';
+            }
+        }
+        
+        if ($cityLiked->count() > 0) {
+            $html .= '<div class="liked-category-title"><i class="fa-solid fa-city me-2"></i>Şehirler</div>';
+            foreach ($cityLiked as $item) {
+                $html .= '<div class="liked-item" data-topic-id="' . $item['topic']->id . '" data-topic-type="city">';
+                $html .= view('components.topic-box', [
+                    'topic' => $item['topic'],
+                    'routeName' => 'city.topic.comments',
+                    'type' => 'city'
+                ])->render();
+                $html .= '</div>';
+            }
+        }
+        
+        $totalLoaded = $universityLiked->count() + $generalLiked->count() + $cityLiked->count();
+        
+        return response()->json([
+            'html' => $html,
+            'hasMore' => $totalLoaded >= 10 
+        ]);
+    }
+
+    public function loadMoreLikedByCategory(Request $request, $username)
+    {
+        $user = User::where('username', $username)->firstOrFail();
+        $category = $request->category; 
+        $offset = $request->offset ?? 0;
+        
+        $liked = collect();
+        
+        switch ($category) {
+            case 'university':
+                $liked = UniversityTopicsLike::where('user_id', $user->id)
+                    ->where('like', 1)
+                    ->with('topic')
+                    ->latest()
+                    ->skip($offset)
+                    ->take(10)
+                    ->get()
+                    ->filter(fn($like) => $like->topic)
+                    ->pluck('topic');
+                $routeName = 'university.topic.comments';
+                break;
+                
+            case 'general':
+                $liked = GeneralTopicsLike::where('user_id', $user->id)
+                    ->where('like', 1)
+                    ->with('topic')
+                    ->latest()
+                    ->skip($offset)
+                    ->take(10)
+                    ->get()
+                    ->filter(fn($like) => $like->topic)
+                    ->pluck('topic');
+                $routeName = 'topic.comments';
+                break;
+                
+            case 'city':
+                $liked = CityTopicsLike::where('user_id', $user->id)
+                    ->where('like', 1)
+                    ->with('topic')
+                    ->latest()
+                    ->skip($offset)
+                    ->take(10)
+                    ->get()
+                    ->filter(fn($like) => $like->topic)
+                    ->pluck('topic');
+                $routeName = 'city.topic.comments';
+                break;
+        }
+        
+        $html = '';
+        foreach ($liked as $topic) {
+            $html .= '<div class="liked-item" data-topic-id="' . $topic->id . '" data-topic-type="' . $category . '">';
+            $html .= view('components.topic-box', [
+                'topic' => $topic,
+                'routeName' => $routeName,
+                'type' => $category
+            ])->render();
+            $html .= '</div>';
+        }
+        
+        return response()->json([
+            'html' => $html,
+            'hasMore' => $liked->count() === 10
+        ]);
+    }
+
 }

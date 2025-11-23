@@ -10,22 +10,19 @@ $(document).on('click', '.user-avatar-component', function(e) {
     e.preventDefault();
     const userId = $(this).data('userid');
 
-    $.ajax({
-        url: '/user-preview/' + userId,
-        method: 'GET',
-        success: function(response) {
-            $('#previewAvatar').attr('src', response.user_image);
-            $('#previewUsername').text(response.username);
-            $('#previewJoinDate').text(response.joined_at);
-            $('#previewCityUniv').text(response.university);
-            $('#previewCommentCount').text(response.user_comments_count);
-
-            $('#userPreviewModal').modal('show');
-        },
-        error: function() {
-            alert("Kullanıcı bilgisi alınamadı.");
-        }
-    });
+    if (userId) {
+        $.ajax({
+            url: '/user-preview/' + userId,
+            method: 'GET',
+            success: function(response) {
+                // Username ile profil sayfasına yönlendir
+                window.location.href = '/profil/' + response.username;
+            },
+            error: function() {
+                alert("Kullanıcı bilgisi alınamadı.");
+            }
+        });
+    }
 });
 
 
