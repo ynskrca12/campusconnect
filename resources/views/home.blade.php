@@ -683,6 +683,68 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
+        {{-- like dislike --}}
+    <script>
+        $(document).on('click', '.like-btn', function () {
+            let topicId = $(this).data('id');
+            let userId = '{{ auth()->id() }}'; 
+
+            if (!userId) {
+                toastr.error('Giriş yapmalısın.');
+                return;
+            }
+            
+            let likeCount = $(this).find('.like-count');
+            let dislikeBtn = $(this).closest('.like-dislike').find('.dislike-btn');
+            let dislikeCount = dislikeBtn.find('.dislike-count');
+
+            $.ajax({
+                url: `/university/topic/${topicId}/like`,
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function (response) {
+                    likeCount.text(response.likes);
+                    dislikeCount.text(response.dislikes);
+                    
+                    $('.like-btn[data-id="' + topicId + '"]').css("color", "#007bff"); // Mavi renk
+                    $('.dislike-btn[data-id="' + topicId + '"]').css("color", "#888"); // Gri renk
+                }
+            });
+        });
+
+        $(document).on('click', '.dislike-btn', function () {
+            let topicId = $(this).data('id');
+            let userId = '{{ auth()->id() }}'; 
+
+            if (!userId) {
+                toastr.error('Giriş yapmalısın.');
+                return;
+            }
+
+            let dislikeCount = $(this).find('.dislike-count');
+            let likeBtn = $(this).closest('.like-dislike').find('.like-btn');
+            let likeCount = likeBtn.find('.like-count');
+
+            $.ajax({
+                url: `/university/topic/${topicId}/dislike`,
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function (response) {
+                    likeCount.text(response.likes);
+                    dislikeCount.text(response.dislikes);
+
+                    $('.dislike-btn[data-id="' + topicId + '"]').css("color", "#dc3545"); // Kırmızı renk
+                    $('.like-btn[data-id="' + topicId + '"]').css("color", "#888"); // Gri renk
+                }
+            });
+        });
+
+    </script>
+
     <script>
         $(document).ready(function() {
             let searchTimeout;
@@ -804,144 +866,6 @@
                         }
                     }
                 });
-            });
-        });
-    </script>
-
-
-
-    {{-- general like dislike --}}
-    <script>
-        $(document).on('click', '.like-btn', function() {
-            let topicId = $(this).data('id');
-            let userId = '{{ auth()->id() }}';
-
-            if (!userId) {
-                toastr.error('giriş yapmamışsın hemşerim');
-                return;
-            }
-
-            let likeBtn = $(this);
-            let dislikeBtn = likeBtn.siblings('.dislike-btn');
-            let likeCount = likeBtn.find('.like-count');
-            let dislikeCount = dislikeBtn.find('.dislike-count');
-
-            $.ajax({
-                url: `/general/topic/${topicId}/like`,
-                method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                },
-                success: function(response) {
-                    likeCount.text(response.likes);
-                    dislikeCount.text(response.dislikes);
-
-                    if (response.liked) {
-                        likeBtn.css('color', '#007bff');
-                        dislikeBtn.css('color', '#888');
-                    } else {
-                        likeBtn.css('color', '#888');
-                    }
-                }
-            });
-        });
-
-        $(document).on('click', '.dislike-btn', function() {
-            let topicId = $(this).data('id');
-            let userId = '{{ auth()->id() }}';
-
-            if (!userId) {
-                toastr.error('giriş yapmamışsın hemşerim');
-                return;
-            }
-
-            let dislikeBtn = $(this);
-            let likeBtn = dislikeBtn.siblings('.like-btn');
-            let dislikeCount = dislikeBtn.find('.dislike-count');
-            let likeCount = likeBtn.find('.like-count');
-
-            $.ajax({
-                url: `/general/topic/${topicId}/dislike`,
-                method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                },
-                success: function(response) {
-                    dislikeCount.text(response.dislikes);
-                    likeCount.text(response.likes);
-
-                    if (response.disliked) {
-                        dislikeBtn.css('color', '#ff0000');
-                        likeBtn.css('color', '#888');
-                    } else {
-                        dislikeBtn.css('color', '#888');
-                    }
-                }
-            });
-        });
-    </script>
-
-    {{-- university like dislike --}}
-    <script>
-        $(document).on('click', '.university-like-btn', function() {
-            let topicId = $(this).data('id');
-            let userId = '{{ auth()->id() }}';
-
-            if (!userId) {
-                toastr.error('Giriş yapmalısın.');
-                return;
-            }
-
-            let likeCount = $(this).find('.university-like-count');
-            let dislikeBtn = $(this).closest('.university-like-dislike').find('.university-dislike-btn');
-            let dislikeCount = dislikeBtn.find('.university-dislike-count');
-
-            $.ajax({
-                url: `/university/topic/${topicId}/like`,
-                method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                },
-                success: function(response) {
-                    likeCount.text(response.likes);
-                    dislikeCount.text(response.dislikes);
-
-                    $('.university-like-btn[data-id="' + topicId + '"]').css("color",
-                    "#007bff"); // Mavi renk
-                    $('.university-dislike-btn[data-id="' + topicId + '"]').css("color",
-                    "#888"); // Gri renk
-                }
-            });
-        });
-
-        $(document).on('click', '.university-dislike-btn', function() {
-            let topicId = $(this).data('id');
-            let userId = '{{ auth()->id() }}';
-
-            if (!userId) {
-                toastr.error('Giriş yapmalısın.');
-                return;
-            }
-
-            let dislikeCount = $(this).find('.university-dislike-count');
-            let likeBtn = $(this).closest('.university-like-dislike').find('.university-like-btn');
-            let likeCount = likeBtn.find('.university-like-count');
-
-            $.ajax({
-                url: `/university/topic/${topicId}/dislike`,
-                method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                },
-                success: function(response) {
-                    likeCount.text(response.likes);
-                    dislikeCount.text(response.dislikes);
-
-                    $('.university-dislike-btn[data-id="' + topicId + '"]').css("color",
-                    "#dc3545"); // Kırmızı renk
-                    $('.university-like-btn[data-id="' + topicId + '"]').css("color",
-                    "#888"); // Gri renk
-                }
             });
         });
     </script>
