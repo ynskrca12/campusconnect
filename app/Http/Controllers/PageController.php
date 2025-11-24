@@ -238,12 +238,6 @@ class PageController extends Controller
                 ? asset('storage/profile_images/' . $userImage)
                 : asset('assets/images/icons/user.png');
 
-            $bgColor = match ($userImage) {
-                'man.png' => '#95bdff',
-                'woman.png' => '#ffbdd3',
-                default => 'transparent',
-            };
-
             $replies = BlogComment::where('parent_id', $comment->id)
                 ->with('user')
                 ->orderBy('created_at')
@@ -255,19 +249,12 @@ class PageController extends Controller
                     $userImagePath = $userImage
                         ? asset('storage/profile_images/' . $userImage)
                         : asset('assets/images/icons/user.png');
-
-                    $bgColor = match ($userImage) {
-                        'man.png' => '#95bdff',
-                        'woman.png' => '#ffbdd3',
-                        default => 'transparent',
-                    };
                     
                     return [
                         'comment' => $reply->blog_comment,
                         'created_at' => $reply->created_at->diffForHumans(),
                         'username' => $reply->user->username,
                         'user_image' => $userImagePath,
-                        'bg_color' => $bgColor,
                         'user_id' => $reply->user->id
                     ];
                 });
@@ -278,7 +265,6 @@ class PageController extends Controller
                 'created_at' => $comment->created_at->diffForHumans(),
                 'username' => $comment->user->username,
                 'user_image' => $userImagePath,
-                'bg_color' => $bgColor,
                 'replies' => $replies,
                 'user_id' => $comment->user->id
             ];

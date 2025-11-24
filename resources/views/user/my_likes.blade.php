@@ -22,20 +22,11 @@
                                 $imagePath = $imageName
                                     ? asset('storage/profile_images/' . $imageName)
                                     : asset('assets/images/icons/user.png');
-                                
-                                $bgColor = match ($imageName) {
-                                    'man.png' => '#95bdff',
-                                    'woman.png' => '#ffbdd3',
-                                    default => 'transparent',
-                                };
                             @endphp    
                           <img 
-                            style="background-color: {{ $bgColor }};width: 70px;height: 70px;object-fit: cover;"
+                            style=";width: 70px;height: 70px;object-fit: cover;"
                             src="{{ $imagePath }}"
                             class="rounded-circle profile-pic" alt="Profile Picture">
-                          {{-- <button class="btn btn-primary btn-sm position-absolute bottom-0 end-0 rounded-circle">
-                              <i class="fas fa-camera"></i>
-                          </button> --}}
                       </div>
                       <h5 class="mt-3 mb-1 userName">{{ Auth::user()->name }}</h5>
                               <div class="nav flex-column nav-pills">

@@ -93,8 +93,8 @@
         /* CKEditor dış kutusu */
     .ck-editor__editable_inline {
         min-height: 200px;
-        font-size: 16px;        /* Yazı boyutu */
-        line-height: 1.6;       /* Satır aralığı */
+        font-size: 16px;  
+        line-height: 1.6; 
         padding: 1rem;
         font-family: 'Arial', sans-serif;
         background-color: #fff;
@@ -306,8 +306,7 @@
                                 <div class="card mb-0 border-0">
                                     <div class="card-body py-4 px-3 px-md-5">
                                         <div class="d-flex align-items-start mb-2">
-                                            <img src="${comment.user_image}" 
-                                            style="background-color: ${comment.bg_color };"    
+                                            <img src="${comment.user_image}"    
                                             class="rounded-circle me-3 user-avatar-component" width="50" height="50" data-userid="${comment.user_id}">
                                             <div>
                                                 <h6 class="mb-0">${comment.username}</h6>
@@ -330,8 +329,7 @@
                                         <div class="card ms-5 mb-3 bg-light border-0">
                                             <div class="card-body py-3">
                                                 <div class="d-flex align-items-start mb-2">
-                                                    <img src="${reply.user_image}" 
-                                                    style="background-color: ${reply.bg_color };"    
+                                                    <img src="${reply.user_image}"    
                                                     class="rounded-circle me-3 user-avatar-component" width="40" height="40" data-userid="${reply.user_id}">
                                                     <div>
                                                         <h6 class="mb-0">${reply.username}</h6>

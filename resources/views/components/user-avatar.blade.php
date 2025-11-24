@@ -5,12 +5,6 @@
     $imagePath = $imageName
         ? asset('storage/profile_images/' . $imageName)
         : asset('assets/images/icons/user.png');
-
-    $bgColor = match ($imageName) {
-        'man.png' => '#95bdff',
-        'woman.png' => '#ffbdd3',
-        default => 'transparent',
-    };
 @endphp
 
 <style>
@@ -32,14 +26,12 @@
          style="cursor: pointer;">
         <img src="{{ $imagePath }}"
              alt="{{ $user->username }}"
-             style="background-color: {{ $bgColor }};"
               class="avatar">
     </div>
 @else
     {{-- Kullanıcı silinmiş veya yok --}}
     <div style="cursor: default;">
-        <img  src="{{ $imagePath }}"
-            style="background-color: {{ $bgColor }};"
+        <img src="{{ $imagePath }}"
              alt="Anonim"
              class="avatar">
     </div>

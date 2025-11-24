@@ -27,18 +27,12 @@
             $imagePath = $imageName
                 ? asset('storage/profile_images/' . $imageName)
                 : asset('assets/images/icons/user.png');
-            
-            $bgColor = match ($imageName) {
-                'man.png' => '#95bdff',
-                'woman.png' => '#ffbdd3',
-                default => 'transparent',
-            };
         @endphp
 
         <img src="{{ $imagePath }}" 
              class="rounded-circle profile-pic" 
              alt="Profile Picture"
-             style="background-color: {{ $bgColor }}; width: 70px; height: 70px; object-fit: cover;">
+             style="width: 70px; height: 70px; object-fit: cover;">
 
         <button class="btn btn-primary btn-sm position-absolute bottom-0 end-0 rounded-circle" data-bs-toggle="modal" data-bs-target="#profileImageModal">
             <i class="fas fa-camera"></i>
