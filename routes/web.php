@@ -76,12 +76,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('kullanici-bilgileri',[UserController::class, 'user_informations'])->name('user.informations');
     Route::post('/profile/image', [UserController::class, 'updateImage'])->name('profile.image.update');
-    Route::get('istatistiklerim',[UserController::class, 'my_statistics'])->name('my.statistics');
-    Route::get('begendiklerim', [UserController::class, 'my_likes'])->name('my.likes');
-    Route::get('begendiklerim/load', [UserController::class, 'load_more_likes'])->name('my.likes.load');
-
-    Route::get('/yorumlarim', [UserController::class, 'my_comments'])->name('my.comments');
-
 
     Route::post('/update-profile', [UserController::class, 'updateProfile'])->name('user.updateProfile');
     Route::get('/check-username', [UserController::class, 'checkUsername'])->name('user.checkUsername');

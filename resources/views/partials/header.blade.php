@@ -45,21 +45,6 @@
                         <i class="fa-solid fa-circle-info me-2"></i>Bilgilerim
                     </a>
                 </li>
-                <li>
-                    <a class="dropdown-item {{ Request::is('istatistiklerim') ? 'active-link' : '' }}" href="{{ route('my.statistics') }}">
-                        <i class="fa-solid fa-chart-simple me-2"></i>İstatistiklerim
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item {{ Request::is('begendiklerim') ? 'active-link' : '' }}" href="{{ route('my.likes') }}">
-                        <i class="fa-solid fa-thumbs-up me-2"></i>Beğendiklerim
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item {{ Request::is('yorumlarim') ? 'active-link' : '' }}" href="{{ route('my.comments') }}">
-                        <i class="fa-solid fa-comments me-2"></i>Yorumlarım
-                    </a>
-                </li>
             </ul>
         </li>
 
@@ -85,9 +70,6 @@
           <a href="#" class="dropdown-toggle" id="userDropdownMobile"><i class="fas fa-user me-2"></i>Hesabım</a>
           <ul class="dropdown-menu-mobile">
             <li class="sub-menu"><a href="/kullanici-bilgileri"><i class="fa-solid fa-circle-info me-2"></i>Bilgilerim</a></li>
-            <li class="sub-menu"><a href="{{ route('my.statistics') }}"><i class="fa-solid fa-chart-simple me-2"></i>İstatistiklerim</a></li>
-            <li class="sub-menu"><a href="{{ route('my.likes') }}"><i class="fa-solid fa-thumbs-up me-2"></i>Beğendiklerim</a></li>
-            <li class="sub-menu"><a href="{{ route('my.comments') }}"><i class="fa-solid fa-comments me-2"></i>Yorumlarım</a></li>
           </ul>
         </li>
         <li><a href="/logout"><i class="fa-solid fa-power-off me-2"></i>Çıkış Yap</a></li>
