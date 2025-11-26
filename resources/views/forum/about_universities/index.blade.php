@@ -899,6 +899,7 @@
     {{-- like dislike --}}
     <script>
         $(document).on('click', '.like-btn', function () {
+            let $btn = $(this);
             let topicId = $(this).data('id');
             let userId = '{{ auth()->id() }}'; 
 
@@ -910,6 +911,8 @@
             let likeCount = $(this).find('.like-count');
             let dislikeBtn = $(this).closest('.like-dislike').find('.dislike-btn');
             let dislikeCount = dislikeBtn.find('.dislike-count');
+            let $likeIcon = $btn.find('i');
+            let $dislikeIcon = dislikeBtn.find('i');
 
             $.ajax({
                 url: `/university/topic/${topicId}/like`,
@@ -921,13 +924,25 @@
                     likeCount.text(response.likes);
                     dislikeCount.text(response.dislikes);
                     
-                    $('.like-btn[data-id="' + topicId + '"]').css("color", "#007bff"); // Mavi renk
-                    $('.dislike-btn[data-id="' + topicId + '"]').css("color", "#888"); // Gri renk
+                    if (response.user_liked) {
+                        // Beğenildi - İçi dolu kırmızı kalp
+                        $likeIcon.removeClass('bi-heart').addClass('bi-heart-fill');
+                        $likeIcon.css('color', '#dc3545');
+                        
+                    } else {
+                        // Beğeni kaldırıldı - İçi boş gri kalp
+                        $likeIcon.removeClass('bi-heart-fill').addClass('bi-heart');
+                        $likeIcon.css('color', '#536471');
+                    }
+
+                    $dislikeIcon.removeClass('bi-hand-thumbs-down-fill').addClass('bi-hand-thumbs-down');
+                    $dislikeIcon.css('color', '#536471');
                 }
             });
         });
 
         $(document).on('click', '.dislike-btn', function () {
+            let $btn = $(this);
             let topicId = $(this).data('id');
             let userId = '{{ auth()->id() }}'; 
 
@@ -939,6 +954,9 @@
             let dislikeCount = $(this).find('.dislike-count');
             let likeBtn = $(this).closest('.like-dislike').find('.like-btn');
             let likeCount = likeBtn.find('.like-count');
+            let $dislikeIcon = $btn.find('i');
+            let $likeIcon = likeBtn.find('i');
+
 
             $.ajax({
                 url: `/university/topic/${topicId}/dislike`,
@@ -950,143 +968,158 @@
                     likeCount.text(response.likes);
                     dislikeCount.text(response.dislikes);
 
-                    $('.dislike-btn[data-id="' + topicId + '"]').css("color", "#dc3545"); // Kırmızı renk
-                    $('.like-btn[data-id="' + topicId + '"]').css("color", "#888"); // Gri renk
+                        // KALP İKONU SIFIRLAMA - İçi boş gri kalp
+                        $likeIcon.removeClass('bi-heart-fill').addClass('bi-heart');
+                        $likeIcon.css('color', '#536471');
+                        
+                        // DISLIKE İKONU GÜNCELLEME
+                        if (response.user_disliked) {
+                            // Dislike yapıldı - İçi dolu
+                            console.log('Dislike AKTIF'); // TEST İÇİN
+                            $dislikeIcon.removeClass('bi-hand-thumbs-down').addClass('bi-hand-thumbs-down-fill');
+                            $dislikeIcon.css('color', '#6c757d');
+                        } else {
+                            // Dislike kaldırıldı - İçi boş
+                            console.log('Dislike İPTAL'); // TEST İÇİN
+                            $dislikeIcon.removeClass('bi-hand-thumbs-down-fill').addClass('bi-hand-thumbs-down');
+                            $dislikeIcon.css('color', '#536471');
+                        }
                 }
             });
         });
 
     </script>
-<script>
-    $(document).ready(function() {
-        const universityId = {{ $university->id }};
-        let currentCategory = 'free-zone';
-        let currentPages = { 'free-zone': 1, 'departmant-programs': 1, 'campus-life': 1, 'question-answer': 1 };
-        let isLoading = false;
-        let hasMorePages = { 'free-zone': true, 'departmant-programs': true, 'campus-life': true, 'question-answer': true };
 
-        // Category switch
-        $('.category-btn, .mobile-category').on('click', function() {
-            const category = $(this).data('category');
-            if (category === currentCategory) return;
-            
-            currentCategory = category;
-            
-            $('.category-btn, .mobile-category').removeClass('active');
-            $(`.category-btn[data-category="${category}"], .mobile-category[data-category="${category}"]`).addClass('active');
-            
-            $('.tab-panel').removeClass('active');
-            $(`#${category}`).addClass('active');
-            
-            $('#categoryName').val(category);
-            $('.btnExplain').data('category', category);
-            
-            if ($(`#${category}-topic-list`).is(':empty')) {
-                loadCategoryContent(category);
+    <script>
+        $(document).ready(function() {
+            const universityId = {{ $university->id }};
+            let currentCategory = 'free-zone';
+            let currentPages = { 'free-zone': 1, 'departmant-programs': 1, 'campus-life': 1, 'question-answer': 1 };
+            let isLoading = false;
+            let hasMorePages = { 'free-zone': true, 'departmant-programs': true, 'campus-life': true, 'question-answer': true };
+
+            // Category switch
+            $('.category-btn, .mobile-category').on('click', function() {
+                const category = $(this).data('category');
+                if (category === currentCategory) return;
+                
+                currentCategory = category;
+                
+                $('.category-btn, .mobile-category').removeClass('active');
+                $(`.category-btn[data-category="${category}"], .mobile-category[data-category="${category}"]`).addClass('active');
+                
+                $('.tab-panel').removeClass('active');
+                $(`#${category}`).addClass('active');
+                
+                $('#categoryName').val(category);
+                $('.btnExplain').data('category', category);
+                
+                if ($(`#${category}-topic-list`).is(':empty')) {
+                    loadCategoryContent(category);
+                }
+                loadSidebarTopics(category);
+            });
+
+            function loadCategoryContent(category) {
+                if (isLoading) return;
+                isLoading = true;
+                $(`#${category}-spinner`).show();
+                
+                $.ajax({
+                    url: '/get-univercity-category-topic-content',
+                    method: 'GET',
+                    data: { category, univercityId: universityId },
+                    success: function(response) {
+                        $(`#${category}-topic-list`).html(response.success && response.html ? response.html : 
+                            '<div class="empty-state"><svg width="64" height="64" viewBox="0 0 24 24" fill="black" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><h4>Henüz Yorum Yok</h4><p>Bu kategoride ilk yorumu sen yap!</p></div>');
+                        isLoading = false;
+                        $(`#${category}-spinner`).hide();
+                    }
+                });
             }
-            loadSidebarTopics(category);
-        });
 
-        function loadCategoryContent(category) {
-            if (isLoading) return;
-            isLoading = true;
-            $(`#${category}-spinner`).show();
-            
-            $.ajax({
-                url: '/get-univercity-category-topic-content',
-                method: 'GET',
-                data: { category, univercityId: universityId },
-                success: function(response) {
-                    $(`#${category}-topic-list`).html(response.success && response.html ? response.html : 
-                        '<div class="empty-state"><svg width="64" height="64" viewBox="0 0 24 24" fill="black" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><h4>Henüz Yorum Yok</h4><p>Bu kategoride ilk yorumu sen yap!</p></div>');
-                    isLoading = false;
-                    $(`#${category}-spinner`).hide();
-                }
-            });
-        }
-
-        function loadSidebarTopics(category) {
-            $.ajax({
-                url: '/get-univercity-category-topics',
-                method: 'GET',
-                data: { category, univercityId: universityId },
-                success: function(response) {
-                    let html = '';
-                    response.topics.slice(0, 8).forEach(topic => {
-                        const url = "{{ route('university.topic.comments', ['slug' => '__SLUG__']) }}".replace('__SLUG__', topic.topic_title_slug);
-                        html += `<li><a href="${url}" class="trending-link"><span class="trending-text">${topic.topic_title.substring(0, 45)}...</span><span class="trending-badge">${topic.count}</span></a></li>`;
-                    });
-                    $('.trending-list').html(html || '<li class="empty-text">Henüz yorum yok</li>');
-                }
-            });
-        }
-
-        $(window).on('scroll', function() {
-            if (isLoading || !hasMorePages[currentCategory]) return;
-            if ($(window).scrollTop() + $(window).height() >= $(document).height() - 500) {
-                currentPages[currentCategory]++;
-                loadMore();
+            function loadSidebarTopics(category) {
+                $.ajax({
+                    url: '/get-univercity-category-topics',
+                    method: 'GET',
+                    data: { category, univercityId: universityId },
+                    success: function(response) {
+                        let html = '';
+                        response.topics.slice(0, 8).forEach(topic => {
+                            const url = "{{ route('university.topic.comments', ['slug' => '__SLUG__']) }}".replace('__SLUG__', topic.topic_title_slug);
+                            html += `<li><a href="${url}" class="trending-link"><span class="trending-text">${topic.topic_title.substring(0, 45)}...</span><span class="trending-badge">${topic.count}</span></a></li>`;
+                        });
+                        $('.trending-list').html(html || '<li class="empty-text">Henüz yorum yok</li>');
+                    }
+                });
             }
-        });
 
-        function loadMore() {
-            isLoading = true;
-            $(`#${currentCategory}-spinner`).removeClass('d-none').show();
-            
-            $.ajax({
-                url: '{{ route("university.forum.load-more") }}',
-                method: 'GET',
-                data: { page: currentPages[currentCategory], university_id: universityId, category: currentCategory },
-                success: function(response) {
-                    $(`#${currentCategory}-topic-list`).append(response.html);
-                    hasMorePages[currentCategory] = response.hasMore;
-                    isLoading = false;
-                    $(`#${currentCategory}-spinner`).addClass('d-none').hide();
+            $(window).on('scroll', function() {
+                if (isLoading || !hasMorePages[currentCategory]) return;
+                if ($(window).scrollTop() + $(window).height() >= $(document).height() - 500) {
+                    currentPages[currentCategory]++;
+                    loadMore();
                 }
             });
-        }
 
-        $('.btnExplain, .share-input').on('click', function() {
-            @if(auth()->check())
-                $('#categoryName').val($(this).data('category') || currentCategory);
-                $('#topicModal').modal('show');
-            @else
-                toastr.warning('Yorum yapmak için giriş yapmalısınız');
-                setTimeout(() => window.location.href = '/login', 1500);
-            @endif
-        });
+            function loadMore() {
+                isLoading = true;
+                $(`#${currentCategory}-spinner`).removeClass('d-none').show();
+                
+                $.ajax({
+                    url: '{{ route("university.forum.load-more") }}',
+                    method: 'GET',
+                    data: { page: currentPages[currentCategory], university_id: universityId, category: currentCategory },
+                    success: function(response) {
+                        $(`#${currentCategory}-topic-list`).append(response.html);
+                        hasMorePages[currentCategory] = response.hasMore;
+                        isLoading = false;
+                        $(`#${currentCategory}-spinner`).addClass('d-none').hide();
+                    }
+                });
+            }
 
-        $('#title').on('input', function() {
-            $('#charCount').text($(this).val().length);
-        });
-
-        $('#topicForm').on('submit', function(e) {
-            e.preventDefault();
-            const $btn = $('#submitTopic');
-            $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Gönderiliyor...');
-            
-            $.ajax({
-                url: '/university-topic/add',
-                method: 'POST',
-                data: $(this).serialize(),
-                success: function() {
-                    $('#topicModal').modal('hide');
-                    $('#topicForm')[0].reset();
-                    toastr.success('Yorumunuz başarıyla paylaşıldı!');
-                    setTimeout(() => location.reload(), 1500);
-                },
-                error: function() {
-                    toastr.error('Bir hata oluştu');
-                    $btn.prop('disabled', false).html('<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Paylaş');
-                }
+            $('.btnExplain, .share-input').on('click', function() {
+                @if(auth()->check())
+                    $('#categoryName').val($(this).data('category') || currentCategory);
+                    $('#topicModal').modal('show');
+                @else
+                    toastr.warning('Yorum yapmak için giriş yapmalısınız');
+                    setTimeout(() => window.location.href = '/login', 1500);
+                @endif
             });
+
+            $('#title').on('input', function() {
+                $('#charCount').text($(this).val().length);
+            });
+
+            $('#topicForm').on('submit', function(e) {
+                e.preventDefault();
+                const $btn = $('#submitTopic');
+                $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Gönderiliyor...');
+                
+                $.ajax({
+                    url: '/university-topic/add',
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    success: function() {
+                        $('#topicModal').modal('hide');
+                        $('#topicForm')[0].reset();
+                        toastr.success('Yorumunuz başarıyla paylaşıldı!');
+                        setTimeout(() => location.reload(), 1500);
+                    },
+                    error: function() {
+                        toastr.error('Bir hata oluştu');
+                        $btn.prop('disabled', false).html('<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Paylaş');
+                    }
+                });
+            });
+
+            window.goBack = () => window.history.back();
+
+            toastr.options = { closeButton: true, progressBar: true, positionClass: "toast-top-right", timeOut: 3000 };
+            @if(session('success')) toastr.success("{{ session('success') }}"); @endif
+            @if(session('error')) toastr.error("{{ session('error') }}"); @endif
         });
-
-        window.goBack = () => window.history.back();
-
-        toastr.options = { closeButton: true, progressBar: true, positionClass: "toast-top-right", timeOut: 3000 };
-        @if(session('success')) toastr.success("{{ session('success') }}"); @endif
-        @if(session('error')) toastr.error("{{ session('error') }}"); @endif
-    });
-</script>
+    </script>
 @endsection

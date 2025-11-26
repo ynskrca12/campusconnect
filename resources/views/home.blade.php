@@ -686,6 +686,7 @@
         {{-- like dislike --}}
     <script>
         $(document).on('click', '.like-btn', function () {
+            let $btn = $(this);
             let topicId = $(this).data('id');
             let userId = '{{ auth()->id() }}'; 
 
@@ -694,9 +695,11 @@
                 return;
             }
             
-            let likeCount = $(this).find('.like-count');
-            let dislikeBtn = $(this).closest('.like-dislike').find('.dislike-btn');
+            let likeCount = $btn.find('.like-count');
+            let dislikeBtn = $btn.closest('.like-dislike').find('.dislike-btn');
             let dislikeCount = dislikeBtn.find('.dislike-count');
+            let $likeIcon = $btn.find('i');
+            let $dislikeIcon = dislikeBtn.find('i');
 
             $.ajax({
                 url: `/university/topic/${topicId}/like`,
@@ -705,16 +708,29 @@
                     _token: '{{ csrf_token() }}',
                 },
                 success: function (response) {
+
                     likeCount.text(response.likes);
                     dislikeCount.text(response.dislikes);
                     
-                    $('.like-btn[data-id="' + topicId + '"]').css("color", "#007bff"); // Mavi renk
-                    $('.dislike-btn[data-id="' + topicId + '"]').css("color", "#888"); // Gri renk
+                    if (response.user_liked) {
+                        // Beğenildi - İçi dolu kırmızı kalp
+                        $likeIcon.removeClass('bi-heart').addClass('bi-heart-fill');
+                        $likeIcon.css('color', '#dc3545');
+                        
+                    } else {
+                        // Beğeni kaldırıldı - İçi boş gri kalp
+                        $likeIcon.removeClass('bi-heart-fill').addClass('bi-heart');
+                        $likeIcon.css('color', '#536471');
+                    }
+
+                    $dislikeIcon.removeClass('bi-hand-thumbs-down-fill').addClass('bi-hand-thumbs-down');
+                    $dislikeIcon.css('color', '#536471');
                 }
             });
         });
 
         $(document).on('click', '.dislike-btn', function () {
+            let $btn = $(this);
             let topicId = $(this).data('id');
             let userId = '{{ auth()->id() }}'; 
 
@@ -723,9 +739,11 @@
                 return;
             }
 
-            let dislikeCount = $(this).find('.dislike-count');
-            let likeBtn = $(this).closest('.like-dislike').find('.like-btn');
+            let dislikeCount = $btn.find('.dislike-count');
+            let $dislikeIcon = $btn.find('i');
+            let likeBtn = $btn.closest('.like-dislike').find('.like-btn');
             let likeCount = likeBtn.find('.like-count');
+            let $likeIcon = likeBtn.find('i');
 
             $.ajax({
                 url: `/university/topic/${topicId}/dislike`,
@@ -734,12 +752,28 @@
                     _token: '{{ csrf_token() }}',
                 },
                 success: function (response) {
-                    likeCount.text(response.likes);
-                    dislikeCount.text(response.dislikes);
 
-                    $('.dislike-btn[data-id="' + topicId + '"]').css("color", "#dc3545"); // Kırmızı renk
-                    $('.like-btn[data-id="' + topicId + '"]').css("color", "#888"); // Gri renk
-                }
+                        likeCount.text(response.likes);
+                        dislikeCount.text(response.dislikes);
+
+                        // KALP İKONU SIFIRLAMA - İçi boş gri kalp
+                        $likeIcon.removeClass('bi-heart-fill').addClass('bi-heart');
+                        $likeIcon.css('color', '#536471');
+                        
+                        // DISLIKE İKONU GÜNCELLEME
+                        if (response.user_disliked) {
+                            // Dislike yapıldı - İçi dolu
+                            console.log('Dislike AKTIF'); // TEST İÇİN
+                            $dislikeIcon.removeClass('bi-hand-thumbs-down').addClass('bi-hand-thumbs-down-fill');
+                            $dislikeIcon.css('color', '#6c757d');
+                        } else {
+                            // Dislike kaldırıldı - İçi boş
+                            console.log('Dislike İPTAL'); // TEST İÇİN
+                            $dislikeIcon.removeClass('bi-hand-thumbs-down-fill').addClass('bi-hand-thumbs-down');
+                            $dislikeIcon.css('color', '#536471');
+                        }
+
+                    }
             });
         });
 

@@ -335,11 +335,18 @@ class UniversityController extends Controller
 
             $updated = DB::table('universities_topics')->where('id', $id)->first();
 
+            $userLikeStatus = DB::table('university_topics_likes')
+            ->where('user_id', $userId)
+            ->where('topic_id', $id)
+            ->first();
+
             return response()->json([
                 'likes' => $updated->likes,
                 'dislikes' => $updated->dislikes,
-                'removedFromLikes' => $removedFromLikes
+                'removedFromLikes' => $removedFromLikes,
+                'user_liked' => $userLikeStatus && $userLikeStatus->like == 1
             ]);
+            
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => 'İşlem hatası'], 500);
@@ -407,10 +414,16 @@ class UniversityController extends Controller
 
             $updated = DB::table('universities_topics')->where('id', $id)->first();
 
+            $userDislikeStatus = DB::table('university_topics_likes')
+                ->where('user_id', $userId)
+                ->where('topic_id', $id)
+                ->first();
+
             return response()->json([
                 'likes' => $updated->likes,
                 'dislikes' => $updated->dislikes,
-                'removedFromLikes' => $removedFromLikes
+                'removedFromLikes' => $removedFromLikes,
+                'user_disliked' => $userDislikeStatus && $userDislikeStatus->like == 0
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -444,8 +457,21 @@ class UniversityController extends Controller
                 ->groupBy('topic_title', 'topic_title_slug')
                 ->get();
 
+            $type = 'university';    
+            $userLiked = DB::table('university_topics_likes')
+                ->where('topic_id', $comments->first()->id)
+                ->where('user_id', Auth::user()->id)
+                ->where('like', 1)
+                ->first();
+
+            $userDisliked = DB::table('university_topics_likes')
+                ->where('topic_id', $comments->first()->id)
+                ->where('user_id', Auth::user()->id)
+                ->where('like', 0)
+                ->first();
+
             // `forum.university_topic` Blade dosyasına verileri döndür
-            return view('universite.university_topic', compact('topicTitle', 'comments', 'universities_topics', 'topicTitleSlug','university_id','comment_category'));
+            return view('universite.university_topic', compact('topicTitle', 'comments', 'universities_topics', 'topicTitleSlug','university_id','comment_category','type','userLiked','userDisliked'));
 
         } catch (\Exception $e) {
             Log::error('UniversityController:topicComments fonksiyonu hata verdi: ', [

@@ -74,11 +74,24 @@
 
                             <div class="d-flex justify-content-between align-items-center mt-2">
                                 <div class="like-dislike mt-3">
-                                    <div class="like-btn d-inline me-3" data-id="{{ $comment['id'] }}" style="cursor: pointer; color: #888;">
-                                        <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $comment['likes'] }}</span>
+                                    <div class="like-btn d-inline me-2" 
+                                        data-id="{{ $comment['id'] }}" 
+                                        data-type="{{ $type }}" 
+                                        data-user-liked="{{ $userLiked ? '1' : '0' }}"
+                                        style="cursor: pointer;">
+                                        <i style="font-size: 18px; color: {{ $userLiked ? '#dc3545' : '#536471' }};" 
+                                        class="bi bi-heart{{ $userLiked ? '-fill' : '' }}"></i>
+                                        <span class="like-count" style="color: #495057;">{{ $comment['likes'] }}</span>
                                     </div>
-                                    <div class="dislike-btn d-inline" data-id="{{ $comment['id'] }}" style="cursor: pointer; color: #888;">
-                                        <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $comment['dislikes'] }}</span>
+
+                                    <div class="dislike-btn d-inline me-2" 
+                                        data-id="{{ $comment['id'] }}" 
+                                        data-type="{{ $type }}"
+                                        data-user-disliked="{{ $userDisliked ? '1' : '0' }}"
+                                        style="cursor: pointer;">
+                                        <i style="font-size: 18px; color: {{ $userDisliked ? '#6c757d' : '#536471' }};" 
+                                        class="bi bi-hand-thumbs-down{{ $userDisliked ? '-fill' : '' }}"></i>
+                                        <span class="dislike-count" style="color: #495057;">{{ $comment['dislikes'] }}</span>
                                     </div>
                                 </div>
                                 <div class="meta">
@@ -139,81 +152,80 @@
 
 @section('css')
 
-<style>
-    /* ========== HEADER ========== */
-.thread-header {
-    background: var(--bg-1);
-    border-bottom: 1px solid var(--border);
-    padding: 12px 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(10px);
-}
+    <style>
+        /* ========== HEADER ========== */
+        .thread-header {
+            background: var(--bg-1);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
 
-.header-top {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
+        .header-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-.btn-back {
-    display: flex;
-    align-items: center;
-    padding: 7px 0px;
-    background: var(--bg-2);
-    border: none;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    flex-shrink: 0;
-    transition: all 0.2s;
-}
+        .btn-back {
+            display: flex;
+            align-items: center;
+            padding: 7px 0px;
+            background: var(--bg-2);
+            border: none;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
 
-.header-breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    flex: 1;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-}
+        .header-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            flex: 1;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
 
-.header-breadcrumb::-webkit-scrollbar {
-    display: none;
-}
+        .header-breadcrumb::-webkit-scrollbar {
+            display: none;
+        }
 
-.breadcrumb-item {
-    color: var(--text-2);
-    text-decoration: none;
-    /* white-space: nowrap; */
-    transition: color 0.2s;
-}
+        .breadcrumb-item {
+            color: var(--text-2);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
 
-.breadcrumb-item:hover {
-    color: var(--primary);
-}
+        .breadcrumb-item:hover {
+            color: var(--primary);
+        }
 
-.breadcrumb-truncate {
-    max-width: 200px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+        .breadcrumb-truncate {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
-.breadcrumb-current {
-    font-weight: 600;
-    color: var(--text-1);
-}
+        .breadcrumb-current {
+            font-weight: 600;
+            color: var(--text-1);
+        }
 
-.breadcrumb-arrow {
-    flex-shrink: 0;
-    color: var(--text-3);
-}
+        .breadcrumb-arrow {
+            flex-shrink: 0;
+            color: var(--text-3);
+        }
 
-</style>
+    </style>
     <style>
   
         .avatar{
@@ -428,6 +440,7 @@
     {{-- like dislike --}}
     <script>
         $(document).on('click', '.like-btn', function () {
+            let $btn = $(this);
             let topicId = $(this).data('id');
             let userId = '{{ auth()->id() }}'; 
 
@@ -439,6 +452,8 @@
             let likeCount = $(this).find('.like-count');
             let dislikeBtn = $(this).closest('.like-dislike').find('.dislike-btn');
             let dislikeCount = dislikeBtn.find('.dislike-count');
+            let $likeIcon = $btn.find('i');
+            let $dislikeIcon = dislikeBtn.find('i');
 
             $.ajax({
                 url: `/university/topic/${topicId}/like`,
@@ -450,13 +465,25 @@
                     likeCount.text(response.likes);
                     dislikeCount.text(response.dislikes);
                     
-                    $('.like-btn[data-id="' + topicId + '"]').css("color", "#007bff"); // Mavi renk
-                    $('.dislike-btn[data-id="' + topicId + '"]').css("color", "#888"); // Gri renk
+                    if (response.user_liked) {
+                        // Beğenildi - İçi dolu kırmızı kalp
+                        $likeIcon.removeClass('bi-heart').addClass('bi-heart-fill');
+                        $likeIcon.css('color', '#dc3545');
+                        
+                    } else {
+                        // Beğeni kaldırıldı - İçi boş gri kalp
+                        $likeIcon.removeClass('bi-heart-fill').addClass('bi-heart');
+                        $likeIcon.css('color', '#536471');
+                    }
+
+                    $dislikeIcon.removeClass('bi-hand-thumbs-down-fill').addClass('bi-hand-thumbs-down');
+                    $dislikeIcon.css('color', '#536471');
                 }
             });
         });
 
         $(document).on('click', '.dislike-btn', function () {
+            let $btn = $(this);
             let topicId = $(this).data('id');
             let userId = '{{ auth()->id() }}'; 
 
@@ -468,6 +495,8 @@
             let dislikeCount = $(this).find('.dislike-count');
             let likeBtn = $(this).closest('.like-dislike').find('.like-btn');
             let likeCount = likeBtn.find('.like-count');
+            let $likeIcon = likeBtn.find('i');
+            let $dislikeIcon = $btn.find('i');
 
             $.ajax({
                 url: `/university/topic/${topicId}/dislike`,
@@ -479,8 +508,22 @@
                     likeCount.text(response.likes);
                     dislikeCount.text(response.dislikes);
 
-                    $('.dislike-btn[data-id="' + topicId + '"]').css("color", "#dc3545"); // Kırmızı renk
-                    $('.like-btn[data-id="' + topicId + '"]').css("color", "#888"); // Gri renk
+                    // KALP İKONU SIFIRLAMA - İçi boş gri kalp
+                    $likeIcon.removeClass('bi-heart-fill').addClass('bi-heart');
+                    $likeIcon.css('color', '#536471');
+                    
+                    // DISLIKE İKONU GÜNCELLEME
+                    if (response.user_disliked) {
+                        // Dislike yapıldı - İçi dolu
+                        console.log('Dislike AKTIF'); // TEST İÇİN
+                        $dislikeIcon.removeClass('bi-hand-thumbs-down').addClass('bi-hand-thumbs-down-fill');
+                        $dislikeIcon.css('color', '#6c757d');
+                    } else {
+                        // Dislike kaldırıldı - İçi boş
+                        console.log('Dislike İPTAL'); // TEST İÇİN
+                        $dislikeIcon.removeClass('bi-hand-thumbs-down-fill').addClass('bi-hand-thumbs-down');
+                        $dislikeIcon.css('color', '#536471');
+                    }
                 }
             });
         });

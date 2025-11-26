@@ -396,10 +396,17 @@ class CityController extends Controller
 
             $updated = DB::table('cities_topics')->where('id', $id)->first();
 
+            $userLikeStatus = DB::table('city_topics_likes')
+            ->where('user_id', $userId)
+            ->where('topic_id', $id)
+            ->first();
+
             return response()->json([
                 'likes' => $updated->likes,
                 'dislikes' => $updated->dislikes,
-                'removedFromLikes' => $removedFromLikes
+                'removedFromLikes' => $removedFromLikes,
+                'user_liked' => $userLikeStatus && $userLikeStatus->like == 1
+
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -471,10 +478,17 @@ class CityController extends Controller
 
             $updated = DB::table('cities_topics')->where('id', $id)->first();
 
+            $userDislikeStatus = DB::table('city_topics_likes')
+                ->where('user_id', $userId)
+                ->where('topic_id', $id)
+                ->first();
+
             return response()->json([
                 'likes' => $updated->likes,
                 'dislikes' => $updated->dislikes,
-                'removedFromLikes' => $removedFromLikes
+                'removedFromLikes' => $removedFromLikes,
+                'user_disliked' => $userDislikeStatus && $userDislikeStatus->like == 0
+
             ]);
         } catch (\Exception $e) {
             DB::rollBack();

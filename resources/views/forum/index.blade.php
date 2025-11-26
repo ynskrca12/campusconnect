@@ -280,18 +280,20 @@
     {{-- like dislike --}}
     <script>
         $(document).on('click', '.like-btn', function () {
+            let $btn = $(this);
             let topicId = $(this).data('id');
             let userId = '{{ auth()->id() }}'; 
 
             if (!userId) {
-                toastr.error('giriş yapmamışsın hemşerim');
-                return; 
+                toastr.error('Giriş yapmalısın.');
+                return;
             }
             
-            let likeBtn = $(this);
-            let dislikeBtn = likeBtn.siblings('.dislike-btn');
-            let likeCount = likeBtn.find('.like-count');
+            let likeCount = $btn.find('.like-count');
+            let dislikeBtn = $btn.closest('.like-dislike').find('.dislike-btn');
             let dislikeCount = dislikeBtn.find('.dislike-count');
+            let $likeIcon = $btn.find('i');
+            let $dislikeIcon = dislikeBtn.find('i');
 
             $.ajax({
                 url: `/general/topic/${topicId}/like`,
@@ -300,32 +302,42 @@
                     _token: '{{ csrf_token() }}',
                 },
                 success: function (response) {
+
                     likeCount.text(response.likes);
                     dislikeCount.text(response.dislikes);
-
-                    if (response.liked) {
-                        likeBtn.css('color', '#007bff');
-                        dislikeBtn.css('color', '#888'); 
+                    
+                    if (response.user_liked) {
+                        // Beğenildi - İçi dolu kırmızı kalp
+                        $likeIcon.removeClass('bi-heart').addClass('bi-heart-fill');
+                        $likeIcon.css('color', '#dc3545');
+                        
                     } else {
-                        likeBtn.css('color', '#888');
+                        // Beğeni kaldırıldı - İçi boş gri kalp
+                        $likeIcon.removeClass('bi-heart-fill').addClass('bi-heart');
+                        $likeIcon.css('color', '#ced4da');
                     }
+
+                    $dislikeIcon.removeClass('bi-hand-thumbs-down-fill').addClass('bi-hand-thumbs-down');
+                    $dislikeIcon.css('color', '#dee2e6');
                 }
             });
         });
 
         $(document).on('click', '.dislike-btn', function () {
+            let $btn = $(this);
             let topicId = $(this).data('id');
             let userId = '{{ auth()->id() }}'; 
 
             if (!userId) {
-                toastr.error('giriş yapmamışsın hemşerim');
-                return; 
+                toastr.error('Giriş yapmalısın.');
+                return;
             }
 
-            let dislikeBtn = $(this);
-            let likeBtn = dislikeBtn.siblings('.like-btn');
-            let dislikeCount = dislikeBtn.find('.dislike-count');
+            let dislikeCount = $btn.find('.dislike-count');
+            let $dislikeIcon = $btn.find('i');
+            let likeBtn = $btn.closest('.like-dislike').find('.like-btn');
             let likeCount = likeBtn.find('.like-count');
+            let $likeIcon = likeBtn.find('i');
 
             $.ajax({
                 url: `/general/topic/${topicId}/dislike`,
@@ -334,16 +346,28 @@
                     _token: '{{ csrf_token() }}',
                 },
                 success: function (response) {
-                    dislikeCount.text(response.dislikes);
-                    likeCount.text(response.likes);
 
-                    if (response.disliked) {
-                        dislikeBtn.css('color', '#ff0000');
-                        likeBtn.css('color', '#888');
-                    } else {
-                        dislikeBtn.css('color', '#888'); 
+                        likeCount.text(response.likes);
+                        dislikeCount.text(response.dislikes);
+
+                        // KALP İKONU SIFIRLAMA - İçi boş gri kalp
+                        $likeIcon.removeClass('bi-heart-fill').addClass('bi-heart');
+                        $likeIcon.css('color', '#ced4da');
+                        
+                        // DISLIKE İKONU GÜNCELLEME
+                        if (response.user_disliked) {
+                            // Dislike yapıldı - İçi dolu
+                            console.log('Dislike AKTIF'); // TEST İÇİN
+                            $dislikeIcon.removeClass('bi-hand-thumbs-down').addClass('bi-hand-thumbs-down-fill');
+                            $dislikeIcon.css('color', '#6c757d');
+                        } else {
+                            // Dislike kaldırıldı - İçi boş
+                            console.log('Dislike İPTAL'); // TEST İÇİN
+                            $dislikeIcon.removeClass('bi-hand-thumbs-down-fill').addClass('bi-hand-thumbs-down');
+                            $dislikeIcon.css('color', '#dee2e6');
+                        }
+
                     }
-                }
             });
         });
 

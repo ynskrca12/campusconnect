@@ -965,6 +965,7 @@ function getTopicUrl(type, topicId, action) {
 
 // Like butonu
 $(document).on('click', '.like-btn', function () {
+    let $btn = $(this);
     const $this = $(this);
     const topicId = $(this).data('id');
     const type = $(this).data('type');
@@ -977,6 +978,8 @@ $(document).on('click', '.like-btn', function () {
     const likeCount = $(this).find('.like-count');
     const dislikeBtn = $(this).closest('.like-dislike').find('.dislike-btn');
     const dislikeCount = dislikeBtn.find('.dislike-count');
+    let $likeIcon = $btn.find('i');
+    let $dislikeIcon = dislikeBtn.find('i');
     
     // Beğeniler sekmesindeki item'ı bul
     const $likedItem = $(this).closest('.liked-item');
@@ -995,6 +998,20 @@ $(document).on('click', '.like-btn', function () {
             const previousLikes = parseInt(likeCount.text());
             likeCount.text(response.likes);
             dislikeCount.text(response.dislikes);
+
+            if (response.user_liked) {
+                // Beğenildi - İçi dolu kırmızı kalp
+                $likeIcon.removeClass('bi-heart').addClass('bi-heart-fill');
+                $likeIcon.css('color', '#dc3545');
+                
+            } else {
+                // Beğeni kaldırıldı - İçi boş gri kalp
+                $likeIcon.removeClass('bi-heart-fill').addClass('bi-heart');
+                $likeIcon.css('color', '#536471');
+            }
+
+            $dislikeIcon.removeClass('bi-hand-thumbs-down-fill').addClass('bi-hand-thumbs-down');
+            $dislikeIcon.css('color', '#536471');
             
             // Eğer kendi profilindeyse
             if (isOwnProfile) {
@@ -1021,6 +1038,7 @@ $(document).on('click', '.like-btn', function () {
 
 // Dislike butonu
 $(document).on('click', '.dislike-btn', function () {
+    let $btn = $(this);
     const $this = $(this);
     const topicId = $(this).data('id');
     const type = $(this).data('type');
@@ -1033,6 +1051,8 @@ $(document).on('click', '.dislike-btn', function () {
     const dislikeCount = $(this).find('.dislike-count');
     const likeBtn = $(this).closest('.like-dislike').find('.like-btn');
     const likeCount = likeBtn.find('.like-count');
+    let $dislikeIcon = $btn.find('i');
+    let $likeIcon = likeBtn.find('i');
     
     // Beğeniler sekmesindeki item'ı bul
     const $likedItem = $(this).closest('.liked-item');
@@ -1047,6 +1067,21 @@ $(document).on('click', '.dislike-btn', function () {
         success: function (response) {
             likeCount.text(response.likes);
             dislikeCount.text(response.dislikes);
+            
+            // KALP İKONU SIFIRLAMA ← BUNU EKLE (EN BAŞTA)
+            $likeIcon.removeClass('bi-heart-fill').addClass('bi-heart');
+            $likeIcon.css('color', '#536471');
+            
+            // DISLIKE İKONU GÜNCELLEME
+            if (response.user_disliked) {
+                // Dislike yapıldı - İçi dolu
+                $dislikeIcon.removeClass('bi-hand-thumbs-down').addClass('bi-hand-thumbs-down-fill');
+                $dislikeIcon.css('color', '#6c757d');
+            } else {
+                // Dislike kaldırıldı - İçi boş
+                $dislikeIcon.removeClass('bi-hand-thumbs-down-fill').addClass('bi-hand-thumbs-down');
+                $dislikeIcon.css('color', '#536471');
+            }
             
             // Eğer kendi profilindeyse
             if (isOwnProfile) {

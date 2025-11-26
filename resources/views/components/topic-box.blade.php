@@ -1,5 +1,29 @@
 @props(['topic', 'routeName' => 'topic.comments', 'type' => 'general','isHome' => false])
 
+@php
+    $userLiked = false;
+    $userDisliked = false;
+    
+    if (auth()->check()) {
+        // Kullanıcının beğeni durumunu kontrol et
+        $likeTable = match($type) {
+            'university' => 'university_topics_likes',
+            'city' => 'city_topics_likes',
+            default => 'general_topics_likes'
+        };
+        
+        $userLikeStatus = DB::table($likeTable)
+            ->where('topic_id', $topic->id)
+            ->where('user_id', auth()->id())
+            ->first();
+        
+        if ($userLikeStatus) {
+            $userLiked = $userLikeStatus->like == 1;
+            $userDisliked = $userLikeStatus->like == 0;
+        }
+    }
+@endphp
+
 <div class="topic mb-3">
     <div class="d-flex justify-content-between align-items-start">
         <h3 class="topic-title mb-3">
@@ -10,24 +34,23 @@
         <div class="dropdown me-3">
             <i class="fa-solid fa-ellipsis cursor-pointer text-muted fs-6 mt-3" role="button" id="dropdownMenu{{ $topic->id }}" data-bs-toggle="dropdown" aria-expanded="false"></i>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu{{ $topic->id }}">
-                    <li>
+                <li>
                     <a class="dropdown-item copy-link text-dark"
-                    href="#"
-                    data-link="{{ route($routeName, ['slug' => $topic->topic_title_slug]) }}">
+                       href="#"
+                       data-link="{{ route($routeName, ['slug' => $topic->topic_title_slug]) }}">
                         <i class="fa-solid fa-link me-2"></i> Linki Kopyala
                     </a>
                 </li>
                 <li>
                     <a class="dropdown-item text-dark"
-                    href="https://twitter.com/intent/tweet?text={{ urlencode($topic->topic_title . ' - ' . route($routeName, ['slug' => $topic->topic_title_slug])) }}"
-                    target="_blank">
-                        <i class="fa-brands fa-twitter me-2"></i> Twitter’da Paylaş
+                       href="https://twitter.com/intent/tweet?text={{ urlencode($topic->topic_title . ' - ' . route($routeName, ['slug' => $topic->topic_title_slug])) }}"
+                       target="_blank">
+                        <i class="fa-brands fa-twitter me-2"></i> Twitter'da Paylaş
                     </a>
                 </li> 
                 @if (auth()->check() && auth()->user()->id === $topic->user_id)
                     <li><a class="dropdown-item delete-topic text-dark" href="#" data-id="{{ $topic->id }}" data-type="{{ $type }}"><i class="fa-solid fa-trash me-3"></i>Sil</a></li>                    
                 @endif
-                                
             </ul>
         </div>
     </div>
@@ -43,20 +66,31 @@
     </p>
 
     <div class="d-flex justify-content-between mt-2">
-
         <div class="like-dislike mt-3">
-            <div class="like-btn d-inline me-2" data-id="{{ $topic->id }}" data-type="{{ $type }}" style="cursor: pointer; color: #888;">
-                <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i>
-                <span class="like-count">{{ $topic->likes }}</span>
+            <div class="like-btn d-inline me-2" 
+                data-id="{{ $topic->id }}" 
+                data-type="{{ $type }}" 
+                data-user-liked="{{ $userLiked ? '1' : '0' }}"
+                style="cursor: pointer;">
+                <i style="font-size: 18px; color: {{ $userLiked ? '#dc3545' : '#536471' }};" 
+                class="bi bi-heart{{ $userLiked ? '-fill' : '' }}"></i>
+                <span class="like-count" style="color: #495057;">{{ $topic->likes }}</span>
             </div>
-            <div class="dislike-btn d-inline me-2" data-id="{{ $topic->id }}" data-type="{{ $type }}" style="cursor: pointer; color: #888;">
-                <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i>
-                <span class="dislike-count">{{ $topic->dislikes }}</span>
+
+            <div class="dislike-btn d-inline me-2" 
+                data-id="{{ $topic->id }}" 
+                data-type="{{ $type }}"
+                data-user-disliked="{{ $userDisliked ? '1' : '0' }}"
+                style="cursor: pointer;">
+                <i style="font-size: 18px; color: {{ $userDisliked ? '#6c757d' : '#536471' }};" 
+                class="bi bi-hand-thumbs-down{{ $userDisliked ? '-fill' : '' }}"></i>
+                <span class="dislike-count" style="color: #495057;">{{ $topic->dislikes }}</span>
             </div>
+            
             <div class="d-inline">
                 <a href="{{ route($routeName, ['slug' => $topic->topic_title_slug]) }}"
-                title="Yanıtla"
-                style="color: #555;">
+                   title="Yanıtla"
+                   style="color: #555;">
                     <i class="fa-solid fa-reply"></i>
                 </a>
             </div>
@@ -77,9 +111,7 @@
                 </div>
             </div>
         </div>
-
     </div>
-
 </div>
 
 <style>
@@ -106,6 +138,7 @@
         font-size: 14px;
         color: #666;
     }
+    
     .topic .meta {
         display: flex;
         justify-content: end;
@@ -117,6 +150,28 @@
         padding: 4px;
         padding-right: 10px;
     }
+    
+    .like-btn, .dislike-btn {
+        transition: all 0.2s ease;
+    }
+
+    .like-btn:hover {
+        transform: scale(1.1);
+    }
+
+    .dislike-btn:hover {
+        transform: scale(1.1);
+    }
+
+    .like-btn:active, .dislike-btn:active {
+        transform: scale(0.95);
+    }
+
+    .like-count, .dislike-count {
+        transition: color 0.2s ease;
+        font-weight: 600;
+    }
+    
     @media (max-width: 768px) {
         .topic {
             padding: 15px 20px 15px 20px !important;
@@ -128,6 +183,7 @@
             font-size: 13px;
         }
     }
+    
     .fa-ellipsis {
         z-index: 9999 !important;
     }

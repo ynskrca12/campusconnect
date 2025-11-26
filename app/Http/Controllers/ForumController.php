@@ -308,11 +308,17 @@ public function loadMore(Request $request)
             // $topic->save();      
             DB::commit();
 
+            $userLikeStatus = DB::table('general_topics_likes')
+            ->where('user_id', $userId)
+            ->where('topic_id', $id)
+            ->first();
+
             return response()->json([
                 'likes' => $topic->likes,
                 'dislikes' => $topic->dislikes,
                 'liked' => $liked,
-                'removedFromLikes' => $removedFromLikes
+                'removedFromLikes' => $removedFromLikes,
+                'user_liked' => $userLikeStatus && $userLikeStatus->like == 1
             ]);
 
         } catch (\Exception $e) {
@@ -366,11 +372,17 @@ public function loadMore(Request $request)
             $topic->save();
             DB::commit();
 
+            $userDislikeStatus = DB::table('general_topics_likes')
+                ->where('user_id', $userId)
+                ->where('topic_id', $id)
+                ->first();
+
             return response()->json([
                 'likes' => $topic->likes,
                 'dislikes' => $topic->dislikes,
                 'disliked' => $disliked,
-                'removedFromLikes' => $removedFromLikes
+                'removedFromLikes' => $removedFromLikes,
+                'user_disliked' => $userDislikeStatus && $userDislikeStatus->like == 0
             ]);
 
         } catch (\Exception $e) {
