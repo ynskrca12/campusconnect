@@ -133,8 +133,21 @@ class CityController extends Controller
                 ->groupBy('topic_title', 'topic_title_slug')
                 ->get();
 
+            $type = 'city';    
+            $userLiked = DB::table('city_topics_likes')
+                ->where('topic_id', $comments->first()->id)
+                ->where('user_id', Auth::user()->id)
+                ->where('like', 1)
+                ->first();
+
+            $userDisliked = DB::table('city_topics_likes')
+                ->where('topic_id', $comments->first()->id)
+                ->where('user_id', Auth::user()->id)
+                ->where('like', 0)
+                ->first();
+
             // `forum.university_topic` Blade dosyasına verileri döndür
-            return view('city.city_topic', compact('topicTitle', 'comments', 'cities_topics', 'topicTitleSlug','city_id','comment_category'));
+            return view('city.city_topic', compact('topicTitle', 'comments', 'cities_topics', 'topicTitleSlug','city_id','comment_category','type','userLiked','userDisliked'));
 
         } catch (\Exception $e) {
             Log::error('UniversityController:topicComments fonksiyonu hata verdi: ', [
