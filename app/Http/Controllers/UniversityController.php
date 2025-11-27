@@ -460,39 +460,57 @@ class UniversityController extends Controller
                 return redirect()->back()->withErrors('Slug değeri sağlanmadı.');
             }
 
-            $topicsQuery = UniversityTopic::with('user')->
-            where('topic_title_slug', $slug);
+            $userId = auth()->id();
+
+            $topicsQuery = UniversityTopic::with('user')
+                ->where('topic_title_slug', $slug);
 
             if ($topicsQuery->count() === 0) {
                 abort(404, 'Bu slug ile ilişkili bir konu bulunamadı.');
             }
 
-            $comments         = $topicsQuery->paginate(9);
-            $topicTitle       = $comments->first()->topic_title ?? 'Başlık Yok';
-            $topicTitleSlug   = $comments->first()->topic_title_slug ?? 'Slug Yok';
-            $university_id    = $comments->first()->university_id;
+            $comments = $topicsQuery->paginate(9);
+            
+            // HER COMMENT İÇİN BEĞENİ DURUMUNU EKLE ← BURASI EKSİKTİ
+            $comments->getCollection()->transform(function ($comment) use ($userId) {
+                if ($userId) {
+                    $userLike = DB::table('university_topics_likes')
+                        ->where('topic_id', $comment->id)
+                        ->where('user_id', $userId)
+                        ->first();
+                    
+                    $comment->userLiked = $userLike && $userLike->like == 1;
+                    $comment->userDisliked = $userLike && $userLike->like == 0;
+                } else {
+                    $comment->userLiked = false;
+                    $comment->userDisliked = false;
+                }
+                
+                return $comment;
+            });
+
+            $topicTitle = $comments->first()->topic_title ?? 'Başlık Yok';
+            $topicTitleSlug = $comments->first()->topic_title_slug ?? 'Slug Yok';
+            $university_id = $comments->first()->university_id;
             $comment_category = $comments->first()->category;
 
-            $universities_topics = UniversityTopic::where('university_id',$university_id)
+            $universities_topics = UniversityTopic::where('university_id', $university_id)
                 ->select('topic_title', 'topic_title_slug', DB::raw('COUNT(topic_title_slug) as count'))
                 ->groupBy('topic_title', 'topic_title_slug')
                 ->get();
 
-            $type = 'university';    
-            $userLiked = DB::table('university_topics_likes')
-                ->where('topic_id', $comments->first()->id)
-                ->where('user_id', Auth::user()->id)
-                ->where('like', 1)
-                ->first();
+            $type = 'university';
 
-            $userDisliked = DB::table('university_topics_likes')
-                ->where('topic_id', $comments->first()->id)
-                ->where('user_id', Auth::user()->id)
-                ->where('like', 0)
-                ->first();
-
-            // `forum.university_topic` Blade dosyasına verileri döndür
-            return view('universite.university_topic', compact('topicTitle', 'comments', 'universities_topics', 'topicTitleSlug','university_id','comment_category','type','userLiked','userDisliked'));
+            // Blade dosyasına verileri döndür
+            return view('universite.university_topic', compact(
+                'topicTitle', 
+                'comments', 
+                'universities_topics', 
+                'topicTitleSlug', 
+                'university_id', 
+                'comment_category', 
+                'type'
+            ));
 
         } catch (\Exception $e) {
             Log::error('UniversityController:topicComments fonksiyonu hata verdi: ', [
@@ -502,7 +520,7 @@ class UniversityController extends Controller
 
             return redirect()->back()->withErrors('Bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
         }
-    }//End
+    }
 
     public function storeComment(Request $request)
     {

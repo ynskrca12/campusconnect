@@ -1,11 +1,8 @@
 @props(['topic', 'routeName' => 'topic.comments', 'type' => 'general','isHome' => false])
 
 @php
-    $userLiked = false;
-    $userDisliked = false;
-    
-    if (auth()->check()) {
-        // Kullanıcının beğeni durumunu kontrol et
+    // Controller'dan gelmediyse hesapla
+    if (!isset($topic->userLiked) && auth()->check()) {
         $likeTable = match($type) {
             'university' => 'university_topics_likes',
             'city' => 'city_topics_likes',
@@ -17,10 +14,11 @@
             ->where('user_id', auth()->id())
             ->first();
         
-        if ($userLikeStatus) {
-            $userLiked = $userLikeStatus->like == 1;
-            $userDisliked = $userLikeStatus->like == 0;
-        }
+        $topic->userLiked = $userLikeStatus && $userLikeStatus->like == 1;
+        $topic->userDisliked = $userLikeStatus && $userLikeStatus->like == 0;
+    } elseif (!auth()->check()) {
+        $topic->userLiked = false;
+        $topic->userDisliked = false;
     }
 @endphp
 
@@ -67,23 +65,23 @@
 
     <div class="d-flex justify-content-between mt-2">
         <div class="like-dislike mt-3">
-            <div class="like-btn d-inline me-2" 
-                data-id="{{ $topic->id }}" 
-                data-type="{{ $type }}" 
-                data-user-liked="{{ $userLiked ? '1' : '0' }}"
+            <div class="like-btn d-inline me-2"
+                data-id="{{ $topic->id }}"
+                data-type="{{ $type }}"
+                data-user-liked="{{ ($topic->userLiked ?? false) ? '1' : '0' }}"
                 style="cursor: pointer;">
-                <i style="font-size: 18px; color: {{ $userLiked ? '#dc3545' : '#536471' }};" 
-                class="bi bi-heart{{ $userLiked ? '-fill' : '' }}"></i>
+                <i style="font-size: 18px; color: {{ ($topic->userLiked ?? false) ? '#dc3545' : '#536471' }};"
+                class="bi bi-heart{{ ($topic->userLiked ?? false) ? '-fill' : '' }}"></i>
                 <span class="like-count" style="color: #495057;">{{ $topic->likes }}</span>
             </div>
 
-            <div class="dislike-btn d-inline me-2" 
-                data-id="{{ $topic->id }}" 
+            <div class="dislike-btn d-inline me-2"
+                data-id="{{ $topic->id }}"
                 data-type="{{ $type }}"
-                data-user-disliked="{{ $userDisliked ? '1' : '0' }}"
+                data-user-disliked="{{ ($topic->userDisliked ?? false) ? '1' : '0' }}"
                 style="cursor: pointer;">
-                <i style="font-size: 18px; color: {{ $userDisliked ? '#6c757d' : '#536471' }};" 
-                class="bi bi-hand-thumbs-down{{ $userDisliked ? '-fill' : '' }}"></i>
+                <i style="font-size: 18px; color: {{ ($topic->userDisliked ?? false) ? '#6c757d' : '#536471' }};"
+                class="bi bi-hand-thumbs-down{{ ($topic->userDisliked ?? false) ? '-fill' : '' }}"></i>
                 <span class="dislike-count" style="color: #495057;">{{ $topic->dislikes }}</span>
             </div>
             

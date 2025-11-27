@@ -77,20 +77,20 @@
                                     <div class="like-btn d-inline me-2" 
                                         data-id="{{ $comment['id'] }}" 
                                         data-type="{{ $type }}" 
-                                        data-user-liked="{{ $userLiked ? '1' : '0' }}"
+                                        data-user-liked="{{ ($comment->userLiked ?? false) ? '1' : '0' }}"
                                         style="cursor: pointer;">
-                                        <i style="font-size: 18px; color: {{ $userLiked ? '#dc3545' : '#536471' }};" 
-                                        class="bi bi-heart{{ $userLiked ? '-fill' : '' }}"></i>
+                                        <i style="font-size: 18px; color: {{ ($comment->userLiked ?? false) ? '#dc3545' : '#536471' }};" 
+                                        class="bi bi-heart{{ ($comment->userLiked ?? false) ? '-fill' : '' }}"></i>
                                         <span class="like-count" style="color: #495057;">{{ $comment['likes'] }}</span>
                                     </div>
 
                                     <div class="dislike-btn d-inline me-2" 
                                         data-id="{{ $comment['id'] }}" 
                                         data-type="{{ $type }}"
-                                        data-user-disliked="{{ $userDisliked ? '1' : '0' }}"
+                                        data-user-disliked="{{ ($comment->userDisliked ?? false) ? '1' : '0' }}"
                                         style="cursor: pointer;">
-                                        <i style="font-size: 18px; color: {{ $userDisliked ? '#6c757d' : '#536471' }};" 
-                                        class="bi bi-hand-thumbs-down{{ $userDisliked ? '-fill' : '' }}"></i>
+                                        <i style="font-size: 18px; color: {{ ($comment->userDisliked ?? false) ? '#6c757d' : '#536471' }};" 
+                                        class="bi bi-hand-thumbs-down{{ ($comment->userDisliked ?? false) ? '-fill' : '' }}"></i>
                                         <span class="dislike-count" style="color: #495057;">{{ $comment['dislikes'] }}</span>
                                     </div>
                                 </div>

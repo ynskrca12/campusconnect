@@ -140,49 +140,66 @@ class CityController extends Controller
                 return redirect()->back()->withErrors('Slug değeri sağlanmadı.');
             }
 
-            $topicsQuery = CityTopic::with('user')->
-            where('topic_title_slug', $slug);
+            $userId = auth()->id(); // ← NULL olabilir
+
+            $topicsQuery = CityTopic::with('user')
+                ->where('topic_title_slug', $slug);
 
             if ($topicsQuery->count() === 0) {
                 abort(404, 'Bu slug ile ilişkili bir konu bulunamadı.');
             }
 
-            $comments         = $topicsQuery->paginate(9);
-            $topicTitle       = $comments->first()->topic_title ?? 'Başlık Yok';
-            $topicTitleSlug   = $comments->first()->topic_title_slug ?? 'Slug Yok';
-            $city_id          = $comments->first()->city_id;
+            $comments = $topicsQuery->paginate(9);
+            
+            // HER COMMENT İÇİN BEĞENİ DURUMUNU EKLE
+            $comments->getCollection()->transform(function ($comment) use ($userId) {
+                if ($userId) {
+                    $userLike = DB::table('city_topics_likes')
+                        ->where('topic_id', $comment->id)
+                        ->where('user_id', $userId)
+                        ->first();
+                    
+                    $comment->userLiked = $userLike && $userLike->like == 1;
+                    $comment->userDisliked = $userLike && $userLike->like == 0;
+                } else {
+                    $comment->userLiked = false;
+                    $comment->userDisliked = false;
+                }
+                
+                return $comment;
+            });
+
+            $topicTitle = $comments->first()->topic_title ?? 'Başlık Yok';
+            $topicTitleSlug = $comments->first()->topic_title_slug ?? 'Slug Yok';
+            $city_id = $comments->first()->city_id;
             $comment_category = $comments->first()->category;
 
-            $cities_topics = CityTopic::where('city_id',$city_id)
+            $cities_topics = CityTopic::where('city_id', $city_id)
                 ->select('topic_title', 'topic_title_slug', DB::raw('COUNT(topic_title_slug) as count'))
                 ->groupBy('topic_title', 'topic_title_slug')
                 ->get();
 
-            $type = 'city';    
-            $userLiked = DB::table('city_topics_likes')
-                ->where('topic_id', $comments->first()->id)
-                ->where('user_id', Auth::user()->id)
-                ->where('like', 1)
-                ->first();
+            $type = 'city';
 
-            $userDisliked = DB::table('city_topics_likes')
-                ->where('topic_id', $comments->first()->id)
-                ->where('user_id', Auth::user()->id)
-                ->where('like', 0)
-                ->first();
-
-            // `forum.university_topic` Blade dosyasına verileri döndür
-            return view('city.city_topic', compact('topicTitle', 'comments', 'cities_topics', 'topicTitleSlug','city_id','comment_category','type','userLiked','userDisliked'));
+            return view('city.city_topic', compact(
+                'topicTitle', 
+                'comments', 
+                'cities_topics', 
+                'topicTitleSlug', 
+                'city_id', 
+                'comment_category', 
+                'type'
+            ));
 
         } catch (\Exception $e) {
-            Log::error('UniversityController:topicComments fonksiyonu hata verdi: ', [
+            Log::error('CityController:topicComments fonksiyonu hata verdi: ', [
                 'error' => $e->getMessage(),
                 'slug' => $slug,
             ]);
 
             return redirect()->back()->withErrors('Bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
         }
-    }//End
+    }
 
     public function getCityCategoryTopics(Request $request){
         $category = $request->input('category');
