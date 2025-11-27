@@ -34,31 +34,56 @@ class ForumController extends Controller
     }//End
 
     // AJAX ile sonraki yorumları getirecek
-public function loadMore(Request $request)
-{
-    // Varsayılan olarak ilk sayfayı al
-    $page = $request->input('page', 1);
+    public function loadMore(Request $request)
+    {
+        $page = $request->input('page', 1);
+        $perPage = 10;
+        $userId = auth()->id();
 
-    // Sabit sayfa boyutu (gerekirse config dosyasına alınabilir)
-    $perPage = 10;
+        // Topics'i çek
+        $topics = GeneralTopic::with('user')
+            ->whereNotNull('created_by')
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage, ['*'], 'page', $page);
 
-    // En son oluşturulan yorumlara göre sırala
-    $topics = GeneralTopic::with('user')
-        ->whereNotNull('created_by')
-        ->orderBy('created_at', 'desc')
-        ->paginate($perPage, ['*'], 'page', $page);
+        // Her topic için beğeni durumunu ekle
+        $topics->getCollection()->transform(function ($topic) use ($userId) {
+            if ($userId) {
+                $userLike = DB::table('general_topics_likes')
+                    ->where('topic_id', $topic->id)
+                    ->where('user_id', $userId)
+                    ->first();
+                
+                $topic->userLiked = $userLike && $userLike->like == 1;
+                $topic->userDisliked = $userLike && $userLike->like == 0;
+            } else {
+                $topic->userLiked = false;
+                $topic->userDisliked = false;
+            }
+            
+            return $topic;
+        });
 
-    // Eğer AJAX istek gelmişse, sadece partial view döndür
-    if ($request->ajax()) {
-        return response()->json([
-            'html' => View::make('components.topic-list', compact('topics'))->render(),
-            'hasMore' => $topics->hasMorePages(),
-        ]);
+        // Eğer AJAX istek gelmişse, sadece partial view döndür
+        if ($request->ajax()) {
+            $html = '';
+            foreach ($topics as $topic) {
+                $html .= View::make('components.topic-box', [
+                    'topic' => $topic,
+                    'routeName' => 'topic.comments', // ← Route adını kontrol et
+                    'type' => 'general'
+                ])->render();
+            }
+
+            return response()->json([
+                'html' => $html,
+                'hasMore' => $topics->hasMorePages(),
+            ]);
+        }
+
+        // Normal istek için (fallback)
+        return redirect()->route('forum');
     }
-
-    // Normal istek için (fallback)
-    return redirect()->route('forum');
-}
 
    public function createTopicGeneralForum(Request $request){
         

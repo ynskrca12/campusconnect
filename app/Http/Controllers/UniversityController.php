@@ -76,28 +76,49 @@ class UniversityController extends Controller
     {
         $page = $request->input('page', 1);
         $perPage = 10;
-
         $universityId = $request->input('university_id');
         $category = $request->input('category');
+        $userId = auth()->id(); 
 
-
-        // En son oluşturulan yorumlara göre sırala
+        // Kullanıcının beğeni durumunu da çek
         $topics = UniversityTopic::with('user')
-            ->where('university_id', $universityId)
-            ->where('category', $category)
-            // ->whereNotNull('created_by')
-            ->orderBy('created_at', 'desc')
+            ->leftJoin('university_topics_likes', function($join) use ($userId) {
+                $join->on('universities_topics.id', '=', 'university_topics_likes.topic_id')
+                    ->where('university_topics_likes.user_id', '=', $userId);
+            })
+            ->where('universities_topics.university_id', $universityId)
+            ->where('universities_topics.category', $category)
+            ->select(
+                'universities_topics.*',
+                'university_topics_likes.like as user_like_status'
+            )
+            ->orderBy('universities_topics.created_at', 'desc')
             ->paginate($perPage, ['*'], 'page', $page);
+
+        // Her topic için beğeni durumunu ekle
+        $topics->getCollection()->transform(function ($topic) {
+            $topic->userLiked = $topic->user_like_status === 1;
+            $topic->userDisliked = $topic->user_like_status === 0;
+            return $topic;
+        });
 
         // Eğer AJAX istek gelmişse, sadece partial view döndür
         if ($request->ajax()) {
+            $html = '';
+            foreach ($topics as $topic) {
+                $html .= View::make('components.topic-box', [
+                    'topic' => $topic,
+                    'routeName' => 'university.topic.comments',
+                    'type' => 'university'
+                ])->render();
+            }
+
             return response()->json([
-                'html' => View::make('components.topic-list', compact('topics'))->render(),
+                'html' => $html,
                 'hasMore' => $topics->hasMorePages(),
             ]);
         }
 
-        // Normal istek için (fallback)
         return redirect()->route('forum');
     }
 

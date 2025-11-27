@@ -69,23 +69,48 @@ class CityController extends Controller
     {
         $page = $request->input('page', 1);
         $perPage = 10;
-
         $cityId = $request->input('city_id');
         $category = $request->input('category');
+        $userId = auth()->id();
 
-
-        // En son oluşturulan yorumlara göre sırala
+        // Topics'i çek
         $topics = CityTopic::with('user')
             ->where('city_id', $cityId)
             ->where('category', $category)
-            // ->whereNotNull('created_by')
             ->orderBy('created_at', 'desc')
             ->paginate($perPage, ['*'], 'page', $page);
 
+        // Her topic için beğeni durumunu ekle
+        $topics->getCollection()->transform(function ($topic) use ($userId) {
+            if ($userId) {
+                $userLike = DB::table('city_topics_likes')
+                    ->where('topic_id', $topic->id)
+                    ->where('user_id', $userId)
+                    ->first();
+                
+                $topic->userLiked = $userLike && $userLike->like == 1;
+                $topic->userDisliked = $userLike && $userLike->like == 0;
+            } else {
+                $topic->userLiked = false;
+                $topic->userDisliked = false;
+            }
+            
+            return $topic;
+        });
+
         // Eğer AJAX istek gelmişse, sadece partial view döndür
         if ($request->ajax()) {
+            $html = '';
+            foreach ($topics as $topic) {
+                $html .= View::make('components.topic-box', [
+                    'topic' => $topic,
+                    'routeName' => 'city.topic.comments', // ← Route adını kontrol et
+                    'type' => 'city'
+                ])->render();
+            }
+
             return response()->json([
-                'html' => View::make('components.topic-list', compact('topics'))->render(),
+                'html' => $html,
                 'hasMore' => $topics->hasMorePages(),
             ]);
         }
