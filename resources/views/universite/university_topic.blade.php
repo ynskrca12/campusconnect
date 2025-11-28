@@ -1,6 +1,9 @@
 @extends('layouts.master') 
 
 @section('content')
+@php
+    $university = App\Models\University::find($university_id);
+@endphp
 
     {{-- Thread Header --}}
     <div class="thread-header">
@@ -11,12 +14,21 @@
                 </svg>
             </button>
             <div class="header-breadcrumb">
-                <a href="{{ route('universities') }}" class="breadcrumb-item">Üniversiteler</a>
+                <a href="{{ route('universities') }}" class="breadcrumb-item">
+                    <i class="fa-solid fa-building-columns me-2"></i> Üniversiteler
+                </a>
+
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="breadcrumb-arrow">
                     <polyline points="9 18 15 12 9 6"/>
                 </svg>
-                <a href="{{ route('university.show', App\Models\University::find($university_id)->slug) }}" class="breadcrumb-item breadcrumb-truncate">
-                    {{ App\Models\University::find($university_id)->universite_ad }}
+                <a href="{{ route('university.show', $university->slug) }}" class="breadcrumb-item breadcrumb-truncate">
+                    @if($university->logo)
+                        <img src="{{ $university->logo }}" 
+                            alt="{{ $university->universite_ad }} Logo" 
+                            style="height:22px;" 
+                            class="me-2">
+                    @endif
+                    {{ $university->universite_ad }}
                 </a>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="breadcrumb-arrow">
                     <polyline points="9 18 15 12 9 6"/>
@@ -210,7 +222,7 @@
         }
 
         .breadcrumb-truncate {
-            max-width: 200px;
+            max-width: 300px;
             overflow: hidden;
             text-overflow: ellipsis;
         }
