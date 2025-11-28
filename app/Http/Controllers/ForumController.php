@@ -161,45 +161,61 @@ class ForumController extends Controller
         }    
    }//End
 
-   public function topicComments($slug)
-   {
-       try {
-       
-           // if slug is empty
-           if (empty($slug)) {
-               return redirect()->back()->withErrors('Slug değeri sağlanmadı.');
-           }
-   
-           $topicsQuery = GeneralTopic::with('user')->
-           where('topic_title_slug', $slug);
-   
-           
-           if ($topicsQuery->count() === 0) {
-            abort(404, 'Bu slug ile ilişkili bir konu bulunamadı.');
-           }
-            
+    public function topicComments($slug)
+    {
+        try {
+            // if slug is empty
+            if (empty($slug)) {
+                return redirect()->back()->withErrors('Slug değeri sağlanmadı.');
+            }
+
+            $userId = auth()->id(); // ← NULL olabilir
+
+            $topicsQuery = GeneralTopic::with('user')
+                ->where('topic_title_slug', $slug);
+
+            if ($topicsQuery->count() === 0) {
+                abort(404, 'Bu slug ile ilişkili bir konu bulunamadı.');
+            }
+
             $comments = $topicsQuery->paginate(9);
+            
+            // HER COMMENT İÇİN BEĞENİ DURUMUNU EKLE
+            $comments->getCollection()->transform(function ($comment) use ($userId) {
+                if ($userId) {
+                    $userLike = DB::table('general_topics_likes')
+                        ->where('topic_id', $comment->id)
+                        ->where('user_id', $userId)
+                        ->first();
+                    
+                    $comment->userLiked = $userLike && $userLike->like == 1;
+                    $comment->userDisliked = $userLike && $userLike->like == 0;
+                } else {
+                    $comment->userLiked = false;
+                    $comment->userDisliked = false;
+                }
+                
+                return $comment;
+            });
+
             $topicTitle = $comments->first()->topic_title ?? 'Başlık Yok';
             $topicTitleSlug = $comments->first()->topic_title_slug ?? 'Slug Yok';
 
+            $general_topics = GeneralTopic::select('topic_title', 'topic_title_slug', DB::raw('COUNT(topic_title_slug) as count'))
+                ->groupBy('topic_title', 'topic_title_slug')
+                ->get();
 
-           $general_topics = GeneralTopic::select('topic_title', 'topic_title_slug', DB::raw('COUNT(topic_title_slug) as count'))
-           ->groupBy('topic_title', 'topic_title_slug')
-           ->get();
-   
-           // `forum.topics` Blade dosyasına verileri döndür
-           return view('forum.topic', compact('topicTitle', 'comments','general_topics','topicTitleSlug'));
-   
-       } catch (\Exception $e) {
-   
-           Log::error('topicComments fonksiyonu hata verdi: ', [
-               'error' => $e->getMessage(),
-               'slug' => $slug,
-           ]);
-   
-           return redirect()->back()->withErrors('Bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
-       }
-   }//End
+            return view('forum.topic', compact('topicTitle', 'comments', 'general_topics', 'topicTitleSlug'));
+
+        } catch (\Exception $e) {
+            Log::error('topicComments fonksiyonu hata verdi: ', [
+                'error' => $e->getMessage(),
+                'slug' => $slug,
+            ]);
+
+            return redirect()->back()->withErrors('Bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+        }
+    }
    
    public function storeComment(Request $request)
     {

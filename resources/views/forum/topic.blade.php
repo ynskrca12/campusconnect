@@ -50,11 +50,24 @@
 
                             <div class="d-flex align-items-center justify-content-between mt-3">
                                 <div class="like-dislike mt-3">
-                                    <div class="like-btn d-inline me-3" data-id="{{ $comment['id'] }}" style="cursor: pointer; color: #888;">
-                                        <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-up"></i> <span class="like-count">{{ $comment['likes'] }}</span>
+                                    <div class="like-btn d-inline me-3" 
+                                        data-id="{{ $comment['id'] }}" 
+                                        data-type="general"
+                                        data-user-liked="{{ ($comment->userLiked ?? false) ? '1' : '0' }}"
+                                        style="cursor: pointer;">
+                                        <i style="font-size: 18px; color: {{ ($comment->userLiked ?? false) ? '#dc3545' : '#536471' }};" 
+                                        class="bi bi-heart{{ ($comment->userLiked ?? false) ? '-fill' : '' }}"></i>
+                                        <span class="like-count" style="color: #495057;">{{ $comment['likes'] }}</span>
                                     </div>
-                                    <div class="dislike-btn d-inline" data-id="{{ $comment['id'] }}" style="cursor: pointer; color: #888;">
-                                        <i style="font-weight: 500 !important" class="fa-solid fa-thumbs-down"></i> <span class="dislike-count">{{ $comment['dislikes'] }}</span>
+
+                                    <div class="dislike-btn d-inline" 
+                                        data-id="{{ $comment['id'] }}" 
+                                        data-type="general"
+                                        data-user-disliked="{{ ($comment->userDisliked ?? false) ? '1' : '0' }}"
+                                        style="cursor: pointer;">
+                                        <i style="font-size: 18px; color: {{ ($comment->userDisliked ?? false) ? '#6c757d' : '#536471' }};" 
+                                        class="bi bi-hand-thumbs-down{{ ($comment->userDisliked ?? false) ? '-fill' : '' }}"></i>
+                                        <span class="dislike-count" style="color: #495057;">{{ $comment['dislikes'] }}</span>
                                     </div>
                                 </div>
                                 <div class="meta">
@@ -121,7 +134,9 @@
             padding-right: 10px;
         }
          .topic {
-            padding: 10px 0;
+            border: 1px solid #dcdcdc;
+            padding: 18px 24px;
+            border-radius: 17px;
         }
        
         .topic h3 {
@@ -133,8 +148,8 @@
             margin: 5px 0;
             font-size: 14px;
             color: #666;
-            word-wrap: break-word; /* Eski tarayıcı desteği için */
-            overflow-wrap: break-word; /* Yeni standart */
+            word-wrap: break-word; 
+            overflow-wrap: break-word; 
             white-space: pre-wrap;
         }
         .topic .meta {
@@ -188,7 +203,6 @@
         .topic-title{
             font-weight: bold;
             word-wrap: break-word;
-            /* padding-right: 130px; */
             font-size: 20px !important;
         }
 
@@ -307,6 +321,7 @@
     {{-- like dislike --}}
     <script>
         $(document).on('click', '.like-btn', function () {
+            let $btn = $(this);
             let topicId = $(this).data('id');
             let userId = '{{ auth()->id() }}'; 
 
@@ -315,10 +330,11 @@
                 return; 
             }
             
-            let likeBtn = $(this);
-            let dislikeBtn = likeBtn.siblings('.dislike-btn');
-            let likeCount = likeBtn.find('.like-count');
+            let likeCount = $(this).find('.like-count');
+            let dislikeBtn = $(this).closest('.like-dislike').find('.dislike-btn');
             let dislikeCount = dislikeBtn.find('.dislike-count');
+            let $likeIcon = $btn.find('i');
+            let $dislikeIcon = dislikeBtn.find('i');
 
             $.ajax({
                 url: `/general/topic/${topicId}/like`,
@@ -330,17 +346,25 @@
                     likeCount.text(response.likes);
                     dislikeCount.text(response.dislikes);
 
-                    if (response.liked) {
-                        likeBtn.css('color', '#007bff');
-                        dislikeBtn.css('color', '#888'); 
+                    if (response.user_liked) {
+                        // Beğenildi - İçi dolu kırmızı kalp
+                        $likeIcon.removeClass('bi-heart').addClass('bi-heart-fill');
+                        $likeIcon.css('color', '#dc3545');
+                        
                     } else {
-                        likeBtn.css('color', '#888');
+                        // Beğeni kaldırıldı - İçi boş gri kalp
+                        $likeIcon.removeClass('bi-heart-fill').addClass('bi-heart');
+                        $likeIcon.css('color', '#536471');
                     }
+
+                    $dislikeIcon.removeClass('bi-hand-thumbs-down-fill').addClass('bi-hand-thumbs-down');
+                    $dislikeIcon.css('color', '#536471');
                 }
             });
         });
 
         $(document).on('click', '.dislike-btn', function () {
+            let $btn = $(this);
             let topicId = $(this).data('id');
             let userId = '{{ auth()->id() }}'; 
 
@@ -349,10 +373,11 @@
                 return; 
             }
 
-            let dislikeBtn = $(this);
-            let likeBtn = dislikeBtn.siblings('.like-btn');
-            let dislikeCount = dislikeBtn.find('.dislike-count');
+            let dislikeCount = $(this).find('.dislike-count');
+            let likeBtn = $(this).closest('.like-dislike').find('.like-btn');
             let likeCount = likeBtn.find('.like-count');
+            let $likeIcon = likeBtn.find('i');
+            let $dislikeIcon = $btn.find('i');
 
             $.ajax({
                 url: `/general/topic/${topicId}/dislike`,
@@ -364,11 +389,21 @@
                     dislikeCount.text(response.dislikes);
                     likeCount.text(response.likes);
 
-                    if (response.disliked) {
-                        dislikeBtn.css('color', '#ff0000');
-                        likeBtn.css('color', '#888');
+                    // KALP İKONU SIFIRLAMA - İçi boş gri kalp
+                    $likeIcon.removeClass('bi-heart-fill').addClass('bi-heart');
+                    $likeIcon.css('color', '#536471');
+                    
+                    // DISLIKE İKONU GÜNCELLEME
+                    if (response.user_disliked) {
+                        // Dislike yapıldı - İçi dolu
+                        console.log('Dislike AKTIF'); // TEST İÇİN
+                        $dislikeIcon.removeClass('bi-hand-thumbs-down').addClass('bi-hand-thumbs-down-fill');
+                        $dislikeIcon.css('color', '#6c757d');
                     } else {
-                        dislikeBtn.css('color', '#888'); 
+                        // Dislike kaldırıldı - İçi boş
+                        console.log('Dislike İPTAL'); // TEST İÇİN
+                        $dislikeIcon.removeClass('bi-hand-thumbs-down-fill').addClass('bi-hand-thumbs-down');
+                        $dislikeIcon.css('color', '#536471');
                     }
                 }
             });
