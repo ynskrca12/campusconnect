@@ -35,104 +35,7 @@
         <div class="col-md-10 main-content px-4">          
             <div id="cities-content" class="content-area">
 
-                  <!-- Placeholder Başlangıç -->              
-
-                <div class="row placeholder-content">
-
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="content-title">Yükleniyor...</span>
-                    </div>
-
-                    <div class="col-md-4 mb-5">
-                        <div class="card placeholder-glow">
-                            <div class="placeholder-image bg-secondary" style="height: 180px;"></div>
-                            <div class="card-body">
-                                <h5 class="card-title placeholder-glow">
-                                    <span class="placeholder col-6"></span>
-                                </h5>
-                                <p class="card-text placeholder-glow">
-                                    <span class="placeholder col-7"></span>
-                                    <span class="placeholder col-4"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-5">
-                        <div class="card placeholder-glow">
-                            <div class="placeholder-image bg-secondary" style="height: 180px;"></div>
-                            <div class="card-body">
-                                <h5 class="card-title placeholder-glow">
-                                    <span class="placeholder col-6"></span>
-                                </h5>
-                                <p class="card-text placeholder-glow">
-                                    <span class="placeholder col-7"></span>
-                                    <span class="placeholder col-4"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-5">
-                        <div class="card placeholder-glow">
-                            <div class="placeholder-image bg-secondary" style="height: 180px;"></div>
-                            <div class="card-body">
-                                <h5 class="card-title placeholder-glow">
-                                    <span class="placeholder col-6"></span>
-                                </h5>
-                                <p class="card-text placeholder-glow">
-                                    <span class="placeholder col-7"></span>
-                                    <span class="placeholder col-4"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-5">
-                        <div class="card placeholder-glow">
-                            <div class="placeholder-image bg-secondary" style="height: 180px;"></div>
-                            <div class="card-body">
-                                <h5 class="card-title placeholder-glow">
-                                    <span class="placeholder col-6"></span>
-                                </h5>
-                                <p class="card-text placeholder-glow">
-                                    <span class="placeholder col-7"></span>
-                                    <span class="placeholder col-4"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-5">
-                        <div class="card placeholder-glow">
-                            <div class="placeholder-image bg-secondary" style="height: 180px;"></div>
-                            <div class="card-body">
-                                <h5 class="card-title placeholder-glow">
-                                    <span class="placeholder col-6"></span>
-                                </h5>
-                                <p class="card-text placeholder-glow">
-                                    <span class="placeholder col-7"></span>
-                                    <span class="placeholder col-4"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-5">
-                        <div class="card placeholder-glow">
-                            <div class="placeholder-image bg-secondary" style="height: 180px;"></div>
-                            <div class="card-body">
-                                <h5 class="card-title placeholder-glow">
-                                    <span class="placeholder col-6"></span>
-                                </h5>
-                                <p class="card-text placeholder-glow">
-                                    <span class="placeholder col-7"></span>
-                                    <span class="placeholder col-4"></span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <!-- Placeholder Bitiş -->
-
-                <div class="real-content" style="display: none;">
+                <div class="real-content">
                    
                     
                     <div class="container mb-5 p-0">
@@ -740,7 +643,414 @@
                         </div>
                     </div>
 
+<div class="container my-5 p-0">
+    <div class="airport-section-header text-center mb-5">
+        <div class="header-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#001b48" stroke-width="1.5">
+                <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>
+            </svg>
+        </div>
+        <h2 class="minimal-section-title">Havaalanı Bulunan Şehirler</h2>
+        <p class="minimal-section-desc">Öğrenci dostu havaalanları, ulaşım bilgileri ve bilet karşılaştırma araçları</p>
+    </div>
 
+    {{-- Quick Search Tools --}}
+    <div class="search-tools-bar">
+        <h3 class="tools-title">Uçak Bileti Karşılaştırma Araçları</h3>
+        <div class="row g-3 mb-4">
+            <div class="col-md-3 col-sm-6">
+                <a href="https://www.skyscanner.com.tr/" target="_blank" class="tool-card">
+                    <div class="tool-icon">🔍</div>
+                    <div class="tool-name">Skyscanner</div>
+                    <p class="tool-desc">En uygun fiyatları bul</p>
+                </a>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <a href="https://www.enuygun.com/ucak-bileti/" target="_blank" class="tool-card">
+                    <div class="tool-icon">💰</div>
+                    <div class="tool-name">Enuygun</div>
+                    <p class="tool-desc">Türkiye'nin en ucuzu</p>
+                </a>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <a href="https://www.obilet.com/ucak-bileti" target="_blank" class="tool-card">
+                    <div class="tool-icon">🎫</div>
+                    <div class="tool-name">Obilet</div>
+                    <p class="tool-desc">Hızlı karşılaştırma</p>
+                </a>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <a href="https://www.googleflights.com/" target="_blank" class="tool-card">
+                    <div class="tool-icon">✈️</div>
+                    <div class="tool-name">Google Flights</div>
+                    <p class="tool-desc">Fiyat takibi</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {{-- Filtre --}}
+    <div class="minimal-filter-bar">
+        <button class="minimal-filter-btn active" data-filter="all">Tümü</button>
+        <button class="minimal-filter-btn" data-filter="international">Uluslararası</button>
+        <button class="minimal-filter-btn" data-filter="domestic">İç Hat</button>
+    </div>
+
+    {{-- Havaalanı Kartları --}}
+    <div class="row g-3" id="airportCards">
+        @php
+            $airports = [
+                [
+                    'city' => 'İstanbul',
+                    'airport' => 'İstanbul Havalimanı',
+                    'code' => 'IST',
+                    'type' => 'international',
+                    'students' => '1.034.553',
+                    'universities' => '61 üniversite',
+                    'daily_flights' => '1.300+',
+                    'destinations' => '309 nokta',
+                    'campus_distance' => '30-60 dk',
+                    'transport' => 'Metro (M11), Havaist, İETT Otobüs',
+                    'transport_cost' => '15-50 TL',
+                    'student_discount' => 'THY: %25 | Pegasus: %30 | AnadoluJet: %20',
+                    'peak_hours' => '06:00-09:00, 17:00-20:00',
+                    'facilities' => 'Ücretsiz WiFi, Çalışma Alanları, Şarj İstasyonları, Yemek Alanı',
+                    'nearby_unis' => ['Boğaziçi Ünv.', 'İTÜ', 'İstanbul Ünv.', 'Yıldız Teknik', 'Marmara Ünv.'],
+                    'job_info' => 'Havacılık, lojistik, turizm ve yer hizmetlerinde yıllık 20.000+ staj pozisyonu',
+                    'tips' => 'İstanbul Kartınızla %50 indirimli ulaşım. Sabah 6-9 arası uçuşlar genelde daha ucuz.',
+                    'source' => 'İGA, YÖK, DHMİ 2024'
+                ],
+                [
+                    'city' => 'Ankara',
+                    'airport' => 'Esenboğa Havalimanı',
+                    'code' => 'ESB',
+                    'type' => 'international',
+                    'students' => '500.000+',
+                    'universities' => '25 üniversite',
+                    'daily_flights' => '300+',
+                    'destinations' => '65 nokta',
+                    'campus_distance' => '25-45 dk',
+                    'transport' => 'Belko Havaş, EGO Otobüs (442 nolu)',
+                    'transport_cost' => '15-35 TL',
+                    'student_discount' => 'THY: %25 | AnadoluJet: %20 | Pegasus: %20',
+                    'peak_hours' => '07:00-09:00, 18:00-20:00',
+                    'facilities' => 'Ücretsiz WiFi, Sessiz Çalışma Alanı, Öğrenci Lounge, Kütüphane Köşesi',
+                    'nearby_unis' => ['ODTÜ', 'Hacettepe', 'Bilkent', 'Ankara Ünv.', 'Gazi Ünv.'],
+                    'job_info' => 'Havacılık mühendisliği, yer hizmetleri, kargo operasyonlarında 12.000+ fırsat',
+                    'tips' => 'Ankarakart ile %50 indirim. Çarşamba uçuşları genelde %30 daha ucuz.',
+                    'source' => 'TAV, YÖK, DHMİ 2024'
+                ],
+                [
+                    'city' => 'İzmir',
+                    'airport' => 'Adnan Menderes Havalimanı',
+                    'code' => 'ADB',
+                    'type' => 'international',
+                    'students' => '154.000+',
+                    'universities' => '9 üniversite',
+                    'daily_flights' => '280+',
+                    'destinations' => '61 nokta',
+                    'campus_distance' => '20-40 dk',
+                    'transport' => 'İZBAN (Tren), Metro, Havaş, ESHOT',
+                    'transport_cost' => '12-30 TL',
+                    'student_discount' => 'THY: %25 | Pegasus: %20 | SunExpress: %15',
+                    'peak_hours' => '06:00-08:00, 17:00-19:00',
+                    'facilities' => 'Ücretsiz WiFi, Deniz Manzaralı Bekleme, Çalışma Masaları, Kafe',
+                    'nearby_unis' => ['Ege Ünv.', 'Dokuz Eylül', 'İzmir Ekonomi', 'İzmir Yüksek Teknoloji', 'Yaşar Ünv.'],
+                    'job_info' => 'Lojistik, turizm, denizcilik sektöründe 8.000+ staj ve part-time imkan',
+                    'tips' => 'İzmirim Kart ile %50 indirim. Mayıs-Eylül arası fiyatlar %40 artıyor.',
+                    'source' => 'TAV, YÖK, DHMİ 2024'
+                ],
+                [
+                    'city' => 'Antalya',
+                    'airport' => 'Antalya Havalimanı',
+                    'code' => 'AYT',
+                    'type' => 'international',
+                    'students' => '80.000+',
+                    'universities' => '5 üniversite',
+                    'daily_flights' => '400+',
+                    'destinations' => '180+ nokta',
+                    'campus_distance' => '15-35 dk',
+                    'transport' => 'Tramvay (Havalimanı Hattı), Havaş, Antobus',
+                    'transport_cost' => '10-25 TL',
+                    'student_discount' => 'THY: %25 | Pegasus: %30 (sezon dışı) | AnadoluJet: %20',
+                    'peak_hours' => 'Yaz: 24 saat yoğun | Kış: 08:00-12:00, 16:00-20:00',
+                    'facilities' => 'Ücretsiz WiFi, Plaj Teması Dinlenme, Turistik Alan, Çalışma Köşeleri',
+                    'nearby_unis' => ['Akdeniz Ünv.', 'Alanya Alaaddin Keykubat', 'Antalya Bilim ve Teknoloji'],
+                    'job_info' => 'Turizm ve otelcilik sektöründe yaz sezonu 15.000+ staj, yıl boyu 5.000+ part-time',
+                    'tips' => 'Ekim-Mart arası %50 daha ucuz. AntalyaKart ile toplu taşıma indirimi.',
+                    'source' => 'Fraport TAV, YÖK 2024'
+                ],
+                [
+                    'city' => 'Adana',
+                    'airport' => 'Şakirpaşa Havalimanı',
+                    'code' => 'ADA',
+                    'type' => 'domestic',
+                    'students' => '95.000+',
+                    'universities' => '6 üniversite',
+                    'daily_flights' => '65+',
+                    'destinations' => '15 nokta',
+                    'campus_distance' => '15-25 dk',
+                    'transport' => 'Metro (M1 Hattı), Havaş, Belediye Otobüs',
+                    'transport_cost' => '8-20 TL',
+                    'student_discount' => 'THY: %25 | AnadoluJet: %20 | Pegasus: %15',
+                    'peak_hours' => '07:00-09:00, 18:00-20:00',
+                    'facilities' => 'Ücretsiz WiFi, Kompakt Terminal, Hızlı Check-in',
+                    'nearby_unis' => ['Çukurova Ünv.', 'Adana Bilim ve Teknoloji', 'TED Ünv.'],
+                    'job_info' => 'Tarım teknolojisi, tekstil ve lojistik alanında 4.000+ staj fırsatı',
+                    'tips' => 'AdanaKart ile %50 indirim. Hafta içi uçuşlar %25 daha uygun.',
+                    'source' => 'DHMİ, YÖK 2024'
+                ],
+                [
+                    'city' => 'Trabzon',
+                    'airport' => 'Trabzon Havalimanı',
+                    'code' => 'TZX',
+                    'type' => 'domestic',
+                    'students' => '65.000+',
+                    'universities' => '3 üniversite',
+                    'daily_flights' => '50+',
+                    'destinations' => '12 nokta',
+                    'campus_distance' => '8-20 dk',
+                    'transport' => 'Havaş, Dolmuş, Belediye Otobüs',
+                    'transport_cost' => '10-15 TL',
+                    'student_discount' => 'THY: %25 | Pegasus: %20 | AnadoluJet: %15',
+                    'peak_hours' => '06:00-08:00, 17:00-19:00',
+                    'facilities' => 'Ücretsiz WiFi, Deniz Manzarası, Çay Bahçesi',
+                    'nearby_unis' => ['KTÜ', 'Avrasya Ünv.', 'Trabzon Ünv.'],
+                    'job_info' => 'Denizcilik, balıkçılık ve kara lojistiği alanında 3.000+ kariyer imkanı',
+                    'tips' => 'Kampüse çok yakın. Cuma-Pazar uçuşları daha pahalı.',
+                    'source' => 'DHMİ, YÖK 2024'
+                ],
+                [
+                    'city' => 'Gaziantep',
+                    'airport' => 'Oğuzeli Havalimanı',
+                    'code' => 'GZT',
+                    'type' => 'domestic',
+                    'students' => '120.000+',
+                    'universities' => '4 üniversite',
+                    'daily_flights' => '45+',
+                    'destinations' => '14 nokta',
+                    'campus_distance' => '25-40 dk',
+                    'transport' => 'Havaş, GAZIULAŞ Otobüs',
+                    'transport_cost' => '12-25 TL',
+                    'student_discount' => 'THY: %25 | Pegasus: %20 | AnadoluJet: %20',
+                    'peak_hours' => '06:00-09:00, 17:00-20:00',
+                    'facilities' => 'Ücretsiz WiFi, Modern Terminal, Yerel Lezzetler',
+                    'nearby_unis' => ['Gaziantep Ünv.', 'Hasan Kalyoncu', 'Sanko Ünv.', 'Gaziantep İslam Bilim ve Teknoloji'],
+                    'job_info' => 'Sanayi, dış ticaret, tekstil sektöründe 6.500+ staj ve iş imkanı',
+                    'tips' => 'Sanayi şehri olduğundan iş uçuşları yoğun. Öğleden sonra daha uygun.',
+                    'source' => 'DHMİ, YÖK 2024'
+                ],
+                [
+                    'city' => 'Konya',
+                    'airport' => 'Konya Havalimanı',
+                    'code' => 'KYA',
+                    'type' => 'domestic',
+                    'students' => '200.000+',
+                    'universities' => '5 üniversite',
+                    'daily_flights' => '40+',
+                    'destinations' => '10 nokta',
+                    'campus_distance' => '15-30 dk',
+                    'transport' => 'Tramvay, Havaş, Belediye Otobüs',
+                    'transport_cost' => '8-18 TL',
+                    'student_discount' => 'THY: %25 | AnadoluJet: %20 | Pegasus: %15',
+                    'peak_hours' => '07:00-09:00, 18:00-20:00',
+                    'facilities' => 'Ücretsiz WiFi, Mevlana Temalı Dekor, Sessiz Alanlar',
+                    'nearby_unis' => ['Selçuk Ünv.', 'Necmettin Erbakan', 'KTO Karatay', 'Konya Teknik', 'Konya Gıda ve Tarım'],
+                    'job_info' => 'Otomotiv, sanayi ve teknoparkta 5.000+ staj pozisyonu',
+                    'tips' => 'KonyaKart ile %50 indirim. Salı günleri genelde %20 daha uygun.',
+                    'source' => 'DHMİ, YÖK 2024'
+                ]
+            ];
+        @endphp
+
+        @foreach($airports as $airport)
+            <div class="col-lg-6 airport-item-wrapper" data-type="{{ $airport['type'] }}">
+                <div class="minimal-airport-card">
+                    {{-- Header --}}
+                    <div class="card-header-minimal">
+                        <div class="header-left">
+                            <h3 class="city-title">{{ $airport['city'] }}</h3>
+                            <p class="airport-subtitle">{{ $airport['airport'] }}</p>
+                        </div>
+                        <div class="header-right">
+                            <span class="code-badge">{{ $airport['code'] }}</span>
+                            @if($airport['type'] === 'international')
+                                <span class="type-badge">🌍 Uluslararası</span>
+                            @else
+                                <span class="type-badge domestic">🇹🇷 İç Hat</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    {{-- Main Info --}}
+                    <div class="card-info-section">
+                        <div class="info-item-minimal">
+                            <span class="info-icon-minimal">👨‍🎓</span>
+                            <div class="info-content-minimal">
+                                <span class="info-label-minimal">Öğrenci Sayısı</span>
+                                <span class="info-value-minimal">{{ $airport['students'] }}</span>
+                            </div>
+                        </div>
+                        <div class="info-item-minimal">
+                            <span class="info-icon-minimal">✈️</span>
+                            <div class="info-content-minimal">
+                                <span class="info-label-minimal">Günlük Uçuş</span>
+                                <span class="info-value-minimal">{{ $airport['daily_flights'] }}</span>
+                            </div>
+                        </div>
+                        <div class="info-item-minimal">
+                            <span class="info-icon-minimal">🌍</span>
+                            <div class="info-content-minimal">
+                                <span class="info-label-minimal">Uçuş Noktası</span>
+                                <span class="info-value-minimal">{{ $airport['destinations'] }}</span>
+                            </div>
+                        </div>
+                        <div class="info-item-minimal">
+                            <span class="info-icon-minimal">🏫</span>
+                            <div class="info-content-minimal">
+                                <span class="info-label-minimal">Üniversite</span>
+                                <span class="info-value-minimal">{{ $airport['universities'] }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Transport --}}
+                    <div class="detail-section-minimal">
+                        <div class="section-title-minimal">🚌 Ulaşım Bilgileri</div>
+                        <div class="detail-row">
+                            <span class="detail-label">Kampüse Mesafe:</span>
+                            <span class="detail-value">{{ $airport['campus_distance'] }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Ulaşım Araçları:</span>
+                            <span class="detail-value">{{ $airport['transport'] }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Ulaşım Ücreti:</span>
+                            <span class="detail-value">{{ $airport['transport_cost'] }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Yoğun Saatler:</span>
+                            <span class="detail-value">{{ $airport['peak_hours'] }}</span>
+                        </div>
+                    </div>
+
+                    {{-- Student Discounts --}}
+                    <div class="detail-section-minimal highlight">
+                        <div class="section-title-minimal">🎓 Öğrenci İndirimleri</div>
+                        <p class="discount-info">{{ $airport['student_discount'] }}</p>
+                    </div>
+
+                    {{-- Facilities --}}
+                    <div class="detail-section-minimal">
+                        <div class="section-title-minimal">🏢 Havaalanı İmkanları</div>
+                        <p class="facility-text">{{ $airport['facilities'] }}</p>
+                    </div>
+
+                    {{-- Universities --}}
+                    <div class="detail-section-minimal">
+                        <div class="section-title-minimal">📚 Yakın Üniversiteler</div>
+                        <div class="uni-tags-minimal">
+                            @foreach($airport['nearby_unis'] as $uni)
+                                <span class="uni-tag-minimal">{{ $uni }}</span>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    {{-- Career --}}
+                    <div class="detail-section-minimal">
+                        <div class="section-title-minimal">💼 Kariyer Fırsatları</div>
+                        <p class="career-text">{{ $airport['job_info'] }}</p>
+                    </div>
+
+                    {{-- Tips --}}
+                    <div class="tips-box-minimal">
+                        <span class="tip-icon-minimal">💡</span>
+                        <p class="tip-text-minimal">{{ $airport['tips'] }}</p>
+                    </div>
+
+                    {{-- Actions --}}
+                    <div class="card-actions-minimal">
+                        <a href="https://www.skyscanner.com.tr/ucak-bileti/{{ strtolower($airport['city']) }}" target="_blank" class="action-btn-minimal primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="m21 21-4.35-4.35"/>
+                            </svg>
+                            Bilet Ara (Skyscanner)
+                        </a>
+                        <a href="https://www.enuygun.com/ucak-bileti/" target="_blank" class="action-btn-minimal">
+                            Enuygun'da Karşılaştır
+                        </a>
+                    </div>
+
+                    {{-- Source --}}
+                    <div class="source-minimal">
+                        <small>📊 Kaynak: {{ $airport['source'] }}</small>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+
+    {{-- Öğrenci Rehberi --}}
+    <div class="student-guide-section">
+        <h3 class="guide-title">📖 Öğrenciler İçin Uçak Bileti Rehberi</h3>
+        
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <div class="guide-box">
+                    <h4>💰 Nasıl Ucuz Bilet Bulunur?</h4>
+                    <ul class="guide-list">
+                        <li><strong>2-3 ay önceden al:</strong> Erken rezervasyon %30-40 tasarruf sağlar</li>
+                        <li><strong>Salı-Çarşamba uç:</strong> Hafta ortası uçuşlar %25 daha ucuz</li>
+                        <li><strong>Sabah erken/gece geç:</strong> Bu saatlerde uçmak daha ekonomik</li>
+                        <li><strong>Karşılaştır:</strong> Skyscanner, Enuygun, Google Flights'ı karşılaştır</li>
+                        <li><strong>Fiyat takibi yap:</strong> Google Flights'ta fiyat alarmı kur</li>
+                        <li><strong>Gizli mod kullan:</strong> Tarayıcı gizli modda ara (fiyatlar artmasın)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="guide-box">
+                    <h4>🎓 Öğrenci İndirimi Nasıl Alınır?</h4>
+                    <ul class="guide-list">
+                        <li><strong>Gerekli belgeler:</strong> Öğrenci kimliği + Öğrenci belgesi</li>
+                        <li><strong>THY:</strong> 12-24 yaş arası %25 indirim (Youth Ticket)</li>
+                        <li><strong>Pegasus:</strong> Öğrenci üyeliği ile kampanyalardan haberdar ol</li>
+                        <li><strong>AnadoluJet:</strong> Genç yolcu indirimi %20</li>
+                        <li><strong>Rezervasyon:</strong> Web sitesinden veya mobil uygulamadan yap</li>
+                        <li><strong>Check-in:</strong> Havalimanında öğrenci belgeni göster</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="quick-tip-box">
+                    <div class="tip-number">1</div>
+                    <h5>Kampüs Kartı Avantajı</h5>
+                    <p>Havalimanına toplu taşıma ile giderken öğrenci kartınla %50 indirim al.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="quick-tip-box">
+                    <div class="tip-number">2</div>
+                    <h5>Bagaj Limiti</h5>
+                    <p>Kabinli biletlerde 8kg ücretsiz. Bavul için ek ücret ödeme.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="quick-tip-box">
+                    <div class="tip-number">3</div>
+                    <h5>Erken Check-in</h5>
+                    <p>Online check-in yap, havalimanında 2 saat önceden ol.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
                     {{-- 2024 Yılı Öğrenci Yaşam Giderleri - Aylık Ortalama --}}
@@ -1082,13 +1392,498 @@
 @endsection 
 
 @section('css')
+<style>
+/* ========== VARIABLES ========== */
+:root {
+    --primary-color: #001b48;
+    --bg-white: #ffffff;
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --text-light: #94a3b8;
+    --border-color: #e2e8f0;
+    --bg-light: #f8fafc;
+}
+
+/* ========== SECTION HEADER ========== */
+.airport-section-header {
+    padding: 20px 0;
+}
+
+.header-icon {
+    margin-bottom: 16px;
+}
+
+.minimal-section-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.minimal-section-desc {
+    font-size: 15px;
+    color: var(--text-secondary);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* ========== SEARCH TOOLS ========== */
+.search-tools-bar {
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 32px;
+}
+
+.tools-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.tool-card {
+    display: block;
+    background: var(--bg-white);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.tool-card:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,27,72,0.1);
+}
+
+.tool-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.tool-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 4px;
+}
+
+.tool-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* ========== FILTER ========== */
+.minimal-filter-bar {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+
+.minimal-filter-btn {
+    padding: 10px 24px;
+    background: var(--bg-white);
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.minimal-filter-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.minimal-filter-btn.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--bg-white);
+}
+
+/* ========== AIRPORT CARDS ========== */
+.minimal-airport-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    height: 100%;
+    transition: all 0.2s;
+}
+
+.minimal-airport-card:hover {
+    box-shadow: 0 4px 12px rgba(0,27,72,0.08);
+}
+
+.card-header-minimal {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--bg-light);
+    margin-bottom: 16px;
+}
+
+.city-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0 0 4px 0;
+}
+
+.airport-subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.code-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--primary-color);
+    background: var(--bg-light);
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+}
+
+.type-badge {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--primary-color);
+    background: var(--bg-light);
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-top: 6px;
+    text-align: center;
+}
+
+.type-badge.domestic {
+    color: var(--text-secondary);
+}
+
+/* ========== INFO SECTION ========== */
+.card-info-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.info-item-minimal {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    background: var(--bg-light);
+    border-radius: 6px;
+}
+
+.info-icon-minimal {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.info-content-minimal {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.info-label-minimal {
+    font-size: 11px;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.info-value-minimal {
+    font-size: 13px;
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+/* ========== DETAIL SECTIONS ========== */
+.detail-section-minimal {
+    margin-bottom: 16px;
+    padding: 12px;
+    background: var(--bg-light);
+    border-radius: 6px;
+}
+
+.detail-section-minimal.highlight {
+    background: #f0f4ff;
+    border: 1px solid var(--primary-color);
+}
+
+.section-title-minimal {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.detail-row:last-child {
+    margin-bottom: 0;
+}
+
+.detail-label {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.detail-value {
+    color: var(--text-primary);
+    font-weight: 600;
+    text-align: right;
+}
+
+.discount-info,
+.facility-text,
+.career-text {
+    font-size: 12px;
+    color: var(--text-primary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.uni-tags-minimal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.uni-tag-minimal {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--primary-color);
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+/* ========== TIPS BOX ========== */
+.tips-box-minimal {
+    display: flex;
+    gap: 10px;
+    padding: 12px;
+    background: #fffbeb;
+    border: 1px solid #fbbf24;
+    border-radius: 6px;
+    margin-bottom: 16px;
+}
+
+.tip-icon-minimal {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.tip-text-minimal {
+    font-size: 12px;
+    color: var(--text-primary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ========== ACTIONS ========== */
+.card-actions-minimal {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.action-btn-minimal {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 16px;
+    background: var(--bg-white);
+    border: 2px solid var(--primary-color);
+    border-radius: 6px;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 13px;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.action-btn-minimal:hover {
+    background: var(--bg-light);
+}
+
+.action-btn-minimal.primary {
+    background: var(--primary-color);
+    color: var(--bg-white);
+}
+
+.action-btn-minimal.primary:hover {
+    background: #00152e;
+}
+
+.source-minimal {
+    text-align: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-color);
+}
+
+.source-minimal small {
+    font-size: 11px;
+    color: var(--text-light);
+}
+
+/* ========== GUIDE SECTION ========== */
+.student-guide-section {
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 32px;
+    margin-top: 48px;
+}
+
+.guide-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.guide-box {
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    height: 100%;
+}
+
+.guide-box h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+}
+
+.guide-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.guide-list li {
+    font-size: 13px;
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.guide-list li:before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.guide-list li strong {
+    color: var(--primary-color);
+}
+
+.quick-tip-box {
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    height: 100%;
+}
+
+.tip-number {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-color);
+    color: var(--bg-white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 auto 12px;
+}
+
+.quick-tip-box h5 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.quick-tip-box p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+    .minimal-section-title {
+        font-size: 24px;
+    }
+
+    .card-header-minimal {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .card-info-section {
+        grid-template-columns: 1fr;
+    }
+
+    .card-actions-minimal {
+        flex-direction: column;
+    }
+
+    .student-guide-section {
+        padding: 20px;
+    }
+
+    .guide-title {
+        font-size: 18px;
+    }
+}
+</style>
+
     <style>
         .content-wrapper {
             padding:2.75rem 15px !important;
         } 
         .city_card{
-    background: #f9fbff;
-    border: 1px solid #dcdcdc !important;
+            background: #f9fbff;
+            border: 1px solid #dcdcdc !important;
         }
         .city_card .card-title{
             color: #000000;
@@ -1299,10 +2094,6 @@
             border-left: 1px solid #e0e0e0;
         }
 
-        .real-content {
-            display: none;
-        }
-
     </style>
 
     {{-- mobil --}}
@@ -1369,6 +2160,24 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<script>
+$(document).ready(function() {
+    // Filter functionality
+    $('.minimal-filter-btn').on('click', function() {
+        $('.minimal-filter-btn').removeClass('active');
+        $(this).addClass('active');
+        
+        const filter = $(this).data('filter');
+        
+        if (filter === 'all') {
+            $('.airport-item-wrapper').fadeIn(300);
+        } else {
+            $('.airport-item-wrapper').hide();
+            $(`.airport-item-wrapper[data-type="${filter}"]`).fadeIn(300);
+        }
+    });
+});
+</script>
 
     <script>
         $(document).ready(function () {
@@ -1434,25 +2243,6 @@
                     $(this).toggleClass('collapsed');
                 });
             });
-
-    </script>
-    
-    <script>
-       document.addEventListener("DOMContentLoaded", function () {
-            const placeholderContent = document.querySelector(".placeholder-content");
-            const realContent = document.querySelector(".real-content");
-
-            // Placeholder'ları göster
-            placeholderContent.style.display = "flex";
-            realContent.style.display = "none";
-
-            // 3 saniye sonra gerçek içeriği göster
-            setTimeout(function () {
-                placeholderContent.style.display = "none"; // Placeholder'ları gizle
-                realContent.style.display = "block"; // Gerçek içeriği göster
-            }, 3000);
-        });
-
 
     </script>
 @endsection
