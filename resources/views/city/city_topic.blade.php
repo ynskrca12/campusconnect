@@ -92,18 +92,35 @@
                     @endforeach   
                 </div>
 
-                     <!-- Yorum Alanı -->
-                    <div class="col-md-12">
+                    <!-- Comment Form -->
+                    <div class="comment-form-card">
+                        <h5 class="form-title">
+                            <i class="bi bi-pencil-square me-2"></i>
+                            Yorumunu Yaz
+                        </h5>
                         <form id="commentForm" action="{{ route('add.city.topic.comment') }}" method="POST">
                             @csrf
-                            <div class="mb-3">
-                                <textarea name="comment" id="editor" placeholder="Yorumunuzu buraya yazın..."></textarea>
+                            <div class="form-group">
+                                <textarea name="comment" 
+                                          id="comment-textarea" 
+                                          class="form-textarea" 
+                                          placeholder="Düşüncelerini paylaş..."
+                                          rows="5"
+                                          required></textarea>
+                                <div class="char-counter">
+                                    <span id="char-count">0</span> / 5000 karakter
+                                </div>
                             </div>
+                            
                             <input type="hidden" name="topic_title_slug" value="{{ $topicTitleSlug }}">
                             <input type="hidden" name="topic_title" value="{{ $topicTitle }}">
                             <input type="hidden" name="city_id" value="{{ $city_id }}">
                             <input type="hidden" name="comment_category" value="{{ $comment_category }}">
-                            <button type="submit" class="btn btn-primary">Yorum Yap</button>
+                            
+                            <button type="submit" class="btn-submit">
+                                <i class="bi bi-send me-2"></i>
+                                Yorum Yap
+                            </button>
                         </form>
                     </div>
                 
@@ -129,6 +146,83 @@
 
 @section('css')
     <style>
+            :root {
+            --primary: #001b48;
+            --primary-light: #f8f9fa;
+            --text-dark: #212529;
+            --text-muted: #6c757d;
+            --border-color: #dee2e6;
+            --bg-card: #ffffff;
+            --hover-bg: #f8f9fa;
+            --like-color: #dc3545;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+            /* ========== COMMENT FORM ========== */
+        .comment-form-card {
+            margin-top: 24px;
+        }
+
+        .form-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            line-height: 1.6;
+            resize: vertical;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .char-counter {
+            text-align: right;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        .btn-submit {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: #002557;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
   
         .avatar{
             display: block;
@@ -146,7 +240,9 @@
             padding-right: 10px;
         }
          .topic {
-            padding: 10px 0;
+            border: 1px solid #dcdcdc;
+            padding: 18px 24px;
+            border-radius: 17px;
         }
        
         .topic h3 {
@@ -158,8 +254,8 @@
             margin: 5px 0;
             font-size: 14px;
             color: #666;
-            word-wrap: break-word; /* Eski tarayıcı desteği için */
-            overflow-wrap: break-word; /* Yeni standart */
+            word-wrap: break-word; 
+            overflow-wrap: break-word;
             white-space: pre-wrap;
         }
         .topic .meta {
@@ -188,7 +284,7 @@
             font-weight: 600;
         }
         .content-area {
-            padding: 15px 30px;
+            padding: 15px 10px;
             
         }
 
@@ -261,10 +357,6 @@
     </style>
 
     <style>
-        /* Editörün iç alanı için kenar çizgisi kaldırma */
-        .ck-editor__editable_inline {
-            height: 300px !important; 
-        }
         .main-content{
             border-left: 1px solid #e0e0e0;
         }
@@ -280,7 +372,7 @@
                 border-left: none !important;
             }        
             .content-area {
-                padding: 0px 10px;
+                padding: 0px 5px;
             }
         }
     </style>
@@ -295,31 +387,19 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 
     <script>
-        ClassicEditor
-            .create(document.querySelector('#editor'), {
-                // Ek ayarlar
-                height: '300px', 
-            })
-            .then(editor => {
-                const editorElement = editor.ui.getEditableElement();
-
-                // Yüksekliği ve kenarlığı sabit tutma
-                const fixHeight = () => {
-                    editorElement.style.height = '300px';
-                };
-
-                // İlk yüklemede yüksekliği ayarla
-                fixHeight();
-
-                // Kullanıcı editöre tıkladığında
-                editor.ui.view.editable.element.addEventListener('focus', fixHeight);
-
-                // Kullanıcı içerik düzenlediğinde
-                editor.model.document.on('change:data', fixHeight);
-            })
-            .catch(error => {
-                console.error(error);
+        // Character counter
+        $(document).ready(function() {
+            $('#comment-textarea').on('input', function() {
+                const length = $(this).val().length;
+                $('#char-count').text(length);
+                
+                if (length > 4500) {
+                    $('#char-count').css('color', '#dc3545');
+                } else {
+                    $('#char-count').css('color', '#6c757d');
+                }
             });
+        });
     </script>
 
 

@@ -531,11 +531,11 @@ class UniversityController extends Controller
             }
 
             $validator = Validator::make($request->all(), [
-                'comment' => 'required|string|min:9|max:3000',
+                'comment' => 'required|string|min:2|max:5000',
                 'topic_title_slug' => 'required|string|exists:universities_topics,topic_title_slug',
             ], [
                 'comment.required' => 'yorum yazmayı unuttun gardaşım benim.',
-                'comment.min' => 'en az 3 karakter şartım var.',
+                'comment.min' => 'en az 2 karakter şartım var.',
                 'comment.max' => '3000 karakterlik ne yazdın la',
                 'topic_title_slug.required' => 'Konu başlığı gereklidir.',
                 'topic_title_slug.string' => 'Konu başlığı geçerli bir metin olmalıdır.',

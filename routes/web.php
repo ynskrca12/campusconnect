@@ -151,9 +151,6 @@ Route::get('/forum/load-more', [ForumController::class, 'loadMore'])->name('foru
 Route::get('/university/forum/load-more', [UniversityController::class, 'loadMore'])->name('university.forum.load-more');
 Route::get('/city/forum/load-more', [CityController::class, 'loadMore'])->name('city.forum.load-more');
 
-Route::get('/my-comments/load-more', [UserController::class, 'myCommentsLoadMore'])->name('my.comments.load-more');
-
-
 Route::get('/forum/mevzu/{slug}',[ForumController::class,'topicComments'])->name('topic.comments');
 
 //get blog comments
