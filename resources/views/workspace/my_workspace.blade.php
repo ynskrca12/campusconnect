@@ -7,10 +7,6 @@
     <div class="row">
         <!-- Sidebar -->
         <div class="col-md-2 p-0">
-            <div class="p-4 border-bottom">
-                <h5 class="mb-0 fw-semibold">Çalışma Alanım</h5>
-            </div>
-
             <ul class="nav flex-column nav-pills px-3 py-3 gap-2" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active d-flex align-items-center gap-2 py-2 px-3 rounded-pill text-start" data-bs-toggle="pill" href="#tasks">
@@ -36,8 +32,8 @@
                     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2 pe-md-5 me-3">
                         <div class="d-flex align-items-center gap-2 select-board-container">
                             <label for="boardSelect" class="fw-semibold mb-0 label-form-select">Çalışma Alanı:</label>
-                            <form id="board-select-form" method="GET">
-                                <select id="boardSelect" name="board_id" class="form-select form-select-sm px-5 text-muted" style="border: 1px solid #001b48;font-size: 14px;" onchange="this.form.submit()">
+                            <form id="board-select-form" method="GET" class="d-flex align-items-center gap-2">
+                                <select id="boardSelect" name="board_id" class="form-select form-select-sm px-5" onchange="this.form.submit()">
                                     <option value="" disabled class="text-muted">Çalışma Alanı Seçin</option>
                                     @foreach ($taskBoards as $board)
                                         <option value="{{ $board->id }}" {{ $selectedBoardId == $board->id ? 'selected' : '' }}>
@@ -45,6 +41,21 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                
+                                {{-- Düzenleme ve Silme Butonları --}}
+                                @if($selectedBoardId)
+                                    <button type="button" class="btn d-flex align-items-center gap-1 rounded-3 px-3 py-1" 
+                                            id="edit-board-name-btn" title="Çalışma alanı adını düzenle">
+                                        <i class="bi bi-pencil" style="font-size: 14px;color: #001b48"></i>
+                                    </button>
+                                    
+                                    <button type="button" class="btn d-flex align-items-center gap-1 rounded-3 px-3 py-1" 
+                                            id="delete-board-btn" 
+                                            data-board-id="{{ $selectedBoardId }}" 
+                                            title="Çalışma alanını sil">
+                                        <i class="bi bi-trash" style="font-size: 14px;color: #dc3545"></i>
+                                    </button>
+                                @endif
                             </form>
                         </div>
 
@@ -192,9 +203,8 @@
 
 
         #boardSelect {
-            border: none !important;
-            border-bottom: 1px solid #001b48 !important;
-            border-radius: 0 !important;
+            border: 1px solid #001b48;
+            border-radius: 16px;
         }
         .swal-input-custom {
             width: 90% !important;
@@ -257,24 +267,79 @@
             color: #001b48 !important;
         }
         @media (max-width: 768px) {
-        .task-board-column {
-            min-width: 100% !important;
+            .task-board-column {
+                min-width: 100% !important;
+            }
+            .label-form-select {
+                display: none; 
+            }
+            #create-board-btn {
+                width: 100% !important;
+                display: flex !important;
+                justify-content: center;
+            }
+            .select-board-container {
+                width: 100% !important;
+                display: flex !important;
+                justify-content: center;
+                margin-bottom: 10px;
+            }
         }
-        .label-form-select {
-            display: none; 
+    </style>
+    <style>
+        #delete-board-btn i {
+            transition: all 0.2s ease;
         }
-        #create-board-btn {
-            width: 100% !important;
-            display: flex !important;
-            justify-content: center;
+
+        #delete-board-btn:hover i {
+            transform: scale(1.1);
         }
-        .select-board-container {
-            width: 100% !important;
-            display: flex !important;
-            justify-content: center;
-            margin-bottom: 10px;
+
+        .select-board-container form {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-    }
+
+        .swal2-html-container .alert {
+            border-radius: 8px;
+        }
+
+        .swal2-html-container ul {
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* Responsive updates */
+        @media (max-width: 768px) {
+            .task-board-column {
+                min-width: 100% !important;
+            }
+            .label-form-select {
+                display: none; 
+            }
+            #create-board-btn {
+                width: 100% !important;
+                display: flex !important;
+                justify-content: center;
+            }
+            .select-board-container {
+                width: 100% !important;
+                display: flex !important;
+                justify-content: center;
+                margin-bottom: 10px;
+            }
+            .select-board-container form {
+                width: 100%;
+            }
+            #boardSelect {
+                flex: 1;
+            }
+            #edit-board-name-btn,
+            #delete-board-btn {
+                flex-shrink: 0;
+            }
+        }
     </style>
 @endsection
 
@@ -287,6 +352,243 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <!-- SweetAlert2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{{-- edit board name --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const editBoardBtn = document.getElementById('edit-board-name-btn');
+        
+        if (editBoardBtn) {
+            editBoardBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const boardSelect = document.getElementById('boardSelect');
+                const selectedOption = boardSelect.options[boardSelect.selectedIndex];
+                const currentBoardName = selectedOption.text;
+                const boardId = boardSelect.value;
+
+                Swal.fire({
+                    title: 'Çalışma Alanı Adını Düzenle',
+                    input: 'text',
+                    inputValue: currentBoardName,
+                    inputLabel: 'Yeni çalışma alanı adını girin',
+                    inputPlaceholder: 'Örn: Haftalık Plan',
+                    confirmButtonText: 'Güncelle',
+                    cancelButtonText: 'İptal',
+                    showCancelButton: true,
+                    reverseButtons: true,
+                    inputAttributes: {
+                        name: 'name',
+                        maxlength: 50,
+                        autocapitalize: 'off',
+                        autocorrect: 'off'
+                    },
+                    background: '#f4f6f9',
+                    confirmButtonColor: '#001b48',
+                    cancelButtonColor: '#6c757d',
+                    icon: 'info',
+                    customClass: {
+                        popup: 'rounded-4 shadow-lg',
+                        title: 'fw-bold fs-5',
+                        input: 'form-control swal-input-custom mt-3',
+                        confirmButton: 'btn btn-primary px-5 py-1',
+                        cancelButton: 'btn btn-outline-secondary px-5 py-1'
+                    },
+                    preConfirm: (newBoardName) => {
+                        if (!newBoardName.trim()) {
+                            Swal.showValidationMessage('Çalışma alanı adı boş olamaz!');
+                            return false;
+                        }
+                        if (newBoardName.trim() === currentBoardName.trim()) {
+                            Swal.showValidationMessage('Yeni isim eskisiyle aynı olamaz!');
+                            return false;
+                        }
+                        return newBoardName;
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const newBoardName = result.value;
+                        
+                        // Loading göster
+                        Swal.fire({
+                            title: 'Güncelleniyor...',
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+
+                        fetch(`/workspace/board/${boardId}/rename`, {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({ name: newBoardName })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Select'i güncelle
+                                selectedOption.text = newBoardName;
+                                
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Başarılı!',
+                                    text: 'Çalışma alanı adı güncellendi.',
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+                            } else if (data.errors) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Hata!',
+                                    text: data.errors.name ? data.errors.name[0] : 'Güncelleme sırasında bir sorun oluştu.'
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Hata!',
+                                    text: data.message || 'Güncelleme sırasında bir sorun oluştu.'
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Bağlantı Hatası',
+                                text: 'Sunucuya ulaşılamadı. Lütfen tekrar deneyin.'
+                            });
+                        });
+                    }
+                });
+            });
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteBoardBtn = document.getElementById('delete-board-btn');
+        
+        if (deleteBoardBtn) {
+            deleteBoardBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const boardId = this.getAttribute('data-board-id');
+                const boardSelect = document.getElementById('boardSelect');
+                const selectedOption = boardSelect.options[boardSelect.selectedIndex];
+                const currentBoardName = selectedOption.text;
+
+                Swal.fire({
+                    title: 'Çalışma Alanını Sil',
+                    html: `
+                        <div class="text-start">
+                            <p class="mb-2"><strong>"${currentBoardName}"</strong> adlı çalışma alanını silmek istediğinize emin misiniz?</p>
+                            <div class="alert alert-warning d-flex align-items-start gap-2 mt-3 mb-0" style="font-size: 13px;">
+                                <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 20px;"></i>
+                                <div>
+                                    <strong>Uyarı:</strong> Bu işlem geri alınamaz!
+                                    <ul class="mb-0 mt-2 ps-3">
+                                        <li>Tüm görevler silinecek</li>
+                                        <li>İlerleme kaydedilmeyecek</li>
+                                        <li>Veri kurtarılamayacak</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    `,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: '<i class="bi bi-trash me-2"></i>Evet, Sil',
+                    cancelButtonText: 'İptal',
+                    reverseButtons: true,
+                    customClass: {
+                        popup: 'rounded-4 shadow-lg',
+                        title: 'fw-bold fs-5',
+                        htmlContainer: 'text-start',
+                        confirmButton: 'btn btn-danger px-4 py-2',
+                        cancelButton: 'btn btn-outline-secondary px-4 py-2'
+                    },
+                    focusCancel: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // İkinci onay (Ekstra güvenlik)
+                        Swal.fire({
+                            title: 'Son Onay',
+                            text: 'Bu çalışma alanını kalıcı olarak silmek istediğinize %100 emin misiniz?',
+                            icon: 'error',
+                            showCancelButton: true,
+                            confirmButtonColor: '#dc3545',
+                            cancelButtonColor: '#6c757d',
+                            confirmButtonText: 'Evet, Kesinlikle Sil',
+                            cancelButtonText: 'Hayır, Vazgeç',
+                            reverseButtons: true,
+                            customClass: {
+                                popup: 'rounded-4 shadow-lg',
+                                confirmButton: 'btn btn-danger px-4 py-2',
+                                cancelButton: 'btn btn-outline-secondary px-4 py-2'
+                            }
+                        }).then((finalResult) => {
+                            if (finalResult.isConfirmed) {
+                                // Loading göster
+                                Swal.fire({
+                                    title: 'Siliniyor...',
+                                    text: 'Lütfen bekleyin',
+                                    allowOutsideClick: false,
+                                    allowEscapeKey: false,
+                                    didOpen: () => {
+                                        Swal.showLoading();
+                                    }
+                                });
+
+                                fetch(`/workspace/board/${boardId}`, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    }
+                                })
+                                .then(res => res.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Silindi!',
+                                            text: 'Çalışma alanı başarıyla silindi.',
+                                            timer: 2000,
+                                            showConfirmButton: false
+                                        }).then(() => {
+                                                window.location.href = `{{ route('my_workspace') }}`;
+                                            
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Hata!',
+                                            text: data.message || 'Silme işlemi sırasında bir sorun oluştu.'
+                                        });
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Bağlantı Hatası',
+                                        text: 'Sunucuya ulaşılamadı. Lütfen tekrar deneyin.'
+                                    });
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        }
+    });
+</script>
 
 {{-- rename and delete function --}}
 <script>

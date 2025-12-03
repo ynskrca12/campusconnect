@@ -6,7 +6,7 @@ use App\Models\Task;
 use App\Models\TaskBoard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Validator;
 
 class WorkspaceController extends Controller
 {
@@ -148,6 +148,70 @@ class WorkspaceController extends Controller
         }
     }//end
 
+    public function renameBoard(Request $request, $boardId)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:50|min:3'
+        ], [
+            'name.required' => 'Çalışma alanı adı zorunludur.',
+            'name.min' => 'Çalışma alanı adı en az 3 karakter olmalıdır.',
+            'name.max' => 'Çalışma alanı adı en fazla 50 karakter olabilir.'
+        ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        try {
+            $board = TaskBoard::where('id', $boardId)
+                            ->where('user_id', auth()->id())
+                            ->firstOrFail();
+            
+            $board->name = $request->name;
+            $board->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Çalışma alanı başarıyla güncellendi.',
+                'board' => $board
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Çalışma alanı güncellenirken bir hata oluştu.'
+            ], 500);
+        }
+    }
+
+    public function deleteBoard($boardId)
+    {
+        try {
+            $board = TaskBoard::where('id', $boardId)
+                            ->where('user_id', auth()->id())
+                            ->firstOrFail();
+            
+            $board->tasks()->delete();
+            
+            $board->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Çalışma alanı ve tüm görevler başarıyla silindi.'
+            ]);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Çalışma alanı bulunamadı veya size ait değil.'
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Çalışma alanı silinirken bir hata oluştu.'
+            ], 500);
+        }
+    }
 
 }

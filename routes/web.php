@@ -113,6 +113,9 @@ Route::middleware(['auth'])->group(function () {
     //delete topic
     Route::get('/topic-delete', [ForumController::class, 'deleteTopic'])->name('topic.delete');
 
+    Route::patch('/workspace/board/{board}/rename', [WorkspaceController::class, 'renameBoard'])->name('workspace.board.rename');
+    Route::delete('/workspace/board/{board}', [WorkspaceController::class, 'deleteBoard'])->name('workspace.board.delete');
+
 });
 
 
