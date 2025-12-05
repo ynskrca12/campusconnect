@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\TaskBoard;
+use App\Models\SubTask;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -79,7 +80,6 @@ class WorkspaceController extends Controller
     {
         return view('workspace.task', compact('task'));
     }
-
 
     public function liveUpdate(Request $request)
     {
@@ -210,6 +210,94 @@ class WorkspaceController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Çalışma alanı silinirken bir hata oluştu.'
+            ], 500);
+        }
+    }
+
+    public function addSubtask(Request $request, $taskId)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255'
+        ]);
+
+        $subtask = Subtask::create([
+            'task_id' => $taskId,
+            'title' => $request->title,
+            'is_completed' => false
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'subtask' => $subtask
+        ]);
+    }
+
+    public function toggleSubtask(Request $request, $subtaskId)
+    {
+        $subtask = Subtask::findOrFail($subtaskId);
+        $subtask->is_completed = $request->is_completed ? 1 : 0;
+        $subtask->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function deleteSubtask($subtaskId)
+    {
+        Subtask::findOrFail($subtaskId)->delete();
+        return response()->json(['success' => true]);
+    }
+
+    public function addTag(Request $request, $taskId)
+    {
+        $task = Task::findOrFail($taskId);
+        $tags = $task->tags ?? [];
+        
+        if (!in_array($request->tag, $tags)) {
+            $tags[] = $request->tag;
+            $task->tags = $tags;
+            $task->save();
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    public function removeTag(Request $request, $taskId)
+    {
+        $task = Task::findOrFail($taskId);
+        $tags = $task->tags ?? [];
+        
+        $tags = array_values(array_filter($tags, function($t) use ($request) {
+            return $t !== $request->tag;
+        }));
+        
+        $task->tags = $tags;
+        $task->save();
+
+        return response()->json(['success' => true]);
+    }
+    public function updateSubtask(Request $request, $subtaskId)
+    {
+        try {
+            $request->validate([
+                'title' => 'required|string|max:255'
+            ]);
+
+            $subtask = Subtask::findOrFail($subtaskId);
+            
+            // Güvenlik kontrolü
+            $task = $subtask->task;
+            if ($task->user_id !== auth()->id()) {
+                return response()->json(['success' => false, 'message' => 'Yetkiniz yok'], 403);
+            }
+            
+            $subtask->title = $request->title;
+            $subtask->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
             ], 500);
         }
     }

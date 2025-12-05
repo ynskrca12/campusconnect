@@ -116,6 +116,13 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/workspace/board/{board}/rename', [WorkspaceController::class, 'renameBoard'])->name('workspace.board.rename');
     Route::delete('/workspace/board/{board}', [WorkspaceController::class, 'deleteBoard'])->name('workspace.board.delete');
 
+    Route::post('/workspace/task/{task}/subtask', [WorkspaceController::class, 'addSubtask']);
+    Route::patch('/workspace/subtask/{subtask}/toggle', [WorkspaceController::class, 'toggleSubtask']);
+    Route::delete('/workspace/subtask/{subtask}', [WorkspaceController::class, 'deleteSubtask']);
+    Route::post('/workspace/task/{task}/tag', [WorkspaceController::class, 'addTag']);
+    Route::delete('/workspace/task/{task}/tag', [WorkspaceController::class, 'removeTag']);
+    Route::patch('/workspace/subtask/{subtask}/update', [WorkspaceController::class, 'updateSubtask'])->name('workspace.subtask.update');
+
 });
 
 

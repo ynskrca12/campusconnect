@@ -11,6 +11,10 @@ class Task extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'tags' => 'array',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -19,5 +23,10 @@ class Task extends Model
     public function taskBoard()
     {
         return $this->belongsTo(TaskBoard::class);
+    }
+
+    public function subtasks()
+    {
+        return $this->hasMany(Subtask::class);
     }
 }

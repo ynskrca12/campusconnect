@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('user_id');
             $table->string('title');
             $table->text('description')->nullable();
+            $table->json('tags')->nullable();
             $table->enum('status', ['to_do', 'in_progress', 'review', 'done'])->default('to_do');
             $table->enum('priority', ['low', 'medium', 'high'])->default('medium');
             $table->date('due_date')->nullable();
