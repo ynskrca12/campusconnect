@@ -74,7 +74,18 @@
                                     <div class="d-flex align-items-center entry-footer-bottom">
                                         <div class="footer-info">
                                             <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
-                                                <p style="display: block;white-space:nowrap;color:#001b48;">{{ \App\Models\User::where('id',$comment['user_id'])->value('username') ?? 'Anonim'}}</p>
+                                                <p style="display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; color:#001b48;" class="profile-username mt-3">
+                                                    {{ \App\Models\User::where('id',$comment['user_id'])->value('username') ?? 'Anonim'}}
+
+                                                    @if( \App\Models\User::where('id',$comment['user_id'])->value('email_verified_at') )
+                                                        <img 
+                                                            src="{{ asset('verification_icon.png') }}"
+                                                            alt="Doğrulanmış Hesap"
+                                                            title="Doğrulanmış Hesap"
+                                                            style="width:14px; height:14px;"
+                                                        >
+                                                    @endif
+                                                </p>
                                             </div>
 
                                             <div style="display: block;padding:1px 2px;line-height: 14px;">

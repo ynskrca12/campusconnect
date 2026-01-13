@@ -28,7 +28,18 @@
                             class="profile-avatar"
                             id="profileImage">
                     </div>
-                    <h2 class="profile-username mt-3">{{ $user->username }}</h2>
+                    <p style="display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; color:#001b48;" class="profile-username mt-3">
+                            {{ $user->username ?? 'Anonim' }}
+
+                            @if(optional($user)->email_verified_at)
+                                <img 
+                                    src="{{ asset('verification_icon.png') }}"
+                                    alt="Doğrulanmış Hesap"
+                                    title="Doğrulanmış Hesap"
+                                    style="width:16px; height:16px;"
+                                >
+                            @endif
+                        </p>
                     <p class="profile-join-date">
                         <i class="fa-solid fa-calendar-alt me-1"></i>
                         {{ $user->created_at->format('d.m.Y') }} tarihinde katıldı

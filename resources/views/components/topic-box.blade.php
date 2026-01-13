@@ -98,7 +98,19 @@
             <div class="d-flex align-items-center entry-footer-bottom">
                 <div class="footer-info">
                     <div style="display: block;padding:0px 2px;text-align: end;margin: -5px 0px;">
-                        <p style="display: block;white-space:nowrap;color:#001b48;">{{ $topic->user->username ?? 'Anonim' }}</p>
+                        <p style="display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; color:#001b48;">
+                            {{ $topic->user->username ?? 'Anonim' }}
+
+                            @if(optional($topic->user)->email_verified_at)
+                                <img 
+                                    src="{{ asset('verification_icon.png') }}"
+                                    style="color: #001b48;"
+                                    alt="Doğrulanmış Hesap"
+                                    title="Doğrulanmış Hesap"
+                                    style="width:14px; height:14px;"
+                                >
+                            @endif
+                        </p>
                     </div>
                     <div style="display: block;padding:1px 2px;line-height: 14px;">
                         <p style="color: #888;font-size: 12px;">{{ $topic->created_at->format('d.m.Y H:i') }}</p>

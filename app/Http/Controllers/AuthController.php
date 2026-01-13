@@ -136,9 +136,9 @@ class AuthController extends Controller
                 return back()->withInput()->with('error', 'Geçersiz kullanıcı adı, e-posta adresi ya da şifre.');
             }
     
-            if (is_null($user->email_verified_at)) {
-                return back()->withInput()->with('error', 'E-posta adresiniz doğrulanmamış. Lütfen e-postanızı kontrol edin.');
-            }
+            // if (is_null($user->email_verified_at)) {
+            //     return back()->withInput()->with('error', 'E-posta adresiniz doğrulanmamış. Lütfen e-postanızı kontrol edin.');
+            // }
     
            
             if (Auth::attempt($credentials, $request->remember)) {
