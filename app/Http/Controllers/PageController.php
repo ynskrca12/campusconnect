@@ -22,13 +22,8 @@ use Illuminate\Validation\ValidationException;
 class PageController extends Controller
 {
     public function home(){
-        $mostLikedTopicUniversity = UniversityTopic::where('likes','>',0)
-        ->orderByDesc('likes')->first();
-
-        $mostLikedTopicGeneral = GeneralTopic::where('likes','>',0)
-        ->orderByDesc('likes')->first();
-
-        $latestUniversityTopics = UniversityTopic::latest()->take(10)->get();
+        $latestUniversityTopics = UniversityTopic::with('university')
+        ->latest()->take(10)->get();
         
         $topUniversities = DB::table('universiteler')
         ->leftJoin('universities_topics', 'universiteler.id', '=', 'universities_topics.university_id')
@@ -40,13 +35,14 @@ class PageController extends Controller
 
         $blogs = Blog::latest()->get();
 
-        return view('home',compact('mostLikedTopicUniversity','mostLikedTopicGeneral','blogs','latestUniversityTopics','topUniversities'));
+        return view('home',compact('blogs','latestUniversityTopics','topUniversities'));
     }//End
     public function loadMoreUniversityTopics(Request $request){
     $offset = $request->offset ?? 0;
     $limit = 10;
 
-    $topics = UniversityTopic::latest()
+    $topics = UniversityTopic::with('university')
+        ->latest()
         ->skip($offset)
         ->take($limit)
         ->get();

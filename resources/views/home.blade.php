@@ -48,25 +48,49 @@
         </div>
     </div>
 
-    <div class="mb-5 mt-2">
+     <div class="mb-5 mt-2">
         <h1 class="topic-title mb-4 h4 text-center">Son Paylaşılan Üniversite Yorumları</h1>
         <div id="university-topics-container" class="row justify-content-center">
             @foreach ($latestUniversityTopics as $topic)
-                <div class="col-md-6 mb-3">
-                    <div class="h-100 d-flex flex-column justify-content-between">
-                        <x-topic-box :topic="$topic" routeName="university.topic.comments" type="university"
-                            isHome="true" />
+                <div class="col-md-6 mb-3 d-flex">
+                    <div class="card-wrapper h-100 w-100 d-flex flex-column">
+                        @if($topic->university)
+                            <a href="{{ route('university.show', $topic->university->slug) }}" 
+                            class="university-badge-home mb-2 text-decoration-none">
+                                <img src="{{ $topic->university->logo }}" style="width:40px;height:40px;object-fit:contain;" alt="$topic->university->slug" loading="lazy">
+                                <span class="university-name-home">{{ $topic->university->universite_ad }}</span>
+                            </a>
+                        @endif
+                        <x-topic-box :topic="$topic" routeName="university.topic.comments" type="university" isHome="true" />
                     </div>
                 </div>
             @endforeach
         </div>
 
-
         <div class="text-center">
-            <button id="load-more-university-topics" class="btn custom-btn px-3" data-offset="10">Daha Fazlasını
-                Gör</button>
+            <button id="load-more-university-topics" class="btn custom-btn px-3 mt-2" data-offset="10">Daha Fazlasını Gör</button>
         </div>
     </div>
+
+    <style>
+        .university-badge-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #000;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: fit-content;
+        }
+
+        @media (max-width: 768px) {
+            .university-badge-home {
+                font-size: 13px;
+                gap: 0.4rem;
+            }
+        }
+    </style>
 
      <section class="mb-5">
         <div class="container">
@@ -872,7 +896,7 @@
         });
     </script>
 
-    <script>
+     <script>
         $(document).ready(function() {
             $('#load-more-university-topics').click(function() {
                 var button = $(this);
@@ -888,15 +912,8 @@
                         if (data.trim() == '') {
                             button.text('Daha Fazlası Yok').prop('disabled', true);
                         } else {
-                            var topics = $(data).filter('.topic');
-
-                        topics.each(function() {
-                            var wrapper = $('<div class="col-md-6 mb-3"><div class="h-100 d-flex flex-column justify-content-between"></div></div>');
-                            wrapper.find('.h-100').append($(this));
-                            $('#university-topics-container').append(wrapper);
-                        });
-
-                        button.data('offset', offset + 10);
+                            $('#university-topics-container').append(data);
+                            button.data('offset', offset + 10);
                         }
                     }
                 });
