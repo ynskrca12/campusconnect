@@ -16,27 +16,51 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\BlogComment;
 use Exception;
 use Illuminate\Validation\ValidationException;
-
+use App\Models\University;
+use Illuminate\Support\Facades\Cache;
 
 
 class PageController extends Controller
 {
-    public function home(){
-        $latestUniversityTopics = UniversityTopic::with('university')
-        ->latest()->take(10)->get();
-        
-        $topUniversities = DB::table('universiteler')
-        ->leftJoin('universities_topics', 'universiteler.id', '=', 'universities_topics.university_id')
-        ->select('universiteler.id', 'universiteler.universite_ad', 'universiteler.slug')
-        ->groupBy('universiteler.id', 'universiteler.universite_ad', 'universiteler.slug')
-        ->orderByRaw('COUNT(universities_topics.id) DESC')
-        ->limit(5)
-        ->get();
+    public function home()
+    {
+        $data = Cache::remember('homepage:v1', 300, function () {
+    
+                $blogs = Blog::query()
+                ->with('blogCategory:id,name')
+                ->latest('created_at')
+                ->limit(6)
+                ->get([
+                    'id',
+                    'title',
+                    'slug',
+                    'summary',
+                    'cover_image',
+                    'category_id',
+                    'created_at'
+                ]);
 
-        $blogs = Blog::latest()->get();
+            $latestUniversityTopics = UniversityTopic::query()
+                ->with(['university:id,universite_ad,slug,logo'])
+                ->latest('created_at')
+                ->limit(10)
+                ->get(); 
 
-        return view('home',compact('blogs','latestUniversityTopics','topUniversities'));
-    }//End
+            $topUniversities = University::query()
+                ->withCount('topics')
+                ->orderByDesc('topics_count')
+                ->limit(5)
+                ->get(['id','universite_ad','slug']);
+
+            return compact(
+                'blogs',
+                'latestUniversityTopics',
+                'topUniversities'
+            );
+        });
+
+        return view('home', $data);
+    }
     public function loadMoreUniversityTopics(Request $request){
     $offset = $request->offset ?? 0;
     $limit = 10;
